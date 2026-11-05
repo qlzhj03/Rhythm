@@ -4230,6 +4230,11 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
             Log.d(TAG, "Playback watchdog started")
             var lastPosition = -1L
             var lastProgressTime = System.currentTimeMillis()
+            var lastItemId: String? = null
+            // 看门狗只负责「播着播着卡死」：首帧之前（起播/切歌）的等待交给
+            // RhythmPlayerEngine 的解析超时和 OkHttp 超时，它们会把失败变成
+            // onPlayerError；这里不抢跑，避免把慢解析误报成「无限缓冲」。
+            var hasRenderedOnce = false
             
             while (isActive) {
                 delay(1000) // check every second
@@ -4240,10 +4245,20 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
                 if (state == Player.STATE_ENDED || state == Player.STATE_IDLE) {
                     lastPosition = -1L
                     lastProgressTime = System.currentTimeMillis()
+                    hasRenderedOnce = false
                     continue
                 }
                 
                 if (controller.playWhenReady) {
+                    val itemId = controller.currentMediaItem?.mediaId
+                    if (itemId != lastItemId) {
+                        // 切歌时位置跳变不算进度，重新建立基线。
+                        lastItemId = itemId
+                        lastPosition = -1L
+                        lastProgressTime = System.currentTimeMillis()
+                        hasRenderedOnce = false
+                        continue
+                    }
                     val currentPos = controller.currentPosition
                     if (lastPosition == -1L) {
                         lastPosition = currentPos
@@ -4253,7 +4268,13 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
                         if (progress != 0L) {
                             lastPosition = currentPos
                             lastProgressTime = System.currentTimeMillis()
+                            hasRenderedOnce = true
                         } else {
+                            if (!hasRenderedOnce) {
+                                // 还没出过首帧（起播/切歌等待中）：交给引擎的解析超时与
+                                // OkHttp 超时，超时会走 onPlayerError 给出可读原因。
+                                continue
+                            }
                             val noProgressDuration = System.currentTimeMillis() - lastProgressTime
                             if (noProgressDuration >= 10000L) { // 10 seconds timeout
                                 Log.w(TAG, "Playback watchdog: Stuck/looping at position $currentPos (progress: $progress ms) in state $state for $noProgressDuration ms. Triggering corruption dialog.")
