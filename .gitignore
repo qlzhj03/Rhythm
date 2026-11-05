@@ -1,0 +1,36 @@
+# Gradle
+.gradle/
+.kotlin/
+build/
+gradle/gradle-daemon-jvm.properties
+
+# Local configuration
+local.properties
+.config/
+private.properties.base64
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing
+*.jks
+*.keystore
+keystore.properties
+config/signing/
+
+# Build outputs
+app/release/
+*.apk
+*.aab
+
+# Logs and crash dumps
+*.log
+*.hprof
+
+# OS files
+.DS_Store
+Thumbs.db
