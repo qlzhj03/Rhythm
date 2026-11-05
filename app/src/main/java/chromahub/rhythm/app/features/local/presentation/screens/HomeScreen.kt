@@ -64,6 +64,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -553,8 +554,14 @@ fun HomeScreen(
     }
 
     FixedHeaderScreen(
-        title = if (isStreamingMode && streamingServiceName.isNotBlank()) {
-            streamingServiceName
+        title = if (isStreamingMode) {
+            // 已登录才显示服务商名；未登录（含欢迎页状态）统一显示 Rhythm Go，
+            // 避免还没连接服务却挂着具体服务商名的误导。
+            if (streamingServiceConnected && streamingServiceName.isNotBlank()) {
+                streamingServiceName
+            } else {
+                context.getString(R.string.streaming_integration_title)
+            }
         } else {
             context.getString(R.string.home_title)
         },
@@ -1255,6 +1262,10 @@ private fun StreamingHomeWelcomeContent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            // FixedHeaderScreen(floating = true) 的标题栏悬浮在内容上（状态栏 + TopAppBar 64dp + 16dp 间距），
+            // 欢迎页整体下移到标题栏之下，避免大标题与状态栏 / 标题栏重叠。
+            .statusBarsPadding()
+            .padding(top = 80.dp)
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
