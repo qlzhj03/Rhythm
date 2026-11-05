@@ -16,7 +16,9 @@ import androidx.media3.datasource.ResolvingDataSource
 import androidx.media3.datasource.DataSpec
 import chromahub.rhythm.app.features.streaming.di.StreamingMusicModule
 import chromahub.rhythm.app.shared.data.model.AppSettings
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import java.util.concurrent.ConcurrentHashMap
 import androidx.core.net.toUri
 
@@ -27,6 +29,9 @@ class PreloadController(
 ) {
     companion object {
         private const val TAG = "PreloadController"
+
+        /** 与 RhythmPlayerEngine 一致的解析时限：预加载卡住不能拖累正在播的曲目。 */
+        private const val STREAMING_URL_RESOLVE_TIMEOUT_MS = 15_000L
     }
 
     private var preloadManager: DefaultPreloadManager? = null
@@ -55,7 +60,18 @@ class PreloadController(
                             val trackId = dataSpec.uri.lastPathSegment
                             if (!trackId.isNullOrBlank()) {
                                 val repository = StreamingMusicModule.provideStreamingMusicRepository(context)
-                                val freshUrl = runBlocking { repository.getStreamingUrl(trackId) }
+                                // 与 RhythmPlayerEngine 相同的解析限时；超时按「本次预载失败」处理，
+                                // 返回原 DataSpec 由预加载流程跳过，不影响正在播的曲目。
+                                val freshUrl = try {
+                                    runBlocking {
+                                        withTimeout(STREAMING_URL_RESOLVE_TIMEOUT_MS) {
+                                            repository.getStreamingUrl(trackId)
+                                        }
+                                    }
+                                } catch (e: TimeoutCancellationException) {
+                                    Log.w(TAG, "Preload: resolving $trackId timed out after ${STREAMING_URL_RESOLVE_TIMEOUT_MS / 1000}ms")
+                                    null
+                                }
                                 if (!freshUrl.isNullOrBlank()) {
                                     return dataSpec.withUri((freshUrl).toUri())
                                 }
