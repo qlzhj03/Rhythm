@@ -1299,25 +1299,25 @@ class StreamingMusicViewModel(application: Application) : AndroidViewModel(appli
                 safeStartIndex
             }
 
+            // 只预解析用户点中的那一首，用于在开播前给出「无法获取播放地址」的提示。
+            // 队列其余曲目不在这里逐首请求播放地址（整张歌单串行解析会让点歌后长时间
+            // 无响应）：按 StreamingPlaybackUris 的约定，播放地址带时效，统一由
+            // RhythmPlayerEngine 的 ResolvingDataSource 在打开音轨时现问。
             val selectedSong = queueToPlay[selectedIndex]
-            val queueWithResolvedSongs = queueToPlay.map { song ->
-                val fallbackUrl = song.streamingUrl?.takeIf { cachedUrl ->
-                    val isNetworkUrl =
-                        cachedUrl.startsWith("http://", ignoreCase = true) ||
-                            cachedUrl.startsWith("https://", ignoreCase = true)
-                    !isNetworkUrl || !song.id.contains("::")
-                }
-                val resolvedUrl = repository.getStreamingUrl(song.id)
-                    ?: fallbackUrl
-
-                if (resolvedUrl.isNullOrBlank()) {
-                    song
-                } else {
-                    song.copy(streamingUrl = resolvedUrl)
-                }
+            val fallbackUrl = selectedSong.streamingUrl?.takeIf { cachedUrl ->
+                val isNetworkUrl =
+                    cachedUrl.startsWith("http://", ignoreCase = true) ||
+                        cachedUrl.startsWith("https://", ignoreCase = true)
+                !isNetworkUrl || !selectedSong.id.contains("::")
+            }
+            val resolvedUrl = repository.getStreamingUrl(selectedSong.id)
+                ?: fallbackUrl
+            val selectedResolvedSong = if (resolvedUrl.isNullOrBlank()) {
+                selectedSong
+            } else {
+                selectedSong.copy(streamingUrl = resolvedUrl)
             }
 
-            val selectedResolvedSong = queueWithResolvedSongs[selectedIndex]
             if (selectedResolvedSong.streamingUrl.isNullOrBlank()) {
                 val errorMsg = when {
                     appSettings.offlineMode.value -> getApplication<Application>().getString(R.string.streamingmusicviewmodel_offline_song_not_cached)
@@ -1328,11 +1328,15 @@ class StreamingMusicViewModel(application: Application) : AndroidViewModel(appli
                 return@launch
             }
 
-            _queue.value = queueWithResolvedSongs
+            val queueToStart = queueToPlay.mapIndexed { index, song ->
+                if (index == selectedIndex) selectedResolvedSong else song
+            }
+
+            _queue.value = queueToStart
             _currentSong.value = selectedResolvedSong
             _isPlaying.value = true
 
-            playbackHandler?.invoke(queueWithResolvedSongs, selectedIndex)
+            playbackHandler?.invoke(queueToStart, selectedIndex)
             }
     }
 
