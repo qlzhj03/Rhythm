@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.PlaybackQualityInfo
+import chromahub.rhythm.app.core.model.PlaybackQualityInfo
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
@@ -32,7 +32,7 @@ import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
-import chromahub.rhythm.app.util.AudioQualityDetector
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +59,7 @@ fun PlaybackQualityBottomSheet(
                 bitrateKbps = (song.bitrate ?: 0) / 1000,
                 channelCount = song.channels ?: 2
             )
-            val icon = PlaybackQualityInfo.resolveIconRes(detected.qualityType, detected.qualityLabel)
+            val icon = PlaybackQualityInfo.resolveIconRes(detected.qualityType, detected.qualityLabel, chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons(hd = chromahub.rhythm.app.R.drawable.ic_hd, highRes = chromahub.rhythm.app.R.drawable.ic_high_res, dolby = chromahub.rhythm.app.R.drawable.ic_dolby, dts = chromahub.rhythm.app.R.drawable.ic_dts, surround = chromahub.rhythm.app.R.drawable.ic_surround_sound, hq = chromahub.rhythm.app.R.drawable.ic_hq, sq = chromahub.rhythm.app.R.drawable.ic_sq))
             PlaybackQualityInfo(
                 sourceCodec = song.codec?.ifBlank { "Audio" } ?: "Audio",
                 sourceBitrateKbps = (song.bitrate ?: 0) / 1000,

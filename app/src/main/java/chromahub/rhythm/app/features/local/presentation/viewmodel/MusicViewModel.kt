@@ -51,7 +51,7 @@ import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Queue
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.core.model.FolderNode
-import chromahub.rhythm.app.shared.data.model.PlaybackQualityInfo
+import chromahub.rhythm.app.core.model.PlaybackQualityInfo
 import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.widget.WidgetUpdater
 import chromahub.rhythm.app.core.common.StoragePathUtils

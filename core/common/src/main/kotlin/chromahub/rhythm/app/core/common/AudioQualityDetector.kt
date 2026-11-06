@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.util
+package chromahub.rhythm.app.core.common
 
 import android.util.Log
 

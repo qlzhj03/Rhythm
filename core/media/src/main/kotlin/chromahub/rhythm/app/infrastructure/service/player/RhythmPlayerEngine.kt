@@ -27,13 +27,12 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.okhttp.OkHttpDataSource
-import chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager
+import chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver
 import java.util.concurrent.TimeUnit
 import android.os.Build
 import androidx.media3.common.TrackSelectionParameters
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import android.net.Uri
-import chromahub.rhythm.app.features.streaming.di.StreamingMusicModule
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -81,7 +80,8 @@ class RhythmPlayerEngine(
     private val context: Context,
     private val bassBoostProcessor: RhythmBassBoostProcessor? = null,
     private val spatializationProcessor: RhythmSpatializationProcessor? = null,
-    private val monoProcessor: RhythmMonoAudioProcessor? = null
+    private val monoProcessor: RhythmMonoAudioProcessor? = null,
+    private val streamingResolver: StreamingPlaybackResolver
 ) {
     companion object {
         private const val TAG = "RhythmPlayerEngine"
@@ -540,12 +540,12 @@ class RhythmPlayerEngine(
             .setUsage(C.USAGE_MEDIA)
             .build()
 
-        val okHttpClient = UserTrustManager.buildUserTrustingHttpClientBuilder()
+        val okHttpClient = streamingResolver.buildUserTrustingHttpClientBuilder()
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
         val httpDataSourceFactory = OkHttpDataSource.Factory(okHttpClient)
-            .setUserAgent("Rhythm/${chromahub.rhythm.app.BuildConfig.VERSION_NAME} (Android)")
+            .setUserAgent("Rhythm/${chromahub.rhythm.app.network.NetworkBuildInfo.appVersion} (Android)")
         val cacheDataSourceFactory = CacheDataSource.Factory()
             .setCache(AudioCacheManager.getCache(context))
             .setUpstreamDataSourceFactory(httpDataSourceFactory)
@@ -560,7 +560,7 @@ class RhythmPlayerEngine(
                     if (dataSpec.uri.scheme == "streaming") {
                         val trackId = dataSpec.uri.lastPathSegment
                         if (!trackId.isNullOrBlank()) {
-                            val repository = StreamingMusicModule.provideStreamingMusicRepository(context)
+                            val repository = streamingResolver
                             // Run blocking is safe here as ExoPlayer calls resolveDataSpec on a background thread.
                             // 解析限时：超时转成 IOException 走 onPlayerError，用户能看到可读原因，
                             // 而不是让播放器停在 BUFFERING 被看门狗误报成「无限缓冲」。

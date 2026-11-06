@@ -1,8 +1,7 @@
-package chromahub.rhythm.app.shared.data.model
+package chromahub.rhythm.app.core.model
 
 import android.os.Parcelable
-import chromahub.rhythm.app.R
-import chromahub.rhythm.app.util.AudioQualityDetector
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import kotlinx.parcelize.Parcelize
 import java.util.Locale
 
@@ -47,11 +46,22 @@ data class PlaybackQualityInfo(
     val qualityLabel: String = "",
     val qualityDescription: String = "",
     val outputQualityStatus: String = "",
-    val iconResId: Int = R.drawable.ic_hd
+    val iconResId: Int = 0
 ) : Parcelable {
 
     val displaySubheading: String
         get() = outputQualityStatus.ifBlank { qualityDescription }
+
+    /** Icon mapping supplied by the UI layer (:app) — the model module is resource-free. */
+    data class QualityIcons(
+        val hd: Int = 0,
+        val highRes: Int = 0,
+        val dolby: Int = 0,
+        val dts: Int = 0,
+        val surround: Int = 0,
+        val hq: Int = 0,
+        val sq: Int = 0,
+    )
 
     companion object {
         fun formatSampleRate(sampleRateHz: Int): String {
@@ -83,26 +93,31 @@ data class PlaybackQualityInfo(
         /**
          * Resolves the appropriate vector icon resource for a quality tier.
          */
-        fun resolveIconRes(qualityType: AudioQualityDetector.QualityType, qualityLabel: String = ""): Int {
+
+        fun resolveIconRes(
+            qualityType: AudioQualityDetector.QualityType,
+            qualityLabel: String = "",
+            icons: QualityIcons = QualityIcons(),
+        ): Int {
             return when (qualityType) {
-                AudioQualityDetector.QualityType.DSD_HIGH_RES -> R.drawable.ic_high_res
-                AudioQualityDetector.QualityType.HI_RES_STUDIO_MASTER -> R.drawable.ic_high_res
-                AudioQualityDetector.QualityType.HI_RES_LOSSLESS -> R.drawable.ic_high_res
-                AudioQualityDetector.QualityType.CD_QUALITY_LOSSLESS -> R.drawable.ic_hd
-                AudioQualityDetector.QualityType.DOLBY_ATMOS -> R.drawable.ic_dolby
-                AudioQualityDetector.QualityType.DOLBY_LOSSLESS -> R.drawable.ic_dolby
-                AudioQualityDetector.QualityType.DOLBY_LOSSY_SURROUND -> R.drawable.ic_dolby
-                AudioQualityDetector.QualityType.DTS_SURROUND -> R.drawable.ic_dts
-                AudioQualityDetector.QualityType.MPEG_H_3D -> R.drawable.ic_surround_sound
-                AudioQualityDetector.QualityType.LOSSLESS_SURROUND -> R.drawable.ic_surround_sound
+                AudioQualityDetector.QualityType.DSD_HIGH_RES -> icons.highRes
+                AudioQualityDetector.QualityType.HI_RES_STUDIO_MASTER -> icons.highRes
+                AudioQualityDetector.QualityType.HI_RES_LOSSLESS -> icons.highRes
+                AudioQualityDetector.QualityType.CD_QUALITY_LOSSLESS -> icons.hd
+                AudioQualityDetector.QualityType.DOLBY_ATMOS -> icons.dolby
+                AudioQualityDetector.QualityType.DOLBY_LOSSLESS -> icons.dolby
+                AudioQualityDetector.QualityType.DOLBY_LOSSY_SURROUND -> icons.dolby
+                AudioQualityDetector.QualityType.DTS_SURROUND -> icons.dts
+                AudioQualityDetector.QualityType.MPEG_H_3D -> icons.surround
+                AudioQualityDetector.QualityType.LOSSLESS_SURROUND -> icons.surround
                 AudioQualityDetector.QualityType.LOSSY_COMPRESSED -> {
                     if (qualityLabel.contains("320", ignoreCase = true)) {
-                        R.drawable.ic_hq
+                        icons.hq
                     } else {
-                        R.drawable.ic_sq
+                        icons.sq
                     }
                 }
-                AudioQualityDetector.QualityType.UNKNOWN -> R.drawable.ic_high_res
+                AudioQualityDetector.QualityType.UNKNOWN -> icons.highRes
             }
         }
     }

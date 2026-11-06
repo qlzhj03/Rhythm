@@ -69,6 +69,53 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             unknownAlbum = { getString(chromahub.rhythm.app.R.string.unknown_album_name) }
         }
 
+        // Media service seams for :core:media (PR-4).
+        chromahub.rhythm.app.core.common.AppBuildInfo.applicationId = packageName
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.qualityIcons =
+            chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons(
+                hd = chromahub.rhythm.app.R.drawable.ic_hd,
+                highRes = chromahub.rhythm.app.R.drawable.ic_high_res,
+                dolby = chromahub.rhythm.app.R.drawable.ic_dolby,
+                dts = chromahub.rhythm.app.R.drawable.ic_dts,
+                surround = chromahub.rhythm.app.R.drawable.ic_surround_sound,
+                hq = chromahub.rhythm.app.R.drawable.ic_hq,
+                sq = chromahub.rhythm.app.R.drawable.ic_sq,
+            )
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.guardTimeoutStarter = { context, reason, untilMs, startedAtMs ->
+            chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity.start(
+                context = context, reason = reason, timeoutUntilMs = untilMs, timeoutStartedAtMs = startedAtMs)
+        }
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.mainActivityClass =
+            chromahub.rhythm.app.activities.MainActivity::class.java
+        chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller.bridge =
+            object : chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridge {
+                override fun updateWidget(
+                    context: android.content.Context,
+                    song: chromahub.rhythm.app.core.model.Song?,
+                    isPlaying: Boolean,
+                    hasPrevious: Boolean,
+                    hasNext: Boolean,
+                    isFavorite: Boolean,
+                    isShuffleEnabled: Boolean,
+                    repeatMode: Int,
+                ) = chromahub.rhythm.app.infrastructure.widget.WidgetUpdater.updateWidget(
+                    context, song, isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
+
+                override fun updateLyrics(context: android.content.Context, lyricTexts: List<String>, activeIndex: Int) =
+                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
+            }
+
+        // Streaming playback seam for :core:media (repository lives in :feature:streaming).
+        chromahub.rhythm.app.infrastructure.service.PlaybackResolverInstaller.resolver =
+            object : chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver {
+                private val repository by lazy {
+                    chromahub.rhythm.app.features.streaming.di.StreamingMusicModule.provideStreamingMusicRepository(applicationContext)
+                }
+                override suspend fun getStreamingUrl(songId: String): String? = repository.getStreamingUrl(songId)
+                override fun buildUserTrustingHttpClientBuilder() =
+                    chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
+            }
+
         // Haptics seam: :core:designsystem reads haptics setting through this gate
         // so its helpers stay decoupled from AppSettings (multi-module split PR-2).
         HapticsGate.isEnabled = { settings.isHapticEnabled.value }

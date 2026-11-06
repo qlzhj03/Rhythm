@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="media3_notification_channel_name">Rhythm Now Playing</string>
+
+<string name="media3_notification_channel_description">Foreground playback controls, seek actions, and album artwork</string>
+
+<string name="notification_sleep_timer_channel_name">Rhythm Sleep Assistant</string>
+
+<string name="notification_sleep_timer_channel_desc">Countdowns and status alerts for active sleep timers</string>
+
+<string name="notification_sleep_timer_title">Sleep Timer Active</string>
+
+<string name="notification_sleep_timer_pause_in">Pausing playback in %1$s</string>
+
+<string name="notification_sleep_timer_stop_in">Stopping playback in %1$s</string>
+
+<string name="cd_shuffle">Shuffle</string>
+
+<string name="service_rhythm_guard_alerts">Rhythm Guard Alerts</string>
+
+<string name="service_rhythm_guard_timers">Rhythm Guard Timers</string>
+
+<string name="service_rhythm_music">Rhythm Music</string>
+
+<string name="service_rhythm_guard_alerts_desc">Safety alerts from Rhythm Guard</string>
+
+<string name="service_rhythm_guard_timers_desc">Rhythm Guard break and timeout reminders</string>
+
+<string name="service_ready">Rhythm is ready.</string>
+
+<string name="service_init_failed">Rhythm could not start. Please reopen the app.</string>
+
+<string name="settings_rhythm_guard_timeout_reason_auto">Listening break triggered: today %1$s exceeds recommended %2$s.</string>
+
+<string name="settings_rhythm_guard_notification_alert_title">Rhythm Guard Safety Alert</string>
+
+<string name="settings_rhythm_guard_notification_timer_active_title">Rhythm Guard Timeout Active</string>
+
+<string name="settings_rhythm_guard_notification_timer_active_text">Playback resumes in %1$s.</string>
+
+<string name="settings_rhythm_guard_notification_tap_open">Tap to view timeout details.</string>
+
+<string name="ui_bt_codec_info">Bluetooth codec: %1$s, %2$s, %3$s</string>
+</resources>

@@ -35,7 +35,6 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionError
 import androidx.media3.session.SessionResult
-import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.infrastructure.service.player.RhythmPlayerEngine
@@ -43,10 +42,9 @@ import chromahub.rhythm.app.infrastructure.service.player.TransitionController
 import chromahub.rhythm.app.infrastructure.service.player.PreloadController
 import chromahub.rhythm.app.infrastructure.service.player.replaygain.ReplayGainCache
 import chromahub.rhythm.app.infrastructure.service.player.MissingLocalMediaClassifier
-import chromahub.rhythm.app.infrastructure.service.util.RhythmBitmapLoader
 import chromahub.rhythm.app.core.device.HiFiCapabilityChecker
 import chromahub.rhythm.app.core.device.DeviceCapabilitiesProvider
-import chromahub.rhythm.app.infrastructure.widget.WidgetUpdater
+import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -66,11 +64,10 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.shared.presentation.screens.settings.rhythmGuardFormatDurationFromMinutes
-import chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity
+import chromahub.rhythm.app.core.common.rhythmGuardFormatDurationFromMinutes
 import androidx.core.net.toUri
-import chromahub.rhythm.app.shared.data.model.PlaybackQualityInfo
-import chromahub.rhythm.app.util.AudioQualityDetector
+import chromahub.rhythm.app.core.model.PlaybackQualityInfo
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -207,7 +204,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         currentLyricTimestamps = longArrayOf()
         currentPlainLyricsLines = emptyList()
         currentLyricIndex = -1
-        chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(this, emptyList(), -1)
+        PlaybackWidgetBridgeInstaller.require().updateLyrics(this, emptyList(), -1)
     }
 
     private val btReceiver = object : BroadcastReceiver() {
@@ -341,7 +338,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         ensureRhythmGuardNotificationChannels(notificationManager)
 
-        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+        val openAppIntent = Intent(this, MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("open_player", true)
         }
@@ -382,7 +379,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         val safeRemaining = remainingSeconds.coerceIn(0L, safeTotal.toLong()).toInt()
         val completed = (safeTotal - safeRemaining).coerceIn(0, safeTotal)
 
-        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+        val openAppIntent = Intent(this, MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("open_player", true)
         }
@@ -592,7 +589,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         appSettings = AppSettings.getInstance(applicationContext)
         
         // Initialize preloader
-        preloadController = PreloadController(applicationContext, appSettings)
+        preloadController = PreloadController(applicationContext, appSettings, PlaybackResolverInstaller.require())
         
         // Initialize Rhythm audio processors early (before player creation)
         try {
@@ -811,11 +808,8 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
                                                 player.pause()
                                             }
                                             try {
-                                                RhythmGuardTimeoutActivity.start(
-                                                    context = applicationContext,
-                                                    reason = timeoutReason,
-                                                    timeoutUntilMs = newTimeoutUntilMs,
-                                                    timeoutStartedAtMs = now
+                                                MediaServiceHooks.guardTimeoutStarter?.invoke(
+                                                    applicationContext, timeoutReason, newTimeoutUntilMs, now
                                                 )
                                             } catch (e: Exception) {
                                                 Log.w(TAG, "Failed to start RhythmGuardTimeoutActivity from background", e)
@@ -948,7 +942,8 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
             this, 
             bassBoostProcessor = rhythmBassBoostProcessor,
             spatializationProcessor = rhythmSpatializationProcessor,
-            monoProcessor = rhythmMonoAudioProcessor
+            monoProcessor = rhythmMonoAudioProcessor,
+            streamingResolver = PlaybackResolverInstaller.require()
         )
         rhythmPlayerEngine.initialize()
         serviceScope.launch {
@@ -1256,7 +1251,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                 appSettings.showLyricsRomanization
             ) { _, _ -> }.collect {
                 if (currentLyricTexts.isNotEmpty()) {
-                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(
+                    PlaybackWidgetBridgeInstaller.require().updateLyrics(
                         this@MediaPlaybackService,
                         getProcessedLyricTexts(),
                         currentLyricIndex
@@ -1534,7 +1529,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
 
     private fun createMediaSession(): MediaLibrarySession {
         // PendingIntent that launches MainActivity when user taps media controls
-        val sessionIntent = Intent(this, MainActivity::class.java).apply {
+        val sessionIntent = Intent(this, MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = PendingIntent.getActivity(
@@ -1544,14 +1539,14 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val rhythmBitmapLoader = RhythmBitmapLoader(this)
+        val rhythmBitmapLoader = MediaServiceHooks.artworkBitmapLoader
 
         return MediaLibrarySession.Builder(
             this,
             player,
             MediaSessionCallback()
         ).setSessionActivity(pendingIntent)
-            .setBitmapLoader(rhythmBitmapLoader)
+            .apply { MediaServiceHooks.artworkBitmapLoader?.let { setBitmapLoader(it) } }
             .build()
     }
     
@@ -2081,7 +2076,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                         val isShuffleEnabled = prefs.getBoolean("is_shuffle", false)
                         val repeatMode = prefs.getInt("repeat_mode", 0)
                         
-                        WidgetUpdater.updateWidget(this, song, isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
+                        PlaybackWidgetBridgeInstaller.require().updateWidget(this, song, isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
                     }
                 }
             }
@@ -2350,9 +2345,10 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                 
                 // Extract metadata from the audio file in a background thread
                 val mediaItem = withContext(Dispatchers.IO) {
-                    val resolvedMimeType = chromahub.rhythm.app.util.MediaUtils.getMediaMimeType(this@MediaPlaybackService, uri)
+                    val resolvedMimeType = MediaServiceHooks.externalMetadataExtractor?.getMediaMimeType(this@MediaPlaybackService, uri)
                     try {
-                        val song = chromahub.rhythm.app.util.MediaUtils.extractMetadataFromUri(this@MediaPlaybackService, uri)
+                        val song = MediaServiceHooks.externalMetadataExtractor?.extractMetadataFromUri(this@MediaPlaybackService, uri)
+                            ?: throw IllegalStateException("External metadata extractor not installed")
                         Log.d(TAG, "Extracted metadata for external file: ${song.title} by ${song.artist}")
                         
                         // Create a media item with the extracted metadata
@@ -2568,7 +2564,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                         }
                         
                         currentLyricIndex = -1
-                        chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(this@MediaPlaybackService, getProcessedLyricTexts(), -1)
+                        PlaybackWidgetBridgeInstaller.require().updateLyrics(this@MediaPlaybackService, getProcessedLyricTexts(), -1)
                         SessionResult(SessionResult.RESULT_SUCCESS)
                     }
 
@@ -2578,7 +2574,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                         currentLyricIndex = lyricIndex
                         
                         // Update widgets
-                        chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(this@MediaPlaybackService, getProcessedLyricTexts(), lyricIndex)
+                        PlaybackWidgetBridgeInstaller.require().updateLyrics(this@MediaPlaybackService, getProcessedLyricTexts(), lyricIndex)
                         
                         // Update Bluetooth metadata lyrics
                         if (appSettings.bluetoothLyricsEnabled.value) {
@@ -2984,7 +2980,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                 channelCount = if (sourceChannels > 0) sourceChannels else decodedChannels
             )
 
-            val resolvedIcon = PlaybackQualityInfo.resolveIconRes(detectedQuality.qualityType, detectedQuality.qualityLabel)
+            val resolvedIcon = PlaybackQualityInfo.resolveIconRes(detectedQuality.qualityType, detectedQuality.qualityLabel, MediaServiceHooks.qualityIcons)
 
             val isPcmFloatSupported = HiFiCapabilityChecker.isSupported()
             val nativeHalSampleRate = try {
@@ -3100,20 +3096,20 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                 }
                 lastWidgetSnapshotKey = snapshotKey
 
-                WidgetUpdater.updateWidget(this, song, player.isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
+                PlaybackWidgetBridgeInstaller.require().updateWidget(this, song, player.isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
             } else {
                 if (lastWidgetSnapshotKey == "empty|false") {
                     return
                 }
                 lastWidgetSnapshotKey = "empty|false"
-                WidgetUpdater.updateWidget(this, null, false)
+                PlaybackWidgetBridgeInstaller.require().updateWidget(this, null, false)
             }
         } else {
             if (lastWidgetSnapshotKey == "empty|false") {
                 return
             }
             lastWidgetSnapshotKey = "empty|false"
-            WidgetUpdater.updateWidget(this, null, false)
+            PlaybackWidgetBridgeInstaller.require().updateWidget(this, null, false)
         }
     }
 
@@ -3312,9 +3308,9 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
         val remainingSeconds = (remainingMs / 1000L).coerceIn(0L, safeTotalSeconds.toLong()).toInt()
         val completedSeconds = (safeTotalSeconds - remainingSeconds).coerceIn(0, safeTotalSeconds)
 
-        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+        val openAppIntent = Intent(this, MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra(MainActivity.EXTRA_OPEN_PLAYER, true)
+            putExtra(MediaServiceHooks.openPlayerExtraKey, true)
         }
 
         val pendingIntent = PendingIntent.getActivity(

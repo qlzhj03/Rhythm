@@ -1,5 +1,6 @@
 package chromahub.rhythm.app.util
 
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
