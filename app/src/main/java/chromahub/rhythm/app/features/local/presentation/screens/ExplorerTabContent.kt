@@ -53,8 +53,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.DataProcessing
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveOutlinedButton
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
 import chromahub.rhythm.app.util.HapticUtils
 import chromahub.rhythm.app.util.HapticType
 import kotlinx.coroutines.Dispatchers

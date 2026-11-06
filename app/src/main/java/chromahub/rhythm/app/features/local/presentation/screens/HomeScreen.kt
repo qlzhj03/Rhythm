@@ -209,8 +209,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveElev
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
@@ -226,7 +226,7 @@ import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
-import chromahub.rhythm.app.shared.presentation.components.dialogs.CreatePlaylistDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -247,7 +247,7 @@ import chromahub.rhythm.app.util.windowScreenHeightDp
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    musicViewModel: chromahub.rhythm.app.viewmodel.MusicViewModel,
+    musicViewModel: chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel,
     songs: List<Song>,
     albums: List<Album>,
     artists: List<Artist>,
@@ -709,7 +709,7 @@ private fun StreamingHomeBody(
     onSongClick: (Song) -> Unit,
     onNavigateToStats: () -> Unit = {},
     onNavigateToRhythmGuard: () -> Unit = {},
-    musicViewModel: chromahub.rhythm.app.viewmodel.MusicViewModel,
+    musicViewModel: chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel,
     coroutineScope: CoroutineScope,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit = {}
@@ -1443,7 +1443,7 @@ private fun ModernScrollableContent(
     onNavigateToPlaylist: (String) -> Unit = {},
     onNavigateToStats: () -> Unit = {},
     onNavigateToRhythmGuard: () -> Unit = {},
-    musicViewModel: chromahub.rhythm.app.viewmodel.MusicViewModel,
+    musicViewModel: chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel,
     coroutineScope: CoroutineScope,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit = {}
@@ -1987,7 +1987,7 @@ private fun ModernScrollableContent(
 private fun ModernRecentlyPlayedSection(
     recentlyPlayed: List<Song>,
     onSongClick: (Song) -> Unit,
-    musicViewModel: chromahub.rhythm.app.viewmodel.MusicViewModel,
+    musicViewModel: chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel,
     coroutineScope: CoroutineScope,
     widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
     heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium
@@ -2843,7 +2843,7 @@ private fun ModernArtistCard(
     onPlayClick: ((Artist) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.viewmodel.MusicViewModel>()
+    val viewModel = viewModel<chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel>()
     val haptic = LocalHapticFeedback.current
     val handleArtistPlayClick = onPlayClick ?: { artistToPlay -> viewModel.playArtist(artistToPlay) }
 
@@ -2929,7 +2929,7 @@ private fun ModernAlbumCard(
     onPlayClick: ((Album) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.viewmodel.MusicViewModel>()
+    val viewModel = viewModel<chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel>()
     val haptic = LocalHapticFeedback.current
     val handlePlayClick = onPlayClick ?: { albumToPlay -> viewModel.playAlbum(albumToPlay) }
 
@@ -3089,7 +3089,7 @@ private fun ModernListeningStatsSection(
     onClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.viewmodel.MusicViewModel>()
+    val viewModel = viewModel<chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel>()
     val songs by viewModel.songs.collectAsState()
 
     var statsSummary by remember { mutableStateOf<chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary?>(null) }

@@ -123,9 +123,9 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPla
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
-import chromahub.rhythm.app.shared.presentation.components.dialogs.CreatePlaylistDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.QueueActionDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.QueueListActionDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueListActionDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.shared.presentation.components.player.RhythmPlayerSheet
 import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew

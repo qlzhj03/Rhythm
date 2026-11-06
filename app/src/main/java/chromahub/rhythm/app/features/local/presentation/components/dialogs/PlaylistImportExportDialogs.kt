@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.components.dialogs
+package chromahub.rhythm.app.features.local.presentation.components.dialogs
 
 import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
 import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon

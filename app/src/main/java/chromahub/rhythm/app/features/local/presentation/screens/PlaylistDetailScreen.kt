@@ -122,10 +122,10 @@ import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons.Sea
 import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
 import chromahub.rhythm.app.ui.UiConstants
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistExportDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistImportDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistOperationProgressDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistOperationResultDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistExportDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationResultDialog
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
 import android.net.Uri
 import coil.compose.AsyncImage
@@ -137,8 +137,8 @@ import chromahub.rhythm.app.util.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState

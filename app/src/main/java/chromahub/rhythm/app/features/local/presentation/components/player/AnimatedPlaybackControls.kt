@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.components.player
+package chromahub.rhythm.app.features.local.presentation.components.player
 import androidx.compose.ui.platform.LocalContext
 import chromahub.rhythm.app.util.HapticUtils
 import chromahub.rhythm.app.util.HapticType

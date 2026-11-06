@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.components.bottomsheets
+package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -93,6 +93,7 @@ import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
 import androidx.compose.ui.text.style.TextAlign
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 
 private fun resolveBatchEditArtworkUri(context: android.content.Context, song: Song): Uri? {
     val currentArtworkUri = song.artworkUri

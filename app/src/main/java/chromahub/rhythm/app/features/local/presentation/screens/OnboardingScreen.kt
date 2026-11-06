@@ -155,7 +155,7 @@ import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
 import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import chromahub.rhythm.app.features.local.presentation.components.settings.LibraryTabOrderBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
+import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import chromahub.rhythm.app.shared.data.model.AutoEQProfile
