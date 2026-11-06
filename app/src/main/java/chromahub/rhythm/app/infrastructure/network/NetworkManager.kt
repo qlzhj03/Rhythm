@@ -3,7 +3,6 @@ package chromahub.rhythm.app.network
 import android.content.Context
 import chromahub.rhythm.app.BuildConfig
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,14 +24,7 @@ object NetworkManager {
      * Create an OkHttpClient with logging and timeout configuration
      */
     private fun createOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            // Only enable detailed logging in debug builds
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.BASIC
-            }
-        }
+        val loggingInterceptor = NetworkLog.createLoggingInterceptor()
         
         return OkHttpClient.Builder()
             .addInterceptor { chain ->

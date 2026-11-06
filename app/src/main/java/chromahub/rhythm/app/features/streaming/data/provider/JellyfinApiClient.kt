@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.Context
-import android.util.Log
+import chromahub.rhythm.app.network.NetworkLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -84,13 +84,13 @@ class JellyfinApiClient(context: Context) {
                             if (json != null && (json.has("ServerName") || json.has("Version") || json.has("Id"))) {
                                 val finalUrl = response.request.url.toString()
                                 val baseCanonical = finalUrl.substringBefore("/System/Info/Public").trimEnd('/')
-                                Log.i(TAG, "Successfully probed Jellyfin server at: $baseCanonical (from candidate: $candidate)")
+                                NetworkLog.i(TAG, "Successfully probed Jellyfin server at: $baseCanonical (from candidate: $candidate)")
                                 return@withContext Result.success(baseCanonical)
                             }
                         }
                     }
                 } catch (e: Exception) {
-                    Log.d(TAG, "Probe failed for candidate $candidate: ${e.message}")
+                    NetworkLog.d(TAG, "Probe failed for candidate $candidate: ${e.message}")
                     lastError = e
                 }
             }
@@ -118,7 +118,7 @@ class JellyfinApiClient(context: Context) {
         }
 
         val effectiveUrl = probeServerUrl(normalizedUrl).getOrElse {
-            Log.w(TAG, "Probing candidates failed, falling back to normalized URL: $normalizedUrl")
+            NetworkLog.w(TAG, "Probing candidates failed, falling back to normalized URL: $normalizedUrl")
             normalizedUrl
         }
 
@@ -223,7 +223,7 @@ class JellyfinApiClient(context: Context) {
 
                 Result.success(artists.values.take(limit).toList())
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin getArtists fetch failed", e)
+                NetworkLog.e(TAG, "Jellyfin getArtists fetch failed", e)
                 Result.failure(e)
             }
         }
@@ -272,7 +272,7 @@ class JellyfinApiClient(context: Context) {
 
                 Result.success(songs.values.take(limit).toList())
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin library fetch failed", e)
+                NetworkLog.e(TAG, "Jellyfin library fetch failed", e)
                 Result.failure(e)
             }
         }
@@ -329,7 +329,7 @@ class JellyfinApiClient(context: Context) {
 
                 Result.success(songs.values.take(limit).toList())
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin playlist fetch failed for playlistId=$playlistId", e)
+                NetworkLog.e(TAG, "Jellyfin playlist fetch failed for playlistId=$playlistId", e)
                 Result.failure(e)
             }
         }
@@ -369,7 +369,7 @@ class JellyfinApiClient(context: Context) {
 
                 Result.success(songs.values.take(limit).toList())
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin album track fetch failed for albumId=$albumId", e)
+                NetworkLog.e(TAG, "Jellyfin album track fetch failed for albumId=$albumId", e)
                 Result.failure(e)
             }
         }
@@ -564,7 +564,7 @@ class JellyfinApiClient(context: Context) {
                     )
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin playlist creation failed", e)
+                NetworkLog.e(TAG, "Jellyfin playlist creation failed", e)
                 Result.failure(e)
             }
         }
@@ -625,7 +625,7 @@ class JellyfinApiClient(context: Context) {
                     body = bodyJson.toString().toRequestBody("application/json".toMediaType())
                 ).map { true }
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin playlist update failed for playlistId=$playlistId", e)
+                NetworkLog.e(TAG, "Jellyfin playlist update failed for playlistId=$playlistId", e)
                 Result.failure(e)
             }
         }
@@ -684,7 +684,7 @@ class JellyfinApiClient(context: Context) {
                     method = "DELETE"
                 ).map { true }
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin playlist removeSongs failed for playlistId=$playlistId", e)
+                NetworkLog.e(TAG, "Jellyfin playlist removeSongs failed for playlistId=$playlistId", e)
                 Result.failure(e)
             }
         }
@@ -843,7 +843,7 @@ class JellyfinApiClient(context: Context) {
                     )
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to parse Jellyfin lyrics for itemId=$itemId", e)
+                NetworkLog.e(TAG, "Failed to parse Jellyfin lyrics for itemId=$itemId", e)
                 Result.failure(e)
             }
         }
@@ -936,7 +936,7 @@ class JellyfinApiClient(context: Context) {
                     Result.success(token to userId)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin authentication failed", e)
+                NetworkLog.e(TAG, "Jellyfin authentication failed", e)
                 Result.failure(e)
             }
         }
@@ -985,7 +985,7 @@ class JellyfinApiClient(context: Context) {
                     Result.success(body)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Jellyfin request failed for path=$path", e)
+                NetworkLog.e(TAG, "Jellyfin request failed for path=$path", e)
                 Result.failure(e)
             }
         }

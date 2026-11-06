@@ -76,7 +76,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB）、`StreamingMusicViewModel.kt`（约 108 KB）、`AppUpdaterViewModel.kt`、`OnboardingScreen.kt`（10,000+ 行）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
 - **UseCase 层不是强制的**：`core/domain/usecase/SongUseCases.kt` 存在但当前无人调用；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
 - **包名与目录不一致（必须按文件里的 `package` 声明 import，不要按目录猜）**：
-  - `infrastructure/network/`（14 个文件）→ `chromahub.rhythm.app.network`
+  - `infrastructure/network/`（15 个文件）→ `chromahub.rhythm.app.network`
   - `infrastructure/worker/`（3 个文件）→ `chromahub.rhythm.app.worker`
   - `shared/presentation/theme/`（14 个文件）：多数声明 `...ui.theme`（`festive/` 下声明 `...ui.theme.festive`），但至少有 1 个文件声明 `...shared.presentation.theme`；按实际声明 import。
   - `features/local/presentation/components/{bottomsheets,dialogs,player}`：11 个文件中 8 个错位声明为 `...shared.presentation.components.*`，其余 3 个声明本地包；不要按目录推断。
@@ -116,7 +116,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - 不在 `.kt` / `.kts` 顶部添加 SPDX / 版权文件头（仓库已统一移除，许可证以根目录 `LICENSE` 为准）；仅从第三方项目引入的代码保留其原有版权与许可证声明。
 - import 禁通配符；命名后缀：`XxxViewModel` / `XxxRepository`（接口在 domain，实现在 data）/ `XxxModule`（DI object）/ `XxxTest`。UseCase 层很薄，不强制 `XxxUseCase` 后缀。
 - Dispatcher 直接引用 `Dispatchers.IO` / `Dispatchers.Default`（仓储内用 `withContext(Dispatchers.IO)`，部分 `flowOn`）；不要为此引入 dispatcher 注入抽象。`Dispatchers.Main` 只在 UI 层使用，禁止在主线程做文件 / 数据库 / 网络 IO。
-- 网络错误按异常类型分类处理并统一重试（`infrastructure/network/NetworkClient.kt` 的 `retryInterceptor`：指数退避、429 按 `Retry-After` 退避、4xx 除 408/429 外不重试、SSL/FileNotFound 不重试）；日志不输出请求头与 token，新增日志勿扩大敏感信息范围。
+- 网络错误按异常类型分类处理并统一重试（`infrastructure/network/NetworkClient.kt` 的 `retryInterceptor`：指数退避、429 按 `Retry-After` 退避、4xx 除 408/429 外不重试、SSL/FileNotFound 不重试）；网络日志统一走 `NetworkLog`（`infrastructure/network/NetworkLog.kt`），纯脱敏函数在 `util/NetworkLogRedactor.kt`：`d` 仅 debug、release 不打堆栈、URL query 中的 `u/p/t/s/ApiKey/api_key/token` 等一律打码，所有 `HttpLoggingInterceptor` 共用 debug=BASIC / release=NONE 与统一 header 清单；新增日志勿绕过该入口，勿扩大敏感信息范围。
 - 新增代码禁止 `!!`（现有 130 处是历史遗留，不要继续扩散）；改用 `requireNotNull`、早退或 `Result`。禁止用裸 `RuntimeException` / `IllegalStateException` 做流程控制；用返回值或 sealed 结果类型。
 - 禁止 `GlobalScope`（当前全仓 0 处）；用 `viewModelScope`、`WorkManager`，或 `RhythmApplication` 中显式创建并管理的 scope。禁止用 `delay()` 假装等待异步结果。
 - 禁止空 `catch {}` / `catch (_: Exception) {}` 静默吞掉；至少 `Log.w/e`，用户可见失败要更新状态。非致命异常用 `util/CrashReporter` 记录，不要自建崩溃上报通道；不要把 `e.message` 直接当用户文案。

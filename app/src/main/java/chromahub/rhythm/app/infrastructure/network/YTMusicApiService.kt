@@ -214,20 +214,20 @@ data class YTMusicAlbumContents(
  * Extract artist image URL from search response
  */
 fun YTMusicSearchResponse.extractArtistImageUrl(): String? {
-    android.util.Log.d("YTMusicExtract", "Starting artist image extraction")
+    NetworkLog.d("YTMusicExtract", "Starting artist image extraction")
     
     // Navigate through the search response structure based on actual API format
     val tabs = contents?.tabbedSearchResultsRenderer?.tabs
-    android.util.Log.d("YTMusicExtract", "Found ${tabs?.size ?: 0} tabs")
+    NetworkLog.d("YTMusicExtract", "Found ${tabs?.size ?: 0} tabs")
     
     tabs?.forEachIndexed { tabIndex, tab ->
         // The structure is: tabRenderer.content.sectionListRenderer.contents
         val sectionContents = tab.tabRenderer?.content?.sectionListRenderer?.contents
-        android.util.Log.d("YTMusicExtract", "Tab $tabIndex has ${sectionContents?.size ?: 0} section contents")
+        NetworkLog.d("YTMusicExtract", "Tab $tabIndex has ${sectionContents?.size ?: 0} section contents")
         
         sectionContents?.forEachIndexed { sectionIndex, section ->
             val items = section.musicShelfRenderer?.contents
-            android.util.Log.d("YTMusicExtract", "Section $sectionIndex has ${items?.size ?: 0} items")
+            NetworkLog.d("YTMusicExtract", "Section $sectionIndex has ${items?.size ?: 0} items")
             
             items?.forEachIndexed { itemIndex, item ->
                 val listItem = item.musicResponsiveListItemRenderer
@@ -243,12 +243,12 @@ fun YTMusicSearchResponse.extractArtistImageUrl(): String? {
                 val isMostLikelyArtist = directBrowseId?.startsWith("UC") == true ||
                     flexColumnBrowseIds?.any { it.startsWith("UC") } == true
                 
-                android.util.Log.d("YTMusicExtract", "Item $itemIndex: directBrowseId=$directBrowseId, flexBrowseIds=$flexColumnBrowseIds, isArtist=$isMostLikelyArtist")
+                NetworkLog.d("YTMusicExtract", "Item $itemIndex: directBrowseId=$directBrowseId, flexBrowseIds=$flexColumnBrowseIds, isArtist=$isMostLikelyArtist")
                 
                 if (isMostLikelyArtist) {
                     // Extract thumbnail URL - try different paths
                     val thumbnails = listItem.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails
-                    android.util.Log.d("YTMusicExtract", "Found ${thumbnails?.size ?: 0} thumbnails for artist item")
+                    NetworkLog.d("YTMusicExtract", "Found ${thumbnails?.size ?: 0} thumbnails for artist item")
                     
                     // Filter and prioritize higher quality thumbnails (resolution >200px for artists)
                     val thumbnail = thumbnails
@@ -256,7 +256,7 @@ fun YTMusicSearchResponse.extractArtistImageUrl(): String? {
                         ?.maxByOrNull { it.width ?: 0 }
                         ?: thumbnails?.filter { !it.url.isNullOrEmpty() }?.maxByOrNull { it.width ?: 0 }
                     
-                    android.util.Log.d("YTMusicExtract", "Best thumbnail: ${thumbnail?.url} (${thumbnail?.width}x${thumbnail?.height})")
+                    NetworkLog.d("YTMusicExtract", "Best thumbnail: ${thumbnail?.url} (${thumbnail?.width}x${thumbnail?.height})")
                     
                     if (thumbnail?.url?.isNotEmpty() == true) {
                         // Enhance image quality by modifying URL parameters if it's a YouTube image
@@ -268,21 +268,21 @@ fun YTMusicSearchResponse.extractArtistImageUrl(): String? {
                         } else {
                             thumbnail.url
                         }
-                        android.util.Log.d("YTMusicExtract", "Enhanced thumbnail URL: $enhancedUrl")
+                        NetworkLog.d("YTMusicExtract", "Enhanced thumbnail URL: $enhancedUrl")
                         return enhancedUrl
                     }
                 } else {
                     // Even if not an artist, let's log what we have for debugging
                     val thumbnails = listItem?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails
                     if (!thumbnails.isNullOrEmpty()) {
-                        android.util.Log.d("YTMusicExtract", "Non-artist item $itemIndex has ${thumbnails.size} thumbnails: ${thumbnails.first().url}")
+                        NetworkLog.d("YTMusicExtract", "Non-artist item $itemIndex has ${thumbnails.size} thumbnails: ${thumbnails.first().url}")
                     }
                 }
             }
         }
     }
     
-    android.util.Log.d("YTMusicExtract", "No artist image found")
+    NetworkLog.d("YTMusicExtract", "No artist image found")
     return null
 }
 

@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.Context
-import android.util.Log
+import chromahub.rhythm.app.network.NetworkLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -310,7 +310,7 @@ class SubsonicApiClient internal constructor(
                                         }
                                         parseSongList(albumResponse.opt("song"))
                                     } catch (e: Exception) {
-                                        Log.w(TAG, "Failed to fetch album $albumId, skipping", e)
+                                        NetworkLog.w(TAG, "Failed to fetch album $albumId, skipping", e)
                                         skippedAlbums.incrementAndGet()
                                         onIncomplete?.invoke()
                                         emptyList()
@@ -338,11 +338,11 @@ class SubsonicApiClient internal constructor(
 
                 if (skippedAlbums.get() > 0) {
                     // Keep what was fetched: a library missing a few albums beats no library.
-                    Log.w(TAG, "Library fetch skipped ${skippedAlbums.get()} album(s) that failed after retries")
+                    NetworkLog.w(TAG, "Library fetch skipped ${skippedAlbums.get()} album(s) that failed after retries")
                 }
                 Result.success(songs.values.take(limit).toList())
             } catch (e: Exception) {
-                Log.e(TAG, "Subsonic library fetch failed", e)
+                NetworkLog.e(TAG, "Subsonic library fetch failed", e)
                 Result.failure(e)
             }
         }
@@ -872,7 +872,7 @@ class SubsonicApiClient internal constructor(
                     Result.success(body)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Subsonic request failed for endpoint=$endpoint", e)
+                NetworkLog.e(TAG, "Subsonic request failed for endpoint=$endpoint", e)
                 Result.failure(e)
             }
         }
@@ -936,7 +936,7 @@ class SubsonicApiClient internal constructor(
             }
             delay(libraryFetchRetryDelayMs shl attempt)
             attempt++
-            Log.w(TAG, "Retrying $endpoint after a network failure (attempt ${attempt + 1})")
+            NetworkLog.w(TAG, "Retrying $endpoint after a network failure (attempt ${attempt + 1})")
         }
     }
 
