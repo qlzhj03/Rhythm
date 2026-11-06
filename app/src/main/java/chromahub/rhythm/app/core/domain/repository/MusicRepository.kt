@@ -1,9 +1,9 @@
 package chromahub.rhythm.app.core.domain.repository
 
-import chromahub.rhythm.app.core.domain.model.AlbumItem
-import chromahub.rhythm.app.core.domain.model.ArtistItem
-import chromahub.rhythm.app.core.domain.model.PlayableItem
-import chromahub.rhythm.app.core.domain.model.PlaylistItem
+import chromahub.rhythm.app.core.model.AlbumItem
+import chromahub.rhythm.app.core.model.ArtistItem
+import chromahub.rhythm.app.core.model.PlayableItem
+import chromahub.rhythm.app.core.model.PlaylistItem
 import kotlinx.coroutines.flow.Flow
 
 /**

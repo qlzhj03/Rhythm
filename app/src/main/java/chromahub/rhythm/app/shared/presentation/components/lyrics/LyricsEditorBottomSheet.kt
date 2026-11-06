@@ -3,9 +3,9 @@ package chromahub.rhythm.app.shared.presentation.components.lyrics
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.content.Context
 import android.content.Intent
@@ -80,16 +80,16 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWe
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmToggleButtonGroup
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmToggleOption
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils
 import chromahub.rhythm.app.util.RhythmLyricsParser
-import chromahub.rhythm.app.shared.data.model.LyricsData
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.LyricsData
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import androidx.compose.runtime.collectAsState
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveAssistChip
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveStatusBadge
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveAssistChip
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveStatusBadge
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
@@ -436,11 +436,11 @@ fun LyricsEditorBottomSheet(
                 editedSource = loadedLyrics
                 selectedFormat = if (hasWordTiming) LyricFormat.WORD_BY_WORD else LyricFormat.LINE_BY_LINE
             } else {
-                val semanticLyrics = chromahub.rhythm.app.util.parseTtml(null, loadedLyrics)
+                val semanticLyrics = chromahub.rhythm.app.core.common.parseTtml(null, loadedLyrics)
                 val plain = when (semanticLyrics) {
-                    is chromahub.rhythm.app.util.SemanticLyrics.UnsyncedLyrics ->
+                    is chromahub.rhythm.app.core.common.SemanticLyrics.UnsyncedLyrics ->
                         semanticLyrics.unsyncedText.joinToString("\n") { it.first }
-                    is chromahub.rhythm.app.util.SemanticLyrics.SyncedLyrics ->
+                    is chromahub.rhythm.app.core.common.SemanticLyrics.SyncedLyrics ->
                         semanticLyrics.text.joinToString("\n") { it.text }
                     else -> loadedLyrics
                 }

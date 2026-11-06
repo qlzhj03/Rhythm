@@ -6,8 +6,8 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -16,6 +16,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import chromahub.rhythm.app.core.common.GsonUtils
 
 // Marker exception used to signal a Rhythm backup file was selected in the single-playlist import flow
 class RhythmBackupDetectedException(val backupJson: String) : Exception("Rhythm backup file detected")

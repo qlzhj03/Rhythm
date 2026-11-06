@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.navigation
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -91,11 +91,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.domain.model.AppMode
+import chromahub.rhythm.app.core.model.AppMode
 import chromahub.rhythm.app.features.local.presentation.navigation.LocalNavigation
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmWavyProgressLoader
+import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
@@ -110,7 +110,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.WindowInsetsSides
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import java.util.Locale
 
 
@@ -1978,7 +1978,7 @@ fun ModeSelectorScreen(
 private fun ModeCard(
     title: String,
     description: String,
-    icon: chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon,
+    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier

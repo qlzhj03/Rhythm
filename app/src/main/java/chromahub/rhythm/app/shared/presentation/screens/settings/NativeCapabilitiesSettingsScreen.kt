@@ -43,11 +43,11 @@ import chromahub.rhythm.app.core.device.DeviceCapabilitiesProvider
 import chromahub.rhythm.app.core.device.HiFiCapabilityChecker
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
-import chromahub.rhythm.app.util.HapticType
-import chromahub.rhythm.app.util.HapticUtils
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import java.util.Locale
 import kotlin.math.roundToInt
 

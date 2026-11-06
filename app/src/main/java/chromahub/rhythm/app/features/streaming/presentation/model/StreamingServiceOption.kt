@@ -3,7 +3,7 @@ package chromahub.rhythm.app.features.streaming.presentation.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceId
+import chromahub.rhythm.app.core.model.StreamingServiceId
 
 /**
  * 流媒体服务选项单一事实来源：新增平台时在 [StreamingServiceOptions.defaults] 里加一条

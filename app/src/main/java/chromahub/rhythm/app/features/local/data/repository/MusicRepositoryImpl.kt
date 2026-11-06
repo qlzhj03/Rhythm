@@ -1,5 +1,5 @@
 package chromahub.rhythm.app.features.local.data.repository
-import chromahub.rhythm.app.shared.data.model.ScanProgress
+import chromahub.rhythm.app.core.model.ScanProgress
 import chromahub.rhythm.app.core.domain.scan.MediaScanEngine
 import chromahub.rhythm.app.core.domain.scan.StableDateAddedResolver
 import chromahub.rhythm.app.core.domain.backup.BackupRestoreManager
@@ -65,22 +65,22 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 import java.io.ByteArrayOutputStream
 import java.net.URL
-import chromahub.rhythm.app.shared.data.model.LyricsData
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.shared.data.model.Album
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.FolderNode
-import chromahub.rhythm.app.shared.data.model.Playlist
+import chromahub.rhythm.app.core.model.LyricsData
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.model.Album
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.FolderNode
+import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.LyricsSourcePreference
-import chromahub.rhythm.app.shared.data.model.MediaScanMode
-import chromahub.rhythm.app.shared.data.model.ScanPhase
-import chromahub.rhythm.app.shared.data.model.UserAudioDevice
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.LyricsSourcePreference
+import chromahub.rhythm.app.core.model.MediaScanMode
+import chromahub.rhythm.app.core.model.ScanPhase
+import chromahub.rhythm.app.core.model.UserAudioDevice
+import chromahub.rhythm.app.core.model.PlaybackLocation
 import chromahub.rhythm.app.shared.data.model.LyricsApiPriority
-import chromahub.rhythm.app.shared.data.model.findAlbumForSong
-import chromahub.rhythm.app.core.domain.model.PlayableItem
-import chromahub.rhythm.app.core.domain.model.SourceType
+import chromahub.rhythm.app.core.model.findAlbumForSong
+import chromahub.rhythm.app.core.model.PlayableItem
+import chromahub.rhythm.app.core.model.SourceType
 import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
 import java.lang.ref.WeakReference
 import chromahub.rhythm.app.util.AudioFormatDetector
@@ -88,9 +88,9 @@ import chromahub.rhythm.app.util.LyricsParser
 import chromahub.rhythm.app.util.EnhancedLyricLine
 import chromahub.rhythm.app.util.EnhancedWord
 import chromahub.rhythm.app.util.RhythmLyricsParser
-import chromahub.rhythm.app.util.LrcUtils
+import chromahub.rhythm.app.core.common.LrcUtils
 import chromahub.rhythm.app.util.MetadataHeuristics
-import chromahub.rhythm.app.util.SemanticLyrics
+import chromahub.rhythm.app.core.common.SemanticLyrics
 import android.content.SharedPreferences
 import androidx.room.withTransaction
 import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
@@ -418,7 +418,7 @@ class MusicRepository(context: Context) {
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2146,7 +2146,7 @@ class MusicRepository(context: Context) {
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val charDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2249,7 +2249,7 @@ class MusicRepository(context: Context) {
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2304,7 +2304,7 @@ class MusicRepository(context: Context) {
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val delimiters = if (artistSeparatorEnabled) appSettings.artistSeparatorDelimiters.value else ""
-        return chromahub.rhythm.app.util.ArtistSeparator.splitArtistNames(artistName, delimiters, artistSeparatorEnabled)
+        return chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(artistName, delimiters, artistSeparatorEnabled)
     }
 
     /**
@@ -2312,7 +2312,7 @@ class MusicRepository(context: Context) {
      * Use this overload in hot loops to avoid reading AppSettings per call.
      */
     fun splitArtistNames(artistName: String, preloadedCharDelimiters: List<String>): List<String> {
-        return chromahub.rhythm.app.util.ArtistSeparator.splitArtistNames(artistName, preloadedCharDelimiters, preloadedCharDelimiters.isNotEmpty())
+        return chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(artistName, preloadedCharDelimiters, preloadedCharDelimiters.isNotEmpty())
     }
     
     /**
@@ -2555,7 +2555,7 @@ class MusicRepository(context: Context) {
             val appSettings = AppSettings.getInstance(context)
             val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
             val preloadedCharDelimiters: List<String> = if (appSettings.artistSeparatorEnabled.value) {
-                chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+                chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
             } else {
                 emptyList()
             }
@@ -5097,17 +5097,17 @@ class MusicRepository(context: Context) {
             }
             
             val semanticLyrics = when (ext.lowercase()) {
-                "ttml", "xml" -> chromahub.rhythm.app.util.parseTtml(null, content)
-                "srt" -> chromahub.rhythm.app.util.parseSrt(content, true)
+                "ttml", "xml" -> chromahub.rhythm.app.core.common.parseTtml(null, content)
+                "srt" -> chromahub.rhythm.app.core.common.parseSrt(content, true)
                 else -> null
             } ?: return null
             
             return when (semanticLyrics) {
-                is chromahub.rhythm.app.util.SemanticLyrics.UnsyncedLyrics -> {
+                is chromahub.rhythm.app.core.common.SemanticLyrics.UnsyncedLyrics -> {
                     val plainLyrics = semanticLyrics.unsyncedText.joinToString("\n") { it.first }
                     LyricsData(plainLyrics = plainLyrics, syncedLyrics = null, wordByWordLyrics = null, source = "Local File")
                 }
-                is chromahub.rhythm.app.util.SemanticLyrics.SyncedLyrics -> {
+                is chromahub.rhythm.app.core.common.SemanticLyrics.SyncedLyrics -> {
                     val plainLyrics = semanticLyrics.text.joinToString("\n") { it.text }
                     val syncedLyrics = semanticLyrics.text.joinToString("\n") { line ->
                         val min = (line.start / 60000uL)
@@ -5299,8 +5299,10 @@ class MusicRepository(context: Context) {
                     // Try to open the input stream to check if the artwork exists
                     var artworkExists = false
                     try {
-                        context.contentResolver.openInputStream(album.artworkUri)?.use {
-                            artworkExists = true
+                        album.artworkUri?.let { artworkUri ->
+                            context.contentResolver.openInputStream(artworkUri)?.use {
+                                artworkExists = true
+                            }
                         }
                     } catch (e: Exception) {
                         Log.d(
@@ -5583,7 +5585,7 @@ class MusicRepository(context: Context) {
         val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -5629,7 +5631,7 @@ class MusicRepository(context: Context) {
         val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -6383,7 +6385,7 @@ class MusicRepository(context: Context) {
     ) = withContext(Dispatchers.IO) {
         try {
             val songsWithoutGenres = songs.filter { 
-                it.genre == null || it.genre.isBlank() || it.genre.equals("unknown", ignoreCase = true) 
+                it.genre == null || it.genre?.isBlank() == true || it.genre?.equals("unknown", ignoreCase = true) == true 
             }
             
             if (songsWithoutGenres.isEmpty()) {
@@ -6485,7 +6487,7 @@ class MusicRepository(context: Context) {
             }
 
             val genreCount = finalSongs.count { song -> 
-                song.genre != null && song.genre.isNotBlank() && !song.genre.equals("unknown", ignoreCase = true)
+                song.genre != null && song.genre?.isNotBlank() == true && song.genre?.equals("unknown", ignoreCase = true) == false
             }
             Log.d(TAG, "Background genre detection complete. $genreCount out of ${finalSongs.size} songs now have genres")
             onComplete?.invoke(finalSongs)

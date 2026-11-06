@@ -2,25 +2,25 @@
 
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.features.streaming.presentation.components.StreamingServiceStateCard
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingSong
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingAlbum
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingArtist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaylist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceId
+import chromahub.rhythm.app.core.model.StreamingSong
+import chromahub.rhythm.app.core.model.StreamingAlbum
+import chromahub.rhythm.app.core.model.StreamingArtist
+import chromahub.rhythm.app.core.model.StreamingPlaylist
+import chromahub.rhythm.app.core.model.StreamingServiceId
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibrarySong
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibraryAlbum
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibraryArtist
-import chromahub.rhythm.app.util.ArtistSeparator
+import chromahub.rhythm.app.core.model.toLibrarySong
+import chromahub.rhythm.app.core.model.toLibraryAlbum
+import chromahub.rhythm.app.core.model.toLibraryArtist
+import chromahub.rhythm.app.core.common.ArtistSeparator
 import chromahub.rhythm.app.util.rememberOffMain
 
 import android.widget.Toast
@@ -149,8 +149,8 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import chromahub.rhythm.app.shared.presentation.components.common.FixedHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
-import chromahub.rhythm.app.ui.theme.festive.FestiveConfig
-import chromahub.rhythm.app.ui.theme.festive.FestiveThemeEngine
+import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveConfig
+import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveThemeEngine
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -188,36 +188,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import chromahub.rhythm.app.util.PerformIfEnabled
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.PerformIfEnabled
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.Album
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Album
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.features.local.presentation.components.settings.HomeSectionOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledTonalButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveOutlinedButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledIconButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledTonalIconButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveLargeIconButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCard
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveElevatedCard
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledTonalButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveOutlinedButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledIconButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledTonalIconButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveLargeIconButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveCard
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveElevatedCard
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
+import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.ActionProgressLoader
-import chromahub.rhythm.app.shared.presentation.components.common.NetworkOperationLoader
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveAnimatedCounter
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
+import chromahub.rhythm.app.core.designsystem.components.NetworkOperationLoader
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveAnimatedCounter
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
@@ -241,8 +241,11 @@ import java.util.Calendar
 import kotlin.random.Random
 import androidx.core.text.HtmlCompat
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import chromahub.rhythm.app.core.model.toLibraryAlbum
+import chromahub.rhythm.app.core.model.toLibraryArtist
+import chromahub.rhythm.app.core.model.toLibrarySong
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -278,7 +281,7 @@ fun HomeScreen(
     streamingSongs: List<Song> = emptyList(),
     streamingAlbums: List<Album> = emptyList(),
     streamingArtists: List<Artist> = emptyList(),
-    streamingPlaylists: List<chromahub.rhythm.app.shared.data.model.Playlist> = emptyList(),
+    streamingPlaylists: List<chromahub.rhythm.app.core.model.Playlist> = emptyList(),
     streamingRecentlyPlayed: List<Song> = emptyList(),
     streamingServiceName: String = "",
     streamingServiceConnected: Boolean = false,
@@ -286,11 +289,11 @@ fun HomeScreen(
     streamingError: String? = null,
     onConfigureService: (String) -> Unit = {},
     onSwitchToLocalMode: () -> Unit = {},
-    onStreamingNavigateToArtist: (chromahub.rhythm.app.features.streaming.domain.model.StreamingArtist) -> Unit = {},
-    onStreamingNavigateToAlbum: (chromahub.rhythm.app.features.streaming.domain.model.StreamingAlbum) -> Unit = {},
-    onStreamingNavigateToPlaylist: (chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaylist) -> Unit = {},
-    onStreamingPlayQueue: (List<chromahub.rhythm.app.features.streaming.domain.model.StreamingSong>, Int, Boolean) -> Unit = { _, _, _ -> },
-    onStreamingShuffleQueue: (List<chromahub.rhythm.app.features.streaming.domain.model.StreamingSong>) -> Unit = {}
+    onStreamingNavigateToArtist: (chromahub.rhythm.app.core.model.StreamingArtist) -> Unit = {},
+    onStreamingNavigateToAlbum: (chromahub.rhythm.app.core.model.StreamingAlbum) -> Unit = {},
+    onStreamingNavigateToPlaylist: (chromahub.rhythm.app.core.model.StreamingPlaylist) -> Unit = {},
+    onStreamingPlayQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>, Int, Boolean) -> Unit = { _, _, _ -> },
+    onStreamingShuffleQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
@@ -691,7 +694,7 @@ private fun StreamingHomeBody(
     songs: List<Song>,
     albums: List<Album>,
     artists: List<Artist>,
-    playlists: List<chromahub.rhythm.app.shared.data.model.Playlist>,
+    playlists: List<chromahub.rhythm.app.core.model.Playlist>,
     recentlyPlayed: List<Song>,
     serviceName: String,
     serviceConnected: Boolean,
@@ -699,11 +702,11 @@ private fun StreamingHomeBody(
     errorMessage: String?,
     onConfigureService: (String) -> Unit,
     onSwitchToLocalMode: () -> Unit = {},
-    onNavigateToArtist: (chromahub.rhythm.app.features.streaming.domain.model.StreamingArtist) -> Unit,
-    onNavigateToAlbum: (chromahub.rhythm.app.features.streaming.domain.model.StreamingAlbum) -> Unit,
-    onNavigateToPlaylist: (chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaylist) -> Unit,
-    onPlayQueue: (List<chromahub.rhythm.app.features.streaming.domain.model.StreamingSong>, Int, Boolean) -> Unit,
-    onShuffleQueue: (List<chromahub.rhythm.app.features.streaming.domain.model.StreamingSong>) -> Unit,
+    onNavigateToArtist: (chromahub.rhythm.app.core.model.StreamingArtist) -> Unit,
+    onNavigateToAlbum: (chromahub.rhythm.app.core.model.StreamingAlbum) -> Unit,
+    onNavigateToPlaylist: (chromahub.rhythm.app.core.model.StreamingPlaylist) -> Unit,
+    onPlayQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>, Int, Boolean) -> Unit,
+    onShuffleQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>) -> Unit,
     onViewAllArtists: () -> Unit,
     onNavigateToLibrary: () -> Unit,
     onSongClick: (Song) -> Unit,

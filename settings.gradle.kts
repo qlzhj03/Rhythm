@@ -30,3 +30,7 @@ dependencyResolutionManagement {
 rootProject.name = "Rhythm"
 include(":app")
 include(":macrobenchmark")
+// Multi-module split (docs/multi-module-refactor-plan.md) — PR-2 leaf modules.
+include(":core:common")
+include(":core:model")
+include(":core:designsystem")

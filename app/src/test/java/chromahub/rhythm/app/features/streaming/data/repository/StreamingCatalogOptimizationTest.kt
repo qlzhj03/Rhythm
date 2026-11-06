@@ -1,12 +1,12 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
-import chromahub.rhythm.app.core.domain.model.SourceType
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingAlbum
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingArtist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaylist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingSong
+import chromahub.rhythm.app.core.model.SourceType
+import chromahub.rhythm.app.core.model.StreamingAlbum
+import chromahub.rhythm.app.core.model.StreamingArtist
+import chromahub.rhythm.app.core.model.StreamingPlaylist
+import chromahub.rhythm.app.core.model.StreamingSong
 import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
-import chromahub.rhythm.app.util.ArtistSeparator
+import chromahub.rhythm.app.core.common.ArtistSeparator
 import com.google.gson.Gson
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred

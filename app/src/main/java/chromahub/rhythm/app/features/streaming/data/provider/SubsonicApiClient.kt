@@ -21,7 +21,7 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
-import chromahub.rhythm.app.shared.data.model.LyricsData
+import chromahub.rhythm.app.core.model.LyricsData
 
 class SubsonicErrorException(val code: Int, message: String) : Exception(message)
 

@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.features.local.data.repository.MusicRepository
-import chromahub.rhythm.app.shared.data.model.ScanPhase
+import chromahub.rhythm.app.core.model.ScanPhase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

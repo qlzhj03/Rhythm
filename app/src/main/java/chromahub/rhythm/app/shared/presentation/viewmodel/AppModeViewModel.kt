@@ -3,10 +3,10 @@ package chromahub.rhythm.app.shared.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import chromahub.rhythm.app.core.domain.model.AppMode
-import chromahub.rhythm.app.core.domain.model.SourceType
-import chromahub.rhythm.app.core.domain.model.StreamingConfig
-import chromahub.rhythm.app.core.domain.model.StreamingQuality
+import chromahub.rhythm.app.core.model.AppMode
+import chromahub.rhythm.app.core.model.SourceType
+import chromahub.rhythm.app.core.model.StreamingConfig
+import chromahub.rhythm.app.core.model.StreamingQuality
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

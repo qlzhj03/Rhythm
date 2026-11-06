@@ -33,7 +33,7 @@ for stream in (sys.stdout, sys.stderr):
     except (AttributeError, ValueError):
         pass
 
-RES = Path("app/src/main/res")
+RES = Path("core/designsystem/src/main/res")
 SOURCE = RES / "values" / "strings.xml"
 # Matches "%1$d", "%d", "%2$-5s", "%1$.1f" style specifiers; never "%%".
 # NOTE: the space flag is deliberately excluded - allowing it lets "%% word"

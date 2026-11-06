@@ -11,8 +11,8 @@ import chromahub.rhythm.app.features.local.data.database.entity.SongEntity
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.model.AppSettings.BackupRestoreSections
 import chromahub.rhythm.app.shared.data.model.AppSettings.BackupValidationResult
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.util.GsonUtils
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.common.GsonUtils
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -79,7 +79,7 @@ class BackupRestoreManager(
                     val songs = songIds.mapNotNull { songId ->
                         val songEntity = database.songDao().getSongById(songId)
                         if (songEntity != null) {
-                            chromahub.rhythm.app.shared.data.model.Song(
+                            chromahub.rhythm.app.core.model.Song(
                                 id = songEntity.id,
                                 title = songEntity.title,
                                 artist = songEntity.artist,
@@ -102,7 +102,7 @@ class BackupRestoreManager(
                                 path = songEntity.path
                             )
                         } else {
-                            chromahub.rhythm.app.shared.data.model.Song(
+                            chromahub.rhythm.app.core.model.Song(
                                 id = songId,
                                 title = context.getString(R.string.unknown_song),
                                 artist = "<unknown>",

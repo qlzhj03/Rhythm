@@ -10,7 +10,7 @@
 package chromahub.rhythm.app.infrastructure.widget
 
 import android.content.Context
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater
 
 /**

@@ -14,8 +14,8 @@ data class ArtistEntity(
     val groupByAlbumArtist: Boolean
 )
 
-fun ArtistEntity.toArtist(): chromahub.rhythm.app.shared.data.model.Artist {
-    return chromahub.rhythm.app.shared.data.model.Artist(
+fun ArtistEntity.toArtist(): chromahub.rhythm.app.core.model.Artist {
+    return chromahub.rhythm.app.core.model.Artist(
         id = id,
         name = name,
         artworkUri = artworkUri?.let { (it).toUri() },

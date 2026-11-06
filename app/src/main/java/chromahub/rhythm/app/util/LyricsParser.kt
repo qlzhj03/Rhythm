@@ -4,6 +4,8 @@ import android.util.Log
 import java.util.regex.Pattern
 import java.util.Locale
 import chromahub.rhythm.app.shared.data.model.AppSettings
+import chromahub.rhythm.app.core.common.LrcUtils
+import chromahub.rhythm.app.core.common.SemanticLyrics
 
 object LyricsParser {
 

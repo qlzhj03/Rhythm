@@ -2,11 +2,11 @@ package chromahub.rhythm.app
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import chromahub.rhythm.app.ui.theme.getAlbumArtColorScheme
-import chromahub.rhythm.app.ui.theme.getCustomColorScheme
-import chromahub.rhythm.app.ui.theme.resolveIntensity
-import chromahub.rhythm.app.util.ColorExtractor
-import chromahub.rhythm.app.util.ExtractedColors
+import chromahub.rhythm.app.core.designsystem.theme.getAlbumArtColorScheme
+import chromahub.rhythm.app.core.designsystem.theme.getCustomColorScheme
+import chromahub.rhythm.app.core.designsystem.theme.resolveIntensity
+import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
+import chromahub.rhythm.app.core.designsystem.utils.ExtractedColors
 import com.google.android.material.color.utilities.Hct
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
@@ -165,7 +165,7 @@ class ThemeSchemeTest {
         for (preset in presets) {
             for (dark in listOf(false, true)) {
                 for ((_, contrast) in contrasts) {
-                    val pDef = chromahub.rhythm.app.ui.theme.PRESET_THEMES.find { it.name == preset }!!
+                    val pDef = chromahub.rhythm.app.core.designsystem.theme.PRESET_THEMES.find { it.name == preset }!!
                     val hct = Hct.fromInt(pDef.seedColor.toArgb())
                     val scheme = ColorExtractor.createDynamicScheme(hct, pDef.paletteStyle, dark, contrastLevel = contrast)
                     val p = Hct.fromInt(scheme.primary.toArgb())

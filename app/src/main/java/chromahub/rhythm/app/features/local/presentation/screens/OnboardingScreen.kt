@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.Manifest
 import android.os.Build
@@ -136,7 +136,7 @@ import android.widget.Toast
 import android.provider.DocumentsContract
 import android.util.Log
 import java.io.File
-import chromahub.rhythm.app.util.StoragePathUtils
+import chromahub.rhythm.app.core.common.StoragePathUtils
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import chromahub.rhythm.app.R
@@ -145,11 +145,11 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.thumbStyleLabel
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import chromahub.rhythm.app.shared.data.model.ArtistViewType
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.MediaScanMode
-import chromahub.rhythm.app.shared.presentation.components.common.DataProcessingLoader
-import chromahub.rhythm.app.shared.presentation.components.common.InitializationLoader
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveButtonGroup
-import chromahub.rhythm.app.shared.presentation.components.common.M3LinearLoader
+import chromahub.rhythm.app.core.model.MediaScanMode
+import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
+import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
+import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
 import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
@@ -158,7 +158,7 @@ import chromahub.rhythm.app.features.local.presentation.components.settings.Libr
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.shared.data.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.AutoEQProfile
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
 import chromahub.rhythm.app.features.local.presentation.screens.onboarding.OnboardingStep
 import chromahub.rhythm.app.features.local.presentation.screens.onboarding.PermissionScreenState
@@ -167,17 +167,17 @@ import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceRules
+import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerScanner
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmWavyProgressLoader
+import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.ui.theme.ColorSchemeOption
-import chromahub.rhythm.app.ui.theme.getPresetColorSchemeOptions
+import chromahub.rhythm.app.core.designsystem.theme.ColorSchemeOption
+import chromahub.rhythm.app.core.designsystem.theme.getPresetColorSchemeOptions
 import chromahub.rhythm.app.shared.presentation.screens.settings.ColorSchemePaletteRow
 import chromahub.rhythm.app.shared.presentation.screens.settings.ActionPickerSheet
 import chromahub.rhythm.app.shared.presentation.screens.settings.ColorSource
@@ -205,10 +205,10 @@ import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ShapePresetsBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.getLocalizedShapePresetName
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
-import chromahub.rhythm.app.util.ArtistSeparator
+import chromahub.rhythm.app.core.common.ArtistSeparator
 import chromahub.rhythm.app.shared.presentation.screens.settings.CanvasNetworkModeDialog
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -2759,9 +2759,9 @@ fun EnhancedAudioPlaybackContent(
                             description = context.getString(R.string.onboarding_lyrics_source_desc),
                             selectedOption = lyricsSourcePreference.displayName,
                             icon = MaterialSymbolIcon("cloud", filled = true),
-                            options = chromahub.rhythm.app.shared.data.model.LyricsSourcePreference.values().map { it.displayName },
+                            options = chromahub.rhythm.app.core.model.LyricsSourcePreference.values().map { it.displayName },
                             onOptionSelected = { displayName ->
-                                val preference = chromahub.rhythm.app.shared.data.model.LyricsSourcePreference.values()
+                                val preference = chromahub.rhythm.app.core.model.LyricsSourcePreference.values()
                                     .find { it.displayName == displayName }
                                 if (preference != null) {
                                     appSettings.setLyricsSourcePreference(preference)
@@ -2876,9 +2876,9 @@ fun EnhancedAudioPlaybackContent(
                             description = context.getString(R.string.onboarding_lyrics_source_desc),
                             selectedOption = lyricsSourcePreference.displayName,
                             icon = MaterialSymbolIcon("cloud", filled = true),
-                            options = chromahub.rhythm.app.shared.data.model.LyricsSourcePreference.values().map { it.displayName },
+                            options = chromahub.rhythm.app.core.model.LyricsSourcePreference.values().map { it.displayName },
                             onOptionSelected = { displayName ->
-                                val preference = chromahub.rhythm.app.shared.data.model.LyricsSourcePreference.values()
+                                val preference = chromahub.rhythm.app.core.model.LyricsSourcePreference.values()
                                     .find { it.displayName == displayName }
                                 if (preference != null) {
                                     appSettings.setLyricsSourcePreference(preference)
@@ -8856,7 +8856,7 @@ private fun IntegrationsSettingsCards(
     broadcastStatusEnabled: Boolean,
     bluetoothLyricsEnabled: Boolean,
     appleCanvasEnabled: Boolean,
-    appleCanvasNetworkMode: chromahub.rhythm.app.shared.data.model.CanvasNetworkMode,
+    appleCanvasNetworkMode: chromahub.rhythm.app.core.model.CanvasNetworkMode,
     onDeezerChange: (Boolean) -> Unit,
     onLrcLibChange: (Boolean) -> Unit,
     onLyricallyChange: (Boolean) -> Unit,
@@ -8922,8 +8922,8 @@ private fun IntegrationsSettingsCards(
 
     val apiItems = buildList {
         val appleCanvasDesc = context.getString(R.string.onboarding_canvas_desc_prefix) + when (appleCanvasNetworkMode) {
-            chromahub.rhythm.app.shared.data.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
-            chromahub.rhythm.app.shared.data.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
+            chromahub.rhythm.app.core.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
+            chromahub.rhythm.app.core.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
         }
         add(
             onboardingToggleItem(

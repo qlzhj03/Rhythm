@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.util
 
 import android.util.Log
-import chromahub.rhythm.app.shared.data.model.LyricsData
+import chromahub.rhythm.app.core.model.LyricsData
 import java.io.File
 import java.io.ByteArrayOutputStream
 import java.io.RandomAccessFile

@@ -8,8 +8,8 @@ import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.common.util.UnstableApi
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.TransitionMode
-import chromahub.rhythm.app.shared.data.model.TransitionSettings
+import chromahub.rhythm.app.core.model.TransitionMode
+import chromahub.rhythm.app.core.model.TransitionSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

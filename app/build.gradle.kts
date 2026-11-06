@@ -183,6 +183,11 @@ androidComponents {
 }
 
 dependencies {
+    // Multi-module split (PR-2): leaf modules. :app remains the composition root.
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
+    implementation(project(":core:designsystem"))
+
     implementation(libs.androidx.compose.ui.unit)
     // Desugaring library
     coreLibraryDesugaring(libs.androidx.desugar.jdk.libs)

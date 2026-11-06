@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.features.local.presentation.navigation
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.content.Context
 import android.net.Uri
@@ -62,7 +62,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import chromahub.rhythm.app.ui.theme.MusicDimensions
+import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -80,8 +80,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongPickerBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledIconButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledIconButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.Composable
@@ -98,8 +98,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
-import chromahub.rhythm.app.ui.UiConstants
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.UiConstants
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -110,8 +110,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.rememberOffMain
-import chromahub.rhythm.app.util.DevicePosture
-import chromahub.rhythm.app.util.rememberDevicePosture
+import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
+import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -142,28 +142,28 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenW
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
 import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibraryAlbum
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibraryArtist
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibraryPlaylist
-import chromahub.rhythm.app.features.streaming.presentation.screens.toLibrarySong
+import chromahub.rhythm.app.core.model.toLibraryAlbum
+import chromahub.rhythm.app.core.model.toLibraryArtist
+import chromahub.rhythm.app.core.model.toLibraryPlaylist
+import chromahub.rhythm.app.core.model.toLibrarySong
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingArtist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingAlbum
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaybackUris
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaylist
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingSong
-import chromahub.rhythm.app.shared.data.model.Album
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
-import chromahub.rhythm.app.shared.data.model.findAlbumForSong
+import chromahub.rhythm.app.core.model.StreamingArtist
+import chromahub.rhythm.app.core.model.StreamingAlbum
+import chromahub.rhythm.app.core.model.StreamingPlaybackUris
+import chromahub.rhythm.app.core.model.StreamingPlaylist
+import chromahub.rhythm.app.core.model.StreamingSong
+import chromahub.rhythm.app.core.model.Album
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
-import chromahub.rhythm.app.util.ArtistSeparator
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.common.ArtistSeparator
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
@@ -222,6 +222,10 @@ import androidx.compose.material3.OutlinedTextField // Redundant, but ensuring i
 import androidx.compose.foundation.shape.CircleShape // Redundant, but ensuring it's there
 import androidx.compose.ui.text.style.TextAlign // Redundant, but ensuring it's there
 import androidx.compose.ui.res.stringResource
+import chromahub.rhythm.app.core.model.toLibraryAlbum
+import chromahub.rhythm.app.core.model.toLibraryArtist
+import chromahub.rhythm.app.core.model.toLibraryPlaylist
+import chromahub.rhythm.app.core.model.toLibrarySong
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
@@ -528,13 +532,13 @@ fun LocalNavigation(
         Log.d("RhythmNavigation", "Lyrics seek: timestampMs=$timestampMs")
         viewModel.seekTo(timestampMs, autoPlayIfPaused = true)
     }
-    val onPlaySong = { song: chromahub.rhythm.app.shared.data.model.Song -> viewModel.playSong(song) }
-    val onPlayAlbum = { album: chromahub.rhythm.app.shared.data.model.Album -> viewModel.playAlbum(album) }
-    val onPlayAlbumShuffled = { album: chromahub.rhythm.app.shared.data.model.Album -> viewModel.playAlbumShuffled(album) }
-    val onPlayArtist = { artist: chromahub.rhythm.app.shared.data.model.Artist -> viewModel.playArtist(artist) }
+    val onPlaySong = { song: chromahub.rhythm.app.core.model.Song -> viewModel.playSong(song) }
+    val onPlayAlbum = { album: chromahub.rhythm.app.core.model.Album -> viewModel.playAlbum(album) }
+    val onPlayAlbumShuffled = { album: chromahub.rhythm.app.core.model.Album -> viewModel.playAlbumShuffled(album) }
+    val onPlayArtist = { artist: chromahub.rhythm.app.core.model.Artist -> viewModel.playArtist(artist) }
     val onPlayPlaylist =
-        { playlist: chromahub.rhythm.app.shared.data.model.Playlist -> viewModel.playPlaylist(playlist) }
-    val onPlayPlaylistShuffled = { playlist: chromahub.rhythm.app.shared.data.model.Playlist -> viewModel.playPlaylistShuffled(playlist) }
+        { playlist: chromahub.rhythm.app.core.model.Playlist -> viewModel.playPlaylist(playlist) }
+    val onPlayPlaylistShuffled = { playlist: chromahub.rhythm.app.core.model.Playlist -> viewModel.playPlaylistShuffled(playlist) }
     val onToggleShuffle = { viewModel.toggleShuffle() }
     val onToggleRepeat = { viewModel.toggleRepeatMode() }
     val onToggleFavorite = { viewModel.toggleFavorite() }
@@ -882,7 +886,7 @@ private fun LocalNavigationContent(
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     snackbarHostState: SnackbarHostState,
     coroutineScope: kotlinx.coroutines.CoroutineScope,
-    currentSong: chromahub.rhythm.app.shared.data.model.Song?,
+    currentSong: chromahub.rhythm.app.core.model.Song?,
     currentRoute: String,
     isPlaying: Boolean,
     progress: () -> Float,
@@ -895,20 +899,20 @@ private fun LocalNavigationContent(
     showBottomNav: Boolean,
     isTablet: Boolean,
     startDestination: String,
-    songs: List<chromahub.rhythm.app.shared.data.model.Song>,
-    allSongs: List<chromahub.rhythm.app.shared.data.model.Song>,
-    albums: List<chromahub.rhythm.app.shared.data.model.Album>,
-    artists: List<chromahub.rhythm.app.shared.data.model.Artist>,
-    playlists: List<chromahub.rhythm.app.shared.data.model.Playlist>,
+    songs: List<chromahub.rhythm.app.core.model.Song>,
+    allSongs: List<chromahub.rhythm.app.core.model.Song>,
+    albums: List<chromahub.rhythm.app.core.model.Album>,
+    artists: List<chromahub.rhythm.app.core.model.Artist>,
+    playlists: List<chromahub.rhythm.app.core.model.Playlist>,
     isShuffleEnabled: Boolean,
     repeatMode: Int,
     isFavorite: Boolean,
     sortOrder: MusicViewModel.SortOrder,
     showLyrics: Boolean,
     showOnlineOnlyLyrics: Boolean,
-    lyrics: chromahub.rhythm.app.shared.data.model.LyricsData?,
+    lyrics: chromahub.rhythm.app.core.model.LyricsData?,
     isLoadingLyrics: Boolean,
-    recentlyPlayed: List<chromahub.rhythm.app.shared.data.model.Song>,
+    recentlyPlayed: List<chromahub.rhythm.app.core.model.Song>,
     currentDevice: PlaybackLocation?,
     isMediaScanning: Boolean,
     useSystemTheme: Boolean,
@@ -917,12 +921,12 @@ private fun LocalNavigationContent(
     libraryTabOrder: List<String>,
     hiddenLibraryTabs: Set<String>,
     firstVisibleLibraryTab: LibraryTab,
-    onPlaySong: (chromahub.rhythm.app.shared.data.model.Song) -> Unit,
-    onPlayAlbum: (chromahub.rhythm.app.shared.data.model.Album) -> Unit,
-    onPlayAlbumShuffled: (chromahub.rhythm.app.shared.data.model.Album) -> Unit,
-    onPlayArtist: (chromahub.rhythm.app.shared.data.model.Artist) -> Unit,
-    onPlayPlaylist: (chromahub.rhythm.app.shared.data.model.Playlist) -> Unit,
-    onPlayPlaylistShuffled: (chromahub.rhythm.app.shared.data.model.Playlist) -> Unit,
+    onPlaySong: (chromahub.rhythm.app.core.model.Song) -> Unit,
+    onPlayAlbum: (chromahub.rhythm.app.core.model.Album) -> Unit,
+    onPlayAlbumShuffled: (chromahub.rhythm.app.core.model.Album) -> Unit,
+    onPlayArtist: (chromahub.rhythm.app.core.model.Artist) -> Unit,
+    onPlayPlaylist: (chromahub.rhythm.app.core.model.Playlist) -> Unit,
+    onPlayPlaylistShuffled: (chromahub.rhythm.app.core.model.Playlist) -> Unit,
     onToggleShuffle: () -> Unit,
     onToggleRepeat: () -> Unit,
     onToggleFavorite: () -> Unit,
@@ -992,14 +996,14 @@ private fun LocalNavigationContent(
             .distinctBy { it.id }
             .associateBy { it.id }
     }
-    val playStreamingMappedQueue: (List<chromahub.rhythm.app.shared.data.model.Song>, Int, Boolean) -> Unit =
+    val playStreamingMappedQueue: (List<chromahub.rhythm.app.core.model.Song>, Int, Boolean) -> Unit =
         { mappedSongs, startIndex, shuffle ->
             val originals = mappedSongs.mapNotNull { streamingSongById[it.id] }
             if (originals.isNotEmpty()) {
                 streamingMusicViewModel.playQueue(originals, startIndex, shuffle, pinStartIndex = shuffle)
             }
         }
-    val streamingMappedSongs by rememberOffMain(emptyList<chromahub.rhythm.app.shared.data.model.Song>(), streamingServiceConnected, streamingAllSongs, streamingRecommendations, streamingLikedSongs, streamingDownloadedSongs) {
+    val streamingMappedSongs by rememberOffMain(emptyList<chromahub.rhythm.app.core.model.Song>(), streamingServiceConnected, streamingAllSongs, streamingRecommendations, streamingLikedSongs, streamingDownloadedSongs) {
         val base = if (!streamingServiceConnected) {
             streamingDownloadedSongs
         } else if (streamingAllSongs.isNotEmpty()) {
@@ -1017,7 +1021,7 @@ private fun LocalNavigationContent(
         }
         base.map { it.toLibraryAlbum(emptyList()) }
     }
-    val streamingMappedArtists by rememberOffMain(emptyList<chromahub.rhythm.app.shared.data.model.Artist>(), streamingServiceConnected, streamingFollowedArtists, streamingAllSongs, streamingDownloadedArtists, streamingDownloadedSongs) {
+    val streamingMappedArtists by rememberOffMain(emptyList<chromahub.rhythm.app.core.model.Artist>(), streamingServiceConnected, streamingFollowedArtists, streamingAllSongs, streamingDownloadedArtists, streamingDownloadedSongs) {
         val baseArtists = if (!streamingServiceConnected) {
             streamingDownloadedArtists
         } else if (streamingFollowedArtists.isNotEmpty() || streamingDownloadedArtists.isNotEmpty()) {
@@ -1047,7 +1051,7 @@ private fun LocalNavigationContent(
         }
     }
     val streamingMappedPlaylists = remember(streamingServiceConnected, streamingSavedPlaylists) {
-        if (!streamingServiceConnected) emptyList() else streamingSavedPlaylists.map { it.toLibraryPlaylist(context) }
+        if (!streamingServiceConnected) emptyList() else streamingSavedPlaylists.map { it.toLibraryPlaylist(context, placeholderTrackTitle = { i -> context.getString(chromahub.rhythm.app.R.string.streaming_placeholder_track_format, i) }) }
     }
 
     // Route streaming playback through the shared local player (streaming songs map to local songs).
@@ -1083,7 +1087,7 @@ private fun LocalNavigationContent(
             selectedStreamingSongForPlaylist!!.toDisplaySong()
         }
         val displayPlaylists = remember(streamingSavedPlaylists) {
-            streamingSavedPlaylists.map { it.toLibraryPlaylist(context) }
+            streamingSavedPlaylists.map { it.toLibraryPlaylist(context, placeholderTrackTitle = { i -> context.getString(chromahub.rhythm.app.R.string.streaming_placeholder_track_format, i) }) }
         }
         var showCreateStreamingPlaylistDialog by remember { mutableStateOf(false) }
 
@@ -1128,7 +1132,7 @@ private fun LocalNavigationContent(
 
     val showAddToPlaylistSheet = remember { mutableStateOf(false) }
     val showCreatePlaylistDialog = remember { mutableStateOf(false) }
-    val songForCreatePlaylistDialog = remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+    val songForCreatePlaylistDialog = remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
 
     LaunchedEffect(viewModel.selectedSongForPlaylist.collectAsState().value) {
         if (viewModel.selectedSongForPlaylist.value != null) {
@@ -2580,7 +2584,7 @@ private fun LocalNavigationContent(
 
                     val albumSongsById = remember(albumSongs) { albumSongs.associateBy { it.id } }
                     var showSongInfoSheet by remember { mutableStateOf(false) }
-                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
 
                     AlbumDetailScreen(
                         albumId = albumId,
@@ -2870,7 +2874,7 @@ private fun LocalNavigationContent(
                     }
                     val artistSongsById = remember(artistSongs) { artistSongs.associateBy { it.id } }
                     var showSongInfoSheet by remember { mutableStateOf(false) }
-                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
 
                     ArtistDetailScreen(
                         viewModel = viewModel,
@@ -3888,11 +3892,11 @@ private fun LocalNavigationContent(
                     
                     // State for bottom sheets
                     var showAddToPlaylistSheet by remember { mutableStateOf(false) }
-                    var selectedSongForPlaylist by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForPlaylist by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
                     var showCreatePlaylistDialog by remember { mutableStateOf(false) }
-                    var songForCreatePlaylistDialog by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var songForCreatePlaylistDialog by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
                     var showSongInfoSheet by remember { mutableStateOf(false) }
-                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
                     
                     ArtistDetailScreen(
                         viewModel = viewModel,
@@ -4105,11 +4109,11 @@ private fun LocalNavigationContent(
                     }
 
                     var showAddToPlaylistSheet by remember { mutableStateOf(false) }
-                    var selectedSongForPlaylist by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForPlaylist by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
                     var showCreatePlaylistDialog by remember { mutableStateOf(false) }
-                    var songForCreatePlaylistDialog by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var songForCreatePlaylistDialog by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
                     var showSongInfoSheet by remember { mutableStateOf(false) }
-                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.Song?>(null) }
+                    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
 
                     AlbumDetailScreen(
                         albumId = albumId,
@@ -4198,7 +4202,7 @@ private fun LocalNavigationContent(
                         onGoToArtist = { song ->
                             val separatorEnabled = appSettings.artistSeparatorEnabled.value
                             val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { chromahub.rhythm.app.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
-                            val candidates = chromahub.rhythm.app.util.ArtistSeparator.splitArtistNames(
+                            val candidates = chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
                                 song.artist,
                                 delimiters = delimiters,
                                 enabled = separatorEnabled

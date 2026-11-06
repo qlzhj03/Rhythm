@@ -15,7 +15,7 @@ import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.network.NetworkManager
-import chromahub.rhythm.app.util.VersionComparator
+import chromahub.rhythm.app.core.common.VersionComparator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
