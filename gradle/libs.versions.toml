@@ -2,6 +2,17 @@
 agp = "9.4.1"
 kotlin = "2.4.21"
 ksp = "2.3.6"
+# SDK levels centralized so convention plugins (build-logic) and :app stay in sync.
+compileSdk = "37"
+minSdk = "26"
+targetSdk = "37"
+# DI: Hilt via KSP + the official Gradle plugin. Verified in the PR-1 spike that
+# plugin 2.60.1 no longer requires org.jetbrains.kotlin.android (it keys off
+# com.android.base + AGP Variant API), so it is safe with AGP 9.x built-in Kotlin.
+hilt = "2.60.1"
+androidxHilt = "1.4.0"
+kotlinxSerializationJson = "1.12.0"
+datastore = "1.3.0"
 coreKtx = "1.19.1"
 core = "1.19.1"
 splashscreen = "1.2.0"
@@ -113,11 +124,33 @@ androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomato
 reorderables = { group = "sh.calvin.reorderable", name = "reorderable", version.ref = "reorderables" }
 com-google-zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxingCore" }
 
+# Hilt (official Gradle plugin + KSP — see versions comment above)
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHilt" }
+
+# kotlinx.serialization (PR-7: replaces Gson in :core:network)
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+com-squareup-retrofit2-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+
+# DataStore (catalog entry staged; AppSettings migration is a separate follow-up project)
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+# ViewModel base class for feature/library modules
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycleRuntimeKtx" }
+
+# build-logic internals (compileOnly classpath for convention plugins)
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradle-plugin-api = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin-api", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "macrobenchmark" }
 
