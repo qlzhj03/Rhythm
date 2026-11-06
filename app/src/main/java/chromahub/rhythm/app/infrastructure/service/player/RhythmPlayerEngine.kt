@@ -34,7 +34,9 @@ import androidx.media3.common.TrackSelectionParameters
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import android.net.Uri
 import chromahub.rhythm.app.features.streaming.di.StreamingMusicModule
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import androidx.media3.datasource.cache.CacheDataSource
 import chromahub.rhythm.app.infrastructure.audio.RhythmBassBoostProcessor
 import chromahub.rhythm.app.infrastructure.audio.RhythmSpatializationProcessor
@@ -83,6 +85,12 @@ class RhythmPlayerEngine(
 ) {
     companion object {
         private const val TAG = "RhythmPlayerEngine"
+
+        /**
+         * 流媒体播放地址解析的时限。上游（网易云 eapi）最坏要串行两次请求并带重试退避，
+         * OkHttp 的 connect/read 超时又偏长；不给上限的话，播放器会停在 BUFFERING 静默挂起。
+         */
+        private const val STREAMING_URL_RESOLVE_TIMEOUT_MS = 15_000L
     }
 
     private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -553,8 +561,23 @@ class RhythmPlayerEngine(
                         val trackId = dataSpec.uri.lastPathSegment
                         if (!trackId.isNullOrBlank()) {
                             val repository = StreamingMusicModule.provideStreamingMusicRepository(context)
-                            // Run blocking is safe here as ExoPlayer calls resolveDataSpec on a background thread
-                            val freshUrl = runBlocking { repository.getStreamingUrl(trackId) }
+                            // Run blocking is safe here as ExoPlayer calls resolveDataSpec on a background thread.
+                            // 解析限时：超时转成 IOException 走 onPlayerError，用户能看到可读原因，
+                            // 而不是让播放器停在 BUFFERING 被看门狗误报成「无限缓冲」。
+                            // 注意：底层是阻塞 OkHttp 调用，协程取消要等它自己回到检查点才生效，
+                            // 这里是「最早抛错点」，不是硬杀。
+                            val freshUrl = try {
+                                runBlocking {
+                                    withTimeout(STREAMING_URL_RESOLVE_TIMEOUT_MS) {
+                                        repository.getStreamingUrl(trackId)
+                                    }
+                                }
+                            } catch (e: TimeoutCancellationException) {
+                                throw IOException(
+                                    "Resolving streaming playback URL for $trackId timed out after ${STREAMING_URL_RESOLVE_TIMEOUT_MS / 1000}s (upstream unreachable or too slow)",
+                                    e,
+                                )
+                            }
                             if (!freshUrl.isNullOrBlank()) {
                                 return dataSpec.buildUpon()
                                     .setUri((freshUrl).toUri())
