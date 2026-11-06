@@ -6,6 +6,11 @@ plugins {
     // Note: kotlin.android is NOT listed here — AGP 9.0+ has built-in Kotlin support
     // and applying kotlin.android would throw "no longer required since AGP 9.0".
     alias(libs.plugins.ksp) apply false
+    // Applied by the rhythm.hilt convention plugin; declared here so the plugin
+    // is on the root build classpath for every module.
+    alias(libs.plugins.hilt) apply false
+    // Used by :core:network in the kotlinx.serialization migration (PR-7).
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 // Formatting checks (Spotless/ktlint) are intentionally removed: this codebase is

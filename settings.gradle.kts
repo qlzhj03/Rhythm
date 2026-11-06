@@ -1,4 +1,8 @@
 pluginManagement {
+    // Convention plugins for the multi-module build live in this included build
+    // (see docs/multi-module-refactor-plan.md). AGP 9.x built-in Kotlin only —
+    // never declare org.jetbrains.kotlin.android anywhere in the toolchain.
+    includeBuild("build-logic")
     repositories {
         google {
             content {

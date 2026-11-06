@@ -3,7 +3,7 @@
 AI 编码代理上下文文件。只写「读代码无法可靠推断」的项目约定、可直接执行的命令，以及会破坏本项目的反模式。
 
 **事实来源优先级：** 源码 / `app/build.gradle.kts` > `gradle/libs.versions.toml` > 本文件 > `wiki/`。
-`wiki/` 是历史快照（14 个 `.md`），已确认存在过期内容（提到的 CI workflow / `.githooks` 不存在、product flavor 已移除）。仓库已 `git init`（默认分支 `main`，尚无提交），没有 `.github/`、`.githooks/`、`docs/`；根目录有 `README.md`。
+`wiki/` 是历史快照（14 个 `.md`），已确认存在过期内容（提到的 CI workflow / `.githooks` 不存在、product flavor 已移除）。仓库已 `git init`（默认分支 `main`，尚无提交），没有 `.github/`、`.githooks/`；根目录有 `README.md`；`docs/multi-module-refactor-plan.md` 是进行中的多模块拆分权威蓝图（2026-11 启动）。
 
 ## 1. 项目定位与技术基线
 
@@ -13,12 +13,12 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - **不要添加 `org.jetbrains.kotlin.android` 插件**：AGP 9.x 内建 Kotlin 支持，加了会直接构建失败（`:app` 与 `:macrobenchmark` 都不行）。
 - SDK：`minSdk = 26`、`targetSdk = 37`、`compileSdk = 37`；coreLibraryDesugaring 开启。
 - Compose BOM `2026.09.00`；`material3` 显式钉在 `1.5.0-beta01`；`foundation-layout` / `animation` / `animation-core` 显式钉在 `1.12.1`。这些 pin 是刻意的，不要「顺手」去掉版本或交给 BOM。
-- 编译期已全局 opt-in `ExperimentalMaterial3Api` / `ExperimentalMaterial3ExpressiveApi`（`freeCompilerArgs`），新文件不需要逐处 `@OptIn`；新增 Experimental API 加到 `app/build.gradle.kts`。
+- 编译期已全局 opt-in `ExperimentalMaterial3Api` / `ExperimentalMaterial3ExpressiveApi`（`freeCompilerArgs`），新文件不需要逐处 `@OptIn`；新增 Experimental API 加到 `app/build.gradle.kts`（:app）或 `build-logic` 的 compose 约定插件（库模块）。
 - 依赖必须经 Version Catalog（`gradle/libs.versions.toml`）；不要在 `build.gradle.kts` 写死 `group:artifact:version`。
 - 异步模型：Coroutines + Flow（`StateFlow` 为主）；没有 LiveData / RxJava，不要引入。
 - 图标：`res/font/material_symbols_outlined.ttf` 变量字体 + `MaterialSymbolIcon` / `RhythmIcons`；禁止 `Icons.Default.*`、`androidx.compose.material3.Icon` 配 `Icons.*`、`material-icons-extended`。
 - 禁止新增 XML 布局；`res/layout/` 的 4 个 `widget_preview_*.xml` 只服务 Glance 小组件预览。
-- 构建系统：Gradle Kotlin DSL + Version Catalog；没有 `buildSrc` / `build-logic` / convention plugin，构建逻辑集中在 `app/build.gradle.kts`。
+- 构建系统：Gradle Kotlin DSL + Version Catalog + `build-logic/` included build（约定插件 `rhythm.android.library` / `rhythm.android.library.compose` / `rhythm.android.application` / `rhythm.hilt`）。多模块拆分进行中：`:app` 构建逻辑仍集中在 `app/build.gradle.kts`（尚未迁移到约定插件），新库模块一律用约定插件，不要复制 :app 的手写配置。
 
 ## 2. 构建与验证命令
 
@@ -47,7 +47,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
   - 签名读取的是**项目根目录 `keystore.properties`**（`getProperties("keystore.properties")`），`store_file` 相对 `rootProject` 解析；文件缺失时 release / debug / benchmark 回退 debug 签名。
   - `.config/` 目录当前不存在，也不是签名路径；根目录 `rhythm_keystore.jks` 存在但已被 `.gitignore` 忽略。
 - **版本**：不在 `libs.versions.toml` 之外指定依赖版本；不在 `build.gradle.kts` 硬编码版本；不自行升级 Kotlin / AGP / Compose BOM / Material3。
-- **结构**：不为新页面建 Activity、不引入 Fragment（`MainActivity` 是唯一 Compose 宿主，辅助 Activity 仅 `CrashActivity` / `ExternalPlaybackActivity` / `RhythmGuardTimeoutActivity`）；不新增 product flavor；不新增第三种语言目录；不引入 DI 框架；不把 Gson 换成 kotlinx-serialization。
+- **结构**：不为新页面建 Activity、不引入 Fragment（`MainActivity` 是唯一 Compose 宿主，辅助 Activity 仅 `CrashActivity` / `ExternalPlaybackActivity` / `RhythmGuardTimeoutActivity`）；不新增 product flavor；不新增第三种语言目录。DI：已批准迁移到 Hilt（官方 Gradle 插件 + KSP，spike 已验证与 AGP 9 兼容），迁移按 `docs/multi-module-refactor-plan.md` 分阶段进行——迁移完成前**不要**在新代码里手写新的单例工厂（沿用 `LocalMusicModule` 模式的做法已冻结）；Gson → kotlinx-serialization 在 PR-7 于 `:core:network` 内执行，不要提前在全仓散改。
 - **Manifest**：`exported=true` 共 10 个组件，其 `exported` 与 intent-filter 是对外协议（Android Auto / 系统 / 启动器 / 小组件 / 其他应用依赖），勿移除、勿额外加 permission（`RhythmTileService` 已有的 `BIND_QUICK_SETTINGS_TILE` 除外）。cleartext + user CA 放行（`res/xml/network_security_config.xml`）是自托管 Navidrome/Jellyfin 的既定取舍，勿收紧。
 - **生成物与敏感区**：不改 `build/`、`app/build/generated/`、`app/src/main/baseline-prof/`；新增 `.github/workflows/`、`.githooks/` 或改动 `scripts/prepare_release.py` / `scripts/generate_release_notes.py` 前先询问（两者交互式，会改版本号并写 changelog / fastlane，后两者当前不存在）。
 - **Gradle**：只用 `./gradlew`，不用系统 `gradle`；不改 `gradle-wrapper.properties`；不动 `gradle.properties` 的内存与并发调优。
@@ -68,7 +68,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 | `infrastructure/` | `audio`（DSP/EQ/重采样/ReplayGain）、`network`、`service`（Media3 播放服务）、`widget/glance`、`worker`、`provider` |
 | `util/`、`utils/` | 纯 Kotlin 工具；`utils/` 目录仅 `StatusBroadcaster.kt`，但另有若干 `util/*.kt` 声明 `...app.utils` 包 |
 
-- **只有两个 Gradle 模块**：`:app` + `:macrobenchmark`（`com.android.test`，仅 `benchmark` 变体启用，`targetProjectPath = :app`）。不存在 `:core:*` / `:feature:*` Gradle 模块；「模块化」是包级分层，不要为「更 Clean」新建 Gradle 模块。
+- **Gradle 模块现状**：`:app` + `:macrobenchmark`（`com.android.test`，仅 `benchmark` 变体启用，`targetProjectPath = :app`）+ `build-logic/`（included build，约定插件）。多模块拆分**进行中**（目标 15 模块：`:core:{model,common,designsystem,ui,data,network,media}` + `:feature:{local,streaming,player,settings,widget}`，见 `docs/multi-module-refactor-plan.md`）——新模块随拆分 PR 逐个落地，每个落地模块遵守其依赖规则；不要在拆分之外随手建新 Gradle 模块。
 - 调用链：`Screen(Composable)` → `AndroidViewModel` → `Repository`（持有 DAO / MediaStore / `MediaController`）→ 数据源。ViewModel **禁止**直接写 SQL、查询 MediaStore 或拼 HTTP 请求，必须经 Repository / DAO / API service。
 - 依赖方向：`presentation` → `data` / `domain`；`data` **不得**依赖 `presentation` 或 Compose；`infrastructure` **不得**反向依赖 `features/*/presentation`。
 - `features/local` 与 `features/streaming` 的主要缝合点是 `features/local/presentation/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel`；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
@@ -86,7 +86,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 ## 5. 架构与状态管理
 
 - 导航：`MainActivity.setContent` → `shared/presentation/navigation/RhythmNavigation`。共 **2 个 NavHost**：根 NavHost（承载 `settings` 等根级路由）+ 内嵌 NavHost（`features/local/presentation/navigation/LocalNavigation.kt`）；`appMode` 的 LOCAL 与 STREAMING 两种状态都渲染 `LocalNavigation`。新页面 = 新增 Composable route 并在上述导航文件接线，不是新 Activity。
-- DI：手动。`features/local/di/LocalMusicModule` 与 `features/streaming/di/StreamingMusicModule` 是 `object` + `@Volatile` + `synchronized` 双检锁单例工厂；`shared/data/model/AppSettings.getInstance(context)` 管设置；`RhythmApplication.instance` 提供全局入口。新增依赖照此模式扩展对应 Module。**没有 Hilt / Koin / Dagger**，不要引入。
+- DI：过渡期。存量是手动 DI——`features/local/di/LocalMusicModule` 与 `features/streaming/di/StreamingMusicModule` 是 `object` + `@Volatile` + `synchronized` 双检锁单例工厂；`shared/data/model/AppSettings.getInstance(context)` 管设置；`RhythmApplication.instance` 提供全局入口。已批准迁移到 **Hilt**（官方 Gradle 插件 + KSP，spike 验证与 AGP 9.4.1 兼容；`@HiltAndroidApp` 只能用于 :app）：迁移分阶段进行（见 `docs/multi-module-refactor-plan.md` PR-5/6），存量手动 DI 在迁移到该模块的 PR 落地前保持原样；禁止引入 Koin 等其他 DI 框架。
 - ViewModel：5 个 ViewModel 全部继承 `AndroidViewModel(application)`（`MusicViewModel`、`StreamingMusicViewModel`、`AppModeViewModel`、`ThemeViewModel`、`AppUpdaterViewModel`）；多数 UI 用默认 `viewModel()` 获取，`AppUpdaterViewModel` 等已有 `rememberAppUpdaterViewModel()` 工厂，沿用同文件已有做法。只允许 Application 级 context，禁止持有 Activity / View / Fragment / Context。
 - 状态：主流写法是 `private val _x = MutableStateFlow(initial)` + 暴露 `val x: StateFlow<T> = _x.asStateFlow()`；派生状态用 `combine/map` + `stateIn(...)`。现存两种 `SharingStarted` 都有：`MusicViewModel` 的大列表用 `Eagerly`，`AppModeViewModel` 与组合状态用 `WhileSubscribed(5000)`；跟随所在文件 / 邻近代码，不要强行统一。
 - **UI 收集方式统一 `collectAsState()`**（全仓 1000+ 处，91 个文件）。不要新写 `collectAsStateWithLifecycle()`，也不要两种混用；`lifecycle-runtime-compose` 未作为直接依赖声明（只显式依赖 `lifecycle-runtime-ktx`，`LocalLifecycleOwner` 可经传递依赖 import）。若要切换，属于需要审批的依赖 + 全量迁移。
@@ -107,7 +107,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - `@Preview` **不是本仓的强制约定**（全仓仅 5 个文件使用，且多在 Glance / 小组件）。不要给每个 screen 批量补 4 种状态的 Preview；需要时同文件底部加 `private` Preview。
 - 禁止新增 XML 布局或 `AndroidView` 包裹传统 UI；禁止新增 `values-xx` 语言目录——只维护 `values/`（中文默认）、`values-en/`（英文）、`values-night/`（仅 `colors.xml`），`res/xml/locale_config.xml` 只列 `zh` / `en`。
 - 图标统一走 `RhythmIcons` / `MaterialSymbolIcon`；功能性图标必须提供 `contentDescription`，纯装饰图标显式传 `null`。
-- 禁止用 `@Serializable` 定义导航路由：`kotlin-serialization` 插件是注释掉的，导航使用字符串路由（`MainScreen` + `composable("...")`）。
+- 禁止用 `@Serializable` 定义导航路由：导航使用字符串路由（`MainScreen` + `composable("...")`）。`kotlin-serialization` 插件已入 catalog（PR-7 供 `:core:network` DTO 用），不要把它用于导航路由。
 
 ## 7. Kotlin 风格与命名
 
@@ -144,7 +144,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 ## 10. 协作流程与上下文入口
 
 - 仓库已 `git init`（默认分支 `main`，尚无提交），没有 CI；未经用户明确要求，不执行 `git commit` / `git push` / `git tag`。仓库约定见 `wiki/Contributing.md`。
-- 文档现状：`wiki/` 14 个 `.md`（部分内容过时）；没有 `docs/`、`.github/`、`.githooks/`；原根目录 `BUILD_VARIANTS.md` 已删除，构建变体 / BuildConfig / 产物说明并入本文件。不要按旧文档里的路径或 CI 配置行事（GitHub Actions 片段只是示例，本仓库无 CI）。
+- 文档现状：`wiki/` 14 个 `.md`（部分内容过时）；`docs/` 仅有 `multi-module-refactor-plan.md`（多模块拆分蓝图，进行中）；没有 `.github/`、`.githooks/`；原根目录 `BUILD_VARIANTS.md` 已删除，构建变体 / BuildConfig / 产物说明并入本文件。不要按旧文档里的路径或 CI 配置行事（GitHub Actions 片段只是示例，本仓库无 CI）。
 - 发布脚本 `scripts/prepare_release.py` 与 `scripts/generate_release_notes.py` 是交互式脚本，会改版本号并写 changelog / fastlane；未经要求不要运行。
 - 开始工作前按区域先读源码内注释（非常详尽）：构建 / 签名 → `app/build.gradle.kts`；播放 → `infrastructure/service/MediaPlaybackService.kt`；导航 → `shared/presentation/navigation/RhythmNavigation.kt`；主题 → `shared/presentation/theme/Theme.kt` 与 `ExtendedTheme.kt`。
 - 当前没有模块级 `AGENTS.md`；若未来新增 `:core:*` / `:feature:*` 模块，才在该模块根目录加就近 `AGENTS.md`，只写模块入口、关键类、局部禁令，不要复制根规则。
@@ -157,7 +157,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 | :--- | :--- |
 | 构建 | `./gradlew assembleDebug`（arm64-only，debug applicationId `chromahub.rhythm.app.debug`） |
 | 测试 | `./gradlew :app:testDebugUnitTest`（JUnit4，无 MockK / Turbine / coroutines-test） |
-| 关键路径 | `app/src/main/java/chromahub/rhythm/app/`（单模块；`shared/` 与 `infrastructure/` 是跨模式核心） |
-| 状态 | `StateFlow` + `asStateFlow()`，UI 用 `collectAsState()`；无 MVI、无 Hilt、无 XML 布局 |
+| 关键路径 | `app/src/main/java/chromahub/rhythm/app/`（拆分前单模块；`shared/` 与 `infrastructure/` 是跨模式核心） |
+| 状态 | `StateFlow` + `asStateFlow()`，UI 用 `collectAsState()`；无 MVI、无 XML 布局；Hilt 迁移进行中（存量手动 DI） |
 | 质量 | 无 lint / detekt / ktlint / spotless；只跑 `python3 scripts/check_plural_specifiers.py` |
-| 禁止 | 加 `kotlin-android` 插件、加 Hilt / Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号 |
+| 禁止 | 加 `kotlin-android` 插件、加 Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号、拆分外新建 Gradle 模块 |
