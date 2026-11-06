@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OneTimeWorkRequest
 import chromahub.rhythm.app.R
-import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,10 +17,9 @@ import com.google.gson.reflect.TypeToken
 import chromahub.rhythm.app.core.common.GsonUtils
 import chromahub.rhythm.app.core.common.ArtistSeparator
 import chromahub.rhythm.app.core.common.StoragePathUtils
-import chromahub.rhythm.app.worker.BackupWorker
-import chromahub.rhythm.app.worker.RhythmPulseNotificationWorker
-import chromahub.rhythm.app.worker.UpdateNotificationWorker
-import chromahub.rhythm.app.BuildConfig
+import androidx.work.ListenableWorker
+import chromahub.rhythm.app.core.common.AppStrings
+import chromahub.rhythm.app.network.AppWorkerRegistry
 import java.io.File
 import java.util.Date // Import Date for timestamp
 import java.util.concurrent.TimeUnit
@@ -121,7 +120,7 @@ enum class LyricsApiPriority(val displayName: String) {
 /**
  * Singleton class to manage all app settings using SharedPreferences
  */
-class AppSettings private constructor(context: Context) {
+class AppSettings private constructor(context: Context) : chromahub.rhythm.app.network.NetworkSettingsProvider {
     companion object {
         private const val PREFS_NAME = "rhythm_preferences"
         
@@ -1709,29 +1708,29 @@ class AppSettings private constructor(context: Context) {
     val lastPlayedTimestamp: StateFlow<Long> = _lastPlayedTimestamp.asStateFlow()
     
     private val _integrationsEnabled = MutableStateFlow(prefs.getBoolean(KEY_INTEGRATIONS_ENABLED, false))
-    val integrationsEnabled: StateFlow<Boolean> = _integrationsEnabled.asStateFlow()
+    override val integrationsEnabled: StateFlow<Boolean> = _integrationsEnabled.asStateFlow()
 
     // API Enable/Disable States
     private val _deezerApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_DEEZER_API_ENABLED, false))
-    val deezerApiEnabled: StateFlow<Boolean> = _deezerApiEnabled.asStateFlow()
+    override val deezerApiEnabled: StateFlow<Boolean> = _deezerApiEnabled.asStateFlow()
     
     private val _lrclibApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_LRCLIB_API_ENABLED, false))
-    val lrclibApiEnabled: StateFlow<Boolean> = _lrclibApiEnabled.asStateFlow()
+    override val lrclibApiEnabled: StateFlow<Boolean> = _lrclibApiEnabled.asStateFlow()
     
     private val _betterLyricsApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_BETTERLYRICS_API_ENABLED, false))
-    val betterLyricsApiEnabled: StateFlow<Boolean> = _betterLyricsApiEnabled.asStateFlow()
+    override val betterLyricsApiEnabled: StateFlow<Boolean> = _betterLyricsApiEnabled.asStateFlow()
     
     private val _ytMusicApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_YTMUSIC_API_ENABLED, false))
-    val ytMusicApiEnabled: StateFlow<Boolean> = _ytMusicApiEnabled.asStateFlow()
+    override val ytMusicApiEnabled: StateFlow<Boolean> = _ytMusicApiEnabled.asStateFlow()
     
     private val _spotifyApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_SPOTIFY_API_ENABLED, false))
-    val spotifyApiEnabled: StateFlow<Boolean> = _spotifyApiEnabled.asStateFlow()
+    override val spotifyApiEnabled: StateFlow<Boolean> = _spotifyApiEnabled.asStateFlow()
     
     private val _lyricallyApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_LYRICALLY_API_ENABLED, false))
-    val lyricallyApiEnabled: StateFlow<Boolean> = _lyricallyApiEnabled.asStateFlow()
+    override val lyricallyApiEnabled: StateFlow<Boolean> = _lyricallyApiEnabled.asStateFlow()
 
     private val _wikipediaApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_WIKIPEDIA_API_ENABLED, false))
-    val wikipediaApiEnabled: StateFlow<Boolean> = _wikipediaApiEnabled.asStateFlow()
+    override val wikipediaApiEnabled: StateFlow<Boolean> = _wikipediaApiEnabled.asStateFlow()
     
     private val _autoFetchArtwork = MutableStateFlow(prefs.getBoolean(KEY_AUTO_FETCH_ARTWORK, true))
     val autoFetchArtwork: StateFlow<Boolean> = _autoFetchArtwork.asStateFlow()
@@ -1750,10 +1749,10 @@ class AppSettings private constructor(context: Context) {
     val appleCanvasNetworkMode: StateFlow<CanvasNetworkMode> = _appleCanvasNetworkMode.asStateFlow()
     
     private val _spotifyClientId = MutableStateFlow(prefs.getString(KEY_SPOTIFY_CLIENT_ID, "") ?: "")
-    val spotifyClientId: StateFlow<String> = _spotifyClientId.asStateFlow()
+    override val spotifyClientId: StateFlow<String> = _spotifyClientId.asStateFlow()
     
     private val _spotifyClientSecret = MutableStateFlow(prefs.getString(KEY_SPOTIFY_CLIENT_SECRET, "") ?: "")
-    val spotifyClientSecret: StateFlow<String> = _spotifyClientSecret.asStateFlow()
+    override val spotifyClientSecret: StateFlow<String> = _spotifyClientSecret.asStateFlow()
 
 
     // General Broadcast Status Settings
@@ -4584,13 +4583,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
      */
     private fun scheduleAutoBackup() {
         try {
-            val workRequest = PeriodicWorkRequestBuilder<BackupWorker>(
+            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.backupWorkerClass) { "worker classes not installed" },
                 7, TimeUnit.DAYS, // Repeat every 7 days
                 1, TimeUnit.HOURS  // Flex interval of 1 hour
             ).build()
             
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                BackupWorker.WORK_NAME,
+                AppWorkerRegistry.backupWorkName,
                 ExistingPeriodicWorkPolicy.KEEP, // Keep existing schedule if already running
                 workRequest
             )
@@ -4607,7 +4606,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
      */
     fun triggerImmediateBackup() {
         try {
-            val workRequest = OneTimeWorkRequestBuilder<BackupWorker>()
+            val workRequest = OneTimeWorkRequest.Builder(requireNotNull(AppWorkerRegistry.backupWorkerClass) { "worker classes not installed" })
                 .build()
             
             WorkManager.getInstance(context).enqueue(workRequest)
@@ -4622,7 +4621,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
      */
     private fun cancelAutoBackup() {
         try {
-            WorkManager.getInstance(context).cancelUniqueWork(BackupWorker.WORK_NAME)
+            WorkManager.getInstance(context).cancelUniqueWork(AppWorkerRegistry.backupWorkName)
             Log.d("AppSettings", "Auto-backup cancelled")
         } catch (e: Exception) {
             Log.e("AppSettings", "Failed to cancel auto-backup", e)
@@ -4644,13 +4643,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
             // Get the check interval from settings (default 6 hours)
             val intervalHours = _updateCheckIntervalHours.value.toLong()
             
-            val workRequest = PeriodicWorkRequestBuilder<chromahub.rhythm.app.worker.UpdateNotificationWorker>(
+            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.updateNotificationWorkerClass) { "worker classes not installed" },
                 intervalHours, TimeUnit.HOURS,
                 30, TimeUnit.MINUTES // Flex interval
             ).build()
             
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                chromahub.rhythm.app.worker.UpdateNotificationWorker.WORK_NAME,
+                AppWorkerRegistry.updateNotificationWorkName,
                 ExistingPeriodicWorkPolicy.UPDATE, // Update if interval changes
                 workRequest
             )
@@ -4665,13 +4664,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         try {
             val intervalHours = _rhythmPulseNotificationIntervalHours.value.toLong().coerceIn(6L, 72L)
 
-            val workRequest = PeriodicWorkRequestBuilder<RhythmPulseNotificationWorker>(
+            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.rhythmPulseWorkerClass) { "worker classes not installed" },
                 intervalHours, TimeUnit.HOURS,
                 1, TimeUnit.HOURS
             ).build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                RhythmPulseNotificationWorker.WORK_NAME,
+                AppWorkerRegistry.rhythmPulseWorkName,
                 ExistingPeriodicWorkPolicy.UPDATE,
                 workRequest
             )
@@ -4684,7 +4683,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
 
     private fun cancelRhythmPulseNotificationWorker() {
         try {
-            WorkManager.getInstance(context).cancelUniqueWork(RhythmPulseNotificationWorker.WORK_NAME)
+            WorkManager.getInstance(context).cancelUniqueWork(AppWorkerRegistry.rhythmPulseWorkName)
             Log.d("AppSettings", "Rhythm tips worker cancelled")
         } catch (e: Exception) {
             Log.e("AppSettings", "Failed to cancel Rhythm tips worker", e)
@@ -4697,7 +4696,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     private fun cancelUpdateNotificationWorker() {
         try {
             WorkManager.getInstance(context).cancelUniqueWork(
-                chromahub.rhythm.app.worker.UpdateNotificationWorker.WORK_NAME
+                AppWorkerRegistry.updateNotificationWorkName
             )
             Log.d("AppSettings", "Update notification worker cancelled")
         } catch (e: Exception) {
@@ -4710,7 +4709,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
      */
     fun triggerImmediateUpdateCheck() {
         try {
-            val workRequest = OneTimeWorkRequestBuilder<chromahub.rhythm.app.worker.UpdateNotificationWorker>()
+            val workRequest = OneTimeWorkRequest.Builder(requireNotNull(AppWorkerRegistry.updateNotificationWorkerClass) { "worker classes not installed" })
                 .build()
             
             WorkManager.getInstance(context).enqueue(workRequest)
@@ -4941,9 +4940,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
                                     )
                                 } ?: Song(
                                     id = songId,
-                                    title = context.getString(R.string.unresolved_track),
-                                    artist = context.getString(R.string.unknown_artist_name),
-                                    album = context.getString(R.string.unknown_album_name),
+                                    title = AppStrings.unresolvedTrack(),
+                                    artist = AppStrings.unknownArtist(),
+                                    album = AppStrings.unknownAlbum(),
                                     albumId = "",
                                     duration = 0L,
                                     uri = Uri.EMPTY,

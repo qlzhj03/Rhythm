@@ -4780,8 +4780,9 @@ class MusicRepository(context: Context) {
             var content: List<RhythmLyricsLine>? = null
             var isSyllable = false
 
-            if (!lyricsResponse.ttmlContent.isNullOrBlank()) {
-                val parsedTtml = RhythmLyricsParser.parseTtmlLyrics(lyricsResponse.ttmlContent)
+            val ttmlText = lyricsResponse.ttmlContent
+            if (!ttmlText.isNullOrBlank()) {
+                val parsedTtml = RhythmLyricsParser.parseTtmlLyrics(ttmlText)
                 if (parsedTtml.isNotEmpty()) {
                     content = parsedTtml
                     val wordByWordJson = Gson().toJson(parsedTtml)
