@@ -178,6 +178,8 @@ fun HomeScreenCustomizationSettingsScreen(onBackClick: () -> Unit) {
     val showRecommended by appSettings.homeShowRecommended.collectAsState()
     val showListeningStats by appSettings.homeShowListeningStats.collectAsState()
     val discoverItemCount by appSettings.homeDiscoverItemCount.collectAsState()
+    val discoverAutoScroll by appSettings.homeDiscoverAutoScroll.collectAsState()
+    val discoverAutoScrollInterval by appSettings.homeDiscoverAutoScrollInterval.collectAsState()
     val recentlyPlayedCount by appSettings.homeRecentlyPlayedCount.collectAsState()
     val artistsCount by appSettings.homeArtistsCount.collectAsState()
     val newReleasesCount by appSettings.homeNewReleasesCount.collectAsState()
@@ -649,6 +651,16 @@ fun HomeScreenCustomizationSettingsScreen(onBackClick: () -> Unit) {
                         val discoverToggleItems = buildList {
                             add(
                             SettingItem(
+                                MaterialSymbolIcon("view_carousel", filled = true),
+                                context.getString(R.string.settings_home_carousel_auto_scroll),
+                                context.getString(R.string.settings_home_carousel_auto_scroll_desc),
+                                toggleState = discoverAutoScroll,
+                                onToggleChange = { appSettings.setHomeDiscoverAutoScroll(it) }
+                            )
+                            )
+
+                            add(
+                            SettingItem(
                                 RhythmIcons.AlbumFilled,
                                 context.getString(R.string.settings_discover_album_name),
                                 context.getString(R.string.settings_discover_album_name_desc),
@@ -746,6 +758,56 @@ fun HomeScreenCustomizationSettingsScreen(onBackClick: () -> Unit) {
                                     }
                                 )
                             )
+
+                            if (discoverAutoScroll) {
+                                add(
+                                    toMaterial3SettingsItem(
+                                        context = context,
+                                        hapticFeedback = haptic,
+                                        item = SettingItem(
+                                            icon = MaterialSymbolIcon("speed", filled = true),
+                                            title = stringResource(R.string.settings_home_carousel_auto_scroll_interval),
+                                            description = stringResource(
+                                                R.string.settings_home_carousel_auto_scroll_interval_value,
+                                                discoverAutoScrollInterval
+                                            )
+                                        ),
+                                        description = {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(top = 8.dp),
+                                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = stringResource(
+                                                        R.string.settings_home_carousel_auto_scroll_interval_value,
+                                                        discoverAutoScrollInterval
+                                                    ),
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                    color = MaterialTheme.colorScheme.primary
+                                                )
+                                                val intervalSliderState = remember(discoverAutoScrollInterval) {
+                                                    SliderState(
+                                                        value = discoverAutoScrollInterval.toFloat(),
+                                                        steps = 12,
+                                                        trackRange = 2f..15f
+                                                    )
+                                                }
+                                                intervalSliderState.value = discoverAutoScrollInterval.toFloat()
+                                                Slider(
+                                                    state = intervalSliderState,
+                                                    onValueChange = {
+                                                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                                                        appSettings.setHomeDiscoverAutoScrollInterval(it.toInt())
+                                                    },
+                                                    modifier = Modifier.fillMaxWidth()
+                                                )
+                                            }
+                                        }
+                                    )
+                                )
+                            }
 
                         }
 

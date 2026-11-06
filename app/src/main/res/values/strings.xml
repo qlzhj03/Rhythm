@@ -1969,6 +1969,8 @@
     <string name="settings_home_discover_carousel_desc">显示发现轮播</string>
     <string name="settings_home_carousel_auto_scroll">轮播自动滚动</string>
     <string name="settings_home_carousel_auto_scroll_desc">自动滚动轮播</string>
+    <string name="settings_home_carousel_auto_scroll_interval">自动滚动间隔</string>
+    <string name="settings_home_carousel_auto_scroll_interval_value">%1$d 秒</string>
 <string name="settings_notifications_rhythm_guard_alerts">Rhythm Guard 安全提醒</string>
     <string name="settings_notifications_rhythm_guard_alerts_desc">触发收听风险警告时通知</string>
     <string name="settings_notifications_rhythm_guard_timers">Rhythm Guard 休息计时</string>

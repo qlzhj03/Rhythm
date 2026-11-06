@@ -281,28 +281,27 @@ fun SettingsScreen(
                     add(SettingItem(MaterialSymbolIcon("dock_to_bottom"), context.getString(R.string.settings_miniplayer_customization), context.getString(R.string.settings_miniplayer_customization_desc), palette = SettingsPalettes.Rose, onClick = { onNavigateTo(SettingsRoutes.MINIPLAYER_CUSTOMIZATION) }))
                 }
             ),
-            // 2. Home & Widgets - only show in LOCAL mode
-            if (appMode == "LOCAL") SettingGroup(
+            // 2. Home & Widgets - both pages only configure AppSettings and are shared by
+            // LOCAL and STREAMING modes; settings search already exposes them in both modes.
+            SettingGroup(
                 title = context.getString(R.string.settings_section_home_widgets),
                 items = listOf(
                     SettingItem(RhythmIcons.Home, context.getString(R.string.settings_home_customization), context.getString(R.string.settings_home_customization_desc), palette = SettingsPalettes.Orange, onClick = { onNavigateTo(SettingsRoutes.HOME_SCREEN) }),
                     SettingItem(MaterialSymbolIcon("widgets"), context.getString(R.string.settings_widget), context.getString(R.string.settings_widget_desc), palette = SettingsPalettes.Cyan, onClick = { onNavigateTo(SettingsRoutes.WIDGET) })
                 )
-            ) else null,
+            ),
             // 3. Navigation & Controls
             SettingGroup(
                 title = context.getString(R.string.settings_section_user_interface),
                 items = buildList {
-                    // Default screen only applies to local navigation (streaming has its own start screen)
-                    if (appMode == "LOCAL") {
-                        add(SettingItem(
-                            RhythmIcons.Home,
-                            context.getString(R.string.settings_default_screen),
-                            if (defaultScreen == "library") context.getString(R.string.library) else context.getString(R.string.home),
-                            palette = SettingsPalettes.Amber,
-                            onClick = { showDefaultScreenDialog = true }
-                        ))
-                    }
+                    // LocalNavigation reads defaultScreen in both LOCAL and STREAMING modes
+                    add(SettingItem(
+                        RhythmIcons.Home,
+                        context.getString(R.string.settings_default_screen),
+                        if (defaultScreen == "library") context.getString(R.string.library) else context.getString(R.string.home),
+                        palette = SettingsPalettes.Amber,
+                        onClick = { showDefaultScreenDialog = true }
+                    ))
                     add(SettingItem(
                         RhythmIcons.Public,
                         context.getString(R.string.settings_language),
@@ -375,8 +374,9 @@ fun SettingsScreen(
                     ))
                 }
             ),
-            // 6. Library & Media - only show in LOCAL mode
-            if (appMode == "LOCAL") SettingGroup(
+            // 6. Library & Media - the local library stays accessible in STREAMING mode,
+            // and artist parsing / library settings are consumed by both modes.
+            SettingGroup(
                 title = context.getString(R.string.settings_section_library_content),
                 items = listOf(
                     SettingItem(RhythmIcons.Folder, context.getString(R.string.settings_media_scan_title), context.getString(R.string.settings_media_scan_desc), palette = SettingsPalettes.Amber, onClick = { onNavigateTo(SettingsRoutes.MEDIA_SCAN) }),
@@ -384,7 +384,7 @@ fun SettingsScreen(
                     SettingItem(MaterialSymbolIcon("playlist_add_check_circle"), context.getString(R.string.settings_playlists_title), context.getString(R.string.settings_playlists_desc), palette = SettingsPalettes.Coral, onClick = { onNavigateTo(SettingsRoutes.PLAYLISTS) }),
                     SettingItem(RhythmIcons.Library, context.getString(R.string.settings_library_settings), context.getString(R.string.settings_library_settings_desc), palette = SettingsPalettes.Teal, onClick = { onNavigateTo(SettingsRoutes.LIBRARY_SETTINGS) })
                 )
-            ) else null,
+            ),
             // 6. Notifications & Services
             SettingGroup(
                 title = context.getString(R.string.settings_section_notifications_services),
@@ -394,18 +394,14 @@ fun SettingsScreen(
                     add(SettingItem(MaterialSymbolIcon("hub"), context.getString(R.string.settings_api_management), context.getString(R.string.settings_api_management_desc), palette = SettingsPalettes.Slate, onClick = { onNavigateTo(SettingsRoutes.API_MANAGEMENT) }))
                 }
             ),
-            // 7. Data & Storage - split into shared and local-only items
+            // 7. Data & Storage - cache cleanup and settings backup are mode-independent
             SettingGroup(
                 title = context.getString(R.string.settings_section_storage_data),
                 items = buildList {
-                    // Listening Stats and Rhythm Guard are shared across LOCAL and STREAMING modes
                     add(SettingItem(MaterialSymbolIcon("auto_graph"), context.getString(R.string.settings_rhythm_stats), context.getString(R.string.settings_rhythm_stats_desc), palette = SettingsPalettes.Purple, onClick = { onNavigateTo(SettingsRoutes.RHYTHM_STATS) }))
                     add(SettingItem(RhythmIcons.Security, context.getString(R.string.settings_rhythm_guard), context.getString(R.string.settings_rhythm_guard_list_desc), palette = SettingsPalettes.Emerald, onClick = { onNavigateTo(SettingsRoutes.RHYTHM_GUARD) }))
-                    // Cache and Backup are LOCAL-only
-                    if (appMode == "LOCAL") {
-                        add(SettingItem(RhythmIcons.Storage, context.getString(R.string.settings_cache_management_title), context.getString(R.string.settings_cache_management_desc), palette = SettingsPalettes.Yellow, onClick = { onNavigateTo(SettingsRoutes.CACHE_MANAGEMENT) }))
-                        add(SettingItem(MaterialSymbolIcon("backup"), context.getString(R.string.settings_backup_restore_title), context.getString(R.string.settings_backup_restore_desc), palette = SettingsPalettes.Emerald, onClick = { onNavigateTo(SettingsRoutes.BACKUP_RESTORE) }))
-                    }
+                    add(SettingItem(RhythmIcons.Storage, context.getString(R.string.settings_cache_management_title), context.getString(R.string.settings_cache_management_desc), palette = SettingsPalettes.Yellow, onClick = { onNavigateTo(SettingsRoutes.CACHE_MANAGEMENT) }))
+                    add(SettingItem(MaterialSymbolIcon("backup"), context.getString(R.string.settings_backup_restore_title), context.getString(R.string.settings_backup_restore_desc), palette = SettingsPalettes.Emerald, onClick = { onNavigateTo(SettingsRoutes.BACKUP_RESTORE) }))
                 }
             ),
             // 8. Updates & Info
@@ -438,7 +434,7 @@ fun SettingsScreen(
                     SettingItem(MaterialSymbolIcon("science"), context.getString(R.string.settings_labs), context.getString(R.string.settings_labs_desc), palette = SettingsPalettes.Purple, onClick = { onNavigateTo(SettingsRoutes.LABS) })
                 )
             )
-        ).filterNotNull() // Filter out null groups (for streaming mode)
+        )
 
         val lazyListState = scrollState ?: rememberSaveable(
             saver = LazyListStateSaver
@@ -1456,7 +1452,7 @@ fun SettingsTipsRow(
         gesturePlayerSwipeTracks
     ) {
         val random = kotlin.random.Random(shuffleSeed)
-        val isLocalMode = appMode == "LOCAL"
+        // Tips mirror the settings list, which is shared by LOCAL and STREAMING modes.
         val hourOfDay = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
         val dayMomentLabel = when (hourOfDay) {
             in 5..11 -> context.getString(R.string.moment_morning)
@@ -1472,27 +1468,25 @@ fun SettingsTipsRow(
         }
 
         buildList {
-            if (isLocalMode) {
-                val desc = when (rhythmGuardMode) {
-                    "OFF" -> "${context.getString(R.string.settings_tip_rhythm_guard_off)} ${listeningPulseLabel.lowercase()} ${dayMomentLabel}."
-                    "MANUAL" -> "${context.getString(R.string.settings_tip_rhythm_guard_manual)} ${todayExposureMinutes} min played today."
-                    else -> "${context.getString(R.string.settings_tip_rhythm_guard_auto)} ${todayExposureMinutes} min tracked ${dayMomentLabel}."
-                }
-                
-                val progress = (todayExposureMinutes.toFloat() / 90f).coerceIn(0.05f, 1f)
-
-                add(
-                    SettingsTipData(
-                        icon = RhythmIcons.Security,
-                        title = context.getString(R.string.settings_rhythm_guard),
-                        text = desc,
-                        route = SettingsRoutes.RHYTHM_GUARD,
-                        isPrimary = true,
-                        riskLevel = if (rhythmGuardMode == "OFF") null else currentRiskLevel,
-                        fillProgress = if (rhythmGuardMode == "OFF") null else progress
-                    )
-                )
+            val desc = when (rhythmGuardMode) {
+                "OFF" -> "${context.getString(R.string.settings_tip_rhythm_guard_off)} ${listeningPulseLabel.lowercase()} ${dayMomentLabel}."
+                "MANUAL" -> "${context.getString(R.string.settings_tip_rhythm_guard_manual)} ${todayExposureMinutes} min played today."
+                else -> "${context.getString(R.string.settings_tip_rhythm_guard_auto)} ${todayExposureMinutes} min tracked ${dayMomentLabel}."
             }
+
+            val progress = (todayExposureMinutes.toFloat() / 90f).coerceIn(0.05f, 1f)
+
+            add(
+                SettingsTipData(
+                    icon = RhythmIcons.Security,
+                    title = context.getString(R.string.settings_rhythm_guard),
+                    text = desc,
+                    route = SettingsRoutes.RHYTHM_GUARD,
+                    isPrimary = true,
+                    riskLevel = if (rhythmGuardMode == "OFF") null else currentRiskLevel,
+                    fillProgress = if (rhythmGuardMode == "OFF") null else progress
+                )
+            )
             val themeDescs = listOf(
                 context.getString(R.string.settings_tip_theme),
                 context.getString(R.string.settings_tip_theme_desc_1),
@@ -1519,70 +1513,62 @@ fun SettingsTipsRow(
                     route = SettingsRoutes.GESTURES
                 )
             )
-            if (isLocalMode) {
-                val descs = listOf(
-                    context.getString(R.string.settings_tip_media_scan),
-                    context.getString(R.string.settings_tip_media_scan_desc_1),
-                    context.getString(R.string.settings_tip_media_scan_desc_2)
+            val mediaScanDescs = listOf(
+                context.getString(R.string.settings_tip_media_scan),
+                context.getString(R.string.settings_tip_media_scan_desc_1),
+                context.getString(R.string.settings_tip_media_scan_desc_2)
+            )
+            add(
+                SettingsTipData(
+                    icon = RhythmIcons.Folder,
+                    title = context.getString(R.string.settingsscreen_library_focus),
+                    text = mediaScanDescs.random(random),
+                    route = SettingsRoutes.MEDIA_SCAN
                 )
-                add(
-                    SettingsTipData(
-                        icon = RhythmIcons.Folder,
-                        title = context.getString(R.string.settingsscreen_library_focus),
-                        text = descs.random(random),
-                        route = SettingsRoutes.MEDIA_SCAN
-                    )
+            )
+            val sleepTimerDescs = listOf(
+                context.getString(R.string.settings_tip_sleep_timer_desc_1),
+                context.getString(R.string.settings_tip_sleep_timer_desc_2)
+            )
+            add(
+                SettingsTipData(
+                    icon = RhythmIcons.AccessTime,
+                    title = context.getString(R.string.settings_sleep_timer_search),
+                    text = sleepTimerDescs.random(random),
+                    route = SettingsRoutes.SLEEP_TIMER
                 )
-            }
-            if (isLocalMode) {
-                val descs = listOf(
-                    context.getString(R.string.settings_tip_sleep_timer_desc_1),
-                    context.getString(R.string.settings_tip_sleep_timer_desc_2)
+            )
+            val equalizerDescs = listOf(
+                context.getString(R.string.settings_tip_equalizer_desc_1),
+                context.getString(R.string.settings_tip_equalizer_desc_2)
+            )
+            add(
+                SettingsTipData(
+                    icon = RhythmIcons.Equalizer,
+                    title = context.getString(R.string.settingsscreen_audio_equalizer),
+                    text = equalizerDescs.random(random),
+                    route = SettingsRoutes.EQUALIZER
                 )
-                add(
-                    SettingsTipData(
-                        icon = RhythmIcons.AccessTime,
-                        title = context.getString(R.string.settings_sleep_timer_search),
-                        text = descs.random(random),
-                        route = SettingsRoutes.SLEEP_TIMER
-                    )
+            )
+            val backupDescs = if (autoBackupEnabled) {
+                listOf(
+                    context.getString(R.string.settings_tip_backup_active_desc_1),
+                    context.getString(R.string.settings_tip_backup_active_desc_2)
                 )
-            }
-            if (isLocalMode) {
-                val descs = listOf(
-                    context.getString(R.string.settings_tip_equalizer_desc_1),
-                    context.getString(R.string.settings_tip_equalizer_desc_2)
-                )
-                add(
-                    SettingsTipData(
-                        icon = RhythmIcons.Equalizer,
-                        title = context.getString(R.string.settingsscreen_audio_equalizer),
-                        text = descs.random(random),
-                        route = SettingsRoutes.EQUALIZER
-                    )
-                )
-            }
-            if (isLocalMode) {
-                val descs = if (autoBackupEnabled) {
-                    listOf(
-                        context.getString(R.string.settings_tip_backup_active_desc_1),
-                        context.getString(R.string.settings_tip_backup_active_desc_2)
-                    )
-                } else {
-                    listOf(
-                        context.getString(R.string.settings_tip_backup_inactive_desc_1),
-                        context.getString(R.string.settings_tip_backup_inactive_desc_2)
-                    )
-                }
-                add(
-                    SettingsTipData(
-                        icon = MaterialSymbolIcon("backup"),
-                        title = context.getString(R.string.settings_backup_restore),
-                        text = descs.random(random),
-                        route = SettingsRoutes.BACKUP_RESTORE
-                    )
+            } else {
+                listOf(
+                    context.getString(R.string.settings_tip_backup_inactive_desc_1),
+                    context.getString(R.string.settings_tip_backup_inactive_desc_2)
                 )
             }
+            add(
+                SettingsTipData(
+                    icon = MaterialSymbolIcon("backup"),
+                    title = context.getString(R.string.settings_backup_restore),
+                    text = backupDescs.random(random),
+                    route = SettingsRoutes.BACKUP_RESTORE
+                )
+            )
             val updatesDescs = if (updatesEnabled) {
                 listOf(
                     context.getString(R.string.settings_tip_updates_active_desc_1),
@@ -1659,16 +1645,14 @@ fun SettingsTipsRow(
                     route = SettingsRoutes.MINIPLAYER_CUSTOMIZATION
                 )
             )
-            if (isLocalMode) {
-                add(
-                    SettingsTipData(
-                        icon = RhythmIcons.Library,
-                        title = context.getString(R.string.settingsscreen_library_settings),
-                        text = context.getString(R.string.settings_library_settings_desc),
-                        route = SettingsRoutes.LIBRARY_SETTINGS
-                    )
+            add(
+                SettingsTipData(
+                    icon = RhythmIcons.Library,
+                    title = context.getString(R.string.settingsscreen_library_settings),
+                    text = context.getString(R.string.settings_library_settings_desc),
+                    route = SettingsRoutes.LIBRARY_SETTINGS
                 )
-            }
+            )
         }.shuffled(random)
     }
 

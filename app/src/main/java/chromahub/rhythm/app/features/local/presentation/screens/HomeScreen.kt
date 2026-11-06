@@ -2298,6 +2298,11 @@ private fun ModernFeaturedSection(
     val coroutineScope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val appSettings = remember { AppSettings.getInstance(context) }
+    val autoScrollEnabled by appSettings.homeDiscoverAutoScroll.collectAsState()
+    val autoScrollIntervalSeconds by appSettings.homeDiscoverAutoScrollInterval.collectAsState()
+    val autoScrollDelayMs = discoverCarouselAutoScrollDelayMs(autoScrollEnabled, autoScrollIntervalSeconds)
+
     if (isTablet) {
         val carouselState = rememberCarouselState { albums.size }
 
@@ -2317,10 +2322,11 @@ private fun ModernFeaturedSection(
             }
         }
 
-        LaunchedEffect(albums.size) {
-            if (albums.size > 1) {
+        LaunchedEffect(albums.size, autoScrollDelayMs) {
+            val intervalMs = autoScrollDelayMs
+            if (intervalMs != null && albums.size > 1) {
                 while (true) {
-                    delay(4500)
+                    delay(intervalMs)
                     if (!carouselState.isScrollInProgress) {
                         val nextItem = (carouselState.currentItem + 1) % albums.size
                         carouselState.animateScrollToItem(
@@ -2512,13 +2518,14 @@ private fun ModernFeaturedSection(
             }
         }
 
-        LaunchedEffect(albums.size) {
-            if (albums.size > 1) {
+        LaunchedEffect(albums.size, autoScrollDelayMs) {
+            val intervalMs = autoScrollDelayMs
+            if (intervalMs != null && albums.size > 1) {
                 if (!carouselState.isScrollInProgress) {
                     carouselState.scrollToItem(carouselState.currentItem.coerceIn(0, albums.lastIndex))
                 }
                 while (true) {
-                    delay(4500)
+                    delay(intervalMs)
                     if (!carouselState.isScrollInProgress) {
                         val currentItem = carouselState.currentItem
                         val nextItem = (currentItem + 1) % albums.size

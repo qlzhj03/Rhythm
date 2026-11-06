@@ -2014,6 +2014,8 @@
     <string name="settings_home_discover_carousel_desc">Show discover carousel</string>
     <string name="settings_home_carousel_auto_scroll">Carousel Auto Scroll</string>
     <string name="settings_home_carousel_auto_scroll_desc">Auto-scroll carousel</string>
+    <string name="settings_home_carousel_auto_scroll_interval">Auto Scroll Interval</string>
+    <string name="settings_home_carousel_auto_scroll_interval_value">%1$d s</string>
 <string name="settings_notifications_rhythm_guard_alerts">Rhythm Guard Safety Alerts</string>
     <string name="settings_notifications_rhythm_guard_alerts_desc">Notify when listening risk warnings are triggered</string>
     <string name="settings_notifications_rhythm_guard_timers">Rhythm Guard Break Timers</string>
