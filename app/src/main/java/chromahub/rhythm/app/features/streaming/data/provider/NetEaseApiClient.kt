@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.Context
-import android.util.Log
+import chromahub.rhythm.app.network.NetworkLog
 import androidx.core.content.edit
 import chromahub.rhythm.app.shared.data.model.LyricsData
 import kotlinx.coroutines.Dispatchers
@@ -314,7 +314,7 @@ class NetEaseApiClient(
             try {
                 block()
             } catch (e: Exception) {
-                Log.w(TAG, "${e.javaClass.simpleName}: ${e.message ?: "request failed"}")
+                NetworkLog.w(TAG, "${e.javaClass.simpleName}: ${e.message ?: "request failed"}")
                 Result.failure(e)
             }
         }
@@ -355,7 +355,7 @@ class NetEaseApiClient(
                 val (weapiBody, weapiPairs) = weapiPostBlocking("/register/anonimous", "{\"username\":${jsonString(username)}}", "")
                 cookie = weapiPairs.joinToString("; ") { "${it.first}=${it.second}" }
                 if (!isGuestCookie(cookie)) {
-                    Log.i(TAG, "guest registration rejected (eapi code ${eapiBody.optInt("code")}, weapi code ${weapiBody.optInt("code")})")
+                    NetworkLog.i(TAG, "guest registration rejected (eapi code ${eapiBody.optInt("code")}, weapi code ${weapiBody.optInt("code")})")
                     return@onIo Result.success("")
                 }
             }
@@ -514,7 +514,7 @@ class NetEaseApiClient(
                     JSONObject().put("uid", userId).put("limit", limit).put("offset", 0),
                 )
             val array = body.optJSONArray("playlist")
-            Log.d(TAG, "getUserPlaylists code=${body.optInt("code")} count=${array?.length() ?: -1}")
+            NetworkLog.d(TAG, "getUserPlaylists code=${body.optInt("code")} count=${array?.length() ?: -1}")
             Result.success(playlistsOf(array))
         }
 
@@ -690,7 +690,7 @@ class NetEaseApiClient(
         val url = entry.optString("url")
         if (url.isBlank()) return null
         if (entry.opt("freeTrialInfo") is JSONObject) {
-            Log.i(TAG, "song ${songId.trim()} only offers a 30s trial at $level")
+            NetworkLog.i(TAG, "song ${songId.trim()} only offers a 30s trial at $level")
             return null
         }
         return url
@@ -950,7 +950,7 @@ class NetEaseApiClient(
                         weapiPostBlocking("/logout", "{}", current.cookie)
                     }
                 } catch (e: Exception) {
-                    Log.w(TAG, "logout call failed: ${e.javaClass.simpleName}")
+                    NetworkLog.w(TAG, "logout call failed: ${e.javaClass.simpleName}")
                 }
             }
         }

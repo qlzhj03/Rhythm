@@ -1,9 +1,7 @@
 package chromahub.rhythm.app.network
 
-import android.util.Log
 import chromahub.rhythm.app.BuildConfig
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -45,19 +43,8 @@ object NetworkClient {
         this.appSettings = appSettings
     }
     
-    private val loggingInterceptor by lazy {
-        HttpLoggingInterceptor { message ->
-            try {
-                Log.d(TAG, message)
-            } catch (e: Exception) {
-                Log.w(TAG, "Error logging HTTP message: ${e.message}")
-            }
-        }.apply {
-            // BASIC (request line + status) in debug only; headers carry cookies and are never logged.
-            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
-            listOf("Authorization", "Cookie", "Set-Cookie").forEach(::redactHeader)
-        }
-    }
+    // Policy (level, redacted headers, sanitized messages) is owned by NetworkLog.
+    private val loggingInterceptor by lazy { NetworkLog.createLoggingInterceptor() }
     
     private val retryInterceptor = Interceptor { chain ->
         var currentRetry = 0
@@ -66,8 +53,8 @@ object NetworkClient {
         
         while (currentRetry < MAX_RETRIES) {
             try {
-                if (BuildConfig.DEBUG && currentRetry > 0) {
-                    Log.d(TAG, "Retrying request (attempt ${currentRetry + 1}/${MAX_RETRIES}): ${chain.request().url}")
+                if (currentRetry > 0) {
+                    NetworkLog.d(TAG, "Retrying request (attempt ${currentRetry + 1}/${MAX_RETRIES}): ${chain.request().url}")
                 }
                 response = chain.proceed(chain.request())
                 
@@ -75,17 +62,17 @@ object NetworkClient {
                     return@Interceptor response
                 } else {
                     val code = response.code
-                    Log.w(TAG, "Request failed with code $code: ${chain.request().url}")
+                    NetworkLog.w(TAG, "Request failed with code $code: ${chain.request().url}")
                     
                     if (code in 400..499 && code != 408 && code != 429) {
-                        Log.d(TAG, "Client error $code, not retrying")
+                        NetworkLog.d(TAG, "Client error $code, not retrying")
                         return@Interceptor response
                     }
                     
                     if (code == 429) {
                         val retryAfter = response.header("Retry-After")?.toLongOrNull() ?: (currentRetry + 1).toLong()
                         val backoffDelay = minOf(retryAfter * 1000, 30000)
-                        Log.d(TAG, "Rate limited, retrying after ${backoffDelay}ms")
+                        NetworkLog.d(TAG, "Rate limited, retrying after ${backoffDelay}ms")
                         response.close()
                         Thread.sleep(backoffDelay)
                         currentRetry++
@@ -96,7 +83,7 @@ object NetworkClient {
                 }
             } catch (e: IOException) {
                 lastException = e
-                Log.e(TAG, "Request error (attempt ${currentRetry + 1}): ${e.javaClass.simpleName} - ${e.message}")
+                NetworkLog.e(TAG, "Request error (attempt ${currentRetry + 1}): ${e.javaClass.simpleName} - ${e.message}")
                 
                 val shouldRetry = when (e) {
                     is SocketTimeoutException -> true
@@ -109,7 +96,7 @@ object NetworkClient {
                 }
                 
                 if (!shouldRetry) {
-                    Log.d(TAG, "Error type ${e.javaClass.simpleName} is not retryable")
+                    NetworkLog.d(TAG, "Error type ${e.javaClass.simpleName} is not retryable")
                     throw e
                 }
             }
@@ -118,7 +105,7 @@ object NetworkClient {
             if (currentRetry < MAX_RETRIES) {
                 val baseDelay = 1000L
                 val backoffDelay = minOf(baseDelay * (2.0.pow(currentRetry.toDouble())).toLong(), 10000L)
-                Log.d(TAG, "Retrying after ${backoffDelay}ms delay")
+                NetworkLog.d(TAG, "Retrying after ${backoffDelay}ms delay")
                 Thread.sleep(backoffDelay)
             }
         }
@@ -141,7 +128,7 @@ object NetworkClient {
             }
             chain.proceed(requestBuilder.build())
         } catch (e: Exception) {
-            Log.e(TAG, "Error in app headers interceptor: ${e.message}")
+            NetworkLog.e(TAG, "Error in app headers interceptor: ${e.message}")
             throw e
         }
     }
