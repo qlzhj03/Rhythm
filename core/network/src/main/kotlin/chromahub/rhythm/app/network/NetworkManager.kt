@@ -1,7 +1,6 @@
 package chromahub.rhythm.app.network
 
 import android.content.Context
-import chromahub.rhythm.app.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
@@ -33,7 +32,7 @@ object NetworkManager {
                 // Build request with GitHub API headers
                 val requestBuilder = original.newBuilder()
                     .header("Accept", "application/vnd.github.v3+json")
-                    .header("User-Agent", "Rhythm-Music-App/${BuildConfig.VERSION_NAME} (Android)") // Using a consistent User-Agent helps with rate limits
+                    .header("User-Agent", "Rhythm-Music-App/${NetworkBuildInfo.appVersion} (Android)") // Using a consistent User-Agent helps with rate limits
                 
                 // Add authorization if token is provided
                 if (GITHUB_TOKEN.isNotEmpty()) {

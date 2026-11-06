@@ -1,7 +1,6 @@
 package chromahub.rhythm.app.network
 
 import android.util.Log
-import chromahub.rhythm.app.BuildConfig
 import chromahub.rhythm.app.core.common.SENSITIVE_HEADERS
 import chromahub.rhythm.app.core.common.sanitizeLogMessage
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +22,7 @@ object NetworkLog {
     const val TAG = "RhythmNetwork"
 
     fun d(tag: String, message: String) {
-        if (BuildConfig.DEBUG) {
+        if (NetworkBuildInfo.isDebug) {
             Log.d(tag, sanitizeLogMessage(message))
         }
     }
@@ -34,7 +33,7 @@ object NetworkLog {
 
     fun w(tag: String, message: String, throwable: Throwable? = null) {
         val safe = sanitizeLogMessage(message)
-        if (throwable != null && BuildConfig.DEBUG) {
+        if (throwable != null && NetworkBuildInfo.isDebug) {
             Log.w(tag, safe, throwable)
         } else {
             Log.w(tag, safe)
@@ -43,7 +42,7 @@ object NetworkLog {
 
     fun e(tag: String, message: String, throwable: Throwable? = null) {
         val safe = sanitizeLogMessage(message)
-        if (throwable != null && BuildConfig.DEBUG) {
+        if (throwable != null && NetworkBuildInfo.isDebug) {
             Log.e(tag, safe, throwable)
         } else {
             Log.e(tag, safe)
@@ -58,7 +57,7 @@ object NetworkLog {
                 Log.w(TAG, "Error logging HTTP message: ${sanitizeLogMessage(e.message)}")
             }
         }.apply {
-            level = if (BuildConfig.DEBUG) {
+            level = if (NetworkBuildInfo.isDebug) {
                 HttpLoggingInterceptor.Level.BASIC
             } else {
                 HttpLoggingInterceptor.Level.NONE

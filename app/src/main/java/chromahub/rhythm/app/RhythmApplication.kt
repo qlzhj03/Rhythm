@@ -62,6 +62,13 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         val settings = AppSettings.getInstance(applicationContext)
         Log.d(TAG, "✓ AppSettings initialized")
 
+        // Localized label seam for :core:data (resource-free module — PR-3).
+        chromahub.rhythm.app.core.common.AppStrings.apply {
+            unresolvedTrack = { getString(chromahub.rhythm.app.R.string.unresolved_track) }
+            unknownArtist = { getString(chromahub.rhythm.app.R.string.unknown_artist_name) }
+            unknownAlbum = { getString(chromahub.rhythm.app.R.string.unknown_album_name) }
+        }
+
         // Haptics seam: :core:designsystem reads haptics setting through this gate
         // so its helpers stay decoupled from AppSettings (multi-module split PR-2).
         HapticsGate.isEnabled = { settings.isHapticEnabled.value }
@@ -83,9 +90,32 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         CrashReporter.init(this)
         Log.d(TAG, "✓ CrashReporter initialized")
         
+        // Install worker class references for AppSettings scheduling (:core:data
+        // cannot see :app workers directly — multi-module split PR-3).
+        chromahub.rhythm.app.network.AppWorkerRegistry.apply {
+            backupWorkerClass = chromahub.rhythm.app.worker.BackupWorker::class.java
+            updateNotificationWorkerClass = chromahub.rhythm.app.worker.UpdateNotificationWorker::class.java
+            rhythmPulseWorkerClass = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker::class.java
+            backupWorkName = chromahub.rhythm.app.worker.BackupWorker.WORK_NAME
+            updateNotificationWorkName = chromahub.rhythm.app.worker.UpdateNotificationWorker.WORK_NAME
+            rhythmPulseWorkName = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker.WORK_NAME
+        }
+        
         // Initialize NetworkClient with AppSettings
         chromahub.rhythm.app.network.NetworkClient.initialize(
-            AppSettings.getInstance(applicationContext)
+            AppSettings.getInstance(applicationContext),
+            chromahub.rhythm.app.network.NetworkFeatureFlags(
+                youtubeMusic = BuildConfig.ENABLE_YOUTUBE_MUSIC,
+                lyrically = BuildConfig.ENABLE_LYRICALLY_API,
+                deezer = BuildConfig.ENABLE_DEEZER,
+                lrclib = BuildConfig.ENABLE_LRCLIB,
+                betterLyrics = BuildConfig.ENABLE_BETTERLYRICS,
+                spotifySearch = BuildConfig.ENABLE_SPOTIFY_SEARCH,
+                wikipedia = BuildConfig.ENABLE_WIKIPEDIA,
+            ),
+            BuildConfig.VERSION_NAME,
+            BuildConfig.APPLE_MUSIC_FALLBACK_TOKEN,
+            BuildConfig.DEBUG
         )
         Log.d(TAG, "✓ NetworkClient initialized")
         

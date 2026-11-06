@@ -1,6 +1,5 @@
 package chromahub.rhythm.app.network
 
-import chromahub.rhythm.app.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,6 +17,10 @@ import chromahub.rhythm.app.network.SpotifySearchApiService
 import chromahub.rhythm.app.network.YTMusicApiService
 
 object NetworkClient {
+
+    /** APPLE_MUSIC_FALLBACK_TOKEN injected by :app at initialize() (red-line: value lives only in :app BuildConfig). */
+    val appleMusicToken: String get() = appleMusicFallbackToken
+
     private const val TAG = "NetworkClient"
     
     private const val LRCLIB_BASE_URL = "https://lrclib.net/"
@@ -37,10 +40,26 @@ object NetworkClient {
     private val connectionPool by lazy { ConnectionPool(5, 30, TimeUnit.SECONDS) }
     
     // Store reference to AppSettings for dynamic API key
-    private var appSettings: chromahub.rhythm.app.shared.data.model.AppSettings? = null
+    private var appSettings: NetworkSettingsProvider? = null
+    private var flags: NetworkFeatureFlags? = null
+    private var appVersion: String = "Rhythm"
+    private var appleMusicFallbackToken: String = ""
     
-    fun initialize(appSettings: chromahub.rhythm.app.shared.data.model.AppSettings) {
+    // Kept as an explicit lifecycle hook; the network stack owns its own policy
+    // (NetworkLog) and does not read AppSettings directly (multi-module split PR-3).
+    fun initialize(
+        appSettings: NetworkSettingsProvider,
+        flags: NetworkFeatureFlags,
+        appVersion: String,
+        appleMusicFallbackToken: String,
+        isDebugBuild: Boolean,
+    ) {
         this.appSettings = appSettings
+        this.flags = flags
+        this.appVersion = appVersion
+        this.appleMusicFallbackToken = appleMusicFallbackToken
+        NetworkBuildInfo.isDebug = isDebugBuild
+        NetworkBuildInfo.appVersion = appVersion
     }
     
     // Policy (level, redacted headers, sanitized messages) is owned by NetworkLog.
@@ -119,7 +138,7 @@ object NetworkClient {
         extraHeaders: Map<String, String> = emptyMap()
     ) = Interceptor { chain ->
         try {
-            val userAgent = customUserAgent ?: "Rhythm/${BuildConfig.VERSION_NAME} (https://github.com/cromaguy/Rhythm)"
+            val userAgent = customUserAgent ?: "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)"
             val requestBuilder = chain.request().newBuilder()
                 .header("User-Agent", userAgent)
                 .header("Accept", "application/json")
@@ -133,7 +152,7 @@ object NetworkClient {
         }
     }
 
-    private fun deezerHeadersInterceptor() = appHeadersInterceptor("RhythmApp/${BuildConfig.VERSION_NAME} (Android)")
+    private fun deezerHeadersInterceptor() = appHeadersInterceptor("RhythmApp/${appVersion} (Android)")
     
     private val deezerHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
@@ -158,8 +177,8 @@ object NetworkClient {
     private val lrclibHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(appHeadersInterceptor(
-                customUserAgent = "Rhythm/${BuildConfig.VERSION_NAME} (https://github.com/cromaguy/Rhythm)",
-                extraHeaders = mapOf("Lrclib-Client" to "Rhythm/${BuildConfig.VERSION_NAME} (https://github.com/cromaguy/Rhythm)")
+                customUserAgent = "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)",
+                extraHeaders = mapOf("Lrclib-Client" to "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)")
             ))
             .addInterceptor(loggingInterceptor)
             .addInterceptor(retryInterceptor)
@@ -279,31 +298,31 @@ object NetworkClient {
     }
     
     val deezerApiService: DeezerApiService? by lazy {
-        if (BuildConfig.ENABLE_DEEZER) deezerRetrofit.create(DeezerApiService::class.java) else null
+        if (flags?.deezer == true) deezerRetrofit.create(DeezerApiService::class.java) else null
     }
     
     val lrclibApiService: LRCLibApiService? by lazy {
-        if (BuildConfig.ENABLE_LRCLIB) lrclibRetrofit.create(LRCLibApiService::class.java) else null
+        if (flags?.lrclib == true) lrclibRetrofit.create(LRCLibApiService::class.java) else null
     }
     
     val betterLyricsApiService: BetterLyricsApiService? by lazy {
-        if (BuildConfig.ENABLE_BETTERLYRICS) betterlyricsRetrofit.create(BetterLyricsApiService::class.java) else null
+        if (flags?.betterLyrics == true) betterlyricsRetrofit.create(BetterLyricsApiService::class.java) else null
     }
     
     val ytmusicApiService: YTMusicApiService? by lazy {
-        if (BuildConfig.ENABLE_YOUTUBE_MUSIC) ytmusicRetrofit.create(YTMusicApiService::class.java) else null
+        if (flags?.youtubeMusic == true) ytmusicRetrofit.create(YTMusicApiService::class.java) else null
     }
     
     val spotifySearchApiService: SpotifySearchApiService? by lazy {
-        if (BuildConfig.ENABLE_SPOTIFY_SEARCH) spotifyRetrofit.create(SpotifySearchApiService::class.java) else null
+        if (flags?.spotifySearch == true) spotifyRetrofit.create(SpotifySearchApiService::class.java) else null
     }
 
     val rhythmLyricsApiService: RhythmLyricsApiService? by lazy {
-        if (BuildConfig.ENABLE_LYRICALLY_API) lyricallyRetrofit.create(RhythmLyricsApiService::class.java) else null
+        if (flags?.lyrically == true) lyricallyRetrofit.create(RhythmLyricsApiService::class.java) else null
     }
 
     val itunesSearchApiService: ITunesSearchApiService? by lazy {
-        if (BuildConfig.ENABLE_LYRICALLY_API) itunesRetrofit.create(ITunesSearchApiService::class.java) else null
+        if (flags?.lyrically == true) itunesRetrofit.create(ITunesSearchApiService::class.java) else null
     }
     
     val genericHttpClient: OkHttpClient by lazy {
@@ -314,13 +333,13 @@ object NetworkClient {
     }
     
     private fun integrationsOn(): Boolean = appSettings?.integrationsEnabled?.value ?: false
-    fun isDeezerApiEnabled(): Boolean = BuildConfig.ENABLE_DEEZER && integrationsOn() && (appSettings?.deezerApiEnabled?.value ?: false)
-    fun isLrcLibApiEnabled(): Boolean = BuildConfig.ENABLE_LRCLIB && integrationsOn() && (appSettings?.lrclibApiEnabled?.value ?: false)
-    fun isBetterLyricsApiEnabled(): Boolean = BuildConfig.ENABLE_BETTERLYRICS && integrationsOn() && (appSettings?.betterLyricsApiEnabled?.value ?: false)
-    fun isYTMusicApiEnabled(): Boolean = BuildConfig.ENABLE_YOUTUBE_MUSIC && integrationsOn() && (appSettings?.ytMusicApiEnabled?.value ?: false)
-    fun isSpotifyApiEnabled(): Boolean = BuildConfig.ENABLE_SPOTIFY_SEARCH && integrationsOn() && (appSettings?.spotifyApiEnabled?.value ?: false)
-    fun isLyricallyApiEnabled(): Boolean = BuildConfig.ENABLE_LYRICALLY_API && integrationsOn() && (appSettings?.lyricallyApiEnabled?.value ?: false)
-    fun isWikipediaApiEnabled(): Boolean = BuildConfig.ENABLE_WIKIPEDIA && integrationsOn() && (appSettings?.wikipediaApiEnabled?.value ?: false)
+    fun isDeezerApiEnabled(): Boolean = flags?.deezer == true && integrationsOn() && (appSettings?.deezerApiEnabled?.value ?: false)
+    fun isLrcLibApiEnabled(): Boolean = flags?.lrclib == true && integrationsOn() && (appSettings?.lrclibApiEnabled?.value ?: false)
+    fun isBetterLyricsApiEnabled(): Boolean = flags?.betterLyrics == true && integrationsOn() && (appSettings?.betterLyricsApiEnabled?.value ?: false)
+    fun isYTMusicApiEnabled(): Boolean = flags?.youtubeMusic == true && integrationsOn() && (appSettings?.ytMusicApiEnabled?.value ?: false)
+    fun isSpotifyApiEnabled(): Boolean = flags?.spotifySearch == true && integrationsOn() && (appSettings?.spotifyApiEnabled?.value ?: false)
+    fun isLyricallyApiEnabled(): Boolean = flags?.lyrically == true && integrationsOn() && (appSettings?.lyricallyApiEnabled?.value ?: false)
+    fun isWikipediaApiEnabled(): Boolean = flags?.wikipedia == true && integrationsOn() && (appSettings?.wikipediaApiEnabled?.value ?: false)
     
     // Get Spotify API credentials
     fun getSpotifyClientId(): String = appSettings?.spotifyClientId?.value ?: ""

@@ -117,7 +117,8 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 - 测试搬移：VersionComparatorTest、NetworkLogRedactorTest、AudioFormatDetectorTest、ArtistSeparatorTest、EnvelopeTest、RomanizationParsingTest、歌词 TTML/ELRC、QueueReorder/ShuffleState、ThemeSchemeTest、ExpressiveBottomButtonsTest 等。
 - 验收：编译 + 单测绿 + installDebug UI 冒烟（主题/图标/字体渲染）。
 
-### PR-3：数据与网络 `:core:network` + `:core:data`
+### PR-3：数据与网络 `:core:network` + `:core:data`（已完成 ✅ 2026-11-07）
+> 执行偏差（已回写）：**零 import churn**——AppSettings/Room/仓储全部保留原包名（`shared.data.model`/`features.local.data.*`）；NetworkSettingsProvider 接口 + NetworkFeatureFlags + NetworkBuildInfo + AppWorkerRegistry + AppStrings 五个缝隙由 :app 启动注入（BuildConfig.VERSION_NAME/DEBUG/APPLE_MUSIC_FALLBACK_TOKEN/worker 类与 work name 均不得复制到 :core:*，红线遵守）；MediaScanEngine/StableDateAddedResolver(:app util 依赖)、BackupRestoreManager(R.string)、MusicRepositoryImpl+LocalMusicModule(PR-5 归 :feature:local)、LyricsParser/CacheManager/RhythmLyricsParser(RhythmApplication/coil 依赖) 留守 :app。
 - network：infrastructure/network 15 文件整体迁入 + NetworkSettingsProvider 接口替代 `NetworkClient.initialize(AppSettings)`（过渡期 RhythmApplication 手动注入实现）。
 - data：Room（database/dao/entity）+ **AppSettings 6967 行整体搬入**（110 文件 import 脚本化批量修正）+ MusicRepositoryImpl + PlaybackStatsRepository（63 处引用）+ MediaScanEngine + StableDateAddedResolver + BackupRestoreManager + 依赖 AppSettings 的 util 收尾。
 - 消除 2 组反向依赖：core.domain→Room、util→AppSettings 就此落地。
