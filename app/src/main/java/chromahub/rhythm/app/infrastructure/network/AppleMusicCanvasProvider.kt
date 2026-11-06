@@ -1,6 +1,5 @@
 package chromahub.rhythm.app.network
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -18,31 +17,7 @@ import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 import okhttp3.HttpUrl.Companion.toHttpUrl
 
-private object AppleCanvasLogger {
-    private const val TAG = "AppleMusicCanvas"
-    fun d(msg: String) {
-        try {
-            Log.d(TAG, msg)
-        } catch (e: RuntimeException) {
-            println("[$TAG] D: $msg")
-        }
-    }
-    fun w(msg: String) {
-        try {
-            Log.w(TAG, msg)
-        } catch (e: RuntimeException) {
-            println("[$TAG] W: $msg")
-        }
-    }
-    fun e(msg: String, t: Throwable) {
-        try {
-            Log.e(TAG, msg, t)
-        } catch (e: RuntimeException) {
-            System.err.println("[$TAG] E: $msg")
-            t.printStackTrace()
-        }
-    }
-}
+private const val APPLE_CANVAS_LOG_TAG = "AppleMusicCanvas"
 
 object AppleMusicCanvasProvider {
 
@@ -79,7 +54,7 @@ object AppleMusicCanvasProvider {
             return@withContext cachedToken!!
         }
 
-        AppleCanvasLogger.d("Fetching fresh developer token dynamically...")
+        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Fetching fresh developer token dynamically...")
         try {
             val request = Request.Builder()
                 .url("https://music.apple.com/us/browse")
@@ -88,7 +63,7 @@ object AppleMusicCanvasProvider {
 
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
-                    AppleCanvasLogger.w("Failed to get Apple Music browse page: ${response.code}")
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Failed to get Apple Music browse page: ${response.code}")
                     return@use null
                 }
                 val html = response.body.string()
@@ -102,12 +77,12 @@ object AppleMusicCanvasProvider {
                         scripts.add(script)
                     }
                 }
-                AppleCanvasLogger.d("Found script candidates in HTML: $scripts")
+                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Found script candidates in HTML: $scripts")
 
                 var fetchedToken: String? = null
                 for (scriptPath in scripts) {
                     val scriptUrl = "https://music.apple.com$scriptPath"
-                    AppleCanvasLogger.d("Fetching script: $scriptUrl")
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Fetching script: $scriptUrl")
 
                     val scriptReq = Request.Builder()
                         .url(scriptUrl)
@@ -141,7 +116,7 @@ object AppleMusicCanvasProvider {
                                             if (expSeconds * 1000 > now) {
                                                 fetchedToken = token
                                                 tokenExpiryMs = expSeconds * 1000
-                                                AppleCanvasLogger.d("Successfully decoded and verified new token. Expires at: ${Date(tokenExpiryMs)}")
+                                                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Successfully decoded and verified new token. Expires at: ${Date(tokenExpiryMs)}")
                                                 break
                                             }
                                         }
@@ -159,12 +134,12 @@ object AppleMusicCanvasProvider {
                     cachedToken = fetchedToken
                     fetchedToken
                 } else {
-                    AppleCanvasLogger.w("Could not locate any valid fresh token in script files. Using fallback token.")
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Could not locate any valid fresh token in script files. Using fallback token.")
                     APPLE_MUSIC_TOKEN
                 }
             } ?: APPLE_MUSIC_TOKEN
         } catch (e: Exception) {
-            AppleCanvasLogger.e("Error occurred during dynamic token fetch. Using fallback token.", e)
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error occurred during dynamic token fetch. Using fallback token.", e)
             APPLE_MUSIC_TOKEN
         }
     }
@@ -186,7 +161,7 @@ object AppleMusicCanvasProvider {
 
         // Fallback: if song search returned null, try searching for the album of the song
         if (!album.isNullOrBlank()) {
-            AppleCanvasLogger.d("Song search returned null for '$song' by '$artist'. Falling back to album search for '$album'...")
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Song search returned null for '$song' by '$artist'. Falling back to album search for '$album'...")
             val albumResult = searchAndFetchMotion(term = album, artist = artist, album = null, storefront = storefront, type = "albums")
             if (albumResult != null) {
                 val songResult = albumResult.copy(name = song)
@@ -267,7 +242,7 @@ object AppleMusicCanvasProvider {
                 null
             }
         } catch (e: Exception) {
-            AppleCanvasLogger.e("Error fetching album description", e)
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error fetching album description", e)
             null
         }
     }
@@ -281,7 +256,7 @@ object AppleMusicCanvasProvider {
         type: String,
     ): CanvasArtwork? = withContext(Dispatchers.IO) {
         try {
-            AppleCanvasLogger.d("searching for $type: $term (album: $album) in $storefront")
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "searching for $type: $term (album: $album) in $storefront")
             var query = if (term.contains(artist, ignoreCase = true)) term else "$artist $term"
             if (!album.isNullOrBlank() && !query.contains(album, ignoreCase = true)) {
                 query = "$query $album"
@@ -306,7 +281,7 @@ object AppleMusicCanvasProvider {
 
             client.newCall(request).execute().use { response ->
                 if (response.code != 200) {
-                    AppleCanvasLogger.w("Search failed with status ${response.code}")
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Search failed with status ${response.code}")
                     return@use null
                 }
 
@@ -338,7 +313,7 @@ object AppleMusicCanvasProvider {
                             nameLower.contains("session") || collectionLower.contains("session")
 
                     if (isBlacklisted) {
-                        AppleCanvasLogger.d("Skipping blacklisted result: '$resultName' (Album: '$resultCollectionName')")
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Skipping blacklisted result: '$resultName' (Album: '$resultCollectionName')")
                         continue
                     }
 
@@ -374,7 +349,7 @@ object AppleMusicCanvasProvider {
                         else if (albumFuzzy) score += 10
                     }
 
-                    AppleCanvasLogger.d("Result candidate: '$resultName' by '$resultArtistName' (Album: '$resultCollectionName') -> Score: $score")
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Result candidate: '$resultName' by '$resultArtistName' (Album: '$resultCollectionName') -> Score: $score")
                     scoredResults.add(score to obj)
                 }
 
@@ -382,7 +357,7 @@ object AppleMusicCanvasProvider {
 
                 for ((score, obj) in scoredResults) {
                     if (score < 12) {
-                        AppleCanvasLogger.d("skipping result with low score: $score")
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "skipping result with low score: $score")
                         continue
                     }
                     val attributes = obj.getAsJsonObject("attributes") ?: continue
@@ -421,11 +396,11 @@ object AppleMusicCanvasProvider {
                     }
 
                     if (targetAlbumId == null || targetAlbumId.startsWith("pl.")) {
-                        AppleCanvasLogger.d("skipping null or playlist albumId ($targetAlbumId) for $resultName")
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "skipping null or playlist albumId ($targetAlbumId) for $resultName")
                         continue
                     }
 
-                    AppleCanvasLogger.d("trying resolve for $targetAlbumId (from $objType)")
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "trying resolve for $targetAlbumId (from $objType)")
 
                     // Check editorialVideo directly in the search result
                     val ev = attributes.getAsJsonObject("editorialVideo")
@@ -434,7 +409,7 @@ object AppleMusicCanvasProvider {
                         if (!hlsUrl.isNullOrBlank()) {
                             val collName = attributes.get("collectionName")?.asString
                             val resolvedAlbumName = if (objType == "songs") collName else resultName
-                            AppleCanvasLogger.d("Found direct editorialVideo for $resultName (ID: $targetAlbumId)")
+                            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Found direct editorialVideo for $resultName (ID: $targetAlbumId)")
                             return@use CanvasArtwork(
                                 name = resultName,
                                 artist = resultArtistName,
@@ -458,7 +433,7 @@ object AppleMusicCanvasProvider {
                 null
             }
         } catch (e: Exception) {
-            AppleCanvasLogger.e("Error searching and fetching motion", e)
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error searching and fetching motion", e)
             null
         }
     }
@@ -472,7 +447,7 @@ object AppleMusicCanvasProvider {
     ): CanvasArtwork? = withContext(Dispatchers.IO) {
         if (albumId.startsWith("pl.")) return@withContext null
         try {
-            AppleCanvasLogger.d("fetching album $albumId")
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "fetching album $albumId")
             val token = getOrFetchToken()
             val url = "https://amp-api.music.apple.com/v1/catalog/$storefront/albums/$albumId?extend=editorialVideo&include=tracks"
 
@@ -486,7 +461,7 @@ object AppleMusicCanvasProvider {
 
             client.newCall(request).execute().use { response ->
                 if (response.code != 200) {
-                    AppleCanvasLogger.w("album fetch failed for $albumId: ${response.code}")
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "album fetch failed for $albumId: ${response.code}")
                     return@use null
                 }
 
@@ -507,7 +482,7 @@ object AppleMusicCanvasProvider {
                         nameLower.contains("today's hits") || nameLower.contains("session")
 
                 if (isBlacklisted) {
-                    AppleCanvasLogger.d("fetchMotionArtwork: ignoring blacklisted album '$albumName' ($albumId)")
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "fetchMotionArtwork: ignoring blacklisted album '$albumName' ($albumId)")
                     return@use null
                 }
 
@@ -518,7 +493,7 @@ object AppleMusicCanvasProvider {
                 if (ev != null) {
                     val videoUrl = extractEditorialVideoUrl(ev)
                     if (!videoUrl.isNullOrBlank()) {
-                        AppleCanvasLogger.d("found editorialVideo for $finalTitle (album: $albumName, id: $albumId)")
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "found editorialVideo for $finalTitle (album: $albumName, id: $albumId)")
                         return@use CanvasArtwork(
                             name = finalTitle,
                             artist = finalArtist,
@@ -528,11 +503,11 @@ object AppleMusicCanvasProvider {
                         )
                     }
                 }
-                AppleCanvasLogger.d("no editorialVideo for $albumId")
+                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "no editorialVideo for $albumId")
                 null
             }
         } catch (e: Exception) {
-            AppleCanvasLogger.e("error in fetchMotionArtwork for $albumId", e)
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "error in fetchMotionArtwork for $albumId", e)
             null
         }
     }
