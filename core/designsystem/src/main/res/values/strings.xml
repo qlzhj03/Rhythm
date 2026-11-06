@@ -4,8 +4,7 @@
     <string name="library">音乐库</string>
     <string name="searching">搜索中</string>
     <string name="search">搜索</string>
-<string name="media3_notification_channel_name">Rhythm 正在播放</string>
-    <string name="media3_notification_channel_description">前台播放控制、进度调节与专辑封面</string>    <string name="widget_description_glance">在主屏幕查看正在播放的歌曲并控制音乐——播放、暂停、切歌等。</string>
+    <string name="widget_description_glance">在主屏幕查看正在播放的歌曲并控制音乐——播放、暂停、切歌等。</string>
     <string name="widget_name_glance">Rhythm 音乐</string>
     <string name="unknown_artist">未知艺术家</string>
     <string name="play_pause">播放/暂停</string>
@@ -186,11 +185,6 @@
     <string name="notification_updater_download_complete">更新已就绪，点击安装。</string>
     <string name="notification_updater_available_title">有新版本可用</string>
     <string name="notification_updater_available_text">Rhythm 推出了新版本。</string>
-    <string name="notification_sleep_timer_channel_name">Rhythm 睡眠助手</string>
-    <string name="notification_sleep_timer_channel_desc">睡眠定时器的倒计时与状态提醒</string>
-    <string name="notification_sleep_timer_title">睡眠定时器已启用</string>
-    <string name="notification_sleep_timer_pause_in">将在 %1$s 后暂停播放</string>
-    <string name="notification_sleep_timer_stop_in">将在 %1$s 后停止播放</string>
 <string name="notification_streaming_channel_name">Rhythm 云服务</string>
     <string name="notification_streaming_channel_desc">在线音乐服务的连接状态与同步进度</string>
 <string name="notification_streaming_auth_title">云服务已连接</string>
@@ -836,7 +830,8 @@
     <string name="onboarding_library_1">在音乐库中自定义标签页顺序，快速访问常用内容</string>
     <string name="onboarding_library_2">直接在音乐库界面创建与管理歌单</string>
     <string name="onboarding_theme_title">让 Rhythm 成为你的专属</string>
-    <string name="onboarding_theme_desc">个性化 Rhythm 的外观以匹配你的风格：选择配色来源、色彩方案，或更换字体。</string>    <string name="onboarding_more_tuner">更多自定义在设置中</string>
+    <string name="onboarding_theme_desc">个性化 Rhythm 的外观以匹配你的风格：选择配色来源、色彩方案，或更换字体。</string>
+    <string name="onboarding_more_tuner">更多自定义在设置中</string>
     <string name="onboarding_tuner_1">自定义配色方案与从专辑封面提取颜色</string>
     <string name="onboarding_tuner_2">字体自定义与排版设置</string>
     <string name="onboarding_rhythm_guard_title">保护你的听力</string>
@@ -1040,7 +1035,8 @@
     <string name="theme_font_source">字体来源</string>
     <string name="theme_font_source_desc">选择字体的加载来源</string>
     <string name="theme_font_selection">字体选择</string>
-    <string name="theme_font_selection_desc">从可用的系统字体中选择</string>    <string name="playlist_no_songs_yet">还没有歌曲</string>
+    <string name="theme_font_selection_desc">从可用的系统字体中选择</string>
+    <string name="playlist_no_songs_yet">还没有歌曲</string>
     <string name="playlist_no_songs_yet_desc">添加一些歌曲，开始创建你的歌单</string>
     <string name="playlist_search_no_matches_desc">换个关键词试试</string>
     <string name="playlist_add_songs_button">添加歌曲</string>
@@ -1230,7 +1226,6 @@
 
 <string name="cd_back">返回</string>
     <string name="cd_play">播放</string>
-    <string name="cd_shuffle">随机播放</string>
     <string name="cd_play_album">播放专辑</string>
     <string name="cd_previous_track">上一首</string>
     <string name="cd_next_track">下一首</string>
@@ -1309,15 +1304,8 @@
 <string name="service_app_updates">Rhythm 更新服务</string>
     <string name="service_update_status">Rhythm 更新状态</string>
     <string name="service_rhythm_pulse">Rhythm 提示</string>
-    <string name="service_rhythm_guard_alerts">Rhythm Guard 提醒</string>
-    <string name="service_rhythm_guard_timers">Rhythm Guard 计时</string>
-    <string name="service_rhythm_music">Rhythm 音乐</string>
     <string name="service_update_status_desc">后台更新检查的结果状态</string>
     <string name="service_rhythm_pulse_desc">来自 Rhythm 的贴心收听提醒与技巧</string>
-    <string name="service_rhythm_guard_alerts_desc">Rhythm Guard 的安全提醒</string>
-    <string name="service_rhythm_guard_timers_desc">Rhythm Guard 的休息与超时提醒</string>
-    <string name="service_ready">Rhythm 已就绪。</string>
-    <string name="service_init_failed">Rhythm 无法启动，请重新打开应用。</string>
 <string name="crash_bug_report">问题报告</string>
     <string name="crash_restart_app">重启应用</string>
 
@@ -1414,7 +1402,6 @@
     <string name="settings_rhythm_guard_first_break_dialog_start">开始休息</string>
     <string name="settings_rhythm_guard_locked_during_break">收听休息期间已锁定</string>
 
-    <string name="settings_rhythm_guard_timeout_reason_auto">已触发收听休息：今天的 %1$s 超过了建议的 %2$s。</string>
     <string name="settings_rhythm_guard_timeout_reason_manual">收听休息已开始</string>
     <string name="settings_rhythm_guard_resume_countdown_label">收听超时</string>
     <string name="settings_rhythm_guard_resume_countdown_value">%1$s 后恢复</string>
@@ -1459,12 +1446,8 @@
     <string name="settings_rhythm_guard_break_resume_search_desc">设置定时收听休息的默认时长</string>
     <string name="settings_rhythm_guard_enable_search_title">Rhythm Guard 总开关</string>
     <string name="settings_rhythm_guard_enable_search_desc">启用或停用 Rhythm Guard 保护</string>
-    <string name="settings_rhythm_guard_notification_alert_title">Rhythm Guard 安全提醒</string>
-    <string name="settings_rhythm_guard_notification_timer_active_title">Rhythm Guard 超时生效中</string>
-    <string name="settings_rhythm_guard_notification_timer_active_text">将在 %1$s 后恢复播放。</string>
     <string name="settings_rhythm_guard_notification_timer_scheduled_title">Rhythm Guard 休息已安排</string>
     <string name="settings_rhythm_guard_notification_timer_scheduled_text">收听休息将在 %1$s 后开始。</string>
-    <string name="settings_rhythm_guard_notification_tap_open">点击查看超时详情。</string>
 <string name="stats_title">Rhythm 数据</string>
     <string name="stats_today">今天</string>
     <string name="stats_this_week">本周</string>
@@ -1795,7 +1778,8 @@
     <string name="settings_restore_clipboard_desc">从剪贴板导入备份数据</string>
     <string name="settings_restore_file">从文件恢复</string>
     <string name="settings_restore_file_desc">从 JSON 文件导入备份</string>
-    <string name="settings_restart_now">立即重启</string>    <string name="settings_tab_songs">歌曲</string>
+    <string name="settings_restart_now">立即重启</string>
+    <string name="settings_tab_songs">歌曲</string>
     <string name="settings_tab_liked">喜欢</string>
     <string name="settings_tab_playlists">歌单</string>
     <string name="settings_tab_albums">专辑</string>
@@ -3399,7 +3383,6 @@
     <string name="ui_removed_from_playlist">已从「%2$s」移除《%1$s》</string>
     <string name="ui_playlist_exported">歌单「%1$s」已导出到 %2$s</string>
     <string name="ui_playlist_imported">已成功导入歌单「%1$s」，匹配 %2$d 首歌曲。建议重启应用以获得最佳体验。</string>
-    <string name="ui_bt_codec_info">蓝牙编解码器：%1$s，%2$s，%3$s</string>
     <string name="ui_tile_paused">已暂停：%1$s</string>
     <string name="ui_tile_playing">正在播放：%1$s</string>
     <string name="ui_manufacturer_format">制造商：%1$s</string>

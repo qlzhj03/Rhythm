@@ -19,6 +19,7 @@ import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.Tag
 import org.jaudiotagger.tag.images.ArtworkFactory
 import androidx.core.net.toUri
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ExtendedSongInfo
 import java.io.File

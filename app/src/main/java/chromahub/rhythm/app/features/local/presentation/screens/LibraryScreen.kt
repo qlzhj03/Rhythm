@@ -256,7 +256,7 @@ import chromahub.rhythm.app.core.designsystem.components.AlphabetBar
 import chromahub.rhythm.app.core.designsystem.components.ScrollToTopButton
 import chromahub.rhythm.app.core.designsystem.components.TabAnimation
 import chromahub.rhythm.app.util.AudioFormatDetector
-import chromahub.rhythm.app.util.AudioQualityDetector
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
 import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle

@@ -23,7 +23,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.net.toUri
-import chromahub.rhythm.app.BuildConfig
+import chromahub.rhythm.app.core.common.AppBuildInfo
 import chromahub.rhythm.app.util.MediaUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +48,7 @@ class RhythmAlbumArtProvider : ContentProvider() {
         private const val TAG = "RhythmAlbumArtProvider"
 
         /** Authority for the ContentProvider that serves artwork to external processes. */
-        const val PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.albumart"
+        val PROVIDER_AUTHORITY: String get() = "${AppBuildInfo.applicationId}.albumart"
 
         /**
          * Builds a virtual `content://` URI pointing to [RhythmAlbumArtProvider] for a song.

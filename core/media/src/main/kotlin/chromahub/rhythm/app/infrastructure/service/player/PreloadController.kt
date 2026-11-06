@@ -1,5 +1,6 @@
 package chromahub.rhythm.app.infrastructure.service.player
 
+import chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -14,7 +15,6 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.ResolvingDataSource
 import androidx.media3.datasource.DataSpec
-import chromahub.rhythm.app.features.streaming.di.StreamingMusicModule
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
@@ -25,7 +25,8 @@ import androidx.core.net.toUri
 @OptIn(UnstableApi::class)
 class PreloadController(
     private val context: Context,
-    private val appSettings: AppSettings
+    private val appSettings: AppSettings,
+    private val streamingResolver: StreamingPlaybackResolver
 ) {
     companion object {
         private const val TAG = "PreloadController"
@@ -59,7 +60,7 @@ class PreloadController(
                         if (dataSpec.uri.scheme == "streaming") {
                             val trackId = dataSpec.uri.lastPathSegment
                             if (!trackId.isNullOrBlank()) {
-                                val repository = StreamingMusicModule.provideStreamingMusicRepository(context)
+                                val repository = streamingResolver
                                 // 与 RhythmPlayerEngine 相同的解析限时；超时按「本次预载失败」处理，
                                 // 返回原 DataSpec 由预加载流程跳过，不影响正在播的曲目。
                                 val freshUrl = try {

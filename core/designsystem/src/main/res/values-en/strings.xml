@@ -4,8 +4,7 @@
     <string name="library">Library</string>
     <string name="searching">Searching</string>
     <string name="search">Search</string>
-<string name="media3_notification_channel_name">Rhythm Now Playing</string>
-    <string name="media3_notification_channel_description">Foreground playback controls, seek actions, and album artwork</string>    <string name="widget_description_glance">See what\'s playing and control your music from your home screen — play, pause, skip, and more.</string>
+    <string name="widget_description_glance">See what\'s playing and control your music from your home screen — play, pause, skip, and more.</string>
     <string name="widget_name_glance">Rhythm Music</string>
     <string name="unknown_artist">Unknown artist</string>
     <string name="play_pause">Play/Pause</string>
@@ -186,11 +185,6 @@
     <string name="notification_updater_download_complete">Update ready to install. Tap to proceed.</string>
     <string name="notification_updater_available_title">New Update Available</string>
     <string name="notification_updater_available_text">A new version of Rhythm is available.</string>
-    <string name="notification_sleep_timer_channel_name">Rhythm Sleep Assistant</string>
-    <string name="notification_sleep_timer_channel_desc">Countdowns and status alerts for active sleep timers</string>
-    <string name="notification_sleep_timer_title">Sleep Timer Active</string>
-    <string name="notification_sleep_timer_pause_in">Pausing playback in %1$s</string>
-    <string name="notification_sleep_timer_stop_in">Stopping playback in %1$s</string>
 <string name="notification_streaming_channel_name">Rhythm Cloud Services</string>
     <string name="notification_streaming_channel_desc">Connection status and sync progress for online music services</string>
 <string name="notification_streaming_auth_title">Cloud Service Connected</string>
@@ -836,7 +830,8 @@
     <string name="onboarding_library_1">Customize tab order in Library for quick access to your favorites</string>
     <string name="onboarding_library_2">Create and manage playlists directly from the Library screen</string>
     <string name="onboarding_theme_title">Make Rhythm Yours</string>
-    <string name="onboarding_theme_desc">Personalize Rhythm\'s appearance to match your style. Pick where colors come from, choose a color scheme, or switch the font.</string>    <string name="onboarding_more_tuner">More Customization in Settings</string>
+    <string name="onboarding_theme_desc">Personalize Rhythm\'s appearance to match your style. Pick where colors come from, choose a color scheme, or switch the font.</string>
+    <string name="onboarding_more_tuner">More Customization in Settings</string>
     <string name="onboarding_tuner_1">Custom color schemes and album art color extraction</string>
     <string name="onboarding_tuner_2">Font customization and typography settings</string>
     <string name="onboarding_rhythm_guard_title">Protect Your Hearing</string>
@@ -1040,7 +1035,8 @@
     <string name="theme_font_source">Font Source</string>
     <string name="theme_font_source_desc">Choose where to load fonts from</string>
     <string name="theme_font_selection">Font Selection</string>
-    <string name="theme_font_selection_desc">Choose from available system fonts</string>    <string name="playlist_no_songs_yet">No songs yet</string>
+    <string name="theme_font_selection_desc">Choose from available system fonts</string>
+    <string name="playlist_no_songs_yet">No songs yet</string>
     <string name="playlist_no_songs_yet_desc">Start building your playlist by adding some songs</string>
     <string name="playlist_search_no_matches_desc">Try a different search query</string>
     <string name="playlist_add_songs_button">Add Songs</string>
@@ -1230,7 +1226,6 @@
 
 <string name="cd_back">Back</string>
     <string name="cd_play">Play</string>
-    <string name="cd_shuffle">Shuffle</string>
     <string name="cd_play_album">Play album</string>
     <string name="cd_previous_track">Previous track</string>
     <string name="cd_next_track">Next track</string>
@@ -1309,15 +1304,8 @@
 <string name="service_app_updates">Rhythm Updater</string>
     <string name="service_update_status">Rhythm Updater Status</string>
     <string name="service_rhythm_pulse">Rhythm Tips</string>
-    <string name="service_rhythm_guard_alerts">Rhythm Guard Alerts</string>
-    <string name="service_rhythm_guard_timers">Rhythm Guard Timers</string>
-    <string name="service_rhythm_music">Rhythm Music</string>
     <string name="service_update_status_desc">Status results for background update checks</string>
     <string name="service_rhythm_pulse_desc">Friendly listening reminders and tips from Rhythm</string>
-    <string name="service_rhythm_guard_alerts_desc">Safety alerts from Rhythm Guard</string>
-    <string name="service_rhythm_guard_timers_desc">Rhythm Guard break and timeout reminders</string>
-    <string name="service_ready">Rhythm is ready.</string>
-    <string name="service_init_failed">Rhythm could not start. Please reopen the app.</string>
 <string name="crash_bug_report">Bug Report</string>
     <string name="crash_restart_app">Restart App</string>
 
@@ -1414,7 +1402,6 @@
     <string name="settings_rhythm_guard_first_break_dialog_start">Start Break</string>
     <string name="settings_rhythm_guard_locked_during_break">Locked during listening break</string>
 
-    <string name="settings_rhythm_guard_timeout_reason_auto">Listening break triggered: today %1$s exceeds recommended %2$s.</string>
     <string name="settings_rhythm_guard_timeout_reason_manual">Listening break started</string>
     <string name="settings_rhythm_guard_resume_countdown_label">Listening Timeout</string>
     <string name="settings_rhythm_guard_resume_countdown_value">Resume in %1$s</string>
@@ -1459,12 +1446,8 @@
     <string name="settings_rhythm_guard_break_resume_search_desc">Set how long scheduled listening breaks last by default</string>
     <string name="settings_rhythm_guard_enable_search_title">Rhythm Guard Power</string>
     <string name="settings_rhythm_guard_enable_search_desc">Enable or disable Rhythm Guard protections</string>
-    <string name="settings_rhythm_guard_notification_alert_title">Rhythm Guard Safety Alert</string>
-    <string name="settings_rhythm_guard_notification_timer_active_title">Rhythm Guard Timeout Active</string>
-    <string name="settings_rhythm_guard_notification_timer_active_text">Playback resumes in %1$s.</string>
     <string name="settings_rhythm_guard_notification_timer_scheduled_title">Rhythm Guard Break Scheduled</string>
     <string name="settings_rhythm_guard_notification_timer_scheduled_text">A listening break starts in %1$s.</string>
-    <string name="settings_rhythm_guard_notification_tap_open">Tap to view timeout details.</string>
 <string name="stats_title">Rhythm Stats</string>
     <string name="stats_today">Today</string>
     <string name="stats_this_week">This Week</string>
@@ -1840,7 +1823,8 @@
     <string name="settings_restore_clipboard_desc">Import backup data from clipboard</string>
     <string name="settings_restore_file">Restore from File</string>
     <string name="settings_restore_file_desc">Import backup from a JSON file</string>
-    <string name="settings_restart_now">Restart Now</string>    <string name="settings_tab_songs">Songs</string>
+    <string name="settings_restart_now">Restart Now</string>
+    <string name="settings_tab_songs">Songs</string>
     <string name="settings_tab_liked">Liked</string>
     <string name="settings_tab_playlists">Playlists</string>
     <string name="settings_tab_albums">Albums</string>
@@ -3446,7 +3430,6 @@
     <string name="ui_removed_from_playlist">Removed %1$s from %2$s</string>
     <string name="ui_playlist_exported">Playlist %1$s exported to %2$s</string>
     <string name="ui_playlist_imported">Playlist %1$s imported successfully, matching %2$d songs. Restart the app for the best experience.</string>
-    <string name="ui_bt_codec_info">Bluetooth codec: %1$s, %2$s, %3$s</string>
     <string name="ui_tile_paused">Paused: %1$s</string>
     <string name="ui_tile_playing">Playing: %1$s</string>
     <string name="ui_manufacturer_format">Manufacturer: %1$s</string>

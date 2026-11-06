@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.vector.ImageVector
 import android.net.Uri
 import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.shared.data.model.PlaybackQualityInfo
+import chromahub.rhythm.app.core.model.PlaybackQualityInfo
 import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.util.AudioQualityDetector
+import chromahub.rhythm.app.core.common.AudioQualityDetector
 import chromahub.rhythm.app.util.AudioFormatDetector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
