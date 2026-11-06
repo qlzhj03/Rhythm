@@ -12,6 +12,23 @@ import kotlin.random.Random
 
 private const val DISCOVER_LOADING_APPEARANCE_MS = 2_000L
 
+internal const val DISCOVER_AUTO_SCROLL_MIN_INTERVAL_SECONDS = 2
+internal const val DISCOVER_AUTO_SCROLL_MAX_INTERVAL_SECONDS = 15
+
+/**
+ * Delay between automatic discover-carousel steps, or `null` when the user turned auto
+ * scrolling off. The interval comes from AppSettings in seconds; clamp it to the same
+ * 2..15s range as its setter so stale/imported preferences cannot produce a zero or
+ * negative delay (which would spin the carousel without yielding).
+ */
+internal fun discoverCarouselAutoScrollDelayMs(enabled: Boolean, intervalSeconds: Int): Long? {
+    if (!enabled) return null
+    return intervalSeconds.coerceIn(
+        DISCOVER_AUTO_SCROLL_MIN_INTERVAL_SECONDS,
+        DISCOVER_AUTO_SCROLL_MAX_INTERVAL_SECONDS
+    ) * 1_000L
+}
+
 /**
  * Picks the discover carousel albums without copying or shuffling the whole library.
  *

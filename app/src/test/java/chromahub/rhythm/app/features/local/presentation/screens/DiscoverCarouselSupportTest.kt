@@ -2,6 +2,7 @@ package chromahub.rhythm.app.features.local.presentation.screens
 
 import chromahub.rhythm.app.shared.data.model.Album
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.random.Random
@@ -76,5 +77,25 @@ class DiscoverCarouselSupportTest {
 
         assertEquals(2, repicked.size)
         assertEquals(listOf("a1", "a2"), repicked.map { it.id })
+    }
+
+    @Test
+    fun disabledAutoScrollHasNoDelay() {
+        assertNull(discoverCarouselAutoScrollDelayMs(false, 5))
+        assertNull(discoverCarouselAutoScrollDelayMs(false, 12))
+    }
+
+    @Test
+    fun autoScrollDelayUsesConfiguredIntervalInSeconds() {
+        assertEquals(2_000L, discoverCarouselAutoScrollDelayMs(true, 2))
+        assertEquals(5_000L, discoverCarouselAutoScrollDelayMs(true, 5))
+        assertEquals(15_000L, discoverCarouselAutoScrollDelayMs(true, 15))
+    }
+
+    @Test
+    fun autoScrollDelayClampsOutOfRangeIntervals() {
+        assertEquals(2_000L, discoverCarouselAutoScrollDelayMs(true, -3))
+        assertEquals(2_000L, discoverCarouselAutoScrollDelayMs(true, 0))
+        assertEquals(15_000L, discoverCarouselAutoScrollDelayMs(true, 100))
     }
 }
