@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
  * ViewModel for managing the application mode (Local vs Streaming).
  * Handles mode switching and persists user preferences.
  * 
- * NOTE: Uses AppSettings (primary settings system) instead of duplicate UserPreferencesRepository
- * for consistency and to avoid sync issues between two settings systems.
+ * NOTE: Uses AppSettings as the single source of truth for settings.
  */
 class AppModeViewModel(application: Application) : AndroidViewModel(application) {
     

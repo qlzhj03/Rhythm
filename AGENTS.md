@@ -74,7 +74,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - `features/local` 与 `features/streaming` 的主要缝合点是 `features/local/presentation/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel`；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
 - 可复用 Composable 放 `shared/presentation/components/{common,player,bottomsheets,dialogs,icons,lyrics}`；设置页放 `shared/presentation/screens/settings`。**禁止**把新的复用组件放进 `features/*/presentation/components`（现存 8 个历史错位文件，不要照抄、不要再扩散）。
 - **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB）、`StreamingMusicViewModel.kt`（约 108 KB）、`AppUpdaterViewModel.kt`、`OnboardingScreen.kt`（10,000+ 行）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
-- **UseCase 层不是强制的**：`core/domain/usecase/SongUseCases.kt` 存在但当前无人调用；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
+- **UseCase 层不是强制的**：当前没有 UseCase（零引用的 `SongUseCases.kt` 已删除）；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
 - **包名与目录不一致（必须按文件里的 `package` 声明 import，不要按目录猜）**：
   - `infrastructure/network/`（14 个文件）→ `chromahub.rhythm.app.network`
   - `infrastructure/worker/`（3 个文件）→ `chromahub.rhythm.app.worker`
@@ -93,7 +93,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - **UI 收集方式统一 `collectAsState()`**（全仓 1000+ 处，91 个文件）。不要新写 `collectAsStateWithLifecycle()`，也不要两种混用；`lifecycle-runtime-compose` 未作为直接依赖声明（只显式依赖 `lifecycle-runtime-ktx`，`LocalLifecycleOwner` 可经传递依赖 import）。若要切换，属于需要审批的依赖 + 全量迁移。
 - **本项目不是 MVI**：没有 `XxxIntent` / `XxxEffect`。屏幕直接调用 ViewModel 的 `fun xxx()`；不要为「架构纯洁」引入 Intent/Reducer 层。
 - 一次性结果不向 UI 发事件：用可清空 / 可复位的 `StateFlow`（如 `RestoreResult.Idle → Done`），不要在同一功能里混用 `Channel`、`SharedFlow`、`StateFlow`。
-- `AppSettings` 是设置唯一来源，勿另建 SharedPreferences 读写通道；`shared/data/repository/UserPreferencesRepository` 是重复实现（`AppModeViewModel` 注释明确说明改用 `AppSettings`），新代码不要再依赖它。
+- `AppSettings` 是设置唯一来源，勿另建 SharedPreferences 读写通道；重复的 `shared/data/repository/UserPreferencesRepository` 因零引用已删除。
 - 新功能开关走三层门控：编译期 `BuildConfig.ENABLE_*` → `AppSettings.integrationsEnabled` 总开关 → 各 API 单项开关（`NetworkClient.kt` 的 `isXxxApiEnabled()` 与 `AppSettings` 的 `*ApiEnabled` StateFlow），设置页 / 引导页也按开关显隐。
   - `NetworkClient.kt` 的各 API service 是**可空** `by lazy`（按 `BuildConfig.ENABLE_*` 条件初始化，如 `ytmusicApiService: YTMusicApiService?`），调用处必须空安全访问，否则可能 NPE。
   - 当前所有 `ENABLE_*` 均为 `true`（清单见第 9 节），API 与自动更新默认开启，用户可在设置中逐项关闭。排查「某 API 在设置中缺失」时先查 `BuildConfig.ENABLE_*`，再查用户设置。
