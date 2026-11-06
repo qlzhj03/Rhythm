@@ -153,7 +153,7 @@ Rhythm 是一款采用 **Material 3 Expressive** 设计打造的现代开源音�
 * **音频引擎：** Media3 ExoPlayer、FFmpeg 解码器、JAudioTagger。
 * **架构：** MVVM + 清洁架构，100% Kotlin，Kotlin 协程 + Flow。
 * **数据与网络：** Room + SQLite、Retrofit、OkHttp、Gson。
-* **构建与管理：** AGP、Kotlin、WorkManager、LeakCanary。
+* **构建与管理：** AGP、Kotlin、WorkManager。
 
 📖 **完整技术栈：** 详情请阅读 [Wiki](wiki/Technology-Stack.md)。
 
