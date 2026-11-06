@@ -1868,12 +1868,6 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
         }
         applyUsbExclusiveRoutingPreference()
         val isBitPerfect = appSettings.audioRoutingMode.value == "app"
-        player.apply {
-            // Audio normalization - NOT IMPLEMENTED
-            // if (appSettings.audioNormalization.value) {
-            //     volume = 1.0f
-            // }
-        }
 
         // Apply Replay Gain settings
         rhythmPlayerEngine.applyReplayGainSettings(if (isBitPerfect) false else appSettings.replayGain.value)
@@ -1891,7 +1885,6 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
                 "Gapless=${appSettings.gaplessPlayback.value}, " +
                 "SkipSilence=${appSettings.skipSilenceEnabled.value}, " +
                 "Crossfade=${appSettings.crossfade.value} (${appSettings.crossfadeDuration.value}s)")
-                // Normalization and ReplayGain removed as not implemented
     }
     
     // Crossfade is now handled by RhythmPlayerEngine + TransitionController
