@@ -68,7 +68,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 | `infrastructure/` | `audio`（DSP/EQ/重采样/ReplayGain）、`network`、`service`（Media3 播放服务）、`widget/glance`、`worker`、`provider` |
 | `util/`、`utils/` | 纯 Kotlin 工具；`utils/` 目录仅 `StatusBroadcaster.kt`，但另有若干 `util/*.kt` 声明 `...app.utils` 包 |
 
-- **Gradle 模块现状**：`:app` + `:macrobenchmark`（`com.android.test`，仅 `benchmark` 变体启用，`targetProjectPath = :app`）+ `build-logic/`（included build，约定插件）。多模块拆分**进行中**（目标 15 模块：`:core:{model,common,designsystem,ui,data,network,media}` + `:feature:{local,streaming,player,settings,widget}`，见 `docs/multi-module-refactor-plan.md`）——新模块随拆分 PR 逐个落地，每个落地模块遵守其依赖规则；不要在拆分之外随手建新 Gradle 模块。
+- **Gradle 模块现状**：`:app` + `:macrobenchmark` + `build-logic/`（约定插件）+ 已落地叶子模块 `:core:common`（纯工具+HapticsGate）/`:core:model`（领域模型+toLibrary* 映射）/`:core:designsystem`（theme/festive/icons/common 组件 + strings/drawable/font 资源中心）。拆分进行中（目标见 `docs/multi-module-refactor-plan.md`）——`:app` 依赖三个 core 模块；`android.nonTransitiveRClass=false` 使 `chromahub.rhythm.app.R` 全仓可用（所有新模块 namespace 复用 `chromahub.rhythm.app`，`android.uniquePackageNames=false` 允许）；不要在拆分之外随手建新 Gradle 模块。
 - 调用链：`Screen(Composable)` → `AndroidViewModel` → `Repository`（持有 DAO / MediaStore / `MediaController`）→ 数据源。ViewModel **禁止**直接写 SQL、查询 MediaStore 或拼 HTTP 请求，必须经 Repository / DAO / API service。
 - 依赖方向：`presentation` → `data` / `domain`；`data` **不得**依赖 `presentation` 或 Compose；`infrastructure` **不得**反向依赖 `features/*/presentation`。
 - `features/local` 与 `features/streaming` 的主要缝合点是 `features/local/presentation/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel`；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
@@ -76,7 +76,8 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB）、`StreamingMusicViewModel.kt`（约 108 KB）、`AppUpdaterViewModel.kt`、`OnboardingScreen.kt`（10,000+ 行）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
 - **UseCase 层不是强制的**：当前没有 UseCase（零引用的 `SongUseCases.kt` 已删除）；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
 - **包名与目录不一致（必须按文件里的 `package` 声明 import，不要按目录猜）**：
-  - `infrastructure/network/`（15 个文件）→ `chromahub.rhythm.app.network`
+  - `infrastructure/network/`（15 个文件）→ `chromahub.rhythm.app.network`（PR-3）
+  - `AppSettings.kt`/`PlaybackQualityInfo.kt` 仍在 `shared.data.model`（PR-3）；`HapticUtils`/`FestiveOverlay` 等含 AppSettings/模型依赖的组件留守 `:app`（PR-5）
   - `infrastructure/worker/`（3 个文件）→ `chromahub.rhythm.app.worker`
   - `shared/presentation/theme/`（14 个文件）→ `chromahub.rhythm.app.ui.theme`（`festive/` 下 `...ui.theme.festive`），已全部统一，无例外。
   - `features/local/presentation/components/` 下 13 个文件的 package 已与目录统一（`...features.local.presentation.components.{bottomsheets,dialogs,player,settings}`）；`shared/presentation/viewmodel/MusicViewModel.kt` 的 `typealias` 已归入 `...shared.presentation.viewmodel`。

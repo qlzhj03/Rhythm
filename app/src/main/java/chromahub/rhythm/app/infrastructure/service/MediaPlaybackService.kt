@@ -21,8 +21,8 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Timeline
 import androidx.media3.common.Player
 import androidx.media3.common.ForwardingPlayer
-import chromahub.rhythm.app.shared.data.model.TransitionSettings
-import chromahub.rhythm.app.shared.data.model.TransitionMode
+import chromahub.rhythm.app.core.model.TransitionSettings
+import chromahub.rhythm.app.core.model.TransitionMode
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
@@ -37,7 +37,7 @@ import androidx.media3.session.SessionError
 import androidx.media3.session.SessionResult
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.infrastructure.service.player.RhythmPlayerEngine
 import chromahub.rhythm.app.infrastructure.service.player.TransitionController
 import chromahub.rhythm.app.infrastructure.service.player.PreloadController
@@ -60,8 +60,8 @@ import androidx.core.app.NotificationCompat
 import androidx.media3.common.AudioAttributes as ExoAudioAttributes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import chromahub.rhythm.app.util.GsonUtils
-import chromahub.rhythm.app.shared.data.model.Playlist
+import chromahub.rhythm.app.core.common.GsonUtils
+import chromahub.rhythm.app.core.model.Playlist
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
@@ -168,8 +168,8 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         }
     }
 
-    private var btInfo: chromahub.rhythm.app.util.BtCodecInfo? = null
-    private var btProxy: chromahub.rhythm.app.util.BtCodecInfo.Companion.Proxy? = null
+    private var btInfo: chromahub.rhythm.app.core.common.BtCodecInfo? = null
+    private var btProxy: chromahub.rhythm.app.core.common.BtCodecInfo.Companion.Proxy? = null
 
     var currentLyricTexts: List<String> = emptyList()
     var currentLyricTranslations: List<String> = emptyList()
@@ -217,7 +217,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
                 "android.bluetooth.a2dp.profile.action.CODEC_CONFIG_CHANGED" -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         val codecStatus = intent.getParcelableExtra("android.bluetooth.extra.CODEC_STATUS", android.bluetooth.BluetoothCodecStatus::class.java)
-                        val newBtInfo = chromahub.rhythm.app.util.BtCodecInfo.fromCodecConfig(codecStatus?.codecConfig)
+                        val newBtInfo = chromahub.rhythm.app.core.common.BtCodecInfo.fromCodecConfig(codecStatus?.codecConfig)
                         if (newBtInfo != null && newBtInfo != btInfo) {
                             btInfo = newBtInfo
                             Log.d(TAG, "New Bluetooth codec config: $btInfo")
@@ -241,7 +241,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         }
     }
 
-    private fun showCodecNotification(info: chromahub.rhythm.app.util.BtCodecInfo) {
+    private fun showCodecNotification(info: chromahub.rhythm.app.core.common.BtCodecInfo) {
         val codecName = info.codec ?: "Unknown"
         val sampleRate = info.sampleRateHz?.let { "$it Hz" } ?: "Unknown Rate"
         val bits = info.bitsPerSample?.let { "$it bits" } ?: ""
@@ -653,7 +653,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
                 androidx.core.content.ContextCompat.RECEIVER_EXPORTED
             )
 
-            btProxy = chromahub.rhythm.app.util.BtCodecInfo.getCodec(this) { info ->
+            btProxy = chromahub.rhythm.app.core.common.BtCodecInfo.getCodec(this) { info ->
                 if (info != null) {
                     btInfo = info
                     Log.d(TAG, "First Bluetooth codec config: $btInfo")

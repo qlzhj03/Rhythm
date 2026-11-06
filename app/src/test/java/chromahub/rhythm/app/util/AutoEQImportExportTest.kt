@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.shared.data.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.AutoEQProfile
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

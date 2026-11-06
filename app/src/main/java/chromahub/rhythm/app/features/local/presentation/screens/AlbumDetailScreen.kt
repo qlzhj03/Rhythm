@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 import androidx.activity.compose.BackHandler
 import android.net.Uri
 import android.widget.Toast
@@ -48,19 +48,19 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import chromahub.rhythm.app.R
 
-import chromahub.rhythm.app.shared.data.model.Album
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Album
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.findAlbumForRoute
+import chromahub.rhythm.app.core.model.findAlbumForRoute
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
-import chromahub.rhythm.app.shared.presentation.components.common.M3CircularLoader
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
@@ -70,8 +70,8 @@ import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkP
 import chromahub.rhythm.app.network.AppleMusicCanvasProvider
 import chromahub.rhythm.app.network.WikipediaProvider
 import chromahub.rhythm.app.network.CanvasArtwork
-import chromahub.rhythm.app.shared.data.model.CanvasNetworkMode
-import chromahub.rhythm.app.core.utils.NetworkUtils
+import chromahub.rhythm.app.core.model.CanvasNetworkMode
+import chromahub.rhythm.app.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistChooserBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmSortMenuContent
@@ -82,7 +82,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderActionGroup
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.util.ArtistSeparator
+import chromahub.rhythm.app.core.common.ArtistSeparator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -90,9 +90,9 @@ import kotlinx.coroutines.withContext
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.sp
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
 private enum class AlbumSortOrder {
     TRACK_NUMBER,

@@ -7,17 +7,17 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Adaptive
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
+import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.dialogs.AutoEQSuggestionDialog
 import chromahub.rhythm.app.shared.presentation.components.common.getDeviceIcon
 
@@ -105,11 +105,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import chromahub.rhythm.app.shared.data.model.AutoEQProfile
-import chromahub.rhythm.app.shared.data.model.UserAudioDevice
+import chromahub.rhythm.app.core.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.UserAudioDevice
 import chromahub.rhythm.app.util.AutoEQImportExport
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -258,8 +258,9 @@ fun DeviceConfigurationBottomSheet(
                                 )
                                 Text(
                                     text = if (matchedDevice != null) {
-                                        if (matchedDevice.autoEQProfileName != null) {
-                                            stringResource(R.string.device_configuration_configured_with, currentLocation.name, matchedDevice.autoEQProfileName)
+                                        val profileName = matchedDevice.autoEQProfileName
+                                        if (profileName != null) {
+                                            stringResource(R.string.device_configuration_configured_with, currentLocation.name, profileName)
                                         } else {
                                             stringResource(R.string.device_configuration_configured_no_profile, currentLocation.name)
                                         }
@@ -1060,7 +1061,7 @@ internal fun DeviceCard(
                                     MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = device.autoEQProfileName,
+                                text = device.autoEQProfileName.orEmpty(),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Medium,

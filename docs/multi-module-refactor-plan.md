@@ -108,7 +108,8 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 - 修订 AGENTS.md（新模块清单、依赖方向、删除三条被授权推翻的禁令）。
 - 验收：`:app` 行为不变，assembleDebug + 单测绿。
 
-### PR-2：叶子模块 `:core:model` + `:core:common` + `:core:designsystem`
+### PR-2：叶子模块 `:core:model` + `:core:common` + `:core:designsystem`（已完成 ✅ 2026-11-07）
+> 执行偏差（已回写）：`PlaybackQualityInfo`/`FestiveOverlay`/`FestiveThemeExamples`/`MarqueeText`/`RhythmButtonGroup`/`CollapsibleHeader` 等 R/AppSettings/模型依赖文件留守 `:app`（PR-3/5 归位）；`AudioFormatDetector` 因引用 Song 推迟；`HapticUtils` 经 `HapticsGate` 缝隙解耦（:app 启动时注入）；所有新模块 namespace=`chromahub.rhythm.app` + `android.nonTransitiveRClass=false`（R 引用零改动）；歌词/队列测试随声明归属留在 :app。
 - model：core/domain/model + shared/data/model 纯模型 + streaming/domain/model + StreamingModelMappers.kt 的 toLibrary*（约 25 文件）。
 - common：util/utils 中**纯工具**（依赖 AppSettings 的 M3ImageUtils/HapticUtils/LyricsParser 等留待 PR-3 随 AppSettings 同批）+ CrashReporter 接口化。
 - designsystem：theme 14 文件 + icons 2 文件 + font + UiConstants + ScrollStateUtils + components/common 33 文件 + strings/drawable 资源中心。

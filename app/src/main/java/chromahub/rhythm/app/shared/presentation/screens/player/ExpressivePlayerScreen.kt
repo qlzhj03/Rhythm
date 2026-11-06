@@ -109,48 +109,48 @@ import chromahub.rhythm.app.shared.presentation.components.lyrics.WordByWordLyri
 import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.data.model.Album
+import chromahub.rhythm.app.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.LyricsData
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.shared.presentation.components.common.AnimatedDigitTickerText
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.LyricsData
+import chromahub.rhythm.app.core.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.designsystem.components.AnimatedDigitTickerText
 import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
-import chromahub.rhythm.app.shared.presentation.components.common.ButtonGroupStyle
+import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.M3LinearLoader
+import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.shared.presentation.components.common.PlaybackBufferingLoader
+import chromahub.rhythm.app.core.designsystem.components.PlaybackBufferingLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.shared.presentation.components.common.WaveSlider
+import chromahub.rhythm.app.core.designsystem.components.WaveSlider
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.common.M3CircularLoader
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmControlButton
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import chromahub.rhythm.app.core.designsystem.components.RhythmControlButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmPlayButton
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.components.RhythmPlayButton
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.util.ColorExtractor
-import chromahub.rhythm.app.util.DevicePosture
-import chromahub.rhythm.app.util.rememberDevicePosture
+import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
+import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
+import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
 import com.google.android.material.color.utilities.Hct
-import chromahub.rhythm.app.util.LrcUtils
+import chromahub.rhythm.app.core.common.LrcUtils
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.util.SemanticLyrics
+import chromahub.rhythm.app.core.common.SemanticLyrics
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.widget.Toast
@@ -184,8 +184,8 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.core.net.toUri
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
 internal val artworkValidationCache = java.util.concurrent.ConcurrentHashMap<android.net.Uri, Boolean>()
 internal val accentSchemeCache = java.util.concurrent.ConcurrentHashMap<String, Pair<Color, Color>>()
@@ -353,7 +353,7 @@ fun ExpressivePlayerScreen(
     val context = LocalContext.current
 
     var showAutoEQSuggestion by remember { mutableStateOf(false) }
-    var detectedDevice by remember { mutableStateOf<chromahub.rhythm.app.shared.data.model.UserAudioDevice?>(null) }
+    var detectedDevice by remember { mutableStateOf<chromahub.rhythm.app.core.model.UserAudioDevice?>(null) }
     var showDeviceConfig by remember { mutableStateOf(false) }
 
     LaunchedEffect(location) {
@@ -537,7 +537,7 @@ fun ExpressivePlayerScreen(
                         bg to fg
                     } else {
                         val schemeType = if (sourceHct.chroma > 18.0) "VIBRANT" else "TONAL_SPOT"
-                        val (contrastLevel, chromaMultiplier) = chromahub.rhythm.app.ui.theme.resolveIntensity(themeIntensity)
+                        val (contrastLevel, chromaMultiplier) = chromahub.rhythm.app.core.designsystem.theme.resolveIntensity(themeIntensity)
                         val dynamicScheme = ColorExtractor.createDynamicScheme(
                             sourceHct,
                             schemeType,
@@ -2606,9 +2606,10 @@ private fun RhythmPlayerLyricsPanel(
                 val translationAutoWord by localAppSettings.translationAutoWord.collectAsState()
                 val wordByWordLyrics = remember(lyrics, translationAutoWord) {
                     lyrics.getWordByWordLyricsOrNull() ?: run {
-                        if (translationAutoWord && lyrics.syncedLyrics != null) try {
+                        val syncedLyricsText = lyrics.syncedLyrics
+                        if (translationAutoWord && syncedLyricsText != null) try {
                             val o = LrcUtils.LrcParserOptions(true, true, null, true)
-                            val p = LrcUtils.parseLyrics(lyrics.syncedLyrics, null, o, LrcUtils.LyricFormat.LRC)
+                            val p = LrcUtils.parseLyrics(syncedLyricsText, null, o, LrcUtils.LyricFormat.LRC)
                             if (p is SemanticLyrics.SyncedLyrics) LrcUtils.convertSemanticLyricsToWordByWord(p) else null
                         } catch (e: Exception) { null } else null
                     }
@@ -2642,9 +2643,10 @@ private fun RhythmPlayerLyricsPanel(
                             Text(filteredText, style = MaterialTheme.typography.bodyLarge.copy(fontSize = MaterialTheme.typography.bodyLarge.fontSize * textSizeMultiplier,
                                 lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * 1.6f * textSizeMultiplier, fontWeight = FontWeight.Medium, letterSpacing = 0.5.sp),
                                 color = textColor, textAlign = textAlignment, modifier = Modifier.fillMaxWidth())
-                            if (!lyrics.source.isNullOrBlank()) {
+                            val lyricsSource = lyrics.source
+                            if (!lyricsSource.isNullOrBlank()) {
                                 Spacer(Modifier.height(24.dp))
-                                Text(stringResource(R.string.lyrics_source_attribution, lyrics.source), style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Normal, letterSpacing = 0.5.sp),
+                                Text(stringResource(R.string.lyrics_source_attribution, lyricsSource), style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Normal, letterSpacing = 0.5.sp),
                                     color = subtitleColor.copy(alpha = 0.6f), textAlign = textAlignment, modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp))
                             }
                         }

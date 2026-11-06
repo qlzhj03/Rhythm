@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random

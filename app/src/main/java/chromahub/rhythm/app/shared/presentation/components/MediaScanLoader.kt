@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.LaunchedEffect
-import chromahub.rhythm.app.shared.data.model.ScanProgress
-import chromahub.rhythm.app.shared.data.model.ScanPhase
+import chromahub.rhythm.app.core.model.ScanProgress
+import chromahub.rhythm.app.core.model.ScanPhase
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
@@ -39,8 +39,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -66,8 +66,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.LinearWavyProgressIndicator
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.common.MediaScanningLoader
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.components.MediaScanningLoader
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
 import android.util.Log
@@ -401,7 +401,7 @@ private fun MediaScanStats(
 
 @Composable
 private fun StatItem(
-    icon: chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon,
+    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
     count: Int,
     label: String,
     color: Color

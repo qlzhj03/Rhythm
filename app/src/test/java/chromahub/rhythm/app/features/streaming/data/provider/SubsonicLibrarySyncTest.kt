@@ -2,13 +2,13 @@ package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.ContextWrapper
 import android.content.SharedPreferences
-import chromahub.rhythm.app.core.domain.model.SourceType
+import chromahub.rhythm.app.core.model.SourceType
 import chromahub.rhythm.app.features.streaming.data.provider.SubsonicApiClient.LibraryChangeState
 import chromahub.rhythm.app.features.streaming.data.repository.CatalogCacheWriter
 import chromahub.rhythm.app.features.streaming.data.repository.ResumableLibraryFetch
 import chromahub.rhythm.app.features.streaming.data.repository.StarredSongs
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingCatalogCache
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingSong
+import chromahub.rhythm.app.core.model.StreamingSong
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
 import com.google.gson.Gson
 import kotlinx.coroutines.CompletableDeferred

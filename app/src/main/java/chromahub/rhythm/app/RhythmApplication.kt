@@ -16,7 +16,8 @@ import chromahub.rhythm.app.infrastructure.widget.glance.GlanceShapeBitmaps
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmCookieWidget
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.ANRWatchdog
+import chromahub.rhythm.app.core.common.ANRWatchdog
+import chromahub.rhythm.app.core.common.HapticsGate
 import chromahub.rhythm.app.util.CacheManager
 import chromahub.rhythm.app.util.CrashReporter
 import chromahub.rhythm.app.util.MediaUtils
@@ -60,6 +61,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         // Initialize AppSettings early (singleton, uses application context)
         val settings = AppSettings.getInstance(applicationContext)
         Log.d(TAG, "✓ AppSettings initialized")
+
+        // Haptics seam: :core:designsystem reads haptics setting through this gate
+        // so its helpers stay decoupled from AppSettings (multi-module split PR-2).
+        HapticsGate.isEnabled = { settings.isHapticEnabled.value }
 
         // Apply the user's theme preference to the system configuration so the
         // system splash screen and window background match the app theme

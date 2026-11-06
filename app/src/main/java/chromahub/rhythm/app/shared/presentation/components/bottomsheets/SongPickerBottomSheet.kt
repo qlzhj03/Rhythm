@@ -2,9 +2,9 @@ package chromahub.rhythm.app.shared.presentation.components.bottomsheets
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -33,13 +33,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveScrollBar
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsSearchBar
 import chromahub.rhythm.app.R

@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.components.common
 
-import chromahub.rhythm.app.shared.data.model.UserAudioDevice
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
+import chromahub.rhythm.app.core.model.UserAudioDevice
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 
 /**
  * Returns the appropriate MaterialSymbolIcon based on the detected or selected DeviceType.

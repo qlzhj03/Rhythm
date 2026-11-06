@@ -9,6 +9,8 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.StringReader
 import java.util.Locale
 import kotlin.math.abs
+import chromahub.rhythm.app.core.common.SemanticLyrics
+import chromahub.rhythm.app.core.common.parseTtml
 
 object RhythmLyricsParser {
     private const val TAG = "RhythmLyricsParser"

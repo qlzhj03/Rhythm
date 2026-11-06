@@ -9,11 +9,11 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedB
 
 
 
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.app.Activity
 import android.content.ClipData
@@ -97,37 +97,37 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.BuildConfig
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.util.GsonUtils
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.common.GsonUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kotlin.system.exitProcess
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
-import chromahub.rhythm.app.shared.presentation.components.common.ButtonGroupStyle
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveScrollBar
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveButtonGroup
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveGroupButton
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveGroupButton
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
-import chromahub.rhythm.app.ui.utils.LazyListStateSaver
+import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
 import chromahub.rhythm.app.shared.presentation.components.common.SplashBackgroundOrbs
-import chromahub.rhythm.app.ui.theme.getFontPreviewStyle
-import chromahub.rhythm.app.ui.theme.getFontFamilyByName
+import chromahub.rhythm.app.core.designsystem.theme.getFontPreviewStyle
+import chromahub.rhythm.app.core.designsystem.theme.getFontFamilyByName
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -142,12 +142,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.text.HtmlCompat
-import chromahub.rhythm.app.shared.presentation.components.common.M3FourColorCircularLoader
+import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.BulkPlaylistExportDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
+import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationResultDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.AppRestartDialog
@@ -161,8 +161,8 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSw
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerSettingCard
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingItem
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingGroup
-import chromahub.rhythm.app.ui.theme.ColorSchemeOption
-import chromahub.rhythm.app.ui.theme.getPresetColorSchemeOptions
+import chromahub.rhythm.app.core.designsystem.theme.ColorSchemeOption
+import chromahub.rhythm.app.core.designsystem.theme.getPresetColorSchemeOptions
 
 // Data classes and enums for theme customization
 
@@ -813,7 +813,7 @@ fun ThemeCustomizationSettingsScreen(onBackClick: () -> Unit) {
             onDismiss = { showRestartDialog = false },
             onRestart = {
                 showRestartDialog = false
-                chromahub.rhythm.app.util.AppRestarter.restartApp(context)
+                chromahub.rhythm.app.core.common.AppRestarter.restartApp(context)
             },
             onContinue = {
                 showRestartDialog = false

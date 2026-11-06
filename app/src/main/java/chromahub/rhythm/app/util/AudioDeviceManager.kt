@@ -8,7 +8,7 @@ import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
 import android.util.Log
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.PlaybackLocation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +20,7 @@ import android.content.pm.PackageManager
 import android.bluetooth.BluetoothClass
 import android.content.Intent
 import android.provider.Settings
+import chromahub.rhythm.app.core.common.OutputSwitcherHelper
 
 /**
  * Utility class to manage audio output devices

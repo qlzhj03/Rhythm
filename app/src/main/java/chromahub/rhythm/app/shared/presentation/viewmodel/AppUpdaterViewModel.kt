@@ -27,8 +27,8 @@ import chromahub.rhythm.app.network.GitHubRelease
 import chromahub.rhythm.app.network.GitHubWorkflowRun
 import chromahub.rhythm.app.network.NetworkManager
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.ChangelogFilter
-import chromahub.rhythm.app.util.VersionComparator
+import chromahub.rhythm.app.core.common.ChangelogFilter
+import chromahub.rhythm.app.core.common.VersionComparator
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

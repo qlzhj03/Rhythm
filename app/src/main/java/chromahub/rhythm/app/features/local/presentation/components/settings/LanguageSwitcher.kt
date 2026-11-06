@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.components.settings
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.app.LocaleManager
 import android.content.Context
@@ -26,8 +26,8 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAd
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.util.HapticType
-import chromahub.rhythm.app.util.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp

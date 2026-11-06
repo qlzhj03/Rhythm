@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.features.streaming.presentation.components
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,13 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCard
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
-import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveCard
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
+import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 

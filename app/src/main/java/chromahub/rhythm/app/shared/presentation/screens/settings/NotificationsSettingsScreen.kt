@@ -46,13 +46,13 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedB
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
-import chromahub.rhythm.app.ui.utils.LazyListStateSaver
-import chromahub.rhythm.app.util.HapticType
-import chromahub.rhythm.app.util.HapticUtils
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 
 @Composable
 fun NotificationsSettingsScreen(onBackClick: () -> Unit) {

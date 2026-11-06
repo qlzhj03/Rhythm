@@ -16,8 +16,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import chromahub.rhythm.app.infrastructure.service.player.MissingLocalMediaClassifier
-import chromahub.rhythm.app.shared.data.model.AutoEQDatabase
-import chromahub.rhythm.app.shared.data.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.AutoEQDatabase
+import chromahub.rhythm.app.core.model.AutoEQProfile
 import chromahub.rhythm.app.util.AutoEQManager
 import android.util.LruCache
 import androidx.core.net.toUri
@@ -36,35 +36,35 @@ import androidx.media3.session.SessionToken
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity
-import chromahub.rhythm.app.shared.data.model.Album
+import chromahub.rhythm.app.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.LyricsSourcePreference
-import chromahub.rhythm.app.shared.data.model.MediaScanMode
-import chromahub.rhythm.app.shared.data.model.ScanPhase
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.LyricsSourcePreference
+import chromahub.rhythm.app.core.model.MediaScanMode
+import chromahub.rhythm.app.core.model.ScanPhase
 import chromahub.rhythm.app.features.local.data.repository.MusicRepository
 import chromahub.rhythm.app.features.local.data.database.entity.toSong
 import chromahub.rhythm.app.features.local.data.database.entity.toEntity
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingPlaybackUris
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Queue
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.shared.data.model.FolderNode
+import chromahub.rhythm.app.core.model.StreamingPlaybackUris
+import chromahub.rhythm.app.core.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Queue
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.model.FolderNode
 import chromahub.rhythm.app.shared.data.model.PlaybackQualityInfo
 import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.widget.WidgetUpdater
-import chromahub.rhythm.app.util.StoragePathUtils
+import chromahub.rhythm.app.core.common.StoragePathUtils
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.EqualizerUtils
-import chromahub.rhythm.app.util.GsonUtils
+import chromahub.rhythm.app.core.common.GsonUtils
 import chromahub.rhythm.app.util.MediaUtils
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
 import chromahub.rhythm.app.util.RhythmBackupDetectedException
-import chromahub.rhythm.app.util.PlaybackCommandSerializer
+import chromahub.rhythm.app.core.common.PlaybackCommandSerializer
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.ColorExtractor
+import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import kotlinx.coroutines.Job
@@ -104,17 +104,17 @@ import com.google.gson.reflect.TypeToken
 import java.util.Calendar
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
-import chromahub.rhythm.app.shared.data.model.LyricsData
+import chromahub.rhythm.app.core.model.LyricsData
 import chromahub.rhythm.app.util.PendingWriteRequest
 import chromahub.rhythm.app.util.PendingBatchWriteRequest
 import chromahub.rhythm.app.util.PendingLyricsWriteRequest
 import chromahub.rhythm.app.util.PendingDeleteRequest
 import chromahub.rhythm.app.util.QueueUtils
-import chromahub.rhythm.app.util.GenreUtils
-import chromahub.rhythm.app.util.NaturalSortComparator
+import chromahub.rhythm.app.core.common.GenreUtils
+import chromahub.rhythm.app.core.common.NaturalSortComparator
 import chromahub.rhythm.app.util.LyricLine
 import chromahub.rhythm.app.util.LyricsParser
-import chromahub.rhythm.app.util.ServiceStartUtils
+import chromahub.rhythm.app.core.common.ServiceStartUtils
 import chromahub.rhythm.app.utils.StatusBroadcaster
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 
@@ -237,8 +237,8 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     
     // AutoEQ manager
     private val autoEQManager = AutoEQManager(application)
-    private val _autoEQProfiles = MutableStateFlow<List<chromahub.rhythm.app.shared.data.model.AutoEQProfile>>(emptyList())
-    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.shared.data.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
+    private val _autoEQProfiles = MutableStateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>>(emptyList())
+    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
     private val _autoEQLoading = MutableStateFlow(false)
     val autoEQLoading: StateFlow<Boolean> = _autoEQLoading.asStateFlow()
     
@@ -839,7 +839,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         appSettings.artistSeparatorDelimiters
     ) { artists, filteredSongs, groupByAlbumArtist, artistSeparatorEnabled, artistSeparatorDelimiters ->
         val charDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.util.ArtistSeparator.parseDelimiters(artistSeparatorDelimiters)
+            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(artistSeparatorDelimiters)
         } else {
             emptyList()
         }
@@ -1470,8 +1470,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 } else if (!isSpeaker && previousDevice?.id == AudioDeviceManager.DEVICE_SPEAKER) {
                     val matchedDevice = findMatchingUserDevice(device.name)
-                    if (matchedDevice?.autoEQProfileName != null) {
-                        val profile = autoEQManager.findProfileByName(matchedDevice.autoEQProfileName)
+                    val profileName = matchedDevice?.autoEQProfileName
+                    if (profileName != null) {
+                        val profile = autoEQManager.findProfileByName(profileName)
                         if (profile != null) {
                             Log.d(TAG, "Reconnected to configured device: applying ${profile.name}")
                             applyAutoEQProfile(profile)
@@ -2294,8 +2295,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
             val mergedSongs = freshSongs.map { fresh ->
                 val cached = cachedSongMap[fresh.id]
                 if (cached != null) {
-                    val isCachedFileValid = cached.artworkUri?.scheme == "file" &&
-                        cached.artworkUri.path?.let { File(it).exists() } == true
+                    val cachedArtworkUri = cached.artworkUri
+                    val isCachedFileValid = cachedArtworkUri?.scheme == "file" &&
+                        cachedArtworkUri.path?.let { File(it).exists() } == true
                     val hasArtworkOverride = runCatching {
                         getApplication<Application>().getSharedPreferences("artwork_overrides", Context.MODE_PRIVATE)
                             .getString("uri_${cached.id}", null) != null
@@ -10406,11 +10408,11 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    fun searchAutoEQProfiles(query: String): List<chromahub.rhythm.app.shared.data.model.AutoEQProfile> {
+    fun searchAutoEQProfiles(query: String): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
         return autoEQManager.searchProfiles(query)
     }
     
-    fun applyAutoEQProfile(profile: chromahub.rhythm.app.shared.data.model.AutoEQProfile) {
+    fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
         if (profile.name.isBlank() || profile.name.equals("None", ignoreCase = true)) {
             Log.d(TAG, "Disabling AutoEQ profile")
             appSettings.setAutoEQProfile("")
@@ -10462,14 +10464,14 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    fun getAutoEQRecommendedProfiles(): List<chromahub.rhythm.app.shared.data.model.AutoEQProfile> {
+    fun getAutoEQRecommendedProfiles(): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
         return autoEQManager.getRecommendedProfiles()
     }
     
     // User Audio Device Management
-    fun saveUserAudioDevice(device: chromahub.rhythm.app.shared.data.model.UserAudioDevice) {
+    fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         val currentDevicesJson = appSettings.userAudioDevices.value
-        val currentDevices = chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
+        val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
         // Check if device already exists (update) or is new (add)
         val existingIndex = currentDevices.indexOfFirst { it.id == device.id }
@@ -10481,15 +10483,15 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
             Log.d(TAG, "Added new audio device: ${device.name}")
         }
         
-        appSettings.setUserAudioDevices(chromahub.rhythm.app.shared.data.model.UserAudioDevice.toJson(currentDevices))
+        appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
     }
     
     fun deleteUserAudioDevice(deviceId: String) {
         val currentDevicesJson = appSettings.userAudioDevices.value
-        val currentDevices = chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
+        val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
         currentDevices.removeAll { it.id == deviceId }
-        appSettings.setUserAudioDevices(chromahub.rhythm.app.shared.data.model.UserAudioDevice.toJson(currentDevices))
+        appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
         
         // If deleted device was active, clear active device
         if (appSettings.activeAudioDeviceId.value == deviceId) {
@@ -10499,13 +10501,14 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "Deleted audio device: $deviceId")
     }
     
-    fun setActiveAudioDevice(device: chromahub.rhythm.app.shared.data.model.UserAudioDevice) {
+    fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         appSettings.setActiveAudioDeviceId(device.id)
         Log.d(TAG, "Set active audio device: ${device.name}")
         
         // Apply AutoEQ profile if the device has one configured
-        if (device.autoEQProfileName != null) {
-            val profile: AutoEQProfile? = autoEQManager.findProfileByName(device.autoEQProfileName)
+        val deviceProfileName = device.autoEQProfileName
+        if (deviceProfileName != null) {
+            val profile: AutoEQProfile? = autoEQManager.findProfileByName(deviceProfileName)
             if (profile != null) {
                 applyAutoEQProfile(profile)
                 Log.d(TAG, "Applied AutoEQ profile for device: ${device.autoEQProfileName}")
@@ -10517,9 +10520,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "Applied mono audio for device: ${device.monoAudioEnabled}")
     }
     
-    fun getActiveAudioDevice(): chromahub.rhythm.app.shared.data.model.UserAudioDevice? {
+    fun getActiveAudioDevice(): chromahub.rhythm.app.core.model.UserAudioDevice? {
         val activeId = appSettings.activeAudioDeviceId.value ?: return null
-        val devices = chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
+        val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
         return devices.find { it.id == activeId }
     }
     
@@ -10527,8 +10530,8 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
      * Try to match a connected audio device (from PlaybackLocation) with saved UserAudioDevice
      * Uses fuzzy matching to account for slight name variations
      */
-    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.shared.data.model.UserAudioDevice? {
-        val devices = chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
+    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
+        val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
         if (devices.isEmpty()) return null
         
         val normalizedSearchName = deviceName.lowercase().trim()
@@ -10577,8 +10580,8 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Custom Equalizer Presets & Reordering
-    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.shared.data.model.CustomEqualizerPreset {
-        val preset = chromahub.rhythm.app.shared.data.model.CustomEqualizerPreset(
+    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
+        val preset = chromahub.rhythm.app.core.model.CustomEqualizerPreset(
             name = name,
             bands = bands
         )
@@ -10604,7 +10607,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "Deleted custom equalizer preset: $id")
     }
 
-    fun saveCustomAutoEQProfile(profile: chromahub.rhythm.app.shared.data.model.AutoEQProfile) {
+    fun saveCustomAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
         val verifiedBands = when {
             profile.bands.size == 10 -> profile.bands
             profile.bands.size > 10 -> profile.bands.take(10)
@@ -10618,7 +10621,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "Saved custom AutoEQ profile with 10 bands: ${normalized.name}")
     }
 
-    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.shared.data.model.AutoEQProfile>) {
+    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
         val normalizedList = profiles.map { profile ->
             val verifiedBands = when {
                 profile.bands.size == 10 -> profile.bands
@@ -10661,7 +10664,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         // 4. Clear this AutoEQ profile from any saved user audio devices
         val currentDevicesJson = appSettings.userAudioDevices.value
         if (currentDevicesJson != null) {
-            val devices = chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(currentDevicesJson)
+            val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson)
             var modified = false
             val updatedDevices = devices.map { device ->
                 if (device.autoEQProfileName.equals(name, ignoreCase = true)) {
@@ -10672,7 +10675,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             if (modified) {
-                appSettings.setUserAudioDevices(chromahub.rhythm.app.shared.data.model.UserAudioDevice.toJson(updatedDevices))
+                appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(updatedDevices))
             }
         }
 
@@ -10711,7 +10714,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "Unpinned AutoEQ profile: $name")
     }
 
-    fun assignAutoEQProfileToDevice(device: chromahub.rhythm.app.shared.data.model.UserAudioDevice, profileName: String?) {
+    fun assignAutoEQProfileToDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice, profileName: String?) {
         val updated = device.copy(autoEQProfileName = profileName)
         saveUserAudioDevice(updated)
         if (profileName != null) {

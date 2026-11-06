@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.app.Activity
 import android.content.ClipData
@@ -65,13 +65,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import chromahub.rhythm.app.BuildConfig
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.util.GsonUtils
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.common.GsonUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.EqualizerUtils
-import chromahub.rhythm.app.util.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.activities.MainActivity
 import coil.compose.AsyncImage
@@ -82,20 +82,20 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGrou
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedMenuContent
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmMenuItem
-import chromahub.rhythm.app.shared.presentation.components.common.ArcProgressSlider
+import chromahub.rhythm.app.core.designsystem.components.RhythmGroupedMenuContent
+import chromahub.rhythm.app.core.designsystem.components.RhythmMenuItem
+import chromahub.rhythm.app.core.designsystem.components.ArcProgressSlider
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.shared.presentation.components.common.CookieHorizontalSlider
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.CookieHorizontalSlider
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
-import chromahub.rhythm.app.ui.utils.LazyListStateSaver
+import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.ui.theme.getFontPreviewStyle
+import chromahub.rhythm.app.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -257,10 +257,10 @@ import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScr
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons.Delete
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Delete
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
-import chromahub.rhythm.app.shared.presentation.components.common.SmallTabAnimation
+import chromahub.rhythm.app.core.designsystem.components.SmallTabAnimation
 import chromahub.rhythm.app.shared.presentation.screens.player.PlayerScreen
 import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
@@ -278,10 +278,10 @@ import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.SaveCustomPresetDialog
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.EqualizerPresetOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.rhythmMarquee
-import chromahub.rhythm.app.shared.data.model.AutoEQProfile
-import chromahub.rhythm.app.shared.data.model.CustomEqualizerPreset
-import chromahub.rhythm.app.shared.data.model.EqualizerPresetType
-import chromahub.rhythm.app.shared.data.model.UnifiedEqualizerPreset
+import chromahub.rhythm.app.core.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.CustomEqualizerPreset
+import chromahub.rhythm.app.core.model.EqualizerPresetType
+import chromahub.rhythm.app.core.model.UnifiedEqualizerPreset
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
 
@@ -403,7 +403,7 @@ fun EqualizerScreen(
     val customAutoEQProfiles by viewModel.customAutoEQProfiles.collectAsState()
     val userDevicesJson by viewModel.appSettings.userAudioDevices.collectAsState()
     val userDevices = remember(userDevicesJson) {
-        chromahub.rhythm.app.shared.data.model.UserAudioDevice.fromJson(userDevicesJson)
+        chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(userDevicesJson)
     }
 
     LaunchedEffect(Unit) {

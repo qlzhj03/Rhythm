@@ -4,11 +4,11 @@ package chromahub.rhythm.app.features.local.presentation.screens
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.util.ArtistSeparator
-import chromahub.rhythm.app.util.NaturalSortComparator
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.common.ArtistSeparator
+import chromahub.rhythm.app.core.common.NaturalSortComparator
 
 import kotlin.math.abs
 
@@ -114,16 +114,16 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmSongMenu
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmSortOption
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderActionGroup
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveScrollBar
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
 import chromahub.rhythm.app.shared.presentation.components.common.songFastScrollLabel
 import chromahub.rhythm.app.shared.presentation.components.common.albumFastScrollLabel
 import chromahub.rhythm.app.shared.presentation.components.common.artistFastScrollLabel
 import chromahub.rhythm.app.shared.presentation.components.common.playlistFastScrollLabel
-import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdgeBlend
+import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 import android.net.Uri
 import android.util.Log
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
-import chromahub.rhythm.app.util.AppRestarter
+import chromahub.rhythm.app.core.common.AppRestarter
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledIconButton
@@ -136,8 +136,8 @@ import androidx.compose.material3.FloatingActionButtonMenuItem
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.ToggleFloatingActionButton
 import androidx.compose.material3.ToggleFloatingActionButtonDefaults.animateIcon
-import chromahub.rhythm.app.ui.UiConstants
-import chromahub.rhythm.app.ui.theme.MusicDimensions
+import chromahub.rhythm.app.core.designsystem.UiConstants
+import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.TopAppBar
@@ -145,7 +145,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
+import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -200,11 +200,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.screens.settings.smartPlaylistDisplayName
-import chromahub.rhythm.app.shared.data.model.Album
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
-import chromahub.rhythm.app.shared.data.model.findAlbumForSong
+import chromahub.rhythm.app.core.model.Album
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import chromahub.rhythm.app.shared.data.model.ArtistViewType
 import chromahub.rhythm.app.shared.data.model.PlaylistViewType
@@ -214,12 +214,12 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOver
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.shared.presentation.components.common.M3CircularLoader
+import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
-import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledButton
+import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.BulkPlaylistExportDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
@@ -232,10 +232,10 @@ import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.MultiSelectionBottomSheet
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.data.model.ScanPhase
+import chromahub.rhythm.app.core.model.ScanPhase
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -250,24 +250,24 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.zIndex
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
-import chromahub.rhythm.app.shared.presentation.components.common.ContentLoadingIndicator
-import chromahub.rhythm.app.shared.presentation.components.common.DataProcessingLoader
-import chromahub.rhythm.app.shared.presentation.components.common.AlphabetBar
-import chromahub.rhythm.app.shared.presentation.components.common.ScrollToTopButton
-import chromahub.rhythm.app.shared.presentation.components.common.TabAnimation
+import chromahub.rhythm.app.core.designsystem.components.ContentLoadingIndicator
+import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
+import chromahub.rhythm.app.core.designsystem.components.AlphabetBar
+import chromahub.rhythm.app.core.designsystem.components.ScrollToTopButton
+import chromahub.rhythm.app.core.designsystem.components.TabAnimation
 import chromahub.rhythm.app.util.AudioFormatDetector
 import chromahub.rhythm.app.util.AudioQualityDetector
-import chromahub.rhythm.app.shared.presentation.components.common.ActionProgressLoader
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveButtonGroup
-import chromahub.rhythm.app.shared.presentation.components.common.ButtonGroupStyle
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveElevation
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveGroupButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledIconButton
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
+import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
+import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveElevation
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveGroupButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledIconButton
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
 private fun LazyListState.shouldShowScrollbar(): Boolean {
     val layoutInfo = this.layoutInfo
@@ -2384,7 +2384,7 @@ fun SingleCardSongsContent(
     val splitArtistNames: (String) -> List<String> = remember {
         { artistName ->
             val libAppSettings = AppSettings.getInstance(context)
-            chromahub.rhythm.app.util.ArtistSeparator.splitArtistNames(
+            chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
                 artistName = artistName,
                 delimiters = libAppSettings.artistSeparatorDelimiters.value,
                 enabled = libAppSettings.artistSeparatorEnabled.value
@@ -5832,9 +5832,9 @@ fun BottomFloatingButtonGroup(
 fun ExpressiveSectionHeader(
     title: String,
     countText: String,
-    icon: chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon,
+    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
     modifier: Modifier = Modifier,
-    countIcon: chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon? = null,
+    countIcon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon? = null,
     horizontalPadding: androidx.compose.ui.unit.Dp = 12.dp,
     actionContent: @Composable RowScope.() -> Unit = {}
 ) {

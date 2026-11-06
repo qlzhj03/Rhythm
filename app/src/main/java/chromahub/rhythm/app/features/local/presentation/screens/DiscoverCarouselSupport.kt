@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import chromahub.rhythm.app.shared.data.model.Album
+import chromahub.rhythm.app.core.model.Album
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 

@@ -52,10 +52,10 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -77,22 +77,22 @@ import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.data.model.Album
+import chromahub.rhythm.app.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.Artist
-import chromahub.rhythm.app.shared.data.model.findAlbumForSong
-import chromahub.rhythm.app.shared.data.model.LyricsData
-import chromahub.rhythm.app.shared.data.model.PlaybackLocation
-import chromahub.rhythm.app.shared.data.model.Playlist
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Artist
+import chromahub.rhythm.app.core.model.findAlbumForSong
+import chromahub.rhythm.app.core.model.LyricsData
+import chromahub.rhythm.app.core.model.PlaybackLocation
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
 import chromahub.rhythm.app.network.AppleMusicCanvasProvider
 import chromahub.rhythm.app.network.CanvasArtwork
-import chromahub.rhythm.app.shared.data.model.CanvasNetworkMode
-import chromahub.rhythm.app.core.utils.NetworkUtils
+import chromahub.rhythm.app.core.model.CanvasNetworkMode
+import chromahub.rhythm.app.core.common.NetworkUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -291,7 +291,7 @@ fun PlayerScreen(
 
         val splitArtistNames: (String) -> List<String> = remember(artistSeparatorDelimiters, artistSeparatorEnabled) {
             { artistName ->
-                chromahub.rhythm.app.util.ArtistSeparator.splitArtistNames(
+                chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
                     artistName = artistName,
                     delimiters = artistSeparatorDelimiters,
                     enabled = artistSeparatorEnabled

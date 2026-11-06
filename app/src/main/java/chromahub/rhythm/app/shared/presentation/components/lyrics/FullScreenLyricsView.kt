@@ -34,40 +34,40 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import chromahub.rhythm.app.shared.data.model.LyricsData
+import chromahub.rhythm.app.core.model.LyricsData
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.shared.presentation.components.common.M3CircularLoader
+import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
 import androidx.compose.material3.ContainedLoadingIndicator
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressivePlayerControlGroup
+import chromahub.rhythm.app.core.designsystem.components.ExpressivePlayerControlGroup
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.util.HapticUtils
-import chromahub.rhythm.app.util.HapticType
+import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.util.LrcUtils
-import chromahub.rhythm.app.util.SemanticLyrics
+import chromahub.rhythm.app.core.common.LrcUtils
+import chromahub.rhythm.app.core.common.SemanticLyrics
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.luminance
 import kotlinx.coroutines.delay
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
 @Composable
 fun FullScreenLyricsView(
@@ -670,13 +670,14 @@ fun FullScreenLyricsView(
                             val translationAutoWord by appSettings.translationAutoWord.collectAsState()
                             val wordByWordLyrics = remember(lyrics, translationAutoWord) {
                                 lyrics.getWordByWordLyricsOrNull() ?: run {
-                                    if (translationAutoWord && lyrics.syncedLyrics != null) {
+                                    val syncedLyricsText = lyrics.syncedLyrics
+if (translationAutoWord && syncedLyricsText != null) {
                                         try {
                                             val options = LrcUtils.LrcParserOptions(
                                                 trim = true, multiLine = true, errorText = null, autoWordSync = true
                                             )
                                             val parsed = LrcUtils.parseLyrics(
-                                                lyrics.syncedLyrics, audioMimeType = null,
+                                                syncedLyricsText, audioMimeType = null,
                                                 parserOptions = options, format = LrcUtils.LyricFormat.LRC
                                             )
                                             if (parsed is SemanticLyrics.SyncedLyrics) {
@@ -988,13 +989,14 @@ fun FullScreenLyricsView(
                             val translationAutoWord2 by appSettingsInst.translationAutoWord.collectAsState()
                             val wordByWordLyrics = remember(lyrics, translationAutoWord2) {
                                 lyrics.getWordByWordLyricsOrNull() ?: run {
-                                    if (translationAutoWord2 && lyrics.syncedLyrics != null) {
+                                    val syncedLyricsText = lyrics.syncedLyrics
+                                    if (translationAutoWord2 && syncedLyricsText != null) {
                                         try {
                                             val options = LrcUtils.LrcParserOptions(
                                                 trim = true, multiLine = true, errorText = null, autoWordSync = true
                                             )
                                             val parsed = LrcUtils.parseLyrics(
-                                                lyrics.syncedLyrics, audioMimeType = null,
+                                                syncedLyricsText, audioMimeType = null,
                                                 parserOptions = options, format = LrcUtils.LyricFormat.LRC
                                             )
                                             if (parsed is SemanticLyrics.SyncedLyrics) {

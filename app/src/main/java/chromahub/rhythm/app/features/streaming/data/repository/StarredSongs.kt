@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingSong
+import chromahub.rhythm.app.core.model.StreamingSong
 
 /**
  * Merges provider-starred songs with local liked song collections.

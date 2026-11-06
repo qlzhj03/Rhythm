@@ -19,7 +19,7 @@ import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.Tag
 import org.jaudiotagger.tag.images.ArtworkFactory
 import androidx.core.net.toUri
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ExtendedSongInfo
 import java.io.File
 import java.io.FileOutputStream
@@ -775,11 +775,13 @@ object MediaUtils {
         var genre = song.genre // Initialize with existing song genre
 
         // Use song's built-in audio metadata if available
-        if (song.bitrate != null) {
-            bitrate = "${song.bitrate / 1000} kbps"
+        val songBitrateValue = song.bitrate
+        val songSampleRateValue = song.sampleRate
+        if (songBitrateValue != null) {
+            bitrate = "${songBitrateValue / 1000} kbps"
         }
-        if (song.sampleRate != null) {
-            sampleRate = "${song.sampleRate / 1000} kHz"
+        if (songSampleRateValue != null) {
+            sampleRate = "${songSampleRateValue / 1000} kHz"
         }
         if (song.channels != null) {
             channels = when (song.channels) {
@@ -790,8 +792,9 @@ object MediaUtils {
                 else -> "${song.channels} channels"
             }
         }
-        if (song.codec != null) {
-            format = song.codec
+        val songCodecValue = song.codec
+        if (songCodecValue != null) {
+            format = songCodecValue
         }
 
         try {

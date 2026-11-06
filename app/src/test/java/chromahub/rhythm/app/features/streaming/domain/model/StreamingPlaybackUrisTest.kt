@@ -3,6 +3,7 @@ package chromahub.rhythm.app.features.streaming.domain.model
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import chromahub.rhythm.app.core.model.StreamingPlaybackUris
 
 /**
  * 流媒体歌曲的播放 URI 约定：只有 `<service>::<providerId>` 形式的 id 才允许在播放时

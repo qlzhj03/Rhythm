@@ -6,7 +6,7 @@ import android.media.MediaFormat
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.util.Log
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 
 /**
  * Utility class for detecting advanced audio formats and codecs
@@ -585,14 +585,15 @@ object AudioFormatDetector {
                 song?.codec?.isNotBlank() == true && !song.codec.equals("Unknown", ignoreCase = true) -> song.codec
                 else -> inferCodecFromUri(uri)
             }
-        val codec = normalizeCodec(rawCodec)
+        val rawCodecValue = rawCodec ?: ""
+        val codec = normalizeCodec(rawCodecValue)
         val sampleRate = song?.sampleRate ?: 0
         val channelCount = song?.channels ?: 2
         val bitrate = song?.bitrate ?: 0
         val bitrateKbps = if (bitrate > 0) bitrate / 1000 else 0
 
-        val isTrueHDAtmos = codec == "Dolby Atmos" && (rawCodec.contains("truehd", ignoreCase = true) || rawCodec.contains("mlp", ignoreCase = true))
-        val isLosslessDTSX = codec == "DTS:X" && (rawCodec.contains("dts-hd", ignoreCase = true) || rawCodec.contains("dtshd", ignoreCase = true) || rawCodec.contains("lossless", ignoreCase = true))
+        val isTrueHDAtmos = codec == "Dolby Atmos" && (rawCodecValue.contains("truehd", ignoreCase = true) || rawCodecValue.contains("mlp", ignoreCase = true))
+        val isLosslessDTSX = codec == "DTS:X" && (rawCodecValue.contains("dts-hd", ignoreCase = true) || rawCodecValue.contains("dtshd", ignoreCase = true) || rawCodecValue.contains("lossless", ignoreCase = true))
         val isLossless =
             codec in listOf("ALAC", "FLAC", "PCM", "WAV", "APE", "DSD", "TrueHD", "DTS-HD MA", "AIFF", "WavPack", "TAK", "TTA", "MIDI") ||
                 isTrueHDAtmos ||

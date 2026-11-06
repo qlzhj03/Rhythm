@@ -45,7 +45,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveScrollBar
+import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
 
 /**
  * Standardized bottom sheet header component

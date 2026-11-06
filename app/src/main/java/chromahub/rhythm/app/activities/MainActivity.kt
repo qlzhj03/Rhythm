@@ -66,10 +66,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.shared.presentation.navigation.RhythmNavigation
-import chromahub.rhythm.app.ui.theme.RhythmTheme
-import chromahub.rhythm.app.ui.theme.festive.FestiveOverlayFromSettings
+import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveOverlayFromSettings
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.util.CrashReporter
@@ -81,7 +81,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.util.MediaUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -103,12 +103,12 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import chromahub.rhythm.app.shared.data.model.ScanPhase
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmWavyProgressLoader
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon as RhythmIcon
+import chromahub.rhythm.app.core.model.ScanPhase
+import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
+import chromahub.rhythm.app.core.designsystem.icons.Icon as RhythmIcon
 import kotlin.math.abs
 import android.provider.Settings
-import chromahub.rhythm.app.util.ServiceStartUtils
+import chromahub.rhythm.app.core.common.ServiceStartUtils
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -126,12 +126,12 @@ import java.util.Locale
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.rememberCoroutineScope
-import chromahub.rhythm.app.shared.presentation.components.common.M3LinearLoader
-import chromahub.rhythm.app.shared.presentation.components.common.M3FourColorCircularLoader
+import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
+import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType // Import HapticFeedbackType
 import androidx.compose.material3.ButtonDefaults
-import chromahub.rhythm.app.shared.presentation.components.common.InitializationLoader
+import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.shared.presentation.components.PermissionHandler
 import chromahub.rhythm.app.shared.presentation.components.dialogs.BetaProgramPopup
 import chromahub.rhythm.app.shared.presentation.components.dialogs.TrackCorruptionDialog
@@ -141,7 +141,7 @@ import chromahub.rhythm.app.features.local.presentation.screens.onboarding.Permi
 import androidx.core.content.pm.ShortcutManagerCompat
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingSyncStage
-import chromahub.rhythm.app.core.domain.model.SourceType
+import chromahub.rhythm.app.core.model.SourceType
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter

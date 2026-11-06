@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import chromahub.rhythm.app.util.GsonUtils
-import chromahub.rhythm.app.util.ArtistSeparator
-import chromahub.rhythm.app.util.StoragePathUtils
+import chromahub.rhythm.app.core.common.GsonUtils
+import chromahub.rhythm.app.core.common.ArtistSeparator
+import chromahub.rhythm.app.core.common.StoragePathUtils
 import chromahub.rhythm.app.worker.BackupWorker
 import chromahub.rhythm.app.worker.RhythmPulseNotificationWorker
 import chromahub.rhythm.app.worker.UpdateNotificationWorker
@@ -26,6 +26,13 @@ import java.util.Date // Import Date for timestamp
 import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import chromahub.rhythm.app.core.model.AutoEQProfile
+import chromahub.rhythm.app.core.model.CanvasNetworkMode
+import chromahub.rhythm.app.core.model.CustomEqualizerPreset
+import chromahub.rhythm.app.core.model.LyricsSourcePreference
+import chromahub.rhythm.app.core.model.MediaScanMode
+import chromahub.rhythm.app.core.model.Playlist
+import chromahub.rhythm.app.core.model.Song
 
 /**
  * Data class to represent a single crash log entry

@@ -19,12 +19,12 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.util.HapticType
-import chromahub.rhythm.app.util.HapticUtils
+import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 
 /**
  * 引导页「选择串流服务商」列表。选项由 [StreamingServiceOptions.defaults] 单一来源驱动，
- * 未来接入新的在线播放平台时只需在 defaults 中增加一项（并在 [chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceId]
+ * 未来接入新的在线播放平台时只需在 defaults 中增加一项（并在 [chromahub.rhythm.app.core.model.StreamingServiceId]
  * 登记规则），本列表与后续配置步骤会自动跟随，无需改动引导页代码。
  */
 @Composable

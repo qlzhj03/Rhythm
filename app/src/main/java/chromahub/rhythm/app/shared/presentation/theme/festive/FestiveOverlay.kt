@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.ui.theme.festive
+package chromahub.rhythm.app.core.designsystem.theme.festive
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

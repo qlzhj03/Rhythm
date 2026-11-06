@@ -10,10 +10,10 @@ import androidx.room.withTransaction
 import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
 import chromahub.rhythm.app.features.local.data.database.entity.SongEntity
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.MediaScanMode
-import chromahub.rhythm.app.shared.data.model.ScanPhase
-import chromahub.rhythm.app.shared.data.model.ScanProgress
-import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.core.model.MediaScanMode
+import chromahub.rhythm.app.core.model.ScanPhase
+import chromahub.rhythm.app.core.model.ScanProgress
+import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.util.AudioFormatDetector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ import java.io.File
 import androidx.core.net.toUri
 import androidx.core.content.edit
 import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
-import chromahub.rhythm.app.util.StoragePathUtils
+import chromahub.rhythm.app.core.common.StoragePathUtils
 import java.util.Locale
 
 /**

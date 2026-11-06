@@ -2,9 +2,11 @@ package chromahub.rhythm.app.network
 
 import android.util.Log
 import chromahub.rhythm.app.BuildConfig
-import chromahub.rhythm.app.util.SENSITIVE_HEADERS
-import chromahub.rhythm.app.util.sanitizeLogMessage
+import chromahub.rhythm.app.core.common.SENSITIVE_HEADERS
+import chromahub.rhythm.app.core.common.sanitizeLogMessage
 import okhttp3.logging.HttpLoggingInterceptor
+import chromahub.rhythm.app.core.common.SENSITIVE_HEADERS
+import chromahub.rhythm.app.core.common.sanitizeLogMessage
 
 /**
  * Single entry point for network-related logging.
