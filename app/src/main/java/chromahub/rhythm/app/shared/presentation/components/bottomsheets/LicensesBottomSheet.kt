@@ -280,15 +280,6 @@ fun LicensesBottomSheet(
             haptic = haptic
         ),
         licenseItem(
-            name = "LeakCanary",
-            description = context.getString(R.string.licenses_desc_leakcanary),
-            license = "Apache License",
-            url = "https://square.github.io/leakcanary/",
-            icon = RhythmIcons.Actions.Info,
-            context = context,
-            haptic = haptic
-        ),
-        licenseItem(
             name = "Desugar JDK Libs",
             description = context.getString(R.string.licenses_desc_desugar_jdk_libs),
             license = "Apache License",

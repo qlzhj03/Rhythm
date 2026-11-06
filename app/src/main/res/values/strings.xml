@@ -2998,7 +2998,6 @@
     <string name="licenses_desc_glance_appwidget">基于 Material 3 的现代响应式小组件框架</string>
     <string name="licenses_desc_workmanager">可延迟的异步任务管理库</string>
     <string name="licenses_desc_material_symbols">Material Symbols 可变字体图标集</string>
-    <string name="licenses_desc_leakcanary">Android 内存泄漏检测库</string>
     <string name="licenses_desc_desugar_jdk_libs">为旧版 Android 提供 Java 8+ API 兼容</string>
     <string name="licenses_desc_media3_ffmpeg_decoder">Media3 的 FFmpeg 音视频解码扩展</string>
     <string name="licenses_desc_room">用于数据库持久化的 SQLite 对象映射库</string>
