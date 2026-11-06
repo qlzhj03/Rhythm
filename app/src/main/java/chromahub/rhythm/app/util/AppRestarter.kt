@@ -2,7 +2,6 @@ package chromahub.rhythm.app.util
 
 import android.content.Context
 import android.content.Intent
-import chromahub.rhythm.app.activities.MainActivity
 
 object AppRestarter {
     fun restartApp(context: Context) {

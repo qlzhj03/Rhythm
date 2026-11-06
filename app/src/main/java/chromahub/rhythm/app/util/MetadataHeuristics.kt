@@ -1,7 +1,5 @@
 package chromahub.rhythm.app.util
 
-import android.content.Context
-import android.net.Uri
 import android.util.Log
 import chromahub.rhythm.app.shared.data.model.LyricsData
 import java.io.File
@@ -421,38 +419,6 @@ object MetadataHeuristics {
             Log.w(TAG, "OGG lyrics extraction failed: ${e.message}")
             null
         }
-    }
-
-    fun looksLikeLyrics(text: String): Boolean {
-        val trimmed = text.trim()
-
-        if (trimmed.length < 50) return false
-
-        val lines = trimmed.lines().filter { it.trim().isNotEmpty() }
-        if (lines.size < 3) return false
-
-        val hasTimestamp = text.contains(Regex("\\[\\d{2}:\\d{2}"))
-        if (hasTimestamp) return true
-
-        val lowerText = trimmed.lowercase()
-        val metadataKeywords = listOf(
-            "track", "album", "artist", "genre", "year", "composer",
-            "copyright", "encoded", "encoder", "itunes", "id3"
-        )
-        val hasMetadataKeywords = metadataKeywords.any { lowerText.contains(it) }
-
-        val hasCommonLyricsWords = lowerText.let {
-            it.contains("verse") || it.contains("chorus") || it.contains("bridge") ||
-                    it.contains("refrain") || it.contains("intro") || it.contains("outro")
-        }
-
-        val avgLineLength = lines.map { it.length }.average()
-        val hasRepeatingPatterns = lines.distinct().size < lines.size * 0.8
-        val isProseLength = avgLineLength in 20.0..80.0
-
-        return (lines.size >= 5 && isProseLength && !hasMetadataKeywords) ||
-                (hasCommonLyricsWords && lines.size >= 3) ||
-                (hasRepeatingPatterns && lines.size >= 8 && avgLineLength < 100)
     }
 
     fun parseLyricsData(lyrics: String): LyricsData? {

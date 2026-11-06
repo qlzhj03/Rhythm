@@ -89,6 +89,7 @@ import chromahub.rhythm.app.util.EnhancedLyricLine
 import chromahub.rhythm.app.util.EnhancedWord
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.LrcUtils
+import chromahub.rhythm.app.util.MetadataHeuristics
 import chromahub.rhythm.app.util.SemanticLyrics
 import android.content.SharedPreferences
 import androidx.room.withTransaction
@@ -3967,7 +3968,7 @@ class MusicRepository(context: Context) {
             return customTimedLyrics
         }
 
-        val cleanedLyrics = sanitizeLyricsText(lyrics)
+        val cleanedLyrics = MetadataHeuristics.sanitizeLyricsText(lyrics)
 
         if (cleanedLyrics.isBlank()) {
             Log.w(TAG, "Rejected lyrics: text became empty after sanitization")
@@ -4077,7 +4078,7 @@ class MusicRepository(context: Context) {
                 !trimmed.startsWith("//") &&
                 !trimmed.startsWith("#") &&
                 trimmed.length > 2 &&
-                isLikelyLyricsLine(trimmed)
+                MetadataHeuristics.isLikelyLyricsLine(trimmed)
             }
             
             if (meaningfulLines.isNotEmpty()) {
@@ -4154,82 +4155,6 @@ class MusicRepository(context: Context) {
         return LyricsData(plainText, syncedLyrics = null, wordByWordJson, source = "Embedded")
     }
 
-    private fun sanitizeLyricsText(input: String): String {
-        val normalized = input
-            .replace("\uFEFF", "")
-            .replace("\r\n", "\n")
-            .replace("\r", "\n")
-
-        val cleanedLines = normalized.lines().mapNotNull { rawLine ->
-            val cleaned = rawLine
-                .filter { ch ->
-                    when {
-                        ch == '\t' -> true
-                        ch == '\uFFFD' -> false
-                        Character.isISOControl(ch) -> false
-                        else -> true
-                    }
-                }
-                .trimEnd()
-
-            if (cleaned.isBlank()) {
-                null
-            } else {
-                cleaned
-            }
-        }.filter { line ->
-            isLikelyLyricsLine(line)
-        }
-
-        return cleanedLines
-            .joinToString("\n")
-            .replace(Regex("\n{3,}"), "\n\n")
-            .trim()
-    }
-
-    private fun isLikelyLyricsLine(line: String): Boolean {
-        val trimmed = line.trim()
-        if (trimmed.isEmpty()) return false
-
-        // Keep standard LRC metadata/timestamp lines that are part of synced lyrics.
-        if (trimmed.matches(Regex("\\[[a-zA-Z]{1,10}:[^\\]]*]"))) return true
-        if (trimmed.matches(Regex("(\\[\\d{1,2}:\\d{2}(?:\\.\\d{2,3})?])+.*"))) return true
-
-        val body = trimmed
-            .replace(Regex("\\[[^\\]]*]"), "")
-            .replace(Regex("<[^>]*>"), "")
-            .trim()
-
-        if (body.isEmpty()) return true
-        if (body.length < 20) return true
-
-        val readableChars = body.count { ch ->
-            ch.isLetterOrDigit() ||
-                ch.isWhitespace() ||
-                isLyricsPunctuation(ch)
-        }
-
-        val ratio = readableChars.toDouble() / body.length.toDouble()
-        return ratio >= 0.55
-    }
-
-    private fun isLyricsPunctuation(ch: Char): Boolean {
-        return when (Character.getType(ch)) {
-            Character.CONNECTOR_PUNCTUATION.toInt(),
-            Character.DASH_PUNCTUATION.toInt(),
-            Character.START_PUNCTUATION.toInt(),
-            Character.END_PUNCTUATION.toInt(),
-            Character.INITIAL_QUOTE_PUNCTUATION.toInt(),
-            Character.FINAL_QUOTE_PUNCTUATION.toInt(),
-            Character.OTHER_PUNCTUATION.toInt(),
-            Character.MATH_SYMBOL.toInt(),
-            Character.CURRENCY_SYMBOL.toInt(),
-            Character.MODIFIER_SYMBOL.toInt(),
-            Character.OTHER_SYMBOL.toInt() -> true
-            else -> false
-        }
-    }
-    
     /**
     * Convert Enhanced LRC format to Rhythm word-by-word JSON format
      */
