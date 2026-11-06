@@ -3047,7 +3047,6 @@
     <string name="licenses_desc_glance_appwidget">Modern reactive widgets framework with Material 3</string>
     <string name="licenses_desc_workmanager">Deferrable, asynchronous task management library</string>
     <string name="licenses_desc_material_symbols">Material Symbols variable font icon set</string>
-    <string name="licenses_desc_leakcanary">Memory leak detection library for Android</string>
     <string name="licenses_desc_desugar_jdk_libs">Java 8+ API compatibility for older Android versions</string>
     <string name="licenses_desc_media3_ffmpeg_decoder">FFmpeg audio/video decoder extension for Media3</string>
     <string name="licenses_desc_room">SQLite object mapping library for database persistence</string>

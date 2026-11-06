@@ -30,7 +30,6 @@ import kotlinx.coroutines.launch
  * - AppSettings
  * - CrashReporter
  * - NetworkClient
- * - LeakCanary (debug builds)
  * - ANR Watchdog (debug builds)
  */
 class RhythmApplication : Application(), ImageLoaderFactory {
@@ -85,9 +84,8 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         )
         Log.d(TAG, "✓ NetworkClient initialized")
         
-        // Configure LeakCanary for debug builds
+        // Start the ANR watchdog for debug builds
         if (BuildConfig.DEBUG) {
-            configureLeakCanary()
             startANRWatchdog()
         }
         
@@ -160,26 +158,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             .crossfade(true)
             .build()
     }
-    
-    /**
-     * Configure LeakCanary for optimal memory leak detection
-     */
-    private fun configureLeakCanary() {
-        try {
-            // LeakCanary 2.x auto-configures itself, but we can still apply debug-only tuning.
-            // Reflection keeps main source free from debugImplementation class references.
-            val debugConfigClass = Class.forName("chromahub.rhythm.app.debug.LeakCanaryDebugConfig")
-            val applyMethod = debugConfigClass.getDeclaredMethod("applyKnownReferenceMatchers")
-            applyMethod.invoke(null)
 
-            Log.d(TAG, "✓ LeakCanary configured (auto-init + debug matcher tuning)")
-        } catch (_: ClassNotFoundException) {
-            Log.d(TAG, "✓ LeakCanary configured (auto-init)")
-        } catch (e: Exception) {
-            Log.e(TAG, "Error configuring LeakCanary", e)
-        }
-    }
-    
     /**
      * Start ANR watchdog to monitor UI thread responsiveness
      */
