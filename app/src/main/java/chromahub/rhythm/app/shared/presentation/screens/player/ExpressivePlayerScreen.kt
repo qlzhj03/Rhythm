@@ -2486,7 +2486,7 @@ fun ExpressivePlayerScreen(
     }
     
     if (showDeviceConfig && musicViewModel != null) {
-        chromahub.rhythm.app.shared.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
+        chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
             musicViewModel = musicViewModel,
             onDismiss = { showDeviceConfig = false }
         )

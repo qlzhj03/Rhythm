@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.components.bottomsheets
+package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -44,8 +44,9 @@ import chromahub.rhythm.app.shared.presentation.components.common.horizontalEdge
 import chromahub.rhythm.app.shared.data.model.UserAudioDevice
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

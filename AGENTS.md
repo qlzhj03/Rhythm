@@ -72,16 +72,15 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - 调用链：`Screen(Composable)` → `AndroidViewModel` → `Repository`（持有 DAO / MediaStore / `MediaController`）→ 数据源。ViewModel **禁止**直接写 SQL、查询 MediaStore 或拼 HTTP 请求，必须经 Repository / DAO / API service。
 - 依赖方向：`presentation` → `data` / `domain`；`data` **不得**依赖 `presentation` 或 Compose；`infrastructure` **不得**反向依赖 `features/*/presentation`。
 - `features/local` 与 `features/streaming` 的主要缝合点是 `features/local/presentation/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel`；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
-- 可复用 Composable 放 `shared/presentation/components/{common,player,bottomsheets,dialogs,icons,lyrics}`；设置页放 `shared/presentation/screens/settings`。**禁止**把新的复用组件放进 `features/*/presentation/components`（现存 8 个历史错位文件，不要照抄、不要再扩散）。
+- 可复用 Composable 放 `shared/presentation/components/{common,player,bottomsheets,dialogs,icons,lyrics}`；设置页放 `shared/presentation/screens/settings`。**禁止**把新的复用组件放进 `features/*/presentation/components`（现存 8 个历史遗留的本地专用组件，其 package 已与目录统一，不要照抄、不要再扩散）。
 - **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB）、`StreamingMusicViewModel.kt`（约 108 KB）、`AppUpdaterViewModel.kt`、`OnboardingScreen.kt`（10,000+ 行）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
 - **UseCase 层不是强制的**：当前没有 UseCase（零引用的 `SongUseCases.kt` 已删除）；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
 - **包名与目录不一致（必须按文件里的 `package` 声明 import，不要按目录猜）**：
   - `infrastructure/network/`（15 个文件）→ `chromahub.rhythm.app.network`
   - `infrastructure/worker/`（3 个文件）→ `chromahub.rhythm.app.worker`
-  - `shared/presentation/theme/`（14 个文件）：多数声明 `...ui.theme`（`festive/` 下声明 `...ui.theme.festive`），但至少有 1 个文件声明 `...shared.presentation.theme`；按实际声明 import。
-  - `features/local/presentation/components/{bottomsheets,dialogs,player}`：11 个文件中 8 个错位声明为 `...shared.presentation.components.*`，其余 3 个声明本地包；不要按目录推断。
+  - `shared/presentation/theme/`（14 个文件）→ `chromahub.rhythm.app.ui.theme`（`festive/` 下 `...ui.theme.festive`），已全部统一，无例外。
+  - `features/local/presentation/components/` 下 13 个文件的 package 已与目录统一（`...features.local.presentation.components.{bottomsheets,dialogs,player,settings}`）；`shared/presentation/viewmodel/MusicViewModel.kt` 的 `typealias` 已归入 `...shared.presentation.viewmodel`。
   - `util/FontLoader.kt`、`util/ProfileImportExportUtils.kt` → `...app.utils`；`util/ScrollStateUtils.kt` → `...app.ui.utils`
-  - `shared/presentation/viewmodel/MusicViewModel.kt` 只是 `typealias` → `chromahub.rhythm.app.viewmodel`
   - `gradle.properties` 已设 `android.uniquePackageNames=false`，这类重复包名不会被构建拦住——**靠自觉**。
 
 ## 5. 架构与状态管理

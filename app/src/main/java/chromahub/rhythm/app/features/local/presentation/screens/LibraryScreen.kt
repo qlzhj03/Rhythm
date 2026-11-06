@@ -211,25 +211,25 @@ import chromahub.rhythm.app.shared.data.model.PlaylistViewType
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.dialogs.CreatePlaylistDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.common.M3CircularLoader
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
-import chromahub.rhythm.app.shared.presentation.components.dialogs.BulkPlaylistExportDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistImportDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistOperationProgressDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaylistOperationResultDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.AppRestartDialog
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.BulkPlaylistExportDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationResultDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.AppRestartDialog
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 
 import chromahub.rhythm.app.features.local.presentation.components.settings.LibraryTabOrderBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.BatchEditTagsSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.MultiSelectionBottomSheet
+import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.BatchEditTagsSheet
+import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.MultiSelectionBottomSheet
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.util.HapticUtils
@@ -4846,7 +4846,7 @@ fun SingleCardArtistsContent(
     onSortOptionChange: (ArtistSortOption) -> Unit = {}
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.viewmodel.MusicViewModel>()
+    val viewModel = viewModel<chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel>()
     val appSettings = remember { AppSettings.getInstance(context) }
     
     val artistViewType by appSettings.artistViewType.collectAsState()

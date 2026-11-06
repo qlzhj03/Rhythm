@@ -242,7 +242,7 @@ fun MaterialPlayerScreen(
     onLocationClick: () -> Unit,
     onQueueClick: () -> Unit,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
-    musicViewModel: chromahub.rhythm.app.viewmodel.MusicViewModel,
+    musicViewModel: chromahub.rhythm.app.shared.presentation.viewmodel.MusicViewModel,
     navController: NavController,
     modifier: Modifier = Modifier,
     canvasArtwork: CanvasArtwork? = null,
@@ -3907,7 +3907,7 @@ fun MaterialPlayerScreen(
     
     // Device Configuration Dialog
     if (showDeviceConfig) {
-        chromahub.rhythm.app.shared.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
+        chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
             musicViewModel = musicViewModel,
             onDismiss = { showDeviceConfig = false }
         )

@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.components.bottomsheets
+package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
@@ -74,6 +74,8 @@ import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 
 private data class MultiOptionItem(
     val icon: MaterialSymbolIcon,
