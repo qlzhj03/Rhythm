@@ -1,9 +1,10 @@
-package chromahub.rhythm.app.shared.presentation.components.bottomsheets
+package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import chromahub.rhythm.app.shared.data.model.Song
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

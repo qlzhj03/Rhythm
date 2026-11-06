@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCard
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveFilledButton
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapes
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
 import chromahub.rhythm.app.util.HapticUtils
 import chromahub.rhythm.app.util.HapticType
 import androidx.compose.ui.platform.LocalContext

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package chromahub.rhythm.app.shared.presentation.components.bottomsheets
+package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
@@ -16,8 +16,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWe
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.shared.presentation.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.shared.presentation.theme.rememberExpressiveShape
+import chromahub.rhythm.app.ui.theme.ExpressiveMaterialShape
+import chromahub.rhythm.app.ui.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.dialogs.AutoEQSuggestionDialog
 import chromahub.rhythm.app.shared.presentation.components.common.getDeviceIcon
 
@@ -117,6 +117,7 @@ import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.core.net.toUri
+import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 
 @Composable
 fun DeviceConfigurationBottomSheet(

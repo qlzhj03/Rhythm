@@ -68,7 +68,7 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.dialogs.CreatePlaylistDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.findAlbumForSong
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen

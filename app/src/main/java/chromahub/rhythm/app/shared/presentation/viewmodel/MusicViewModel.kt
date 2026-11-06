@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.viewmodel
+package chromahub.rhythm.app.shared.presentation.viewmodel
 
 // Type alias for backward compatibility
 // MusicViewModel has been moved to features.local.presentation.viewmodel

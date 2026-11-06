@@ -254,8 +254,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
-import chromahub.rhythm.app.shared.presentation.components.dialogs.CreatePlaylistDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.QueueActionDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.ui.LocalMiniPlayerPadding
 import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons.Delete
@@ -273,8 +273,8 @@ import androidx.compose.runtime.mutableFloatStateOf
 
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.DeviceConfigurationBottomSheet
+import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
+import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.SaveCustomPresetDialog
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.EqualizerPresetOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.rhythmMarquee
