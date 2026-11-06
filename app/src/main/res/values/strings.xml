@@ -854,7 +854,7 @@
     <string name="onboarding_step_progress">第 %1$d / %2$d 步</string>
     <string name="onboarding_streaming_setup_later">稍后在设置中配置服务器</string>
     <string name="onboardingscreen_choose_streaming_provider">选择在线播放服务</string>
-    <string name="onboardingscreen_choose_streaming_provider_desc">选择你的服务器提供方，以便串流播放远程音乐库</string>
+    <string name="onboardingscreen_choose_streaming_provider_desc">选择你的音乐服务提供方，以便串流播放远程音乐库</string>
     <string name="onboardingscreen_configure_provider">配置 %1$s</string>
 
     <string name="about_replay_tour">重看设置引导</string>
@@ -2167,21 +2167,20 @@
     <string name="onboardingscreen_tap_the_remove_action">点按移除操作可更新文件夹访问权限</string>
     <string name="onboardingscreen_interaction">交互</string>
     <string name="onboardingscreen_choose_your_playback_mode">选择播放模式</string>
-    <string name="onboardingscreen_rhythm_go">Rhythm GO</string>
-    <string name="onboardingscreen_mode_local_desc">播放设备上存储的音频文件</string>
-    <string name="onboardingscreen_mode_streaming_desc">从 Jellyfin 或 Subsonic 服务器串流播放</string>
+    <string name="onboardingscreen_mode_local_title">本地模式</string>
+    <string name="onboardingscreen_mode_streaming_title">在线模式</string>
+    <string name="onboardingscreen_mode_local_desc">播放本机音频文件</string>
+    <string name="onboardingscreen_mode_streaming_desc">串流 Jellyfin、Subsonic 或网易云</string>
     <string name="onboardingscreen_playback_mode_tips">播放模式提示</string>
     <string name="onboardingscreen_local_mode_scans_and">本地模式会扫描并整理设备上的音频文件。</string>
-    <string name="onboardingscreen_go_streaming_connects_via">GO 在线播放通过 subsonic/jellyfin API 服务器连接。</string>
-    <string name="onboardingscreen_streaming_setup_tips">在线播放配置提示</string>
-    <string name="onboardingscreen_connection_test_ensures_server">连接测试用于确认服务器凭据是否正确。</string>
+    <string name="onboardingscreen_go_streaming_connects_via">网易云用官方 App 扫码登录。</string>
     <string name="onboardingscreen_subsonic_navidrome">Subsonic / Navidrome</string>
     <string name="onboarding_scanning_for_provider">正在搜索 %1$s…</string>
     <string name="onboarding_scanning_for_provider_desc">正在本地 Wi-Fi 网络中搜索可用的服务器…</string>
     <string name="onboardingscreen_service_choice_tips">服务商提示</string>
     <string name="onboardingscreen_service_subsonic_tip">Subsonic API 支持 Navidrome、Gonic、Airsonic 以及 Subsonic 服务器。</string>
     <string name="onboardingscreen_service_jellyfin_tip">直接连接你的 Jellyfin 媒体服务器与音乐收藏。</string>
-    <string name="onboardingscreen_setup_auto_scan_tip">自动检测会扫描本地网络中正在运行的服务器实例。</string>
+    <string name="onboardingscreen_service_netease_tip">用网易云音乐 App 扫码登录，无需自建服务器。</string>
     <string name="onboardingscreen_httpsyourservercom">https://your-server.com</string>
     <string name="onboardingscreen_remember_to_include_http">别忘了加上 http:// 或 https://</string>
     <string name="onboardingscreen_username">用户名</string>
@@ -3133,7 +3132,7 @@
     <string name="search_view_all_count_format">查看全部 %1$d 首歌曲</string>
     <!-- Onboarding -->
     <string name="onboarding_step_counter">第 %1$d / %2$d 步</string>
-    <string name="onboarding_configure_desc">把 Rhythm 配置成本地离线音乐播放器，用于播放设备上的音频文件；也可以连接你自建的在线播放服务。</string>
+    <string name="onboarding_configure_desc">选择音乐的播放来源。</string>
     <string name="onboarding_connected_to_format">已连接到 %1$s，身份为 %2$s</string>
     <!-- Final sweep: remaining hardcoded strings -->
     <string name="mainactivity_preparing">正在准备…</string>

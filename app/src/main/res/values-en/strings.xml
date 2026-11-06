@@ -854,7 +854,7 @@
     <string name="onboarding_step_progress">%1$d of %2$d</string>
     <string name="onboarding_streaming_setup_later">Set up server later in Settings</string>
     <string name="onboardingscreen_choose_streaming_provider">Choose Streaming Service</string>
-    <string name="onboardingscreen_choose_streaming_provider_desc">Select your server provider to stream your remote music library</string>
+    <string name="onboardingscreen_choose_streaming_provider_desc">Select your music provider to stream your remote music library</string>
     <string name="onboardingscreen_configure_provider">Configure %1$s</string>
 
     <string name="about_replay_tour">Replay Setup Tour</string>
@@ -2215,21 +2215,20 @@
     <string name="onboardingscreen_tap_the_remove_action">Tap the remove action to update folder access</string>
     <string name="onboardingscreen_interaction">Interaction</string>
     <string name="onboardingscreen_choose_your_playback_mode">Choose Your Playback Mode</string>
-    <string name="onboardingscreen_rhythm_go">Rhythm GO</string>
-    <string name="onboardingscreen_mode_local_desc">Play audio files stored on your device</string>
-    <string name="onboardingscreen_mode_streaming_desc">Stream from Jellyfin or Subsonic servers</string>
+    <string name="onboardingscreen_mode_local_title">Local mode</string>
+    <string name="onboardingscreen_mode_streaming_title">Online mode</string>
+    <string name="onboardingscreen_mode_local_desc">Play audio files on this device</string>
+    <string name="onboardingscreen_mode_streaming_desc">Stream Jellyfin, Subsonic, or NetEase</string>
     <string name="onboardingscreen_playback_mode_tips">Playback Mode Tips</string>
     <string name="onboardingscreen_local_mode_scans_and">Local mode scans and catalogs audio files on your device.</string>
-    <string name="onboardingscreen_go_streaming_connects_via">GO Streaming connects via subsonic/jellyfin API server.</string>
-    <string name="onboardingscreen_streaming_setup_tips">Streaming Setup Tips</string>
-    <string name="onboardingscreen_connection_test_ensures_server">Connection test ensures server credentials are correct.</string>
+    <string name="onboardingscreen_go_streaming_connects_via">NetEase signs in by QR code in its official app.</string>
     <string name="onboardingscreen_subsonic_navidrome">Subsonic / Navidrome</string>
     <string name="onboarding_scanning_for_provider">Scanning for %1$s…</string>
     <string name="onboarding_scanning_for_provider_desc">Searching your local Wi-Fi network for nearby servers…</string>
     <string name="onboardingscreen_service_choice_tips">Provider Tips</string>
     <string name="onboardingscreen_service_subsonic_tip">Subsonic API powers Navidrome, Gonic, Airsonic, and Subsonic servers.</string>
     <string name="onboardingscreen_service_jellyfin_tip">Connects directly to your Jellyfin media server and audio collections.</string>
-    <string name="onboardingscreen_setup_auto_scan_tip">Auto-detection scans your local network for active server instances.</string>
+    <string name="onboardingscreen_service_netease_tip">Scan a QR code with the NetEase Cloud Music app — no self-hosted server needed.</string>
     <string name="onboardingscreen_httpsyourservercom">https://your-server.com</string>
     <string name="onboardingscreen_remember_to_include_http">Remember to include http:// or https://</string>
     <string name="onboardingscreen_username">Username</string>
@@ -3182,7 +3181,7 @@
     <string name="search_view_all_count_format">See all %1$d songs</string>
     <!-- Onboarding -->
     <string name="onboarding_step_counter">Step %1$d of %2$d</string>
-    <string name="onboarding_configure_desc">Configure Rhythm as a local offline music player for audio files stored on your device, or connect to your self-hosted streaming services.</string>
+    <string name="onboarding_configure_desc">Choose where your music comes from.</string>
     <string name="onboarding_connected_to_format">Connected to %1$s as %2$s</string>
     <!-- Final sweep: remaining hardcoded strings -->
     <string name="mainactivity_preparing">Preparing&#8230;</string>

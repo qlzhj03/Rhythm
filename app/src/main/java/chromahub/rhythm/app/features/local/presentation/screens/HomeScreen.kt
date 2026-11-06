@@ -30,8 +30,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -64,6 +69,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -553,8 +559,14 @@ fun HomeScreen(
     }
 
     FixedHeaderScreen(
-        title = if (isStreamingMode && streamingServiceName.isNotBlank()) {
-            streamingServiceName
+        title = if (isStreamingMode) {
+            // 已登录才显示服务商名；未登录（含欢迎页状态）统一显示 Rhythm Go，
+            // 避免还没连接服务却挂着具体服务商名的误导。
+            if (streamingServiceConnected && streamingServiceName.isNotBlank()) {
+                streamingServiceName
+            } else {
+                context.getString(R.string.streaming_integration_title)
+            }
         } else {
             context.getString(R.string.home_title)
         },
@@ -823,35 +835,27 @@ private fun StreamingHomeBody(
     }
 
     // 顶部轮播从全部可展示专辑中随机抽取，并定时换一批，避免长期固定在前几张。
-    var currentFeaturedAlbums by remember { mutableStateOf<List<Album>>(emptyList()) }
-    LaunchedEffect(effectiveAlbums, discoverItemCount) {
-        if (effectiveAlbums.isEmpty()) {
-            currentFeaturedAlbums = emptyList()
-            return@LaunchedEffect
-        }
-        val targetCount = discoverItemCount.coerceAtLeast(1)
-        currentFeaturedAlbums = if (effectiveAlbums.size > targetCount) {
-            effectiveAlbums.shuffled().take(targetCount)
-        } else {
-            effectiveAlbums.shuffled()
-        }
+    // 同步派生：LaunchedEffect 会让首帧恒为空列表，冷启动时轮播区直接不渲染，
+    // 数据到达瞬间再插入屏宽大图，整个页面下坠并撞上入场动画。
+    val featuredIds = remember { mutableListOf<String>() }
+    var featuredRefreshToken by remember { mutableIntStateOf(0) }
+    val currentFeaturedAlbums = remember(effectiveAlbums, discoverItemCount, featuredRefreshToken) {
+        val picked = pickFeaturedAlbums(effectiveAlbums, discoverItemCount.coerceAtLeast(1), featuredIds)
+        featuredIds.clear()
+        featuredIds.addAll(picked.map { it.id })
+        picked
     }
     val latestFeaturedSource by rememberUpdatedState(effectiveAlbums)
-    val latestDiscoverCount by rememberUpdatedState(discoverItemCount)
     LaunchedEffect(Unit) {
         while (true) {
             delay(45_000)
-            val source = latestFeaturedSource
-            if (source.isNotEmpty()) {
-                val targetCount = latestDiscoverCount.coerceAtLeast(1)
-                currentFeaturedAlbums = if (source.size > targetCount) {
-                    source.shuffled().take(targetCount)
-                } else {
-                    source.shuffled()
-                }
+            if (latestFeaturedSource.isNotEmpty()) {
+                featuredIds.clear()
+                featuredRefreshToken++
             }
         }
     }
+    val discoverLoading = rememberDiscoverLoading()
 
     val effectiveArtists = remember(isSyncing, isEffectivelyOffline, rawDownloadedArtists, effectiveSongs, effectiveAlbums, artists) {
         if (isSyncing || isEffectivelyOffline) {
@@ -977,32 +981,45 @@ private fun StreamingHomeBody(
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(sectionSpacing)
         ) {
-        if (showDiscoverCarousel && currentFeaturedAlbums.isNotEmpty()) {
-            ModernFeaturedSection(
-                albums = currentFeaturedAlbums,
-                onAlbumClick = { album ->
-                    streamingAlbumById[album.id]?.let(onNavigateToAlbum)
-                },
-                showAlbumName = discoverShowAlbumName,
-                showArtistName = discoverShowArtistName,
-                showYear = discoverShowYear,
-                showPlayButton = discoverShowPlayButton,
-                showGradient = discoverShowGradient,
-                widthSizeClass = widthSizeClass,
-                heightSizeClass = heightSizeClass,
-                onPlayAlbum = { album ->
-                    // 流媒体专辑通常不带曲目，需要按专辑 ID 现取后再入队。
-                    val rawAlbum = streamingAlbumById[album.id]
-                    if (rawAlbum != null) {
-                        coroutineScope.launch {
-                            val tracks = vm?.getAlbumSongs(rawAlbum).orEmpty()
-                            if (tracks.isNotEmpty()) {
-                                onPlayQueue(tracks, 0, false)
+        if (showDiscoverCarousel) {
+            when {
+                currentFeaturedAlbums.isNotEmpty() -> {
+                    ModernFeaturedSection(
+                        albums = currentFeaturedAlbums,
+                        onAlbumClick = { album ->
+                            streamingAlbumById[album.id]?.let(onNavigateToAlbum)
+                        },
+                        showAlbumName = discoverShowAlbumName,
+                        showArtistName = discoverShowArtistName,
+                        showYear = discoverShowYear,
+                        showPlayButton = discoverShowPlayButton,
+                        showGradient = discoverShowGradient,
+                        widthSizeClass = widthSizeClass,
+                        heightSizeClass = heightSizeClass,
+                        onPlayAlbum = { album ->
+                            // 流媒体专辑通常不带曲目，需要按专辑 ID 现取后再入队。
+                            val rawAlbum = streamingAlbumById[album.id]
+                            if (rawAlbum != null) {
+                                coroutineScope.launch {
+                                    val tracks = vm?.getAlbumSongs(rawAlbum).orEmpty()
+                                    if (tracks.isNotEmpty()) {
+                                        onPlayQueue(tracks, 0, false)
+                                    }
+                                }
                             }
                         }
-                    }
+                    )
                 }
-            )
+                // Keep the carousel height reserved while the streaming album flows arrive,
+                // otherwise the whole verticalScroll column shifts down once they land.
+                else -> {
+                    ModernFeaturedSectionPlaceholder(
+                        widthSizeClass = widthSizeClass,
+                        heightSizeClass = heightSizeClass,
+                        showEmptyState = !discoverLoading
+                    )
+                }
+            }
         }
 
         Column(
@@ -1255,6 +1272,10 @@ private fun StreamingHomeWelcomeContent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            // FixedHeaderScreen(floating = true) 的标题栏悬浮在内容上（状态栏 + TopAppBar 64dp + 16dp 间距），
+            // 欢迎页整体下移到标题栏之下，避免大标题与状态栏 / 标题栏重叠。
+            .statusBarsPadding()
+            .padding(top = 80.dp)
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
@@ -1513,54 +1534,36 @@ private fun ModernScrollableContent(
         }
     }
 
-    // Featured albums with stable ID preservation across library & background metadata updates
-    var currentFeaturedAlbums by remember { mutableStateOf<List<Album>>(emptyList()) }
-
-    // Synchronize currentFeaturedAlbums when library/albums change without reshuffling
-    LaunchedEffect(albums, discoverItemCount) {
-        if (albums.isEmpty()) {
-            currentFeaturedAlbums = emptyList()
-            return@LaunchedEffect
-        }
-        val targetCount = discoverItemCount.coerceAtLeast(1)
-        if (currentFeaturedAlbums.isEmpty()) {
-            currentFeaturedAlbums = albums.shuffled().take(targetCount)
-        } else {
-            val albumsById = albums.associateBy { it.id }
-            val updated = currentFeaturedAlbums.mapNotNull { albumsById[it.id] }
-            if (updated.size < targetCount && albums.size > updated.size) {
-                val existingIds = updated.map { it.id }.toSet()
-                val remaining = albums.filter { it.id !in existingIds }.shuffled()
-                currentFeaturedAlbums = (updated + remaining).take(targetCount)
-            } else if (updated.size > targetCount) {
-                currentFeaturedAlbums = updated.take(targetCount)
-            } else if (updated.isNotEmpty()) {
-                currentFeaturedAlbums = updated
-            } else {
-                currentFeaturedAlbums = albums.shuffled().take(targetCount)
-            }
-        }
+    // Featured albums with stable ID preservation across library & background metadata updates.
+    // Derived synchronously: a LaunchedEffect always leaves the first frame empty, which made
+    // the DISCOVER slot collapse to the short empty state and then jump to a full-bleed carousel.
+    val featuredIds = remember { mutableListOf<String>() }
+    var featuredRefreshToken by remember { mutableIntStateOf(0) }
+    val currentFeaturedAlbums = remember(albums, discoverItemCount, featuredRefreshToken) {
+        val picked = pickFeaturedAlbums(albums, discoverItemCount.coerceAtLeast(1), featuredIds)
+        featuredIds.clear()
+        featuredIds.addAll(picked.map { it.id })
+        picked
     }
 
     // Auto-refresh featured content periodically every 45s (stable loop, decoupled from album list emissions)
     val latestAlbums by rememberUpdatedState(albums)
-    val latestDiscoverItemCount by rememberUpdatedState(discoverItemCount)
     LaunchedEffect(Unit) {
         while (true) {
             delay(45000)
-            val currentList = latestAlbums
-            val targetCount = latestDiscoverItemCount.coerceAtLeast(1)
-            if (currentList.isNotEmpty()) {
-                currentFeaturedAlbums = if (currentList.size > targetCount) {
-                    currentList.shuffled().take(targetCount)
-                } else {
-                    currentList.shuffled()
-                }
+            if (latestAlbums.isNotEmpty()) {
+                featuredIds.clear()
+                featuredRefreshToken++
             }
         }
     }
 
     val lazyListState = rememberLazyListState()
+    // isInitialized gates the whole navigation in MainActivity, so it is already true on the
+    // first frame here and cannot signal "library still loading". filteredAlbums is derived on
+    // background dispatchers from flows seeded with emptyList(), so keep an equal-height
+    // placeholder mounted until the real projection arrives.
+    val discoverLoading = rememberDiscoverLoading()
     val isTablet = widthSizeClass != WindowWidthSizeClass.Compact || windowScreenWidthDp() >= 600
     val isLandscapeTablet = isTablet && windowScreenWidthDp() > windowScreenHeightDp()
 
@@ -1863,26 +1866,28 @@ private fun ModernScrollableContent(
         if (isLandscapeTablet) {
             if (showDiscoverCarousel && sectionOrder.contains("DISCOVER")) {
                 item(key = "section_discover") {
-                    if (currentFeaturedAlbums.isNotEmpty()) {
-                        ModernFeaturedSection(
-                            albums = currentFeaturedAlbums,
-                            onAlbumClick = onAlbumClick,
-                            showAlbumName = discoverShowAlbumName,
-                            showArtistName = discoverShowArtistName,
-                            showYear = discoverShowYear,
-                            showPlayButton = discoverShowPlayButton,
-                            showGradient = discoverShowGradient,
-                            widthSizeClass = widthSizeClass,
-                            heightSizeClass = heightSizeClass,
-                            onPlayAlbum = { album -> musicViewModel.playAlbum(album) }
-                        )
-                    } else {
-                        Box(modifier = Modifier.padding(horizontal = horizontalPadding)) {
-                            ModernEmptyState(
-                                icon = RhythmIcons.AlbumFilled,
-                                title = context.getString(R.string.home_no_featured_albums),
-                                subtitle = context.getString(R.string.home_no_featured_albums_desc),
-                                iconSize = 32.dp
+                    when {
+                        currentFeaturedAlbums.isNotEmpty() -> {
+                            ModernFeaturedSection(
+                                albums = currentFeaturedAlbums,
+                                onAlbumClick = onAlbumClick,
+                                showAlbumName = discoverShowAlbumName,
+                                showArtistName = discoverShowArtistName,
+                                showYear = discoverShowYear,
+                                showPlayButton = discoverShowPlayButton,
+                                showGradient = discoverShowGradient,
+                                widthSizeClass = widthSizeClass,
+                                heightSizeClass = heightSizeClass,
+                                onPlayAlbum = { album -> musicViewModel.playAlbum(album) }
+                            )
+                        }
+                        // Always reserve the carousel height: collapsing to a short empty
+                        // state before the derived album flows land shifts the whole list.
+                        else -> {
+                            ModernFeaturedSectionPlaceholder(
+                                widthSizeClass = widthSizeClass,
+                                heightSizeClass = heightSizeClass,
+                                showEmptyState = !discoverLoading
                             )
                         }
                     }
@@ -1927,26 +1932,28 @@ private fun ModernScrollableContent(
                         if (showDiscoverCarousel) {
                             item(key = "section_discover") {
                                 Column {
-                                    if (currentFeaturedAlbums.isNotEmpty()) {
-                                        ModernFeaturedSection(
-                                            albums = currentFeaturedAlbums,
-                                            onAlbumClick = onAlbumClick,
-                                            showAlbumName = discoverShowAlbumName,
-                                            showArtistName = discoverShowArtistName,
-                                            showYear = discoverShowYear,
-                                            showPlayButton = discoverShowPlayButton,
-                                            showGradient = discoverShowGradient,
-                                            widthSizeClass = widthSizeClass,
-                                            heightSizeClass = heightSizeClass,
-                                            onPlayAlbum = { album -> musicViewModel.playAlbum(album) }
-                                        )
-                                    } else {
-                                        Box(modifier = Modifier.padding(horizontal = horizontalPadding)) {
-                                            ModernEmptyState(
-                                                icon = RhythmIcons.AlbumFilled,
-                                                title = context.getString(R.string.home_no_featured_albums),
-                                                subtitle = context.getString(R.string.home_no_featured_albums_desc),
-                                                iconSize = 32.dp
+                                    when {
+                                        currentFeaturedAlbums.isNotEmpty() -> {
+                                            ModernFeaturedSection(
+                                                albums = currentFeaturedAlbums,
+                                                onAlbumClick = onAlbumClick,
+                                                showAlbumName = discoverShowAlbumName,
+                                                showArtistName = discoverShowArtistName,
+                                                showYear = discoverShowYear,
+                                                showPlayButton = discoverShowPlayButton,
+                                                showGradient = discoverShowGradient,
+                                                widthSizeClass = widthSizeClass,
+                                                heightSizeClass = heightSizeClass,
+                                                onPlayAlbum = { album -> musicViewModel.playAlbum(album) }
+                                            )
+                                        }
+                                        // Always reserve the carousel height: collapsing to a short
+                                        // empty state before the derived album flows land shifts the list.
+                                        else -> {
+                                            ModernFeaturedSectionPlaceholder(
+                                                widthSizeClass = widthSizeClass,
+                                                heightSizeClass = heightSizeClass,
+                                                showEmptyState = !discoverLoading
                                             )
                                         }
                                     }
@@ -2355,6 +2362,26 @@ private fun ModernFeaturedSection(
                     .height(carouselHeight)
             ) { page ->
                 val album = albums.getOrNull(page) ?: return@HorizontalMultiBrowseCarousel
+                // Expensive object: build once per item (recreated only when the theme changes),
+                // not on every recomposition while the carousel auto-scrolls.
+                val surfaceColor = MaterialTheme.colorScheme.surface
+                val gradientBrush = remember(showGradient, surfaceColor) {
+                    if (showGradient) {
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Transparent,
+                                surfaceColor.copy(alpha = 0.35f),
+                                surfaceColor.copy(alpha = 0.75f),
+                                surfaceColor.copy(alpha = 0.95f)
+                            ),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY
+                        )
+                    } else {
+                        null
+                    }
+                }
                 Card(
                     onClick = {
                         HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
@@ -2376,23 +2403,11 @@ private fun ModernFeaturedSection(
                             applyExpressiveShape = false
                         )
 
-                        if (showGradient) {
+                        gradientBrush?.let { brush ->
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            colors = listOf(
-                                                Color.Transparent,
-                                                Color.Transparent,
-                                                MaterialTheme.colorScheme.surface.copy(alpha = 0.35f),
-                                                MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
-                                                MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
-                                            ),
-                                            startY = 0f,
-                                            endY = Float.POSITIVE_INFINITY
-                                        )
-                                    )
+                                    .background(brush)
                             )
                         }
 
@@ -2534,6 +2549,22 @@ private fun ModernFeaturedSection(
                 modifier = Modifier.fillMaxSize()
             ) { page ->
                 val album = albums.getOrNull(page) ?: return@HorizontalUncontainedCarousel
+                // Expensive object: build once per item (recreated only when the theme changes),
+                // not on every recomposition while the carousel auto-scrolls.
+                val backgroundColor = MaterialTheme.colorScheme.background
+                val gradientBrush = remember(showGradient, backgroundColor) {
+                    if (showGradient) {
+                        Brush.verticalGradient(
+                            0.00f to Color.Transparent,
+                            0.60f to Color.Transparent,
+                            0.73f to backgroundColor.copy(alpha = 0.6f),
+                            0.87f to backgroundColor.copy(alpha = 0.95f),
+                            1.00f to backgroundColor
+                        )
+                    } else {
+                        null
+                    }
+                }
 
                 Box(
                     modifier = Modifier
@@ -2551,19 +2582,11 @@ private fun ModernFeaturedSection(
                         applyExpressiveShape = false
                     )
 
-                    if (showGradient) {
+                    gradientBrush?.let { brush ->
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(
-                                    Brush.verticalGradient(
-                                        0.00f to Color.Transparent,
-                                        0.60f to Color.Transparent,
-                                        0.73f to MaterialTheme.colorScheme.background.copy(alpha = 0.6f),
-                                        0.87f to MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                                        1.00f to MaterialTheme.colorScheme.background
-                                    )
-                                )
+                                .background(brush)
                         )
                     }
 
@@ -2652,6 +2675,110 @@ private fun ModernFeaturedSection(
 }
 
 // Additional Modern Components
+
+/**
+ * Equal-height stand-in for [ModernFeaturedSection]. It stays mounted at the carousel's
+ * exact dimensions until real album data arrives, so no layout shift happens on cold
+ * start. [showEmptyState] only swaps the pulsing skeleton for the "no albums" card;
+ * the height never changes.
+ */
+@Composable
+private fun ModernFeaturedSectionPlaceholder(
+    widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
+    heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium,
+    showEmptyState: Boolean = false
+) {
+    val pulse = rememberInfiniteTransition(label = "discoverSkeletonPulse")
+    val alpha by pulse.animateFloat(
+        initialValue = 0.5f,
+        targetValue = 0.9f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 900, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "discoverSkeletonAlpha"
+    )
+
+    if (widthSizeClass != WindowWidthSizeClass.Compact) {
+        // Tablet: matches the multi-browse carousel column (top/bottom padding + fixed height).
+        val carouselHeight = when (heightSizeClass) {
+            WindowHeightSizeClass.Compact -> 240.dp
+            else -> 280.dp
+        }
+        val horizontalPadding = when (widthSizeClass) {
+            WindowWidthSizeClass.Expanded -> 32.dp
+            else -> 16.dp
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, bottom = 8.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(carouselHeight)
+                    .padding(horizontal = horizontalPadding)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(MaterialTheme.shapes.extraLarge)
+                        .graphicsLayer { this.alpha = if (showEmptyState) 0.25f else alpha }
+                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                )
+                if (showEmptyState) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        ModernEmptyState(
+                            icon = RhythmIcons.AlbumFilled,
+                            title = stringResource(R.string.home_no_featured_albums),
+                            subtitle = stringResource(R.string.home_no_featured_albums_desc),
+                            iconSize = 32.dp
+                        )
+                    }
+                }
+            }
+        }
+    } else {
+        // Phone: matches the full-bleed hero carousel (height == screen width).
+        val headerHeight = when (heightSizeClass) {
+            WindowHeightSizeClass.Compact -> 280.dp
+            else -> windowScreenWidthDp().dp
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(headerHeight)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer { this.alpha = if (showEmptyState) 0.25f else alpha }
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            )
+            if (showEmptyState) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    ModernEmptyState(
+                        icon = RhythmIcons.AlbumFilled,
+                        title = stringResource(R.string.home_no_featured_albums),
+                        subtitle = stringResource(R.string.home_no_featured_albums_desc),
+                        iconSize = 32.dp
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Composable
 private fun ModernArtistsSection(

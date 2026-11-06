@@ -1644,7 +1644,9 @@ fun LibraryScreen(
                             val streamingContentEmpty = songs.isEmpty() && albums.isEmpty() && artists.isEmpty() && playlists.isEmpty()
                             when {
                                 isStreamingMode && streamingContentEmpty && (!streamingServiceConnected || streamingError != null) -> {
+                                    // 标签行/筛选条悬浮在内容上方，空状态卡片同样让出顶部 inset，避免叠在一起。
                                     EmptyState(
+                                        modifier = Modifier.padding(top = LocalLibraryTopInset.current),
                                         message = context.getString(R.string.streaming_home_selected_service_unavailable),
                                         icon = RhythmIcons.Connectivity.WifiOff,
                                         subtitle = streamingError?.takeIf { it.isNotBlank() }
@@ -1658,6 +1660,7 @@ fun LibraryScreen(
                                 }
                                 isStreamingMode && streamingContentEmpty && streamingIsLoading -> {
                                     EmptyState(
+                                        modifier = Modifier.padding(top = LocalLibraryTopInset.current),
                                         message = context.getString(R.string.streaming_library_syncing),
                                         icon = MaterialSymbolIcon("sync"),
                                         subtitle = context.getString(R.string.streaming_home_no_content_hint),
@@ -2480,6 +2483,7 @@ fun SingleCardSongsContent(
 
     if (preparedSongs.isEmpty()) {
         EmptyState(
+            modifier = Modifier.padding(top = LocalLibraryTopInset.current),
             message = emptyMessage ?: context.getString(R.string.library_no_songs),
             subtitle = emptySubtitle ?: context.getString(R.string.library_start_collection),
             icon = RhythmIcons.Music.Song,
@@ -2775,6 +2779,7 @@ fun SingleCardPlaylistsContent(
 
     if (preparedPlaylists.isEmpty()) {
         EmptyState(
+            modifier = Modifier.padding(top = LocalLibraryTopInset.current),
             message = context.getString(R.string.library_no_playlists_yet),
             subtitle = context.getString(R.string.library_no_playlists_yet_desc),
             icon = RhythmIcons.Music.Playlist,
@@ -2942,6 +2947,7 @@ fun SingleCardAlbumsContent(
 
     if (preparedAlbums.isEmpty()) {
         EmptyState(
+            modifier = Modifier.padding(top = LocalLibraryTopInset.current),
             message = context.getString(R.string.library_no_albums_yet),
             subtitle = context.getString(R.string.library_no_albums_yet_desc),
             icon = RhythmIcons.Music.Album,
@@ -4319,6 +4325,7 @@ fun LibraryAlbumItem(
 
 @Composable
 fun EmptyState(
+    modifier: Modifier = Modifier,
     message: String,
     icon: MaterialSymbolIcon,
     subtitle: String? = null,
@@ -4346,7 +4353,7 @@ fun EmptyState(
     val cookieShape = rememberExpressiveShape(ExpressiveMaterialShape.COOKIE_12)
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 40.dp),
         contentAlignment = Alignment.Center
@@ -4899,6 +4906,7 @@ fun SingleCardArtistsContent(
     
     if (sortedArtists.isEmpty()) {
         EmptyState(
+            modifier = Modifier.padding(top = LocalLibraryTopInset.current),
             message = context.getString(R.string.library_no_artists_yet),
             subtitle = context.getString(R.string.library_no_artists_yet_desc),
             icon = RhythmIcons.Artist,
@@ -6748,6 +6756,7 @@ fun YearGroupedSongsContent(
 
     if (songsByYear.isEmpty()) {
         EmptyState(
+            modifier = Modifier.padding(top = LocalLibraryTopInset.current),
             message = context.getString(R.string.library_no_dated_songs),
             subtitle = context.getString(R.string.library_no_dated_songs_desc),
             icon = RhythmIcons.CalendarMonth,

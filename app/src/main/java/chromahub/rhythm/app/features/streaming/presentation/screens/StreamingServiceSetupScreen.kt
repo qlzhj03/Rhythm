@@ -51,7 +51,6 @@ import androidx.compose.ui.platform.LocalContext
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceRules
-import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceId
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginPhase
@@ -151,12 +150,7 @@ fun StreamingServiceSetupScreen(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val providerIconRes = when (serviceId) {
-                        StreamingServiceId.SUBSONIC -> R.drawable.ic_subsonic
-                        StreamingServiceId.JELLYFIN -> R.drawable.ic_jellyfin
-                        StreamingServiceId.NETEASE -> R.drawable.ic_netease
-                        else -> null
-                    }
+                    val providerIconRes = option?.iconRes
                     if (providerIconRes != null) {
                         Image(
                             painter = androidx.compose.ui.res.painterResource(id = providerIconRes),

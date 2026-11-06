@@ -162,10 +162,15 @@ import chromahub.rhythm.app.shared.data.model.AutoEQProfile
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
 import chromahub.rhythm.app.features.local.presentation.screens.onboarding.OnboardingStep
 import chromahub.rhythm.app.features.local.presentation.screens.onboarding.PermissionScreenState
+import chromahub.rhythm.app.features.local.presentation.screens.onboarding.StreamingProviderSelectionList
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import chromahub.rhythm.app.features.streaming.domain.model.StreamingServiceRules
+import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
+import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerScanner
@@ -9534,7 +9539,7 @@ private fun AppModeSelectionList(
             Material3SettingsItem(
                 title = {
                     Text(
-                        text = stringResource(R.string.common_rhythm),
+                        text = stringResource(R.string.onboardingscreen_mode_local_title),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                 },
@@ -9562,7 +9567,7 @@ private fun AppModeSelectionList(
             Material3SettingsItem(
                 title = {
                     Text(
-                        text = stringResource(R.string.onboardingscreen_rhythm_go),
+                        text = stringResource(R.string.onboardingscreen_mode_streaming_title),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                 },
@@ -9770,93 +9775,6 @@ fun EnhancedStreamingServiceChoiceContent(
 }
 
 @Composable
-private fun StreamingProviderSelectionList(
-    selectedProvider: String,
-    onProviderSelected: (String) -> Unit
-) {
-    val context = LocalContext.current
-    val haptic = LocalHapticFeedback.current
-
-    Material3SettingsGroup(
-        items = listOf(
-            Material3SettingsItem(
-                leadingContent = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_subsonic),
-                        contentDescription = null,
-                        tint = if (selectedProvider == "SUBSONIC") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(28.dp)
-                    )
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.onboardingscreen_subsonic_navidrome),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
-                    )
-                },
-                description = {
-                    Text(
-                        text = stringResource(R.string.streaming_service_subsonic_desc),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                trailingContent = {
-                    RadioButton(
-                        selected = selectedProvider == "SUBSONIC",
-                        onClick = null,
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.primary,
-                            unselectedColor = MaterialTheme.colorScheme.outline
-                        )
-                    )
-                },
-                onClick = {
-                    HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
-                    onProviderSelected("SUBSONIC")
-                }
-            ),
-            Material3SettingsItem(
-                leadingContent = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_jellyfin),
-                        contentDescription = null,
-                        tint = if (selectedProvider == "JELLYFIN") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(28.dp)
-                    )
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.streaming_service_jellyfin),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
-                    )
-                },
-                description = {
-                    Text(
-                        text = stringResource(R.string.streaming_service_jellyfin_desc),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                trailingContent = {
-                    RadioButton(
-                        selected = selectedProvider == "JELLYFIN",
-                        onClick = null,
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.primary,
-                            unselectedColor = MaterialTheme.colorScheme.outline
-                        )
-                    )
-                },
-                onClick = {
-                    HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
-                    onProviderSelected("JELLYFIN")
-                }
-            )
-        ),
-        containerColor = MaterialTheme.colorScheme.surface
-    )
-}
-
-@Composable
 private fun StreamingServiceChoiceTipsCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -9891,6 +9809,10 @@ private fun StreamingServiceChoiceTipsCard() {
                 icon = MaterialSymbolIcon("video_settings"),
                 text = stringResource(R.string.onboardingscreen_service_jellyfin_tip)
             )
+            OnboardingTipItem(
+                icon = MaterialSymbolIcon("qr_code_scanner"),
+                text = stringResource(R.string.onboardingscreen_service_netease_tip)
+            )
         }
     }
 }
@@ -9915,7 +9837,8 @@ fun EnhancedStreamingSetupContent(
     val selectedProvider = currentStreamingService.ifBlank { "SUBSONIC" }
     
     val currentSession = sessions[selectedProvider] ?: streamingViewModel.getServiceSession(selectedProvider)
-    val requiresServerUrl = remember(selectedProvider) { selectedProvider == "SUBSONIC" || selectedProvider == "JELLYFIN" }
+    val requiresServerUrl = remember(selectedProvider) { StreamingServiceRules.requiresServerUrl(selectedProvider) }
+    val usesQrLogin = remember(selectedProvider) { StreamingServiceRules.usesQrLogin(selectedProvider) }
 
     var serverUrl by rememberSaveable(selectedProvider) { mutableStateOf(currentSession.serverUrl) }
     var username by rememberSaveable(selectedProvider) { mutableStateOf(currentSession.username) }
@@ -9923,7 +9846,6 @@ fun EnhancedStreamingSetupContent(
     var showDiscoverySheet by remember { mutableStateOf(false) }
 
     val scanner = remember(selectedProvider) { NearbyServerScanner(context, selectedProvider, scope) }
-    var isAutoScanning by rememberSaveable(selectedProvider) { mutableStateOf(serverUrl.isBlank()) }
 
     DisposableEffect(scanner) {
         onDispose {
@@ -9931,15 +9853,19 @@ fun EnhancedStreamingSetupContent(
         }
     }
 
-    LaunchedEffect(selectedProvider) {
-        if (serverUrl.isBlank()) {
-            isAutoScanning = true
-            scanner.startScan()
-            delay(3500)
-            isAutoScanning = false
-            if (scanner.discoveredServers.isNotEmpty() && serverUrl.isBlank()) {
-                showDiscoverySheet = true
-            }
+    // 不在进入步骤时自动扫描局域网：只有用户点雷达图标（onDiscoverClick）才触发发现，
+    // 避免突然弹出系统「本地网络设备」授权弹窗。
+
+    // 扫码登录的服务（如网易云）：进入配置步骤即开始取码轮询，离开步骤时停止。
+    val qrLoginState by streamingViewModel.netEaseQrLogin.collectAsState()
+    LaunchedEffect(selectedProvider, currentSession.isConnected) {
+        if (usesQrLogin && !currentSession.isConnected) {
+            streamingViewModel.startNetEaseQrLogin()
+        }
+    }
+    DisposableEffect(selectedProvider) {
+        onDispose {
+            streamingViewModel.cancelNetEaseQrLogin()
         }
     }
 
@@ -9947,21 +9873,13 @@ fun EnhancedStreamingSetupContent(
     val canSubmit = username.isNotBlank() && password.isNotBlank() && (!requiresServerUrl || serverUrl.isNotBlank())
     val scrollState = rememberScrollState()
 
-    val providerDisplayName = if (selectedProvider == "JELLYFIN") {
-        stringResource(R.string.streaming_service_jellyfin)
-    } else {
-        stringResource(R.string.onboardingscreen_subsonic_navidrome)
-    }
-    val providerDescription = if (selectedProvider == "JELLYFIN") {
-        stringResource(R.string.streaming_service_jellyfin_desc)
-    } else {
-        stringResource(R.string.streaming_service_subsonic_desc)
-    }
-    val providerIconRes = if (selectedProvider == "JELLYFIN") {
-        R.drawable.ic_jellyfin
-    } else {
-        R.drawable.ic_subsonic
-    }
+    // 服务商名称/描述/图标统一取自 StreamingServiceOptions 单一来源，新平台加数据即可。
+    val selectedOption = StreamingServiceOptions.defaults.firstOrNull { it.id == selectedProvider }
+    val providerDisplayName = selectedOption?.let { stringResource(it.nameRes) }
+        ?: stringResource(R.string.onboardingscreen_subsonic_navidrome)
+    val providerDescription = selectedOption?.let { stringResource(it.descriptionRes) }
+        ?: stringResource(R.string.streaming_service_subsonic_desc)
+    val providerIconRes = selectedOption?.iconRes ?: R.drawable.ic_subsonic
 
     if (isTablet) {
         Row(
@@ -9983,7 +9901,7 @@ fun EnhancedStreamingSetupContent(
                     contentAlignment = Alignment.Center
                 ) {
                     AnimatedContent(
-                        targetState = isAutoScanning,
+                        targetState = scanner.isScanning,
                         label = "setup_header_icon_tablet"
                     ) { scanning ->
                         if (scanning) {
@@ -10013,7 +9931,7 @@ fun EnhancedStreamingSetupContent(
                 }
 
                 Text(
-                    text = if (isAutoScanning) {
+                    text = if (scanner.isScanning) {
                         stringResource(R.string.onboarding_scanning_for_provider, providerDisplayName)
                     } else {
                         stringResource(R.string.onboardingscreen_configure_provider, providerDisplayName)
@@ -10025,7 +9943,7 @@ fun EnhancedStreamingSetupContent(
                 )
 
                 Text(
-                    text = if (isAutoScanning) {
+                    text = if (scanner.isScanning) {
                         stringResource(R.string.onboarding_scanning_for_provider_desc)
                     } else {
                         providerDescription
@@ -10034,8 +9952,6 @@ fun EnhancedStreamingSetupContent(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 32.dp)
                 )
-
-                StreamingSetupTipsCard()
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -10087,7 +10003,10 @@ fun EnhancedStreamingSetupContent(
                     onDisconnect = {
                         streamingViewModel.disconnectService(selectedProvider)
                     },
-                    onSkip = onSkip
+                    onSkip = onSkip,
+                    usesQrLogin = usesQrLogin,
+                    qrLoginState = qrLoginState,
+                    onQrRefresh = { streamingViewModel.startNetEaseQrLogin() }
                 )
             }
         }
@@ -10104,7 +10023,7 @@ fun EnhancedStreamingSetupContent(
                 contentAlignment = Alignment.Center
             ) {
                 AnimatedContent(
-                    targetState = isAutoScanning,
+                    targetState = scanner.isScanning,
                     label = "setup_header_icon_mobile"
                 ) { scanning ->
                     if (scanning) {
@@ -10136,7 +10055,7 @@ fun EnhancedStreamingSetupContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = if (isAutoScanning) {
+                text = if (scanner.isScanning) {
                     stringResource(R.string.onboarding_scanning_for_provider, providerDisplayName)
                 } else {
                     stringResource(R.string.onboardingscreen_configure_provider, providerDisplayName)
@@ -10148,7 +10067,7 @@ fun EnhancedStreamingSetupContent(
             )
 
             Text(
-                text = if (isAutoScanning) {
+                text = if (scanner.isScanning) {
                     stringResource(R.string.onboarding_scanning_for_provider_desc)
                 } else {
                     providerDescription
@@ -10192,12 +10111,12 @@ fun EnhancedStreamingSetupContent(
                 onDisconnect = {
                     streamingViewModel.disconnectService(selectedProvider)
                 },
-                onSkip = onSkip
+                onSkip = onSkip,
+                usesQrLogin = usesQrLogin,
+                qrLoginState = qrLoginState,
+                onQrRefresh = { streamingViewModel.startNetEaseQrLogin() }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            StreamingSetupTipsCard()
         }
     }
 
@@ -10211,45 +10130,6 @@ fun EnhancedStreamingSetupContent(
                 showDiscoverySheet = false
             }
         )
-    }
-}
-
-@Composable
-private fun StreamingSetupTipsCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.84f)
-        )
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = RhythmIcons.Info,
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = stringResource(R.string.onboardingscreen_streaming_setup_tips),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OnboardingTipItem(
-                icon = MaterialSymbolIcon("wifi_find"),
-                text = stringResource(R.string.onboardingscreen_setup_auto_scan_tip)
-            )
-            OnboardingTipItem(
-                icon = MaterialSymbolIcon("verified_user"),
-                text = stringResource(R.string.onboardingscreen_connection_test_ensures_server)
-            )
-        }
     }
 }
 
@@ -10273,7 +10153,10 @@ private fun StreamingSetupSelectionAndForm(
     onDiscoverClick: () -> Unit,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
-    onSkip: (() -> Unit)? = null
+    onSkip: (() -> Unit)? = null,
+    usesQrLogin: Boolean = false,
+    qrLoginState: NetEaseQrLoginUiState? = null,
+    onQrRefresh: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
 
@@ -10291,198 +10174,294 @@ private fun StreamingSetupSelectionAndForm(
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            if (requiresServerUrl) {
-                OutlinedTextField(
-                    value = serverUrl,
-                    onValueChange = onServerUrlChange,
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(R.string.streaming_service_setup_server_url)) },
-                    placeholder = { Text(stringResource(R.string.onboardingscreen_httpsyourservercom)) },
-                    trailingIcon = {
-                        IconButton(onClick = onDiscoverClick, enabled = !isLoading && !isConnected) {
-                            Icon(
-                                imageVector = MaterialSymbolIcon("radar"),
-                                contentDescription = stringResource(R.string.streaming_service_setup_auto_detect)
+            if (usesQrLogin && qrLoginState != null) {
+                // 扫码登录（如网易云）：展示二维码，连接状态由轮询驱动，无需账号密码表单。
+                NetEaseQrLoginCard(
+                    state = qrLoginState,
+                    onRefresh = onQrRefresh
+                )
+
+                if (isConnected) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.4f),
+                                RoundedCornerShape(12.dp)
                             )
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = MaterialSymbolIcon("check_circle", filled = true),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Column {
+                            Text(
+                                text = stringResource(R.string.onboardingscreen_successfully_connected),
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                            val accountName = qrLoginState.account?.nickname.orEmpty()
+                            if (accountName.isNotBlank()) {
+                                Text(
+                                    text = stringResource(R.string.onboarding_connected_to_format, selectedProviderName, accountName),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
+                                )
+                            }
                         }
-                    },
-                    supportingText = { Text(stringResource(R.string.onboardingscreen_remember_to_include_http)) },
-                    singleLine = true,
-                    enabled = !isLoading && !isConnected
-                )
-            }
-
-            OutlinedTextField(
-                value = username,
-                onValueChange = onUsernameChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.onboardingscreen_username)) },
-                placeholder = { Text(stringResource(R.string.onboardingscreen_enter_server_username)) },
-                singleLine = true,
-                enabled = !isLoading && !isConnected
-            )
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = onPasswordChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.streaming_service_setup_password)) },
-                placeholder = { Text(stringResource(R.string.onboardingscreen_enter_server_password)) },
-                visualTransformation = PasswordVisualTransformation(),
-                singleLine = true,
-                enabled = !isLoading && !isConnected
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(id = R.string.streaming_service_setup_remember_password),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Text(
-                        text = stringResource(id = R.string.streaming_service_setup_remember_password_desc),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
-                TunerAnimatedSwitch(
-                    checked = rememberStreamingPasswords,
-                    onCheckedChange = onRememberPasswordChange,
-                    enabled = !isLoading && !isConnected
-                )
-            }
-
-            if (isConnected) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.4f),
-                            RoundedCornerShape(12.dp)
-                        )
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = MaterialSymbolIcon("check_circle", filled = true),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Column {
-                        Text(
-                            text = stringResource(R.string.onboardingscreen_successfully_connected),
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
-                        )
-                        Text(
-                            text = stringResource(R.string.onboarding_connected_to_format, selectedProviderName, username),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
-                        )
                     }
-                }
-            } else if (error != null) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.4f),
-                            RoundedCornerShape(12.dp)
+                } else if (error != null) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.4f),
+                                RoundedCornerShape(12.dp)
+                            )
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Icon(
+                            imageVector = MaterialSymbolIcon("warning", filled = true),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(24.dp)
                         )
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Icon(
-                        imageVector = MaterialSymbolIcon("warning", filled = true),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = error,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onErrorContainer
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.weight(1f)
                         )
-                        val isDomainUrl = remember(serverUrl) {
-                            val clean = serverUrl.trim().lowercase()
-                                .removePrefix("http://")
-                                .removePrefix("https://")
-                                .substringBefore(":")
-                                .substringBefore("/")
-                            clean.isNotEmpty() && !clean.matches(Regex("^(\\d{1,3}\\.){3}\\d{1,3}$")) && clean != "localhost"
+                    }
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    if (isConnected) {
+                        OutlinedButton(
+                            onClick = onDisconnect,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading
+                        ) {
+                            Text(stringResource(R.string.streaming_service_setup_disconnect))
                         }
-                        if (isDomainUrl) {
-                            Spacer(modifier = Modifier.height(8.dp))
+                    } else if (onSkip != null) {
+                        TextButton(
+                            onClick = onSkip,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !isLoading
+                        ) {
                             Text(
-                                text = stringResource(id = R.string.streaming_service_setup_lan_hairpin_tip),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
+                                text = stringResource(R.string.onboarding_streaming_setup_later),
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
                 }
-            }
+            } else {
+                if (requiresServerUrl) {
+                    OutlinedTextField(
+                        value = serverUrl,
+                        onValueChange = onServerUrlChange,
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.streaming_service_setup_server_url)) },
+                        placeholder = { Text(stringResource(R.string.onboardingscreen_httpsyourservercom)) },
+                        trailingIcon = {
+                            IconButton(onClick = onDiscoverClick, enabled = !isLoading && !isConnected) {
+                                Icon(
+                                    imageVector = MaterialSymbolIcon("radar"),
+                                    contentDescription = stringResource(R.string.streaming_service_setup_auto_detect)
+                                )
+                            }
+                        },
+                        supportingText = { Text(stringResource(R.string.onboardingscreen_remember_to_include_http)) },
+                        singleLine = true,
+                        enabled = !isLoading && !isConnected
+                    )
+                }
 
-            // Connect/Disconnect Button
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = onUsernameChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.onboardingscreen_username)) },
+                    placeholder = { Text(stringResource(R.string.onboardingscreen_enter_server_username)) },
+                    singleLine = true,
+                    enabled = !isLoading && !isConnected
+                )
+
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = onPasswordChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.streaming_service_setup_password)) },
+                    placeholder = { Text(stringResource(R.string.onboardingscreen_enter_server_password)) },
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    enabled = !isLoading && !isConnected
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(id = R.string.streaming_service_setup_remember_password),
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = stringResource(id = R.string.streaming_service_setup_remember_password_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    TunerAnimatedSwitch(
+                        checked = rememberStreamingPasswords,
+                        onCheckedChange = onRememberPasswordChange,
+                        enabled = !isLoading && !isConnected
+                    )
+                }
+
                 if (isConnected) {
-                    OutlinedButton(
-                        onClick = onDisconnect,
-                        modifier = Modifier.weight(1f),
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.4f),
+                                RoundedCornerShape(12.dp)
+                            )
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = MaterialSymbolIcon("check_circle", filled = true),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Column {
+                            Text(
+                                text = stringResource(R.string.onboardingscreen_successfully_connected),
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                            Text(
+                                text = stringResource(R.string.onboarding_connected_to_format, selectedProviderName, username),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
+                            )
+                        }
+                    }
+                } else if (error != null) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.4f),
+                                RoundedCornerShape(12.dp)
+                            )
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Icon(
+                            imageVector = MaterialSymbolIcon("warning", filled = true),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = error,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                            val isDomainUrl = remember(serverUrl) {
+                                val clean = serverUrl.trim().lowercase()
+                                    .removePrefix("http://")
+                                    .removePrefix("https://")
+                                    .substringBefore(":")
+                                    .substringBefore("/")
+                                clean.isNotEmpty() && !clean.matches(Regex("^(\\d{1,3}\\.){3}\\d{1,3}$")) && clean != "localhost"
+                            }
+                            if (isDomainUrl) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = stringResource(id = R.string.streaming_service_setup_lan_hairpin_tip),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // Connect/Disconnect Button
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    if (isConnected) {
+                        OutlinedButton(
+                            onClick = onDisconnect,
+                            modifier = Modifier.weight(1f),
+                            enabled = !isLoading
+                        ) {
+                            Text(stringResource(R.string.streaming_service_setup_disconnect))
+                        }
+                    } else {
+                        Button(
+                            onClick = onConnect,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !isLoading && canSubmit,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            )
+                        ) {
+                            if (isLoading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(18.dp),
+                                    strokeWidth = 2.dp,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(stringResource(R.string.onboardingscreen_connecting))
+                            } else {
+                                Text(stringResource(R.string.onboardingscreen_connect_verify))
+                            }
+                        }
+                    }
+                }
+
+                if (!isConnected && onSkip != null) {
+                    TextButton(
+                        onClick = onSkip,
+                        modifier = Modifier.fillMaxWidth(),
                         enabled = !isLoading
                     ) {
-                        Text(stringResource(R.string.streaming_service_setup_disconnect))
-                    }
-                } else {
-                    Button(
-                        onClick = onConnect,
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = !isLoading && canSubmit,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        Text(
+                            text = stringResource(R.string.onboarding_streaming_setup_later),
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                            color = MaterialTheme.colorScheme.primary
                         )
-                    ) {
-                        if (isLoading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(18.dp),
-                                strokeWidth = 2.dp,
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(stringResource(R.string.onboardingscreen_connecting))
-                        } else {
-                            Text(stringResource(R.string.onboardingscreen_connect_verify))
-                        }
                     }
-                }
-            }
-
-            if (!isConnected && onSkip != null) {
-                TextButton(
-                    onClick = onSkip,
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = !isLoading
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_streaming_setup_later),
-                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
                 }
             }
         }
