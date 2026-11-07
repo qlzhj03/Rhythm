@@ -11,6 +11,7 @@
 
 # Keep model classes used for Gson serialization in shared settings, playlists, etc.
 -keep class chromahub.rhythm.app.shared.data.model.** { *; }
+-keep class chromahub.rhythm.app.core.model.** { *; }
 
 # Keep PlaylistImportExportUtils inner data classes (PlaylistExportData, PlaylistSongEntry)
 # used for JSON playlist export/import via Gson reflection
@@ -81,3 +82,15 @@
 -dontwarn java.awt.**
 -dontwarn javax.sound.**
 -dontwarn javax.swing.**
+# kotlinx.serialization (PR-7: :core:network DTOs migrated from Gson).
+# The library ships consumer rules; these keep our DTO serializers against R8
+# field renaming, mirroring the official kotlinx.serialization template.
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.AnnotationsKt
+-keep,includedescriptorclasses class chromahub.rhythm.app.network.**$$serializer { *; }
+-keepclassmembers class chromahub.rhythm.app.network.** {
+    *** Companion;
+}
+-keepclasseswithmembers class chromahub.rhythm.app.network.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}

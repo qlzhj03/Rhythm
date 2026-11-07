@@ -34,3 +34,6 @@ app/release/
 # OS files
 .DS_Store
 Thumbs.db
+
+# ZCode session artifacts
+.zcode/

@@ -15,8 +15,13 @@ import okhttp3.Dispatcher
 import chromahub.rhythm.app.infrastructure.widget.glance.GlanceShapeBitmaps
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmCookieWidget
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
+import chromahub.rhythm.app.di.NetworkClientInitializer
+import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.ANRWatchdog
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+import chromahub.rhythm.app.core.common.ANRWatchdog
+import chromahub.rhythm.app.core.common.HapticsGate
 import chromahub.rhythm.app.util.CacheManager
 import chromahub.rhythm.app.util.CrashReporter
 import chromahub.rhythm.app.util.MediaUtils
@@ -32,6 +37,7 @@ import kotlinx.coroutines.launch
  * - NetworkClient
  * - ANR Watchdog (debug builds)
  */
+@HiltAndroidApp
 class RhythmApplication : Application(), ImageLoaderFactory {
     
     companion object {
@@ -44,6 +50,12 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             private set
     }
     
+    // Hilt-injected composition-root wiring (multi-module split PR-6).
+    @Inject
+    lateinit var streamingRepository: StreamingMusicRepository
+    @Inject
+    lateinit var networkClientInitializer: NetworkClientInitializer
+
     private var anrWatchdog: ANRWatchdog? = null
     
     override fun onCreate() {
@@ -61,6 +73,91 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         val settings = AppSettings.getInstance(applicationContext)
         Log.d(TAG, "✓ AppSettings initialized")
 
+        // Localized label seam for :core:data (resource-free module — PR-3).
+        chromahub.rhythm.app.core.common.AppStrings.apply {
+            unresolvedTrack = { getString(chromahub.rhythm.app.R.string.unresolved_track) }
+            unknownArtist = { getString(chromahub.rhythm.app.R.string.unknown_artist_name) }
+            unknownAlbum = { getString(chromahub.rhythm.app.R.string.unknown_album_name) }
+        }
+
+        // Media service seams for :core:media (PR-4).
+        chromahub.rhythm.app.core.common.AppBuildInfo.apply {
+            applicationId = packageName
+            versionName = BuildConfig.VERSION_NAME
+            versionCode = BuildConfig.VERSION_CODE
+            releaseDate = BuildConfig.RELEASE_DATE
+            flavor = BuildConfig.FLAVOR
+            isDebugBuild = BuildConfig.DEBUG
+            isNightly = BuildConfig.IS_NIGHTLY
+            enableYouTubeMusic = BuildConfig.ENABLE_YOUTUBE_MUSIC
+            enableLyricallyApi = BuildConfig.ENABLE_LYRICALLY_API
+            enableDeezer = BuildConfig.ENABLE_DEEZER
+            enableLrclib = BuildConfig.ENABLE_LRCLIB
+            enableBetterLyrics = BuildConfig.ENABLE_BETTERLYRICS
+            enableSpotifySearch = BuildConfig.ENABLE_SPOTIFY_SEARCH
+            enableWikipedia = BuildConfig.ENABLE_WIKIPEDIA
+        }
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.qualityIcons =
+            chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons(
+                hd = chromahub.rhythm.app.R.drawable.ic_hd,
+                highRes = chromahub.rhythm.app.R.drawable.ic_high_res,
+                dolby = chromahub.rhythm.app.R.drawable.ic_dolby,
+                dts = chromahub.rhythm.app.R.drawable.ic_dts,
+                surround = chromahub.rhythm.app.R.drawable.ic_surround_sound,
+                hq = chromahub.rhythm.app.R.drawable.ic_hq,
+                sq = chromahub.rhythm.app.R.drawable.ic_sq,
+            )
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.guardTimeoutStarter = { context, reason, untilMs, startedAtMs ->
+            chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity.start(
+                context = context, reason = reason, timeoutUntilMs = untilMs, timeoutStartedAtMs = startedAtMs)
+        }
+        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.mainActivityClass =
+            chromahub.rhythm.app.activities.MainActivity::class.java
+        chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller.bridge =
+            object : chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridge {
+                // NOTE: must call the Glance updater directly — WidgetUpdater now
+                // forwards through this very bridge (PR-5 seam inversion).
+                override fun updateWidget(
+                    context: android.content.Context,
+                    song: chromahub.rhythm.app.core.model.Song?,
+                    isPlaying: Boolean,
+                    hasPrevious: Boolean,
+                    hasNext: Boolean,
+                    isFavorite: Boolean,
+                    isShuffleEnabled: Boolean,
+                    repeatMode: Int,
+                ) = chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateWidget(
+                    context = context,
+                    song = song,
+                    isPlaying = isPlaying,
+                    hasPrevious = hasPrevious,
+                    hasNext = hasNext,
+                    isFavorite = isFavorite,
+                    isShuffleEnabled = isShuffleEnabled,
+                    repeatMode = repeatMode)
+
+                override fun updateLyrics(context: android.content.Context, lyricTexts: List<String>, activeIndex: Int) =
+                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
+            }
+
+        // Streaming playback seam for :core:media (repository lives in :feature:streaming).
+        chromahub.rhythm.app.infrastructure.service.PlaybackResolverInstaller.resolver =
+            object : chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver {
+                override suspend fun getStreamingUrl(songId: String): String? = streamingRepository.getStreamingUrl(songId)
+                override fun buildUserTrustingHttpClientBuilder() =
+                    chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
+            }
+
+        // Haptics seam: :core:designsystem reads haptics setting through this gate
+        // so its helpers stay decoupled from AppSettings (multi-module split PR-2).
+        HapticsGate.isEnabled = { settings.isHapticEnabled.value }
+
+        // Lyrics parsing seam for :core:media's LyricsParser (PR-5).
+        chromahub.rhythm.app.core.common.LyricsSettingsGate.apply {
+            trimLyrics = { settings.trimLyrics.value }
+            translationAutoWord = { settings.translationAutoWord.value }
+        }
+
         // Apply the user's theme preference to the system configuration so the
         // system splash screen and window background match the app theme
         // (light in light mode, dark in dark mode) instead of always being dark.
@@ -74,13 +171,29 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         AppCompatDelegate.setDefaultNightMode(nightMode)
         Log.d(TAG, "✓ Applied night mode: $nightMode")
         
-        // Initialize CrashReporter
+        // Initialize CrashReporter + its :app-side crash screen starter
+        CrashReporter.crashScreenStarter = { context, crashLog ->
+            chromahub.rhythm.app.activities.CrashActivity.start(context, crashLog)
+        }
         CrashReporter.init(this)
         Log.d(TAG, "✓ CrashReporter initialized")
         
-        // Initialize NetworkClient with AppSettings
-        chromahub.rhythm.app.network.NetworkClient.initialize(
-            AppSettings.getInstance(applicationContext)
+        // Install worker class references for AppSettings scheduling (:core:data
+        // cannot see :app workers directly — multi-module split PR-3).
+        chromahub.rhythm.app.network.AppWorkerRegistry.apply {
+            backupWorkerClass = chromahub.rhythm.app.worker.BackupWorker::class.java
+            updateNotificationWorkerClass = chromahub.rhythm.app.worker.UpdateNotificationWorker::class.java
+            rhythmPulseWorkerClass = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker::class.java
+            backupWorkName = chromahub.rhythm.app.worker.BackupWorker.WORK_NAME
+            updateNotificationWorkName = chromahub.rhythm.app.worker.UpdateNotificationWorker.WORK_NAME
+            rhythmPulseWorkName = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker.WORK_NAME
+        }
+        
+        // Initialize NetworkClient (settings/flags flow through Hilt + the
+        // AppBuildInfo seam; version/token stay :app BuildConfig references).
+        networkClientInitializer.initialize(
+            BuildConfig.VERSION_NAME,
+            BuildConfig.APPLE_MUSIC_FALLBACK_TOKEN,
         )
         Log.d(TAG, "✓ NetworkClient initialized")
         

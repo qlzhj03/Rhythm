@@ -1,4 +1,8 @@
 pluginManagement {
+    // Convention plugins for the multi-module build live in this included build
+    // (see docs/multi-module-refactor-plan.md). AGP 9.x built-in Kotlin only —
+    // never declare org.jetbrains.kotlin.android anywhere in the toolchain.
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -26,3 +30,16 @@ dependencyResolutionManagement {
 rootProject.name = "Rhythm"
 include(":app")
 include(":macrobenchmark")
+// Multi-module split (docs/multi-module-refactor-plan.md) — PR-2 leaf modules.
+include(":core:common")
+include(":core:model")
+include(":core:designsystem")
+include(":core:network")
+include(":core:data")
+include(":core:media")
+// PR-5: shared UI + feature modules.
+include(":core:ui")
+include(":feature:local")
+include(":feature:streaming")
+include(":feature:settings")
+include(":feature:widget")

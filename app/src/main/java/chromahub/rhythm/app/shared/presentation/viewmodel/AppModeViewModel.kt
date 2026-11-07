@@ -1,12 +1,15 @@
 package chromahub.rhythm.app.shared.presentation.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import chromahub.rhythm.app.core.domain.model.AppMode
-import chromahub.rhythm.app.core.domain.model.SourceType
-import chromahub.rhythm.app.core.domain.model.StreamingConfig
-import chromahub.rhythm.app.core.domain.model.StreamingQuality
+import chromahub.rhythm.app.core.model.AppMode
+import chromahub.rhythm.app.core.model.SourceType
+import chromahub.rhythm.app.core.model.StreamingConfig
+import chromahub.rhythm.app.core.model.StreamingQuality
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +25,8 @@ import kotlinx.coroutines.launch
  * 
  * NOTE: Uses AppSettings as the single source of truth for settings.
  */
-class AppModeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AppModeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     
     private val appSettings = AppSettings.getInstance(application)
     

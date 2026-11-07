@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.ui.theme.festive
+package chromahub.rhythm.app.core.designsystem.theme.festive
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import chromahub.rhythm.app.ui.theme.festive.*
+import chromahub.rhythm.app.core.designsystem.theme.festive.*
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 

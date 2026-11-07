@@ -15,6 +15,7 @@ plugins {
     // support via com.android.application; the baselineProfile() dep below and
     // the baseline-prof.txt file are sufficient.
     id("kotlin-parcelize")
+    id("rhythm.hilt")
 //    alias(libs.plugins.kotlin.serialization)
 }
 
@@ -183,11 +184,26 @@ androidComponents {
 }
 
 dependencies {
+    // Multi-module split (PR-2): leaf modules. :app remains the composition root.
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:network"))
+    implementation(project(":core:data"))
+    implementation(project(":core:media"))
+    implementation(project(":core:ui"))
+    // PR-5 feature modules (:app is the only module allowed to see them all).
+    implementation(project(":feature:local"))
+    implementation(project(":feature:streaming"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:widget"))
+
     implementation(libs.androidx.compose.ui.unit)
     // Desugaring library
     coreLibraryDesugaring(libs.androidx.desugar.jdk.libs)
 
     // Core Android dependencies
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core)
@@ -235,6 +251,7 @@ dependencies {
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Permissions
     implementation(libs.com.google.accompanist.accompanist.permissions)
@@ -287,6 +304,10 @@ dependencies {
 
     // Testing
     testImplementation(libs.junit)
+    // Benchmark variant only: merges androidx.benchmark IsolationActivity into
+    // the manifest so AndroidBenchmarkRunner (targeting this app) can launch it
+    // during baseline profile generation (PR-7).
+    add("benchmarkImplementation", libs.androidx.benchmark.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver3)
     // Real org.json for JVM tests; android.jar only has stubs.
     testImplementation(libs.org.json)

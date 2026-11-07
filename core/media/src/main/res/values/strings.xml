@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="media3_notification_channel_name">Rhythm 正在播放</string>
+
+<string name="media3_notification_channel_description">前台播放控制、进度调节与专辑封面</string>
+
+<string name="notification_sleep_timer_channel_name">Rhythm 睡眠助手</string>
+
+<string name="notification_sleep_timer_channel_desc">睡眠定时器的倒计时与状态提醒</string>
+
+<string name="notification_sleep_timer_title">睡眠定时器已启用</string>
+
+<string name="notification_sleep_timer_pause_in">将在 %1$s 后暂停播放</string>
+
+<string name="notification_sleep_timer_stop_in">将在 %1$s 后停止播放</string>
+
+<string name="cd_shuffle">随机播放</string>
+
+<string name="service_rhythm_guard_alerts">Rhythm Guard 提醒</string>
+
+<string name="service_rhythm_guard_timers">Rhythm Guard 计时</string>
+
+<string name="service_rhythm_music">Rhythm 音乐</string>
+
+<string name="service_rhythm_guard_alerts_desc">Rhythm Guard 的安全提醒</string>
+
+<string name="service_rhythm_guard_timers_desc">Rhythm Guard 的休息与超时提醒</string>
+
+<string name="service_ready">Rhythm 已就绪。</string>
+
+<string name="service_init_failed">Rhythm 无法启动，请重新打开应用。</string>
+
+<string name="settings_rhythm_guard_timeout_reason_auto">已触发收听休息：今天的 %1$s 超过了建议的 %2$s。</string>
+
+<string name="settings_rhythm_guard_notification_alert_title">Rhythm Guard 安全提醒</string>
+
+<string name="settings_rhythm_guard_notification_timer_active_title">Rhythm Guard 超时生效中</string>
+
+<string name="settings_rhythm_guard_notification_timer_active_text">将在 %1$s 后恢复播放。</string>
+
+<string name="settings_rhythm_guard_notification_tap_open">点击查看超时详情。</string>
+
+<string name="ui_bt_codec_info">蓝牙编解码器：%1$s，%2$s，%3$s</string>
+</resources>

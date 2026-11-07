@@ -1,0 +1,557 @@
+package chromahub.rhythm.app.network
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
+import java.util.Base64
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
+import okhttp3.HttpUrl.Companion.toHttpUrl
+
+private const val APPLE_CANVAS_LOG_TAG = "AppleMusicCanvas"
+
+object AppleMusicCanvasProvider {
+
+
+    // Fallback/Default public JWT token — loaded from local.properties via BuildConfig (not hardcoded)
+    private val APPLE_MUSIC_TOKEN: String
+        get() = NetworkClient.appleMusicToken
+
+    private var cachedToken: String? = null
+    private var tokenExpiryMs: Long = 0L
+
+
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(25, TimeUnit.SECONDS)
+            .writeTimeout(25, TimeUnit.SECONDS)
+            .build()
+    }
+
+    private val json = Json { ignoreUnknownKeys = true }
+
+    private data class CacheEntry(
+        val value: CanvasArtwork?,
+        val expiresAtMs: Long,
+    )
+
+    private val cache = ConcurrentHashMap<String, CacheEntry>()
+    private const val CACHE_TTL_MS = 1000L * 60 * 60 * 24 // 24 hours
+
+    private suspend fun getOrFetchToken(): String = withContext(Dispatchers.IO) {
+        val now = System.currentTimeMillis()
+        if (cachedToken != null && now < tokenExpiryMs - 60_000) {
+            return@withContext cachedToken!!
+        }
+
+        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Fetching fresh developer token dynamically...")
+        try {
+            val request = Request.Builder()
+                .url("https://music.apple.com/us/browse")
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Failed to get Apple Music browse page: ${response.code}")
+                    return@use null
+                }
+                val html = response.body.string()
+
+                val scriptRegex = Pattern.compile("/assets/index(?:-legacy)?[~-][a-zA-Z0-9_-]+\\.js")
+                val matcher = scriptRegex.matcher(html)
+                val scripts = mutableListOf<String>()
+                while (matcher.find()) {
+                    val script = matcher.group()
+                    if (!scripts.contains(script)) {
+                        scripts.add(script)
+                    }
+                }
+                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Found script candidates in HTML: $scripts")
+
+                var fetchedToken: String? = null
+                for (scriptPath in scripts) {
+                    val scriptUrl = "https://music.apple.com$scriptPath"
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Fetching script: $scriptUrl")
+
+                    val scriptReq = Request.Builder()
+                        .url(scriptUrl)
+                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                        .build()
+
+                    client.newCall(scriptReq).execute().use { scriptRes ->
+                        if (!scriptRes.isSuccessful) return@use
+
+                        val scriptText = scriptRes.body.string()
+                        val tokenRegex = Pattern.compile("ey[a-zA-Z0-9_-]+\\.ey[a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+")
+                        val tokenMatcher = tokenRegex.matcher(scriptText)
+                        
+                        while (tokenMatcher.find()) {
+                            val token = tokenMatcher.group()
+                            try {
+                                val parts = token.split(".")
+                                if (parts.size >= 2) {
+                                    val body = parts[1]
+                                    val decodedBytes = Base64.getUrlDecoder().decode(body)
+                                    val decoded = String(decodedBytes, Charsets.UTF_8)
+                                    
+                                    if (decoded.contains("iss") && decoded.contains("exp")) {
+                                        val expIndex = decoded.indexOf("\"exp\":")
+                                        if (expIndex != -1) {
+                                            val endIdx = decoded.indexOf("}", expIndex)
+                                            val segment = if (endIdx != -1) decoded.substring(expIndex + 6, endIdx) else decoded.substring(expIndex + 6)
+                                            val expValStr = segment.takeWhile { it.isDigit() }
+                                            val expSeconds = expValStr.toLongOrNull() ?: 0L
+                                            
+                                            if (expSeconds * 1000 > now) {
+                                                fetchedToken = token
+                                                tokenExpiryMs = expSeconds * 1000
+                                                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Successfully decoded and verified new token. Expires at: ${Date(tokenExpiryMs)}")
+                                                break
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                // Ignore decoding exceptions for invalid matches
+                            }
+                        }
+                    }
+                    if (fetchedToken != null) break
+                }
+
+                if (fetchedToken != null) {
+                    cachedToken = fetchedToken
+                    fetchedToken
+                } else {
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Could not locate any valid fresh token in script files. Using fallback token.")
+                    APPLE_MUSIC_TOKEN
+                }
+            } ?: APPLE_MUSIC_TOKEN
+        } catch (e: Exception) {
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error occurred during dynamic token fetch. Using fallback token.", e)
+            APPLE_MUSIC_TOKEN
+        }
+    }
+
+    suspend fun getBySongArtist(
+        song: String,
+        artist: String,
+        album: String? = null,
+        storefront: String = "us",
+    ): CanvasArtwork? = withContext(Dispatchers.IO) {
+        val key = cacheKey("song", song, artist, album ?: "", storefront)
+        cache[key]?.takeIf { it.expiresAtMs > System.currentTimeMillis() }?.let { return@withContext it.value }
+
+        val result = searchAndFetchMotion(song, artist, album, storefront, "songs")
+        if (result != null) {
+            cache[key] = CacheEntry(result, System.currentTimeMillis() + CACHE_TTL_MS)
+            return@withContext result
+        }
+
+        // Fallback: if song search returned null, try searching for the album of the song
+        if (!album.isNullOrBlank()) {
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Song search returned null for '$song' by '$artist'. Falling back to album search for '$album'...")
+            val albumResult = searchAndFetchMotion(term = album, artist = artist, album = null, storefront = storefront, type = "albums")
+            if (albumResult != null) {
+                val songResult = albumResult.copy(name = song)
+                cache[key] = CacheEntry(songResult, System.currentTimeMillis() + CACHE_TTL_MS)
+                return@withContext songResult
+            }
+        }
+
+        return@withContext null
+    }
+
+    suspend fun getByAlbumArtist(
+        album: String,
+        artist: String,
+        storefront: String = "us",
+    ): CanvasArtwork? = withContext(Dispatchers.IO) {
+        val key = cacheKey("album", album, artist, storefront)
+        cache[key]?.takeIf { it.expiresAtMs > System.currentTimeMillis() }?.let { return@withContext it.value }
+
+        val result = searchAndFetchMotion(term = album, artist = artist, album = null, storefront = storefront, type = "albums")
+        if (result != null) {
+            cache[key] = CacheEntry(result, System.currentTimeMillis() + CACHE_TTL_MS)
+        }
+        return@withContext result
+    }
+
+    suspend fun getAlbumDescription(
+        album: String,
+        artist: String,
+        storefront: String = "us",
+    ): String? = withContext(Dispatchers.IO) {
+        try {
+            val query = if (album.contains(artist, ignoreCase = true)) album else "$artist $album"
+            val token = getOrFetchToken()
+            val urlBuilder = "https://amp-api.music.apple.com/v1/catalog/$storefront/search".toHttpUrl().newBuilder()
+            urlBuilder.addQueryParameter("term", query)
+            urlBuilder.addQueryParameter("types", "albums")
+            urlBuilder.addQueryParameter("limit", "5")
+            urlBuilder.addQueryParameter("extend", "editorialNotes")
+
+            val request = Request.Builder()
+                .url(urlBuilder.build())
+                .header("Authorization", "Bearer $token")
+                .header("Origin", "https://music.apple.com")
+                .header("Referer", "https://music.apple.com/")
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (response.code != 200) return@use null
+                val bodyStr = response.body.string()
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val resultsObj = root["results"]?.jsonObject ?: return@use null
+                val typeObj = resultsObj["albums"]?.jsonObject ?: return@use null
+                val dataArray = typeObj["data"]?.jsonArray ?: return@use null
+
+                for (itemElement in dataArray) {
+                    val obj = itemElement.jsonObject
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+
+                    if (artistMatches(artist, resultArtistName) &&
+                        (resultName.equals(album, ignoreCase = true) ||
+                         resultName.contains(album, ignoreCase = true) ||
+                         album.contains(resultName, ignoreCase = true))
+                    ) {
+                        val editorialNotes = attributes["editorialNotes"]?.jsonObject
+                        if (editorialNotes != null) {
+                            val description = editorialNotes["standard"]?.jsonPrimitive?.contentOrNull
+                                ?: editorialNotes["short"]?.jsonPrimitive?.contentOrNull
+                            if (!description.isNullOrBlank()) {
+                                return@use description.replace(Regex("<[^>]*>"), "").trim()
+                            }
+                        }
+                    }
+                }
+                null
+            }
+        } catch (e: Exception) {
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error fetching album description", e)
+            null
+        }
+    }
+
+
+    private suspend fun searchAndFetchMotion(
+        term: String,
+        artist: String,
+        album: String?,
+        storefront: String,
+        type: String,
+    ): CanvasArtwork? = withContext(Dispatchers.IO) {
+        try {
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "searching for $type: $term (album: $album) in $storefront")
+            var query = if (term.contains(artist, ignoreCase = true)) term else "$artist $term"
+            if (!album.isNullOrBlank() && !query.contains(album, ignoreCase = true)) {
+                query = "$query $album"
+            }
+
+            val token = getOrFetchToken()
+            val urlBuilder = "https://amp-api.music.apple.com/v1/catalog/$storefront/search".toHttpUrl().newBuilder()
+            
+            urlBuilder.addQueryParameter("term", query)
+            urlBuilder.addQueryParameter("types", type)
+            urlBuilder.addQueryParameter("limit", "10")
+            urlBuilder.addQueryParameter("extend", "editorialVideo")
+            urlBuilder.addQueryParameter("include", "albums")
+
+            val request = Request.Builder()
+                .url(urlBuilder.build())
+                .header("Authorization", "Bearer $token")
+                .header("Origin", "https://music.apple.com")
+                .header("Referer", "https://music.apple.com/")
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (response.code != 200) {
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "Search failed with status ${response.code}")
+                    return@use null
+                }
+
+                val bodyStr = response.body.string()
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val resultsObj = root["results"]?.jsonObject ?: return@use null
+                val typeObj = resultsObj[type]?.jsonObject ?: return@use null
+                val dataArray = typeObj["data"]?.jsonArray ?: return@use null
+
+                val scoredResults = mutableListOf<Pair<Int, JsonObject>>()
+
+                for (itemElement in dataArray) {
+                    val obj = itemElement.jsonObject
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultCollectionName = attributes["albumName"]?.jsonPrimitive?.contentOrNull 
+                        ?: attributes["collectionName"]?.jsonPrimitive?.contentOrNull 
+                        ?: ""
+
+                    val nameLower = resultName.lowercase(Locale.ROOT)
+                    val collectionLower = resultCollectionName.lowercase(Locale.ROOT)
+                    
+                    val isBlacklisted = nameLower.contains("playlist") || nameLower.contains("set list") ||
+                            collectionLower.contains("playlist") || collectionLower.contains("set list") ||
+                            nameLower.contains("essentials") || collectionLower.contains("essentials") ||
+                            collectionLower.contains("dj mix") || collectionLower.contains("mixed") ||
+                            collectionLower.contains("apple music") || collectionLower.contains("today's hits") ||
+                            nameLower.contains("session") || collectionLower.contains("session")
+
+                    if (isBlacklisted) {
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Skipping blacklisted result: '$resultName' (Album: '$resultCollectionName')")
+                        continue
+                    }
+
+                    val artistMatch = artistMatches(artist, resultArtistName)
+                    if (!artistMatch) continue
+
+                    var score = 10 // Base matching score since artist matched
+                    
+                    val nameMatch = resultName.equals(term, ignoreCase = true)
+                    val nameFuzzy = resultName.contains(term, ignoreCase = true) || term.contains(resultName, ignoreCase = true)
+
+                    if (nameMatch) {
+                        score += 15
+                    } else if (nameFuzzy) {
+                        score += 7
+                    } else {
+                        score -= 10
+                    }
+
+                    val editionWords = listOf("deluxe", "expanded", "remastered", "remix", "version", "edit", "mix", "bonus")
+                    for (word in editionWords) {
+                        val inTerm = term.contains(word, ignoreCase = true)
+                        val inResult = resultName.contains(word, ignoreCase = true)
+                        if (inTerm && inResult) score += 5
+                        else if (inTerm != inResult && inResult) score -= 3
+                    }
+
+                    if (!album.isNullOrBlank() && resultCollectionName.isNotEmpty()) {
+                        val albumMatch = resultCollectionName.equals(album, ignoreCase = true)
+                        val albumFuzzy = resultCollectionName.contains(album, ignoreCase = true) || album.contains(resultCollectionName, ignoreCase = true)
+                        
+                        if (albumMatch) score += 20
+                        else if (albumFuzzy) score += 10
+                    }
+
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Result candidate: '$resultName' by '$resultArtistName' (Album: '$resultCollectionName') -> Score: $score")
+                    scoredResults.add(score to obj)
+                }
+
+                scoredResults.sortByDescending { it.first }
+
+                for ((score, obj) in scoredResults) {
+                    if (score < 12) {
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "skipping result with low score: $score")
+                        continue
+                    }
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
+
+                    var targetAlbumId: String? = null
+                    val objType = obj["type"]?.jsonPrimitive?.contentOrNull
+
+                    if (objType == "songs") {
+                        val relationships = obj["relationships"]?.jsonObject
+                        if (relationships != null) {
+                            val albumsRel = relationships["albums"]?.jsonObject
+                            if (albumsRel != null) {
+                                val albumsData = albumsRel["data"]?.jsonArray
+                                if (albumsData != null && albumsData.isNotEmpty()) {
+                                    targetAlbumId = albumsData[0].jsonObject["id"]?.jsonPrimitive?.contentOrNull
+                                }
+                            }
+                        }
+                        if (targetAlbumId == null) {
+                            targetAlbumId = attributes["collectionId"]?.jsonPrimitive?.contentOrNull
+                        }
+                        if (targetAlbumId == null) {
+                            val url = attributes["url"]?.jsonPrimitive?.contentOrNull
+                            if (url != null) {
+                                val albumPart = url.substringAfter("/album/", "").substringBefore("?")
+                                val id = albumPart.substringAfterLast("/", "")
+                                if (id.isNotEmpty() && id.all { it.isDigit() }) {
+                                    targetAlbumId = id
+                                }
+                            }
+                        }
+                    } else if (objType == "albums") {
+                        targetAlbumId = obj["id"]?.jsonPrimitive?.contentOrNull
+                    }
+
+                    if (targetAlbumId == null || targetAlbumId.startsWith("pl.")) {
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "skipping null or playlist albumId ($targetAlbumId) for $resultName")
+                        continue
+                    }
+
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "trying resolve for $targetAlbumId (from $objType)")
+
+                    // Check editorialVideo directly in the search result
+                    val ev = attributes["editorialVideo"]?.jsonObject
+                    if (ev != null) {
+                        val hlsUrl = extractEditorialVideoUrl(ev)
+                        if (!hlsUrl.isNullOrBlank()) {
+                            val collName = attributes["collectionName"]?.jsonPrimitive?.contentOrNull
+                            val resolvedAlbumName = if (objType == "songs") collName else resultName
+                            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Found direct editorialVideo for $resultName (ID: $targetAlbumId)")
+                            return@use CanvasArtwork(
+                                name = resultName,
+                                artist = resultArtistName,
+                                albumId = targetAlbumId,
+                                albumName = resolvedAlbumName,
+                                animated = hlsUrl
+                            )
+                        }
+                    }
+
+                    // Fallback to full lookup
+                    val fetched = fetchMotionArtwork(
+                        albumId = targetAlbumId,
+                        storefront = storefront,
+                        fallbackArtist = resultArtistName,
+                        titleOverride = if (objType == "songs") resultName else null,
+                        artistOverride = if (objType == "songs") resultArtistName else null
+                    )
+                    if (fetched != null) return@use fetched
+                }
+                null
+            }
+        } catch (e: Exception) {
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "Error searching and fetching motion", e)
+            null
+        }
+    }
+
+    private suspend fun fetchMotionArtwork(
+        albumId: String,
+        storefront: String,
+        fallbackArtist: String?,
+        titleOverride: String? = null,
+        artistOverride: String? = null,
+    ): CanvasArtwork? = withContext(Dispatchers.IO) {
+        if (albumId.startsWith("pl.")) return@withContext null
+        try {
+            NetworkLog.d(APPLE_CANVAS_LOG_TAG, "fetching album $albumId")
+            val token = getOrFetchToken()
+            val url = "https://amp-api.music.apple.com/v1/catalog/$storefront/albums/$albumId?extend=editorialVideo&include=tracks"
+
+            val request = Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer $token")
+                .header("Origin", "https://music.apple.com")
+                .header("Referer", "https://music.apple.com/")
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (response.code != 200) {
+                    NetworkLog.w(APPLE_CANVAS_LOG_TAG, "album fetch failed for $albumId: ${response.code}")
+                    return@use null
+                }
+
+                val bodyStr = response.body.string()
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val dataArray = root["data"]?.jsonArray ?: return@use null
+                if (dataArray.isEmpty()) return@use null
+
+                val albumObj = dataArray[0].jsonObject
+                val attributes = albumObj["attributes"]?.jsonObject ?: return@use null
+                val albumName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                val artistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: fallbackArtist
+
+                val nameLower = albumName.lowercase(Locale.ROOT)
+                val isBlacklisted = nameLower.contains("playlist") || nameLower.contains("set list") ||
+                        nameLower.contains("essentials") || nameLower.contains("dj mix") ||
+                        nameLower.contains("mixed") || nameLower.contains("apple music") ||
+                        nameLower.contains("today's hits") || nameLower.contains("session")
+
+                if (isBlacklisted) {
+                    NetworkLog.d(APPLE_CANVAS_LOG_TAG, "fetchMotionArtwork: ignoring blacklisted album '$albumName' ($albumId)")
+                    return@use null
+                }
+
+                val finalTitle = titleOverride ?: albumName
+                val finalArtist = artistOverride ?: artistName
+
+                val ev = attributes["editorialVideo"]?.jsonObject
+                if (ev != null) {
+                    val videoUrl = extractEditorialVideoUrl(ev)
+                    if (!videoUrl.isNullOrBlank()) {
+                        NetworkLog.d(APPLE_CANVAS_LOG_TAG, "found editorialVideo for $finalTitle (album: $albumName, id: $albumId)")
+                        return@use CanvasArtwork(
+                            name = finalTitle,
+                            artist = finalArtist,
+                            albumId = albumId,
+                            albumName = albumName,
+                            animated = videoUrl
+                        )
+                    }
+                }
+                NetworkLog.d(APPLE_CANVAS_LOG_TAG, "no editorialVideo for $albumId")
+                null
+            }
+        } catch (e: Exception) {
+            NetworkLog.e(APPLE_CANVAS_LOG_TAG, "error in fetchMotionArtwork for $albumId", e)
+            null
+        }
+    }
+
+    private fun extractEditorialVideoUrl(ev: JsonObject): String? {
+        val candidates = listOf("motionDetailRaw", "motionDetailSquare", "motionDetailTall", "motionDetailStatic")
+        for (key in candidates) {
+            val asset = ev[key]?.jsonObject ?: continue
+            val video = asset["video"]?.jsonPrimitive?.contentOrNull
+                ?: asset["videoUrl"]?.jsonPrimitive?.contentOrNull
+                ?: asset["hlsUrl"]?.jsonPrimitive?.contentOrNull
+                ?: asset["url"]?.jsonPrimitive?.contentOrNull
+            
+            if (!video.isNullOrBlank()) return video
+        }
+        return null
+    }
+
+    private fun cleanTitle(title: String): String {
+        return title
+            .replace(Regex("\\(|\\u005b"), " ")
+            .replace(Regex("\\)|\\u005d"), " ")
+            .replace(Regex("\\b(deluxe|special|expanded|remastered|remaster|explicit|clean|live|studio|mono|stereo|single|ep|lp|remix|bonus|track|version|edition|anniversary|recordings|collection|greatest hits|best of)\\b", RegexOption.IGNORE_CASE), "")
+            .replace(Regex("\\s+"), " ")
+            .trim()
+    }
+
+    private fun cacheKey(prefix: String, vararg parts: String): String {
+        return "$prefix|" + parts.joinToString("|") { it.trim().lowercase(Locale.ROOT) }
+    }
+
+    private fun artistMatches(requested: String, returned: String): Boolean {
+        val delimiters = "(?:\\s*,\\s*|\\s*&\\s*|\\s+×\\s+|\\s+x\\s+|\\bfeat\\.?\\b|\\bft\\.?\\b|\\bfeaturing\\b|\\bwith\\b)"
+        val requestedList = requested.split(Regex(delimiters, RegexOption.IGNORE_CASE))
+            .map { it.replace(Regex("\\s+"), " ").trim().lowercase(Locale.ROOT) }
+            .filter { it.isNotBlank() }
+        
+        val returnedList = returned.split(Regex(delimiters, RegexOption.IGNORE_CASE))
+            .map { it.replace(Regex("\\s+"), " ").trim().lowercase(Locale.ROOT) }
+            .filter { it.isNotBlank() }
+        
+        if (requestedList.isEmpty() || returnedList.isEmpty()) return false
+        return requestedList.all { req -> returnedList.any { res -> res == req } }
+    }
+}

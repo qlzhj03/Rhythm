@@ -1,0 +1,360 @@
+package chromahub.rhythm.app.network
+
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.util.concurrent.TimeUnit
+import okhttp3.ConnectionPool
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import kotlin.math.pow
+import chromahub.rhythm.app.network.LRCLibApiService
+import chromahub.rhythm.app.network.DeezerApiService
+import chromahub.rhythm.app.network.SpotifySearchApiService
+import chromahub.rhythm.app.network.YTMusicApiService
+
+object NetworkClient {
+
+    /** APPLE_MUSIC_FALLBACK_TOKEN injected by :app at initialize() (red-line: value lives only in :app BuildConfig). */
+    val appleMusicToken: String get() = appleMusicFallbackToken
+
+    private const val TAG = "NetworkClient"
+    
+    private const val LRCLIB_BASE_URL = "https://lrclib.net/"
+    private const val BETTERLYRICS_BASE_URL = "https://lyrics-api.boidu.dev/"
+    private const val DEEZER_BASE_URL = "https://api.deezer.com/"
+    private const val YTMUSIC_BASE_URL = "https://music.youtube.com/"
+    private const val SPOTIFY_API_BASE_URL = "https://api.spotify.com/v1/"
+    private const val LYRICALLY_BASE_URL = "https://lyrics.paxsenix.org/"
+    private const val ITUNES_BASE_URL = "https://itunes.apple.com/"
+    
+    // Connection timeouts
+    private const val CONNECT_TIMEOUT = 30L
+    private const val READ_TIMEOUT = 30L
+    private const val WRITE_TIMEOUT = 30L
+    private const val MAX_RETRIES = 3
+    
+    private val connectionPool by lazy { ConnectionPool(5, 30, TimeUnit.SECONDS) }
+
+    // Shared serializer config: Gson-parity leniency (unknown keys ignored,
+    // explicit nulls coerced, defaults still encoded so request bodies keep
+    // their optional fields — multi-module split PR-7).
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        coerceInputValues = true
+        explicitNulls = false
+        encodeDefaults = true
+    }
+    
+    // Store reference to AppSettings for dynamic API key
+    private var appSettings: NetworkSettingsProvider? = null
+    private var flags: NetworkFeatureFlags? = null
+    private var appVersion: String = "Rhythm"
+    private var appleMusicFallbackToken: String = ""
+    
+    // Kept as an explicit lifecycle hook; the network stack owns its own policy
+    // (NetworkLog) and does not read AppSettings directly (multi-module split PR-3).
+    fun initialize(
+        appSettings: NetworkSettingsProvider,
+        flags: NetworkFeatureFlags,
+        appVersion: String,
+        appleMusicFallbackToken: String,
+        isDebugBuild: Boolean,
+    ) {
+        this.appSettings = appSettings
+        this.flags = flags
+        this.appVersion = appVersion
+        this.appleMusicFallbackToken = appleMusicFallbackToken
+        NetworkBuildInfo.isDebug = isDebugBuild
+        NetworkBuildInfo.appVersion = appVersion
+    }
+    
+    // Policy (level, redacted headers, sanitized messages) is owned by NetworkLog.
+    private val loggingInterceptor by lazy { NetworkLog.createLoggingInterceptor() }
+    
+    private val retryInterceptor = Interceptor { chain ->
+        var currentRetry = 0
+        var response: Response? = null
+        var lastException: IOException? = null
+        
+        while (currentRetry < MAX_RETRIES) {
+            try {
+                if (currentRetry > 0) {
+                    NetworkLog.d(TAG, "Retrying request (attempt ${currentRetry + 1}/${MAX_RETRIES}): ${chain.request().url}")
+                }
+                response = chain.proceed(chain.request())
+                
+                if (response.isSuccessful) {
+                    return@Interceptor response
+                } else {
+                    val code = response.code
+                    NetworkLog.w(TAG, "Request failed with code $code: ${chain.request().url}")
+                    
+                    if (code in 400..499 && code != 408 && code != 429) {
+                        NetworkLog.d(TAG, "Client error $code, not retrying")
+                        return@Interceptor response
+                    }
+                    
+                    if (code == 429) {
+                        val retryAfter = response.header("Retry-After")?.toLongOrNull() ?: (currentRetry + 1).toLong()
+                        val backoffDelay = minOf(retryAfter * 1000, 30000)
+                        NetworkLog.d(TAG, "Rate limited, retrying after ${backoffDelay}ms")
+                        response.close()
+                        Thread.sleep(backoffDelay)
+                        currentRetry++
+                        continue
+                    }
+                    
+                    response.close()
+                }
+            } catch (e: IOException) {
+                lastException = e
+                NetworkLog.e(TAG, "Request error (attempt ${currentRetry + 1}): ${e.javaClass.simpleName} - ${e.message}")
+                
+                val shouldRetry = when (e) {
+                    is SocketTimeoutException -> true
+                    is UnknownHostException -> true
+                    is java.net.ConnectException -> true
+                    is java.net.SocketException -> true
+                    is javax.net.ssl.SSLException -> false
+                    is java.io.FileNotFoundException -> false
+                    else -> currentRetry < 1
+                }
+                
+                if (!shouldRetry) {
+                    NetworkLog.d(TAG, "Error type ${e.javaClass.simpleName} is not retryable")
+                    throw e
+                }
+            }
+            
+            currentRetry++
+            if (currentRetry < MAX_RETRIES) {
+                val baseDelay = 1000L
+                val backoffDelay = minOf(baseDelay * (2.0.pow(currentRetry.toDouble())).toLong(), 10000L)
+                NetworkLog.d(TAG, "Retrying after ${backoffDelay}ms delay")
+                Thread.sleep(backoffDelay)
+            }
+        }
+        
+        response?.let { return@Interceptor it }
+        throw lastException ?: IOException("Request failed after $MAX_RETRIES retries")
+    }
+    
+    private fun appHeadersInterceptor(
+        customUserAgent: String? = null,
+        extraHeaders: Map<String, String> = emptyMap()
+    ) = Interceptor { chain ->
+        try {
+            val userAgent = customUserAgent ?: "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)"
+            val requestBuilder = chain.request().newBuilder()
+                .header("User-Agent", userAgent)
+                .header("Accept", "application/json")
+            extraHeaders.forEach { (key, value) ->
+                requestBuilder.header(key, value)
+            }
+            chain.proceed(requestBuilder.build())
+        } catch (e: Exception) {
+            NetworkLog.e(TAG, "Error in app headers interceptor: ${e.message}")
+            throw e
+        }
+    }
+
+    private fun deezerHeadersInterceptor() = appHeadersInterceptor("RhythmApp/${appVersion} (Android)")
+    
+    private val deezerHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(deezerHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val deezerRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(DEEZER_BASE_URL)
+            .client(deezerHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+    
+    private val lrclibHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(appHeadersInterceptor(
+                customUserAgent = "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)",
+                extraHeaders = mapOf("Lrclib-Client" to "Rhythm/${appVersion} (https://github.com/cromaguy/Rhythm)")
+            ))
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val lrclibRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(LRCLIB_BASE_URL)
+            .client(lrclibHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+    
+    private val betterlyricsHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(appHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val betterlyricsRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BETTERLYRICS_BASE_URL)
+            .client(betterlyricsHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+    
+    private val ytmusicHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(deezerHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val ytmusicRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(YTMUSIC_BASE_URL)
+            .client(ytmusicHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+    
+    private val spotifyHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(appHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val spotifyRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(SPOTIFY_API_BASE_URL)
+            .client(spotifyHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+        
+    private val lyricallyHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(deezerHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+    
+    private val lyricallyRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(LYRICALLY_BASE_URL)
+            .client(lyricallyHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    private val itunesHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(appHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .connectionPool(connectionPool)
+            .build()
+    }
+
+    private val itunesRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(ITUNES_BASE_URL)
+            .client(itunesHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+    
+    val deezerApiService: DeezerApiService? by lazy {
+        if (flags?.deezer == true) deezerRetrofit.create(DeezerApiService::class.java) else null
+    }
+    
+    val lrclibApiService: LRCLibApiService? by lazy {
+        if (flags?.lrclib == true) lrclibRetrofit.create(LRCLibApiService::class.java) else null
+    }
+    
+    val betterLyricsApiService: BetterLyricsApiService? by lazy {
+        if (flags?.betterLyrics == true) betterlyricsRetrofit.create(BetterLyricsApiService::class.java) else null
+    }
+    
+    val ytmusicApiService: YTMusicApiService? by lazy {
+        if (flags?.youtubeMusic == true) ytmusicRetrofit.create(YTMusicApiService::class.java) else null
+    }
+    
+    val spotifySearchApiService: SpotifySearchApiService? by lazy {
+        if (flags?.spotifySearch == true) spotifyRetrofit.create(SpotifySearchApiService::class.java) else null
+    }
+
+    val rhythmLyricsApiService: RhythmLyricsApiService? by lazy {
+        if (flags?.lyrically == true) lyricallyRetrofit.create(RhythmLyricsApiService::class.java) else null
+    }
+
+    val itunesSearchApiService: ITunesSearchApiService? by lazy {
+        if (flags?.lyrically == true) itunesRetrofit.create(ITunesSearchApiService::class.java) else null
+    }
+    
+    val genericHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(deezerHeadersInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+    
+    private fun integrationsOn(): Boolean = appSettings?.integrationsEnabled?.value ?: false
+    fun isDeezerApiEnabled(): Boolean = flags?.deezer == true && integrationsOn() && (appSettings?.deezerApiEnabled?.value ?: false)
+    fun isLrcLibApiEnabled(): Boolean = flags?.lrclib == true && integrationsOn() && (appSettings?.lrclibApiEnabled?.value ?: false)
+    fun isBetterLyricsApiEnabled(): Boolean = flags?.betterLyrics == true && integrationsOn() && (appSettings?.betterLyricsApiEnabled?.value ?: false)
+    fun isYTMusicApiEnabled(): Boolean = flags?.youtubeMusic == true && integrationsOn() && (appSettings?.ytMusicApiEnabled?.value ?: false)
+    fun isSpotifyApiEnabled(): Boolean = flags?.spotifySearch == true && integrationsOn() && (appSettings?.spotifyApiEnabled?.value ?: false)
+    fun isLyricallyApiEnabled(): Boolean = flags?.lyrically == true && integrationsOn() && (appSettings?.lyricallyApiEnabled?.value ?: false)
+    fun isWikipediaApiEnabled(): Boolean = flags?.wikipedia == true && integrationsOn() && (appSettings?.wikipediaApiEnabled?.value ?: false)
+    
+    // Get Spotify API credentials
+    fun getSpotifyClientId(): String = appSettings?.spotifyClientId?.value ?: ""
+    fun getSpotifyClientSecret(): String = appSettings?.spotifyClientSecret?.value ?: ""
+}

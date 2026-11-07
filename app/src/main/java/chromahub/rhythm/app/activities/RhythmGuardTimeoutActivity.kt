@@ -2,8 +2,10 @@
 
 package chromahub.rhythm.app.activities
 
-import chromahub.rhythm.app.shared.presentation.components.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.icons.Icon
+import dagger.hilt.android.AndroidEntryPoint
+
+import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import chromahub.rhythm.app.core.designsystem.icons.Icon
 
 import android.app.NotificationManager
 import android.content.Context
@@ -84,16 +86,17 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.ui.graphics.Color
 
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmWavyProgressLoader
+import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.ui.theme.RhythmTheme
+import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
-import chromahub.rhythm.app.util.windowScreenWidthDp
-import chromahub.rhythm.app.util.windowScreenHeightDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
+@AndroidEntryPoint
 class RhythmGuardTimeoutActivity : AppCompatActivity() {
 
     private val appSettings by lazy { AppSettings.getInstance(applicationContext) }
