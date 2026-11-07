@@ -1,5 +1,6 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
@@ -1914,11 +1915,11 @@ fun EnhancedBackupRestoreContent(
 
     LaunchedEffect(restoreResult) {
         when (val result = restoreResult) {
-            is MusicViewModel.RestoreResult.Queued -> {
+            is RestoreResult.Queued -> {
                 Toast.makeText(context, context.getString(R.string.onboarding_restore_queued_scan), Toast.LENGTH_LONG).show()
                 musicViewModel.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Success -> {
+            is RestoreResult.Success -> {
                 backupStatusIsError = false
                 backupStatusMessage = if (result.wasQueued) {
                     context.getString(R.string.onboarding_restore_queued_success)
@@ -1928,7 +1929,7 @@ fun EnhancedBackupRestoreContent(
                 showRestartHint = true
                 musicViewModel.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Failure -> {
+            is RestoreResult.Failure -> {
                 backupStatusIsError = true
                 backupStatusMessage = result.errorMessage
                 showRestartHint = false

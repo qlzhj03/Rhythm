@@ -2,6 +2,7 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
 
@@ -235,12 +236,12 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
 
     LaunchedEffect(restoreResult) {
         when (val result = restoreResult) {
-            is MusicViewModel.RestoreResult.Queued -> {
+            is RestoreResult.Queued -> {
                 isPreparingRestore = false
                 Toast.makeText(context, context.getString(R.string.backup_restore_queued_message), Toast.LENGTH_LONG).show()
                 musicViewModel.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Success -> {
+            is RestoreResult.Success -> {
                 isPreparingRestore = false
                 resultSheetState = BackupRestoreResultState(
                     title = if (result.wasQueued) context.getString(R.string.backup_restore_queued_completed_title) else context.getString(R.string.settings_restore_completed),
@@ -254,7 +255,7 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
                 )
                 musicViewModel.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Failure -> {
+            is RestoreResult.Failure -> {
                 isPreparingRestore = false
                 showError(result.errorMessage)
                 musicViewModel.clearRestoreResult()
