@@ -310,14 +310,14 @@ git add -A && git commit -m "refactor: eliminate chromahub.rhythm.app.utils pack
 python3 -I - <<'EOF'
 import os, re
 root = "/home/qlzhj/项目/AndroidStudioProjects/Rhythm"
-pat = re.compile(r'^\s*package\s+([\w.]+)', re.M)
+pat = re.compile(r'^[\ufeff\s]*package\s+([\w.]+)', re.M)
 bad = []
 for dp, dn, fn in os.walk(root):
     dn[:] = [d for d in dn if d not in {".git", "build", ".gradle", ".idea", ".zcode", ".superpowers"}]
     for f in fn:
         if not f.endswith(".kt"): continue
         p = os.path.join(dp, f)
-        m = pat.search(open(p, encoding="utf-8", errors="replace").read(8192))
+        m = pat.search(open(p, encoding="utf-8-sig", errors="replace").read(8192))
         if not m: continue
         mm = re.search(r"src/(?:main|test|androidTest)/(?:java|kotlin)/", p)
         if not mm: continue

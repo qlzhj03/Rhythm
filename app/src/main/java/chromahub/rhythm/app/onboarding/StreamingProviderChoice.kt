@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.features.local.presentation.screens.onboarding
+package chromahub.rhythm.app.onboarding
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

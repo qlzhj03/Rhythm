@@ -137,9 +137,9 @@ import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.shared.presentation.components.PermissionHandler
 import chromahub.rhythm.app.shared.presentation.components.dialogs.BetaProgramPopup
 import chromahub.rhythm.app.shared.presentation.components.dialogs.TrackCorruptionDialog
-import chromahub.rhythm.app.features.local.presentation.screens.OnboardingScreen
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.OnboardingStep
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.PermissionScreenState
+import chromahub.rhythm.app.onboarding.OnboardingScreen
+import chromahub.rhythm.app.onboarding.OnboardingStep
+import chromahub.rhythm.app.onboarding.PermissionScreenState
 import androidx.core.content.pm.ShortcutManagerCompat
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingSyncStage
