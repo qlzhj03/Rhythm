@@ -60,6 +60,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
     
     override fun onCreate() {
         super.onCreate()
+
+        // Preheat the settings prefs file off the main thread before AppSettings
+        // init blocks on first read (B-phase B2 startup preheat).
+        AppSettings.preheat(this)
         
         instance = this
         
