@@ -130,7 +130,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.io.File
-import chromahub.rhythm.app.utils.FontLoader
+import chromahub.rhythm.app.core.designsystem.utils.FontLoader
 import chromahub.rhythm.app.core.designsystem.theme.parseCustomColorScheme
 import androidx.compose.ui.viewinterop.AndroidView
 import android.widget.TextView
