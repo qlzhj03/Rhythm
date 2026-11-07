@@ -46,8 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SleepAction
+import chromahub.rhythm.app.infrastructure.service.SleepAction
 import androidx.compose.material3.LinearWavyProgressIndicator
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
@@ -68,17 +67,18 @@ fun SleepTimerBottomSheetNew(
     onDismiss: () -> Unit,
     currentSong: Song?,
     isPlaying: Boolean,
-    musicViewModel: MusicViewModel
+    sleepTimer: chromahub.rhythm.app.infrastructure.service.SleepTimerController,
+    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
 
-    val isTimerActive by musicViewModel.sleepTimerActive.collectAsState()
-    val remainingSeconds by musicViewModel.sleepTimerRemainingSeconds.collectAsState()
-    val totalTimerSeconds by musicViewModel.sleepTimerTotalSeconds.collectAsState()
-    val timerAction by musicViewModel.sleepTimerAction.collectAsState()
-    val serviceConnected by musicViewModel.serviceConnected.collectAsState()
+    val isTimerActive by sleepTimer.sleepTimerActive.collectAsState()
+    val remainingSeconds by sleepTimer.sleepTimerRemainingSeconds.collectAsState()
+    val totalTimerSeconds by sleepTimer.sleepTimerTotalSeconds.collectAsState()
+    val timerAction by sleepTimer.sleepTimerAction.collectAsState()
+    val serviceConnected by sleepTimer.serviceConnected.collectAsState()
 
     var selectedAction by remember { mutableStateOf(SleepAction.valueOf(timerAction.takeIf { it.isNotBlank() } ?: "FADE_OUT")) }
     var statusMessage by remember { mutableStateOf("") }
@@ -114,12 +114,12 @@ fun SleepTimerBottomSheetNew(
             delay(1500)
             if (statusMessage == context.getString(R.string.ui_timer_started)) statusMessage = ""
         }
-        musicViewModel.startSleepTimer(minutes, selectedAction)
+        sleepTimer.startSleepTimer(minutes, selectedAction)
     }
 
     fun stopTimer() {
         HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
-        musicViewModel.stopSleepTimer()
+        sleepTimer.stopSleepTimer()
     }
 
     fun adjustTime(deltaMinutes: Int) {
@@ -140,7 +140,7 @@ fun SleepTimerBottomSheetNew(
             // elapsed = originalTotalSeconds - remainingSeconds (unchanged), new total = elapsed + newRemainingSeconds
             val elapsed = originalTotalSeconds - remainingSeconds
             originalTotalSeconds = elapsed + newRemainingSeconds
-            musicViewModel.startSleepTimer(newMinutes.toInt(), selectedAction)
+            sleepTimer.startSleepTimer(newMinutes.toInt(), selectedAction)
         }
     }
 
@@ -371,7 +371,7 @@ fun SleepTimerBottomSheetNew(
                                         onActionSelected = { action ->
                                             HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
                                             selectedAction = action
-                                            musicViewModel.appSettings.setSleepTimerAction(action.name)
+                                            appSettings.setSleepTimerAction(action.name)
                                         },
                                         context = context
                                     )
@@ -561,7 +561,7 @@ fun SleepTimerBottomSheetNew(
                                         onActionSelected = { action ->
                                             HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
                                             selectedAction = action
-                                            musicViewModel.appSettings.setSleepTimerAction(action.name)
+                                            appSettings.setSleepTimerAction(action.name)
                                         },
                                         context = context
                                     )

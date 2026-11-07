@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.viewmodel
 
+import chromahub.rhythm.app.infrastructure.service.SleepAction
+import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -126,14 +128,16 @@ class MusicViewModel @Inject constructor(
     private val repository: MusicRepository,
     private val streamingRepository: StreamingMusicRepository,
 ) : AndroidViewModel(application),
-    chromahub.rhythm.app.infrastructure.service.LocalQueueController {
-
-    sealed class RestoreResult {
-        object Idle : RestoreResult()
-        object Queued : RestoreResult()
-        data class Success(val wasQueued: Boolean) : RestoreResult()
-        data class Failure(val errorMessage: String) : RestoreResult()
-    }
+    chromahub.rhythm.app.infrastructure.service.LocalQueueController,
+    chromahub.rhythm.app.infrastructure.service.PlaybackStateSource,
+    chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController,
+    chromahub.rhythm.app.infrastructure.service.SleepTimerController,
+    chromahub.rhythm.app.core.domain.repository.PlaylistAdminController,
+    chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
+    chromahub.rhythm.app.core.domain.repository.LibraryCacheManager,
+    chromahub.rhythm.app.core.domain.repository.BackupRestoreController,
+    chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
+    chromahub.rhythm.app.infrastructure.service.AudioDeviceController {
 
     data class QueuedRestore(
         val backupJson: String,
@@ -142,11 +146,11 @@ class MusicViewModel @Inject constructor(
     )
 
     private val _restoreResult = MutableStateFlow<RestoreResult>(RestoreResult.Idle)
-    val restoreResult: StateFlow<RestoreResult> = _restoreResult.asStateFlow()
+    override val restoreResult: StateFlow<RestoreResult> = _restoreResult.asStateFlow()
 
     private var pendingRestore: QueuedRestore? = null
 
-    fun clearRestoreResult() {
+    override fun clearRestoreResult() {
         _restoreResult.value = RestoreResult.Idle
     }
 
@@ -235,7 +239,7 @@ class MusicViewModel @Inject constructor(
     private val playbackStatsRepository = PlaybackStatsRepository.getInstance(application)
     
     // Audio device manager (exposed for UI components that need device detection)
-    val audioDeviceManager = AudioDeviceManager(application)
+    override val audioDeviceManager = AudioDeviceManager(application)
     
     // Settings manager
     val appSettings = AppSettings.getInstance(application)
@@ -245,7 +249,7 @@ class MusicViewModel @Inject constructor(
     // AutoEQ manager
     private val autoEQManager = AutoEQManager(application)
     private val _autoEQProfiles = MutableStateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>>(emptyList())
-    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
+    override val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
     private val _autoEQLoading = MutableStateFlow(false)
     val autoEQLoading: StateFlow<Boolean> = _autoEQLoading.asStateFlow()
     
@@ -285,32 +289,32 @@ class MusicViewModel @Inject constructor(
     val playbackPitch = appSettings.playbackPitch
     
     // Equalizer settings
-    val equalizerEnabled = appSettings.equalizerEnabled
-    val equalizerPreset = appSettings.equalizerPreset
-    val equalizerBandLevels = appSettings.equalizerBandLevels
-    val bassBoostEnabled = appSettings.bassBoostEnabled
-    val bassBoostStrength = appSettings.bassBoostStrength
-    val virtualizerEnabled = appSettings.virtualizerEnabled
-    val virtualizerStrength = appSettings.virtualizerStrength
+    override val equalizerEnabled = appSettings.equalizerEnabled
+    override val equalizerPreset = appSettings.equalizerPreset
+    override val equalizerBandLevels = appSettings.equalizerBandLevels
+    override val bassBoostEnabled = appSettings.bassBoostEnabled
+    override val bassBoostStrength = appSettings.bassBoostStrength
+    override val virtualizerEnabled = appSettings.virtualizerEnabled
+    override val virtualizerStrength = appSettings.virtualizerStrength
     val monoAudioEnabled = appSettings.monoAudioEnabled
-    val customEqualizerPresets = appSettings.customEqualizerPresets
-    val equalizerPresetOrder = appSettings.equalizerPresetOrder
-    val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
-    val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
-    val customAutoEQProfiles = appSettings.customAutoEQProfiles
+    override val customEqualizerPresets = appSettings.customEqualizerPresets
+    override val equalizerPresetOrder = appSettings.equalizerPresetOrder
+    override val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
+    override val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
+    override val customAutoEQProfiles = appSettings.customAutoEQProfiles
     val speakerAutoEQBypass = appSettings.speakerAutoEQBypass
     private var lastHeadphoneAutoEQProfile: String? = null
     
     // Spatialization status
     private val _spatializationStatus = MutableStateFlow("Unknown")
-    val spatializationStatus: StateFlow<String> = _spatializationStatus.asStateFlow()
+    override val spatializationStatus: StateFlow<String> = _spatializationStatus.asStateFlow()
     
     private val _isSpatializationAvailable = MutableStateFlow(false)
-    val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
+    override val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
     
     // Bass boost availability (based on device support)
     private val _isBassBoostAvailable = MutableStateFlow(appSettings.isBassBoostAvailable())
-    val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
+    override val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
     
     // Media scanning progress
     val scanProgress = repository.scanProgress
@@ -339,7 +343,7 @@ class MusicViewModel @Inject constructor(
 
     // New helper methods
     private val _serviceConnected = MutableStateFlow(false)
-    val serviceConnected: StateFlow<Boolean> = _serviceConnected.asStateFlow()
+    override val serviceConnected: StateFlow<Boolean> = _serviceConnected.asStateFlow()
 
     // Lyrics fetch job tracking to prevent race conditions
     private var lyricsFetchJob: Job? = null
@@ -574,7 +578,7 @@ class MusicViewModel @Inject constructor(
 
     // Main music data
     private val _songs = MutableStateFlow<List<Song>>(emptyList())
-    val songs: StateFlow<List<Song>> = _songs.asStateFlow()
+    override val songs: StateFlow<List<Song>> = _songs.asStateFlow()
     
     // LRU cache for file paths to avoid repeated ContentResolver queries
     private val pathCache = LruCache<String, String>(1000)
@@ -602,7 +606,7 @@ class MusicViewModel @Inject constructor(
     }.distinctUntilChanged()
 
     // Filtered songs excluding blacklisted ones and including only whitelisted ones (both songs and folders)
-    val filteredSongs: StateFlow<List<Song>> = combine(
+    override val filteredSongs: StateFlow<List<Song>> = combine(
         _songs,
         filterSettingsFlow
     ) { songs: List<Song>, settings: FilterSettings ->
@@ -892,7 +896,7 @@ class MusicViewModel @Inject constructor(
     }.distinctUntilChanged().conflate().flowOn(Dispatchers.Default).stateIn(viewModelScope, kotlinx.coroutines.flow.SharingStarted.Eagerly, emptyList())
 
     private val _playlists = MutableStateFlow<List<Playlist>>(emptyList())
-    val playlists: StateFlow<List<Playlist>> = _playlists.asStateFlow()
+    override val playlists: StateFlow<List<Playlist>> = _playlists.asStateFlow()
     @Volatile
     private var isPlaylistsLoaded = false
     private val playlistLock = Mutex()
@@ -907,7 +911,7 @@ class MusicViewModel @Inject constructor(
 
     // Player state
     private val _isPlaying = MutableStateFlow(false)
-    val isPlaying: StateFlow<Boolean> = _isPlaying.asStateFlow()
+    override val isPlaying: StateFlow<Boolean> = _isPlaying.asStateFlow()
 
     private val _showCorruptionDialog = MutableStateFlow(false)
     val showCorruptionDialog: StateFlow<Boolean> = _showCorruptionDialog.asStateFlow()
@@ -924,7 +928,7 @@ class MusicViewModel @Inject constructor(
     }
 
     private val _currentSong = MutableStateFlow<Song?>(null)
-    val currentSong: StateFlow<Song?> = _currentSong.asStateFlow()
+    override val currentSong: StateFlow<Song?> = _currentSong.asStateFlow()
 
     val currentPlaybackQuality: StateFlow<PlaybackQualityInfo?> = MediaPlaybackService.currentPlaybackQuality
 
@@ -1056,7 +1060,7 @@ class MusicViewModel @Inject constructor(
 
     // Pull-to-refresh state (always set during refreshLibrary, independent of full-screen loader)
     private val _isLibraryRefreshing = MutableStateFlow(false)
-    val isLibraryRefreshing: StateFlow<Boolean> = _isLibraryRefreshing.asStateFlow()
+    override val isLibraryRefreshing: StateFlow<Boolean> = _isLibraryRefreshing.asStateFlow()
 
     // Genre detection state
     private val _isGenreDetectionComplete = MutableStateFlow(false)
@@ -1216,10 +1220,6 @@ class MusicViewModel @Inject constructor(
         DATE_MODIFIED_DESC
     }
     
-    enum class SleepAction {
-        PAUSE, STOP, FADE_OUT
-    }
-
     init {
         Log.d(TAG, "Initializing MusicViewModel")
         startLibrarySetupCompletionMonitor()
@@ -2475,7 +2475,7 @@ class MusicViewModel @Inject constructor(
      * Triggers a refresh of all music data by rescanning the device's MediaStore.
      * This will update the songs, albums, and artists in the ViewModel.
      */
-    fun refreshLibrary(showMediaScanLoader: Boolean = true) {
+    override fun refreshLibrary(showMediaScanLoader: Boolean) {
         mediaScanNotificationSequence += 1
         val notificationSequence = mediaScanNotificationSequence
         armLibrarySetupCompletionNotification()
@@ -3272,9 +3272,9 @@ class MusicViewModel @Inject constructor(
      * Restores app data from a backup JSON string. If a media scan is active,
      * the restore is queued until the scan finishes.
      */
-    fun restoreFromBackup(
+    override fun restoreFromBackup(
         backupJson: String,
-        sections: AppSettings.BackupRestoreSections = AppSettings.BackupRestoreSections()
+        sections: AppSettings.BackupRestoreSections
     ) {
         if (_isLibraryRefreshing.value || _isMediaScanning.value) {
             Log.d(TAG, "Media scan is active. Queueing backup restore.")
@@ -3331,7 +3331,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Enables or disables default playlists dynamically, updating Room storage and UI.
      */
-    fun setDefaultPlaylistsEnabled(enabled: Boolean) {
+    override fun setDefaultPlaylistsEnabled(enabled: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.d(TAG, "Setting default playlists enabled: $enabled")
@@ -3357,7 +3357,7 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    fun setShowLikedInPlaylists(enabled: Boolean) {
+    override fun setShowLikedInPlaylists(enabled: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             appSettings.setShowLikedInPlaylists(enabled)
             val playlistDao = repository.playlistDao
@@ -3377,27 +3377,27 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    fun setSmartPlaylistRecentlyAdded(enabled: Boolean) {
+    override fun setSmartPlaylistRecentlyAdded(enabled: Boolean) {
         appSettings.setSmartPlaylistRecentlyAdded(enabled)
         toggleSingleSmartPlaylist("2", "Recently Added", enabled) { populateRecentlyAddedPlaylist() }
     }
 
-    fun setSmartPlaylistMostPlayed(enabled: Boolean) {
+    override fun setSmartPlaylistMostPlayed(enabled: Boolean) {
         appSettings.setSmartPlaylistMostPlayed(enabled)
         toggleSingleSmartPlaylist("3", "Most Played", enabled) { populateMostPlayedPlaylist() }
     }
 
-    fun setSmartPlaylistOnRepeat(enabled: Boolean) {
+    override fun setSmartPlaylistOnRepeat(enabled: Boolean) {
         appSettings.setSmartPlaylistOnRepeat(enabled)
         toggleSingleSmartPlaylist("4", "On Repeat", enabled) { populateOnRepeatPlaylist() }
     }
 
-    fun setSmartPlaylistForgottenFavorites(enabled: Boolean) {
+    override fun setSmartPlaylistForgottenFavorites(enabled: Boolean) {
         appSettings.setSmartPlaylistForgottenFavorites(enabled)
         toggleSingleSmartPlaylist("5", "Forgotten Favorites", enabled) { populateForgottenFavoritesPlaylist() }
     }
 
-    fun setSmartPlaylistRecentlyPlayed(enabled: Boolean) {
+    override fun setSmartPlaylistRecentlyPlayed(enabled: Boolean) {
         appSettings.setSmartPlaylistRecentlyPlayed(enabled)
         toggleSingleSmartPlaylist("6", "Recently Played", enabled) { populateRecentlyPlayedPlaylist() }
     }
@@ -3425,7 +3425,7 @@ class MusicViewModel @Inject constructor(
      * Ensures current playlists and favorite songs are saved to persistent storage
      * Useful before creating a backup to ensure all data is included
      */
-    fun ensurePlaylistsSaved() {
+    override fun ensurePlaylistsSaved() {
         try {
             if (!isPlaylistsLoaded) {
                 Log.w(TAG, "ensurePlaylistsSaved skipped because playlists are not loaded")
@@ -7122,11 +7122,11 @@ class MusicViewModel @Inject constructor(
     }
 
     // New functions for playlist management
-    fun createPlaylist(
+    override fun createPlaylist(
         name: String,
-        songs: List<Song> = emptyList(),
-        onCreated: ((Playlist) -> Unit)? = null,
-        showSnackbar: ((String) -> Unit)? = null
+        songs: List<Song>,
+        onCreated: ((Playlist) -> Unit)?,
+        showSnackbar: ((String) -> Unit)?
     ) {
         viewModelScope.launch {
             val newPlaylist = repository.createPlaylist(name)
@@ -7499,7 +7499,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Updated song list for playlist: $playlistId")
     }
 
-    fun deletePlaylist(playlistId: String) {
+    override fun deletePlaylist(playlistId: String) {
         // Prevent deleting default playlists
         if (playlistId in Playlist.DEFAULT_PLAYLIST_IDS) {
             Log.d(TAG, "Cannot delete default playlist: $playlistId")
@@ -7646,10 +7646,10 @@ class MusicViewModel @Inject constructor(
     /**
      * Exports all user-created playlists (excludes default playlists)
      */
-    fun exportAllPlaylists(
+    override fun exportAllPlaylists(
         format: PlaylistImportExportUtils.PlaylistExportFormat,
-        includeDefaultPlaylists: Boolean = false,
-        userSelectedDirectoryUri: Uri? = null,
+        includeDefaultPlaylists: Boolean,
+        userSelectedDirectoryUri: Uri?,
         onResult: (Result<String>) -> Unit
     ) {
         viewModelScope.launch {
@@ -7779,10 +7779,10 @@ class MusicViewModel @Inject constructor(
      *  2. A Rhythm app backup JSON → batch import of ALL playlists in the backup.
      *  3. Any other error → failure callback.
      */
-    fun importPlaylist(
+    override fun importPlaylist(
         uri: Uri,
         onResult: (Result<String>) -> Unit,
-        onRestartRequired: (() -> Unit)? = null
+        onRestartRequired: (() -> Unit)?
     ) {
         viewModelScope.launch {
             val context = getApplication<Application>()
@@ -8346,7 +8346,17 @@ class MusicViewModel @Inject constructor(
     /**
      * Clears all lyrics cache (both memory and disk) across all songs and refetches for current song
      */
-    fun clearAllLyricsCache() {
+    override fun clearInMemoryCaches() {
+        repository.clearInMemoryCaches()
+    }
+
+    override fun clearSongCacheData() {
+        repository.clearSongCacheData()
+    }
+
+    override suspend fun getRoomSongCount(): Int = repository.getRoomSongCount()
+
+    override fun clearAllLyricsCache() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.clearLyricsCache()
@@ -8692,7 +8702,7 @@ class MusicViewModel @Inject constructor(
      *   and saves current app volume so it can be restored later.
      * - When disabling system volume mode: restores the previously saved app volume.
      */
-    fun setUseSystemVolumeMode(enable: Boolean) {
+    override fun setUseSystemVolumeMode(enable: Boolean) {
         val prevAppVolume = if (_volume.value > 0f) _volume.value else appSettings.appVolume.value
         appSettings.setUseSystemVolume(enable)
         if (enable) {
@@ -8739,7 +8749,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Opens the system equalizer for the current audio session
      */
-    fun openSystemEqualizer(activity: Activity? = null, requestCode: Int = 0) {
+    override fun openSystemEqualizer(activity: Activity?, requestCode: Int) {
         val context = getApplication<Application>()
         // Simply use EqualizerUtils which handles the system equalizer opening properly
         EqualizerUtils.openSystemEqualizer(context, audioSessionId, activity, requestCode)
@@ -10093,7 +10103,7 @@ class MusicViewModel @Inject constructor(
     }
     
     // Clean sleep timer functionality
-    fun startSleepTimer(minutes: Int, action: SleepAction) {
+    override fun startSleepTimer(minutes: Int, action: SleepAction) {
         // Cancel any local fallback timer — the service handles cleanup internally.
         sleepTimerJob?.cancel()
         sleepTimerJob = null
@@ -10162,7 +10172,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun stopSleepTimer() {
+    override fun stopSleepTimer() {
         Log.d(TAG, "Stopping sleep timer")
         sleepTimerStartRealtimeMs = 0L
         sleepTimerJob?.cancel()
@@ -10192,7 +10202,7 @@ class MusicViewModel @Inject constructor(
         return true
     }
     
-    fun setEqualizerEnabled(enabled: Boolean) {
+    override fun setEqualizerEnabled(enabled: Boolean) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10233,7 +10243,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun setEqualizerBandLevel(band: Short, level: Short) {
+    override fun setEqualizerBandLevel(band: Short, level: Short) {
         val context = getApplication<Application>()
         
         // Clear AutoEQ profile and set preset to Custom when user manually adjusts bands
@@ -10260,7 +10270,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun setBassBoost(enabled: Boolean, strength: Short = 500) {
+    override fun setBassBoost(enabled: Boolean, strength: Short) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10287,7 +10297,7 @@ class MusicViewModel @Inject constructor(
         return _isBassBoostAvailable.value
     }
     
-    fun updateBassBoostAvailability() {
+    override fun updateBassBoostAvailability() {
         _isBassBoostAvailable.value = appSettings.isBassBoostAvailable()
     }
     
@@ -10296,7 +10306,7 @@ class MusicViewModel @Inject constructor(
         appSettings.setBassBoostAvailable(available)
     }
     
-    fun setVirtualizer(enabled: Boolean, strength: Short = 500) {
+    override fun setVirtualizer(enabled: Boolean, strength: Short) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10325,7 +10335,7 @@ class MusicViewModel @Inject constructor(
         }
     }
 
-    fun setMonoAudioEnabled(enabled: Boolean) {
+    override fun setMonoAudioEnabled(enabled: Boolean) {
         val context = getApplication<Application>()
 
         appSettings.setMonoAudioEnabled(enabled)
@@ -10345,7 +10355,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun updateSpatializationStatus() {
+    override fun updateSpatializationStatus() {
         viewModelScope.launch {
             try {
                 val context = getApplication<Application>()
@@ -10364,7 +10374,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun applyEqualizerPreset(preset: String, levels: List<Float>) {
+    override fun applyEqualizerPreset(preset: String, levels: List<Float>) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10395,7 +10405,7 @@ class MusicViewModel @Inject constructor(
     
     // AutoEQ functions
     
-    fun loadAutoEQProfiles() {
+    override fun loadAutoEQProfiles() {
         viewModelScope.launch {
             _autoEQLoading.value = true
             try {
@@ -10417,7 +10427,7 @@ class MusicViewModel @Inject constructor(
         return autoEQManager.searchProfiles(query)
     }
     
-    fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
+    override fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
         if (profile.name.isBlank() || profile.name.equals("None", ignoreCase = true)) {
             Log.d(TAG, "Disabling AutoEQ profile")
             appSettings.setAutoEQProfile("")
@@ -10474,7 +10484,7 @@ class MusicViewModel @Inject constructor(
     }
     
     // User Audio Device Management
-    fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    override fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         val currentDevicesJson = appSettings.userAudioDevices.value
         val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
@@ -10491,7 +10501,7 @@ class MusicViewModel @Inject constructor(
         appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
     }
     
-    fun deleteUserAudioDevice(deviceId: String) {
+    override fun deleteUserAudioDevice(deviceId: String) {
         val currentDevicesJson = appSettings.userAudioDevices.value
         val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
@@ -10506,7 +10516,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Deleted audio device: $deviceId")
     }
     
-    fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    override fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         appSettings.setActiveAudioDeviceId(device.id)
         Log.d(TAG, "Set active audio device: ${device.name}")
         
@@ -10535,7 +10545,7 @@ class MusicViewModel @Inject constructor(
      * Try to match a connected audio device (from PlaybackLocation) with saved UserAudioDevice
      * Uses fuzzy matching to account for slight name variations
      */
-    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
+    override fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
         val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
         if (devices.isEmpty()) return null
         
@@ -10573,7 +10583,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Mark a device as "don't ask again" for AutoEQ suggestions
      */
-    fun dismissAutoEQSuggestion(deviceId: String) {
+    override fun dismissAutoEQSuggestion(deviceId: String) {
         val current = appSettings.dismissedAutoEQSuggestions.value ?: ""
         val dismissedList = if (current.isEmpty()) {
             listOf(deviceId)
@@ -10585,7 +10595,7 @@ class MusicViewModel @Inject constructor(
     }
 
     // Custom Equalizer Presets & Reordering
-    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
+    override fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
         val preset = chromahub.rhythm.app.core.model.CustomEqualizerPreset(
             name = name,
             bands = bands
@@ -10595,7 +10605,7 @@ class MusicViewModel @Inject constructor(
         return preset
     }
 
-    fun deleteCustomEqualizerPreset(id: String) {
+    override fun deleteCustomEqualizerPreset(id: String) {
         val customPresets = appSettings.customEqualizerPresets.value
         val preset = customPresets.find { it.id == id }
         val currentPreset = appSettings.equalizerPreset.value
@@ -10626,7 +10636,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Saved custom AutoEQ profile with 10 bands: ${normalized.name}")
     }
 
-    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
+    override fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
         val normalizedList = profiles.map { profile ->
             val verifiedBands = when {
                 profile.bands.size == 10 -> profile.bands
@@ -10642,7 +10652,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Saved ${normalizedList.size} custom AutoEQ profiles (10 bands enforced)")
     }
 
-    fun deleteAutoEQProfile(name: String) {
+    override fun deleteAutoEQProfile(name: String) {
         // 1. Delete from custom profiles if present
         appSettings.deleteCustomAutoEQProfile(name)
         autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
@@ -10697,19 +10707,19 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Deleted AutoEQ profile and cleaned references: $name")
     }
 
-    fun setEqualizerPresetOrder(order: List<String>) {
+    override fun setEqualizerPresetOrder(order: List<String>) {
         appSettings.setEqualizerPresetOrder(order)
     }
 
-    fun resetEqualizerPresetOrder() {
+    override fun resetEqualizerPresetOrder() {
         appSettings.resetEqualizerPresetOrder()
     }
 
-    fun setHiddenEqualizerPresets(hidden: Set<String>) {
+    override fun setHiddenEqualizerPresets(hidden: Set<String>) {
         appSettings.setHiddenEqualizerPresets(hidden)
     }
 
-    fun pinAutoEQProfile(name: String) {
+    override fun pinAutoEQProfile(name: String) {
         appSettings.pinAutoEQProfile(name)
         Log.d(TAG, "Pinned AutoEQ profile: $name")
     }
@@ -10735,16 +10745,16 @@ class MusicViewModel @Inject constructor(
     
     // Clean sleep timer implementation
     private val _sleepTimerActive = MutableStateFlow(false)
-    val sleepTimerActive: StateFlow<Boolean> = _sleepTimerActive.asStateFlow()
+    override val sleepTimerActive: StateFlow<Boolean> = _sleepTimerActive.asStateFlow()
     
     private val _sleepTimerRemainingSeconds = MutableStateFlow(0L)
-    val sleepTimerRemainingSeconds: StateFlow<Long> = _sleepTimerRemainingSeconds.asStateFlow()
+    override val sleepTimerRemainingSeconds: StateFlow<Long> = _sleepTimerRemainingSeconds.asStateFlow()
     
     private val _sleepTimerTotalSeconds = MutableStateFlow(0L)
-    val sleepTimerTotalSeconds: StateFlow<Long> = _sleepTimerTotalSeconds.asStateFlow()
+    override val sleepTimerTotalSeconds: StateFlow<Long> = _sleepTimerTotalSeconds.asStateFlow()
     
     private val _sleepTimerAction = MutableStateFlow("FADE_OUT")
-    val sleepTimerAction: StateFlow<String> = _sleepTimerAction.asStateFlow()
+    override val sleepTimerAction: StateFlow<String> = _sleepTimerAction.asStateFlow()
     
     private var sleepTimerJob: kotlinx.coroutines.Job? = null
     

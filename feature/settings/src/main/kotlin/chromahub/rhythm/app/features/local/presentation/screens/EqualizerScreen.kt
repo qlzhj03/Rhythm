@@ -1,6 +1,5 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import androidx.hilt.navigation.compose.hiltViewModel
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
@@ -71,7 +70,6 @@ import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.EqualizerUtils
 import chromahub.rhythm.app.util.getLocalizedPresetName
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.util.AudioDeviceManager
@@ -94,7 +92,6 @@ import chromahub.rhythm.app.core.designsystem.components.CookieHorizontalSlider
 import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
@@ -128,7 +125,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.lerp
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.runtime.remember
 import androidx.compose.ui.hapticfeedback.HapticFeedback
@@ -254,19 +250,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
-import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
-import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Delete
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
 import chromahub.rhythm.app.core.designsystem.components.SmallTabAnimation
-import chromahub.rhythm.app.shared.presentation.screens.player.PlayerScreen
-import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -316,7 +306,9 @@ fun TunerAnimatedSwitch(
 @Composable
 fun EqualizerScreen(
     navController: NavController,
-    viewModel: MusicViewModel = hiltViewModel()
+    audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
+    audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
+    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
@@ -324,16 +316,16 @@ fun EqualizerScreen(
     val isTablet = windowScreenWidthDp() >= 600
 
     // Collect states from settings
-    val equalizerEnabledState by viewModel.equalizerEnabled.collectAsState()
-    val equalizerPresetState by viewModel.equalizerPreset.collectAsState()
-    val equalizerBandLevelsState by viewModel.equalizerBandLevels.collectAsState()
-    val bassBoostEnabledState by viewModel.bassBoostEnabled.collectAsState()
-    val bassBoostStrengthState by viewModel.bassBoostStrength.collectAsState()
-    val virtualizerEnabledState by viewModel.virtualizerEnabled.collectAsState()
-    val virtualizerStrengthState by viewModel.virtualizerStrength.collectAsState()
-    val spatializationStatus by viewModel.spatializationStatus.collectAsState()
-    val isSpatializationAvailable by viewModel.isSpatializationAvailable.collectAsState()
-    val isBassBoostAvailableState by viewModel.isBassBoostAvailable.collectAsState()
+    val equalizerEnabledState by audioEffects.equalizerEnabled.collectAsState()
+    val equalizerPresetState by audioEffects.equalizerPreset.collectAsState()
+    val equalizerBandLevelsState by audioEffects.equalizerBandLevels.collectAsState()
+    val bassBoostEnabledState by audioEffects.bassBoostEnabled.collectAsState()
+    val bassBoostStrengthState by audioEffects.bassBoostStrength.collectAsState()
+    val virtualizerEnabledState by audioEffects.virtualizerEnabled.collectAsState()
+    val virtualizerStrengthState by audioEffects.virtualizerStrength.collectAsState()
+    val spatializationStatus by audioEffects.spatializationStatus.collectAsState()
+    val isSpatializationAvailable by audioEffects.isSpatializationAvailable.collectAsState()
+    val isBassBoostAvailableState by audioEffects.isBassBoostAvailable.collectAsState()
 
     val appSettings = remember { AppSettings.getInstance(context) }
     val audioRoutingMode by appSettings.audioRoutingMode.collectAsState()
@@ -346,8 +338,8 @@ fun EqualizerScreen(
 
     // Update spatialization and bass boost availability when screen is shown
     LaunchedEffect(Unit) {
-        viewModel.updateSpatializationStatus()
-        viewModel.updateBassBoostAvailability()
+        audioEffects.updateSpatializationStatus()
+        audioEffects.updateBassBoostAvailability()
     }
 
     // Local mutable states for UI
@@ -395,21 +387,21 @@ fun EqualizerScreen(
     var virtualizerStrength by remember(virtualizerStrengthState) { mutableFloatStateOf(virtualizerStrengthState.toFloat()) }
 
     // Preset definitions & collectors
-    val customPresets by viewModel.customEqualizerPresets.collectAsState()
-    val presetOrder by viewModel.equalizerPresetOrder.collectAsState()
-    val hiddenPresets by viewModel.hiddenEqualizerPresets.collectAsState()
-    val pinnedAutoEQ by viewModel.pinnedAutoEQProfiles.collectAsState()
-    val autoEQProfiles by viewModel.autoEQProfiles.collectAsState()
-    val currentAutoEQProfile by viewModel.appSettings.autoEQProfile.collectAsState()
-    val customAutoEQProfiles by viewModel.customAutoEQProfiles.collectAsState()
-    val userDevicesJson by viewModel.appSettings.userAudioDevices.collectAsState()
+    val customPresets by audioEffects.customEqualizerPresets.collectAsState()
+    val presetOrder by audioEffects.equalizerPresetOrder.collectAsState()
+    val hiddenPresets by audioEffects.hiddenEqualizerPresets.collectAsState()
+    val pinnedAutoEQ by audioEffects.pinnedAutoEQProfiles.collectAsState()
+    val autoEQProfiles by audioEffects.autoEQProfiles.collectAsState()
+    val currentAutoEQProfile by appSettings.autoEQProfile.collectAsState()
+    val customAutoEQProfiles by audioEffects.customAutoEQProfiles.collectAsState()
+    val userDevicesJson by appSettings.userAudioDevices.collectAsState()
     val userDevices = remember(userDevicesJson) {
         chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(userDevicesJson)
     }
 
     LaunchedEffect(Unit) {
         if (autoEQProfiles.isEmpty()) {
-            viewModel.loadAutoEQProfiles()
+            audioEffects.loadAutoEQProfiles()
         }
     }
 
@@ -541,7 +533,7 @@ fun EqualizerScreen(
     }
 
     val displayPresets = remember(allAvailablePresets, presetOrder, hiddenPresets, selectedPreset) {
-        val isDefaultOrder = presetOrder == viewModel.appSettings.defaultEqualizerPresetOrder || presetOrder.isEmpty()
+        val isDefaultOrder = presetOrder == appSettings.defaultEqualizerPresetOrder || presetOrder.isEmpty()
         val sorted = if (isDefaultOrder) {
             allAvailablePresets
         } else {
@@ -571,18 +563,18 @@ fun EqualizerScreen(
         bandLevels = preset.bands
 
         // Save to settings
-        viewModel.appSettings.setEqualizerPreset(preset.name)
-        viewModel.appSettings.setEqualizerBandLevels(preset.bands.joinToString(","))
+        appSettings.setEqualizerPreset(preset.name)
+        appSettings.setEqualizerBandLevels(preset.bands.joinToString(","))
 
         if (preset.type == EqualizerPresetType.AUTO_EQ) {
             val autoEQName = preset.name.removePrefix("AutoEQ: ")
-            viewModel.appSettings.setAutoEQProfile(autoEQName)
+            appSettings.setAutoEQProfile(autoEQName)
         } else {
-            viewModel.appSettings.setAutoEQProfile("")
+            appSettings.setAutoEQProfile("")
         }
 
         // Apply to service
-        viewModel.applyEqualizerPreset(preset.name, preset.bands)
+        audioEffects.applyEqualizerPreset(preset.name, preset.bands)
     }
 
     fun updateBandLevel(band: Int, level: Float) {
@@ -593,13 +585,13 @@ fun EqualizerScreen(
         selectedPreset = "Custom"
 
         // Save to settings
-        viewModel.appSettings.setEqualizerBandLevels(newLevels.joinToString(","))
-        viewModel.appSettings.setEqualizerPreset("Custom")
-        viewModel.appSettings.setAutoEQProfile("")
+        appSettings.setEqualizerBandLevels(newLevels.joinToString(","))
+        appSettings.setEqualizerPreset("Custom")
+        appSettings.setAutoEQProfile("")
 
         // Apply to service
         val levelShort = (level * 100).toInt().toShort()
-        viewModel.setEqualizerBandLevel(band.toShort(), levelShort)
+        audioEffects.setEqualizerBandLevel(band.toShort(), levelShort)
     }
 
     // Dialog and Sheet States
@@ -704,7 +696,7 @@ fun EqualizerScreen(
                             onClick = {
                                 showMenu = false
                                 val activity = context as? Activity
-                                viewModel.openSystemEqualizer(activity, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST)
+                                audioEffects.openSystemEqualizer(activity, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST)
                             }
                         )
                     )
@@ -779,7 +771,7 @@ fun EqualizerScreen(
                         onCheckedChange = { enabled ->
                             if (!isOffloadEnforced && !isBitPerfectActive) {
                                 isEqualizerEnabled = enabled
-                                viewModel.setEqualizerEnabled(enabled)
+                                audioEffects.setEqualizerEnabled(enabled)
                             }
                         },
                         enabled = !isOffloadEnforced && !isBitPerfectActive
@@ -1162,14 +1154,14 @@ fun EqualizerScreen(
                             if (!isOffloadEnforced && !isBitPerfectActive) {
                                 HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                                 bassBoostStrength = strength
-                                viewModel.setBassBoost(true, strength.toInt().toShort())
+                                audioEffects.setBassBoost(true, strength.toInt().toShort())
                             }
                         },
                         onEnabledChange = { enabled ->
                             if (!isOffloadEnforced && !isBitPerfectActive && isBassBoostAvailableState) {
                                 HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
                                 isBassBoostEnabled = enabled
-                                viewModel.setBassBoost(enabled, bassBoostStrength.toInt().toShort())
+                                audioEffects.setBassBoost(enabled, bassBoostStrength.toInt().toShort())
                             }
                         },
                         statusText = when {
@@ -1199,14 +1191,14 @@ fun EqualizerScreen(
                             if (!isOffloadEnforced && !isBitPerfectActive) {
                                 HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                                 virtualizerStrength = strength
-                                viewModel.setVirtualizer(true, strength.toInt().toShort())
+                                audioEffects.setVirtualizer(true, strength.toInt().toShort())
                             }
                         },
                         onEnabledChange = { enabled ->
                             if (!isOffloadEnforced && !isBitPerfectActive && isSpatializationAvailable) {
                                 HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
                                 isVirtualizerEnabled = enabled
-                                viewModel.setVirtualizer(enabled, virtualizerStrength.toInt().toShort())
+                                audioEffects.setVirtualizer(enabled, virtualizerStrength.toInt().toShort())
                             }
                         },
                         statusText = when {
@@ -1333,11 +1325,11 @@ fun EqualizerScreen(
             SaveCustomPresetDialog(
                 onDismiss = { showSavePresetDialog = false },
                 onSave = { name ->
-                    val newPreset = viewModel.saveCustomEqualizerPreset(name, bandLevels)
+                    val newPreset = audioEffects.saveCustomEqualizerPreset(name, bandLevels)
                     selectedPreset = newPreset.name
-                    viewModel.appSettings.setEqualizerPreset(newPreset.name)
-                    viewModel.appSettings.setEqualizerBandLevels(newPreset.bands.joinToString(","))
-                    viewModel.applyEqualizerPreset(newPreset.name, newPreset.bands)
+                    appSettings.setEqualizerPreset(newPreset.name)
+                    appSettings.setEqualizerBandLevels(newPreset.bands.joinToString(","))
+                    audioEffects.applyEqualizerPreset(newPreset.name, newPreset.bands)
                     showSavePresetDialog = false
                     presetToScrollTo = newPreset.name
                     Toast.makeText(
@@ -1354,7 +1346,8 @@ fun EqualizerScreen(
         if (showReorderSheet) {
             EqualizerPresetOrderBottomSheet(
                 onDismiss = { showReorderSheet = false },
-                musicViewModel = viewModel
+                audioEffects = audioEffects,
+                appSettings = appSettings
             )
         }
 
@@ -1363,9 +1356,9 @@ fun EqualizerScreen(
                 currentProfileName = currentAutoEQProfile,
                 onDismissRequest = { showAutoEQSelector = false },
                 onProfileSelected = { profile: AutoEQProfile ->
-                    viewModel.applyAutoEQProfile(profile)
+                    audioEffects.applyAutoEQProfile(profile)
                     if (profile.name.isNotBlank() && !profile.name.equals("None", ignoreCase = true)) {
-                        viewModel.pinAutoEQProfile(profile.name)
+                        audioEffects.pinAutoEQProfile(profile.name)
                         presetToScrollTo = "AutoEQ: ${profile.name}"
                     }
                     showAutoEQSelector = false
@@ -1376,7 +1369,9 @@ fun EqualizerScreen(
         if (showDeviceConfigSheet) {
             DeviceConfigurationBottomSheet(
                 onDismiss = { showDeviceConfigSheet = false },
-                musicViewModel = viewModel
+                audioEffects = audioEffects,
+                audioDevices = audioDevices,
+                appSettings = appSettings
             )
         }
     }

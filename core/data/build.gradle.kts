@@ -26,6 +26,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.com.google.code.gson.gson)
+    // PlaylistImportExportUtils (relocated from :feature:local in B1 PR-8)
+    // writes playlist exports through the SAF document provider.
+    implementation(libs.androidx.documentfile)
     implementation(libs.org.jetbrains.kotlinx.coroutines.core)
     testImplementation(libs.junit)
 }

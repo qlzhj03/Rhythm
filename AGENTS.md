@@ -34,7 +34,7 @@ Android 音乐播放器:本地曲库 + 自托管流媒体(Subsonic / Navidrome /
 ## 3. 架构约定
 
 - 分层:Screen → ViewModel → Repository → 数据源;ViewModel 不直接碰 SQL、MediaStore、HTTP。
-- 依赖方向:presentation → data / domain;data 不依赖 presentation 与 Compose;**feature 模块之间禁止互相依赖**,既有跨 feature 引用是已知债务,勿新增。
+- 依赖方向:presentation → data / domain;data 不依赖 presentation 与 Compose;**feature 模块之间禁止互相依赖**,既有跨 feature 引用是已知债务(settings→widget / settings→streaming / local→streaming,B1 PR-9 已解除 settings→local),勿新增。
 - 导航:字符串路由,新页面 = 新增 Composable route 并在 `:app` 导航装配处接线;禁止用序列化对象定义路由。
 - DI:全仓 Hilt,禁止引入其他 DI 框架;UI 取 ViewModel 一律 `hiltViewModel()`——`viewModel()` 不走 Hilt 工厂,多参构造必崩。
 - 状态:`StateFlow` 单向流(私有 Mutable + `asStateFlow()` 暴露,派生用 `stateIn`),UI 统一 `collectAsState()`;非 MVI,无 Intent / Effect 层,屏幕直接调 ViewModel 方法。
@@ -62,7 +62,7 @@ Android 音乐播放器:本地曲库 + 自托管流媒体(Subsonic / Navidrome /
 另有 `:macrobenchmark` 与 `build-logic/`(约定插件)。
 
 - 所有模块 namespace 相同,且搬移过的文件保留原 package:**import 按文件内 package 声明写,不要按目录或模块猜**(构建不拦重复包名)。
-- 代码放哪:跨 feature 复用的组件进 `:core:ui`,播放器域组件进 local 的播放器共享目录,设置页组件进 `:feature:settings`;勿再往各 feature 的 presentation/components 扩散。
+- 代码放哪:跨 feature 复用的组件进 `:core:ui`(设置/播放列表对话框、BottomSheet、PlayingEqIcon 等已随 B1 PR-8/9 下沉),播放器域组件进 local 的播放器共享目录,设置页组件进 `:feature:settings`;勿再往各 feature 的 presentation/components 扩散。
 - 既有数千行级大文件(ViewModel、大屏、工具类)不追加功能,新功能新建文件 / ViewModel;UseCase 不强制,仅多处复用才抽。
 - 新增库模块一律用 `build-logic` 约定插件,勿复制 `:app` 的手写配置。
 

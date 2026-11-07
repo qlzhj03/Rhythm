@@ -4,7 +4,6 @@ package chromahub.rhythm.app.shared.presentation.screens.settings
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
@@ -41,18 +40,17 @@ import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHea
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackSpeedDialog
 
 @Composable
 fun PlaybackSettingsScreen(
     onBackClick: () -> Unit,
-    onNavigateTo: (String) -> Unit = {}
+    onNavigateTo: (String) -> Unit = {},
+    playbackSettings: chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
 ) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)
     val hapticFeedback = LocalHapticFeedback.current
-    val musicViewModel: MusicViewModel = hiltViewModel()
 
     val replayGain by appSettings.replayGain.collectAsState()
     val skipSilenceEnabled by appSettings.skipSilenceEnabled.collectAsState()
@@ -96,7 +94,7 @@ fun PlaybackSettingsScreen(
                         title = context.getString(R.string.settings_system_volume),
                         description = context.getString(R.string.settings_system_volume_desc),
                         toggleState = useSystemVolume,
-                        onToggleChange = { musicViewModel.setUseSystemVolumeMode(it) }
+                        onToggleChange = { playbackSettings.setUseSystemVolumeMode(it) }
                     ),
                     SettingItem(
                         icon = MaterialSymbolIcon("bluetooth_connected", filled = true),
@@ -203,7 +201,7 @@ fun PlaybackSettingsScreen(
                             else -> context.getString(R.string.settings_mono_audio_desc)
                         },
                         toggleState = if (isOffloadEnforced || isBitPerfect) false else monoAudioEnabled,
-                        onToggleChange = { if (!isOffloadEnforced && !isBitPerfect) musicViewModel.setMonoAudioEnabled(it) },
+                        onToggleChange = { if (!isOffloadEnforced && !isBitPerfect) playbackSettings.setMonoAudioEnabled(it) },
                         enabled = !isOffloadEnforced && !isBitPerfect
                     ),
                     SettingItem(

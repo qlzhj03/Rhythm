@@ -24,6 +24,9 @@ dependencies {
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
+    // LanguageSwitcher (relocated from :feature:local in B1 PR-8) drives
+    // per-app locales through AppCompatDelegate.
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.io.coil.kt.coil.compose)

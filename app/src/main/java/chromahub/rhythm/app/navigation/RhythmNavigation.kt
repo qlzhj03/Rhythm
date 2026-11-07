@@ -251,7 +251,13 @@ fun RhythmNavigation(
                     },
                     appSettings = appSettings,
                     navController = rootNavController,
-                    musicViewModel = musicViewModel
+                    playbackState = musicViewModel,
+                    playbackSettings = musicViewModel,
+                    playlistAdmin = musicViewModel,
+                    libraryAdmin = musicViewModel,
+                    cacheManager = musicViewModel,
+                    backupRestore = musicViewModel,
+                    sleepTimer = musicViewModel
                 )
             }
         }

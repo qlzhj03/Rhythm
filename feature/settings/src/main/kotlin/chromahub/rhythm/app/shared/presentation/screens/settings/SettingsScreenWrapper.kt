@@ -128,9 +128,14 @@ import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.domain.repository.BackupRestoreController
+import chromahub.rhythm.app.core.domain.repository.LibraryAdminController
+import chromahub.rhythm.app.core.domain.repository.LibraryCacheManager
+import chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
+import chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
+import chromahub.rhythm.app.infrastructure.service.PlaybackStateSource
+import chromahub.rhythm.app.infrastructure.service.SleepTimerController
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -157,15 +162,21 @@ fun SettingsScreenWrapper(
     onBack: () -> Unit,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     navController: androidx.navigation.NavController,
-    musicViewModel: MusicViewModel
+    playbackState: PlaybackStateSource,
+    playbackSettings: PlaybackSettingsController,
+    playlistAdmin: PlaylistAdminController,
+    libraryAdmin: LibraryAdminController,
+    cacheManager: LibraryCacheManager,
+    backupRestore: BackupRestoreController,
+    sleepTimer: SleepTimerController
 ) {
     val isTablet = windowScreenWidthDp() >= 600
     val isLandscapeTablet = isTablet && windowScreenWidthDp() > windowScreenHeightDp()
 
     var routeStack by rememberSaveable { mutableStateOf(emptyList<String>()) }
     var showSleepTimerBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val currentSong by musicViewModel.currentSong.collectAsState()
-    val isPlaying by musicViewModel.isPlaying.collectAsState()
+    val currentSong by playbackState.currentSong.collectAsState()
+    val isPlaying by playbackState.isPlaying.collectAsState()
     val appMode by appSettings.appMode.collectAsState()
 
     // Hoist the main settings scroll state to persist across navigation
@@ -199,7 +210,7 @@ fun SettingsScreenWrapper(
 
     val onNavigateToSubsetting: (String) -> Unit = { route: String ->
         if (route == SettingsRoutes.RHYTHM_STATS) {
-            val localStatsRoute = Screen.RhythmStats.route
+            val localStatsRoute = SettingsRoutes.RHYTHM_STATS
             val streamingStatsRoute = "streaming_rhythm_stats"
             when {
                 navController.graph.findNode(streamingStatsRoute) != null -> navController.navigate(streamingStatsRoute)
@@ -218,7 +229,7 @@ fun SettingsScreenWrapper(
                 }
             }
         } else if (route == SettingsRoutes.EQUALIZER) {
-            navController.navigate(Screen.Equalizer.route)
+            navController.navigate(SettingsRoutes.LOCAL_EQUALIZER)
         } else if (route == SettingsRoutes.SLEEP_TIMER) {
             showSleepTimerBottomSheet = true
         } else {
@@ -319,12 +330,14 @@ fun SettingsScreenWrapper(
                         SettingsRoutes.NOTIFICATIONS -> NotificationsSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.PLAYLISTS -> PlaylistsSettingsScreen(
                             onBackClick = handleBack,
-                            onNavigateTo = onNavigateToSubsetting
+                            onNavigateTo = onNavigateToSubsetting,
+                            playlistAdmin = playlistAdmin
                         )
                         SettingsRoutes.DEFAULT_PLAYLISTS -> DefaultPlaylistsSettingsScreen(
-                            onBackClick = handleBack
+                            onBackClick = handleBack,
+                            playlistAdmin = playlistAdmin
                         )
-                        SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack)
+                        SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack, libraryAdmin = libraryAdmin)
                         SettingsRoutes.ARTIST_SEPARATORS -> ArtistSeparatorsSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.ABOUT -> chromahub.rhythm.app.shared.presentation.screens.settings.AboutScreen(
                             onBackClick = handleBack,
@@ -358,8 +371,17 @@ fun SettingsScreenWrapper(
                             }
                         )
                         SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
-                        SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
-                        SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(onBackClick = handleBack)
+                        SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
+                            onBackClick = handleBack,
+                            cacheManager = cacheManager,
+                            libraryAdmin = libraryAdmin
+                        )
+                        SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
+                            onBackClick = handleBack,
+                            libraryAdmin = libraryAdmin,
+                            backupRestore = backupRestore,
+                            playlistAdmin = playlistAdmin
+                        )
                         SettingsRoutes.THEME_CUSTOMIZATION -> ThemeCustomizationSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.PLAYER_CUSTOMIZATION -> PlayerCustomizationSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.MINIPLAYER_CUSTOMIZATION -> MiniPlayerCustomizationSettingsScreen(onBackClick = handleBack)
@@ -367,7 +389,8 @@ fun SettingsScreenWrapper(
                         SettingsRoutes.QUEUE -> QueueSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.PLAYBACK -> PlaybackSettingsScreen(
                             onBackClick = handleBack,
-                            onNavigateTo = onNavigateToSubsetting
+                            onNavigateTo = onNavigateToSubsetting,
+                            playbackSettings = playbackSettings
                         )
                         SettingsRoutes.REPLAY_GAIN -> ReplayGainSettingsScreen(
                             onBackClick = handleBack,
@@ -474,12 +497,14 @@ fun SettingsScreenWrapper(
                 SettingsRoutes.NOTIFICATIONS -> NotificationsSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.PLAYLISTS -> PlaylistsSettingsScreen(
                     onBackClick = handleBack,
-                    onNavigateTo = onNavigateToSubsetting
+                    onNavigateTo = onNavigateToSubsetting,
+                    playlistAdmin = playlistAdmin
                 )
                 SettingsRoutes.DEFAULT_PLAYLISTS -> DefaultPlaylistsSettingsScreen(
-                    onBackClick = handleBack
+                    onBackClick = handleBack,
+                    playlistAdmin = playlistAdmin
                 )
-                SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack)
+                SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack, libraryAdmin = libraryAdmin)
                 SettingsRoutes.ARTIST_SEPARATORS -> ArtistSeparatorsSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.ABOUT -> chromahub.rhythm.app.shared.presentation.screens.settings.AboutScreen(
                     onBackClick = handleBack,
@@ -513,8 +538,17 @@ fun SettingsScreenWrapper(
                     }
                 )
                 SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
-                SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
-                SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(onBackClick = handleBack)
+                SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
+                            onBackClick = handleBack,
+                            cacheManager = cacheManager,
+                            libraryAdmin = libraryAdmin
+                        )
+                SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
+                            onBackClick = handleBack,
+                            libraryAdmin = libraryAdmin,
+                            backupRestore = backupRestore,
+                            playlistAdmin = playlistAdmin
+                        )
                 SettingsRoutes.THEME_CUSTOMIZATION -> ThemeCustomizationSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.PLAYER_CUSTOMIZATION -> PlayerCustomizationSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.MINIPLAYER_CUSTOMIZATION -> MiniPlayerCustomizationSettingsScreen(onBackClick = handleBack)
@@ -522,7 +556,8 @@ fun SettingsScreenWrapper(
                 SettingsRoutes.QUEUE -> QueueSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.PLAYBACK -> PlaybackSettingsScreen(
                     onBackClick = handleBack,
-                    onNavigateTo = onNavigateToSubsetting
+                    onNavigateTo = onNavigateToSubsetting,
+                    playbackSettings = playbackSettings
                 )
                 SettingsRoutes.REPLAY_GAIN -> ReplayGainSettingsScreen(
                     onBackClick = handleBack,
@@ -554,7 +589,8 @@ fun SettingsScreenWrapper(
             onDismiss = { showSleepTimerBottomSheet = false },
             currentSong = currentSong,
             isPlaying = isPlaying,
-            musicViewModel = musicViewModel
+            sleepTimer = sleepTimer,
+            appSettings = appSettings
         )
     }
 }

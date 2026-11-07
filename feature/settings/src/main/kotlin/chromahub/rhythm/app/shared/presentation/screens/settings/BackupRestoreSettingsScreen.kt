@@ -2,6 +2,7 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
 
@@ -112,7 +113,6 @@ import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
@@ -187,19 +187,30 @@ fun BackupInfoItem(
 
 
 @Composable
-fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
+fun BackupRestoreSettingsScreen(
+    onBackClick: () -> Unit,
+    libraryAdmin: chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
+    backupRestore: chromahub.rhythm.app.core.domain.repository.BackupRestoreController,
+    playlistAdmin: chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
+) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
-    val musicViewModel: MusicViewModel = hiltViewModel()
 
     // Collect states
     val autoBackupEnabled by appSettings.autoBackupEnabled.collectAsState()
     val lastBackupTimestamp by appSettings.lastBackupTimestamp.collectAsState()
     val backupLocation by appSettings.backupLocation.collectAsState()
-    val isLibraryRefreshing by musicViewModel.isLibraryRefreshing.collectAsState()
-    val restoreResult by musicViewModel.restoreResult.collectAsState()
+    val isLibraryRefreshing by libraryAdmin.isLibraryRefreshing.collectAsState()
+    val restoreResult by backupRestore.restoreResult.collectAsState()
+
+    // B1 PR-8 (design §4.0 A): restore state now lives on the long-lived
+    // activity-scoped ViewModel, so clear it on dispose to preserve the
+    // "re-entering the screen starts from Idle" behavior.
+    DisposableEffect(Unit) {
+        onDispose { backupRestore.clearRestoreResult() }
+    }
 
     // Local states
     var isCreatingBackup by remember { mutableStateOf(false) }
@@ -235,12 +246,12 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
 
     LaunchedEffect(restoreResult) {
         when (val result = restoreResult) {
-            is MusicViewModel.RestoreResult.Queued -> {
+            is RestoreResult.Queued -> {
                 isPreparingRestore = false
                 Toast.makeText(context, context.getString(R.string.backup_restore_queued_message), Toast.LENGTH_LONG).show()
-                musicViewModel.clearRestoreResult()
+                backupRestore.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Success -> {
+            is RestoreResult.Success -> {
                 isPreparingRestore = false
                 resultSheetState = BackupRestoreResultState(
                     title = if (result.wasQueued) context.getString(R.string.backup_restore_queued_completed_title) else context.getString(R.string.settings_restore_completed),
@@ -252,12 +263,12 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
                     isError = false,
                     requiresRestart = true
                 )
-                musicViewModel.clearRestoreResult()
+                backupRestore.clearRestoreResult()
             }
-            is MusicViewModel.RestoreResult.Failure -> {
+            is RestoreResult.Failure -> {
                 isPreparingRestore = false
                 showError(result.errorMessage)
-                musicViewModel.clearRestoreResult()
+                backupRestore.clearRestoreResult()
             }
             else -> {}
         }
@@ -279,7 +290,7 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
                         isCreatingBackup = true
                         HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
 
-                        musicViewModel.ensurePlaylistsSaved()
+                        playlistAdmin.ensurePlaylistsSaved()
                         val backupJson = appSettings.createBackup(pendingBackupSections)
 
                         val outputStream = context.contentResolver.openOutputStream(uri)
@@ -384,7 +395,7 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
     fun applyRestoreWithSections(backupJson: String, sections: AppSettings.BackupRestoreSections) {
         isPreparingRestore = true
         HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
-        musicViewModel.restoreFromBackup(backupJson, sections)
+        backupRestore.restoreFromBackup(backupJson, sections)
     }
 
     val infiniteTransition = rememberInfiniteTransition(label = "backup_animations")

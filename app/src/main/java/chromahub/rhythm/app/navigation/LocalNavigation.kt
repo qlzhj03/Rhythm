@@ -2107,7 +2107,13 @@ private fun LocalNavigationContent(
                             },
                             appSettings = appSettings,
                             navController = navController,
-                            musicViewModel = viewModel
+                            playbackState = viewModel,
+                            playbackSettings = viewModel,
+                            playlistAdmin = viewModel,
+                            libraryAdmin = viewModel,
+                            cacheManager = viewModel,
+                            backupRestore = viewModel,
+                            sleepTimer = viewModel
                         )
                     }
                 }
@@ -2165,12 +2171,16 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerMediaScan.route) {
-                    MediaScanSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    MediaScanSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        libraryAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerPlaylists.route) {
                     PlaylistsSettingsScreen(
                         onBackClick = navigateBackOrToSettings,
+                        playlistAdmin = viewModel,
                         onNavigateTo = { route ->
                             if (route == SettingsRoutes.DEFAULT_PLAYLISTS) {
                                 navController.navigate(Screen.TunerDefaultPlaylists.route)
@@ -2180,7 +2190,10 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerDefaultPlaylists.route) {
-                    DefaultPlaylistsSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    DefaultPlaylistsSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        playlistAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerApiManagement.route) {
@@ -2188,11 +2201,20 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerCacheManagement.route) {
-                    CacheManagementSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    CacheManagementSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        cacheManager = viewModel,
+                        libraryAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerBackupRestore.route) {
-                    BackupRestoreSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    BackupRestoreSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        libraryAdmin = viewModel,
+                        backupRestore = viewModel,
+                        playlistAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerThemeCustomization.route) {
@@ -2220,7 +2242,12 @@ private fun LocalNavigationContent(
                     }
                 ) {
                     SlideUpCornerWrapper {
-                        EqualizerScreen(navController = navController, viewModel = viewModel)
+                        EqualizerScreen(
+                            navController = navController,
+                            audioEffects = viewModel,
+                            audioDevices = viewModel,
+                            appSettings = appSettings
+                        )
                     }
                 }
 
@@ -2236,7 +2263,8 @@ private fun LocalNavigationContent(
                             },
                             currentSong = currentSong,
                             isPlaying = isPlaying,
-                            musicViewModel = viewModel
+                            sleepTimer = viewModel,
+                            appSettings = appSettings
                         )
                     } else {
                         // Navigate back if bottom sheet is dismissed without opening
@@ -2260,6 +2288,7 @@ private fun LocalNavigationContent(
                 composable(Screen.TunerPlayback.route) {
                     PlaybackSettingsScreen(
                         onBackClick = navigateBackOrToSettings,
+                        playbackSettings = viewModel,
                         onNavigateTo = { route ->
                             when (route) {
                                 SettingsRoutes.REPLAY_GAIN -> navController.navigate(Screen.TunerReplayGain.route)
@@ -2384,7 +2413,12 @@ private fun LocalNavigationContent(
                     }
                 ) {
                     SlideUpCornerWrapper {
-                        EqualizerScreen(navController = navController, viewModel = viewModel)
+                        EqualizerScreen(
+                            navController = navController,
+                            audioEffects = viewModel,
+                            audioDevices = viewModel,
+                            appSettings = appSettings
+                        )
                     }
                 }
 
