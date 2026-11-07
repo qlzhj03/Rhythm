@@ -1,5 +1,5 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-package chromahub.rhythm.app.features.streaming.presentation.components.settings
+package chromahub.rhythm.app.shared.presentation.components.bottomsheets
 
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -83,16 +83,6 @@ private val defaultStreamingReorderableSections = listOf(
     STREAMING_SECTION_RHYTHM_STATS,
     STREAMING_SECTION_NEW_RELEASES
 )
-
-private fun groupedBottomSheetItemShape(index: Int, totalCount: Int): RoundedCornerShape {
-    if (totalCount <= 1) return RoundedCornerShape(24.dp)
-
-    return when (index) {
-        0 -> RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 6.dp, bottomEnd = 6.dp)
-        totalCount - 1 -> RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp, bottomStart = 24.dp, bottomEnd = 24.dp)
-        else -> RoundedCornerShape(6.dp)
-    }
-}
 
 @Composable
 fun StreamingHomeSectionOrderBottomSheet(

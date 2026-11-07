@@ -9,14 +9,14 @@ import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.features.streaming.presentation.components.StreamingServiceStateCard
-import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceStateCard
+import chromahub.rhythm.app.core.model.StreamingServiceSession
 import chromahub.rhythm.app.core.model.StreamingSong
 import chromahub.rhythm.app.core.model.StreamingAlbum
 import chromahub.rhythm.app.core.model.StreamingArtist
 import chromahub.rhythm.app.core.model.StreamingPlaylist
 import chromahub.rhythm.app.core.model.StreamingServiceId
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
@@ -552,7 +552,7 @@ fun HomeScreen(
 
     if (showHomeSectionOrderSheet) {
         if (isStreamingMode) {
-            chromahub.rhythm.app.features.streaming.presentation.components.settings.StreamingHomeSectionOrderBottomSheet(
+            chromahub.rhythm.app.shared.presentation.components.bottomsheets.StreamingHomeSectionOrderBottomSheet(
                 onDismiss = { showHomeSectionOrderSheet = false },
                 appSettings = AppSettings.getInstance(context)
             )
@@ -805,7 +805,7 @@ private fun StreamingHomeBody(
     val rawDownloadedSongs = vm?.downloadedSongs?.collectAsState()?.value ?: emptyList()
     val rawDownloadedAlbums = vm?.downloadedAlbums?.collectAsState()?.value ?: emptyList()
     val rawDownloadedArtists = vm?.downloadedArtists?.collectAsState()?.value ?: emptyList()
-    val syncProgress = vm?.syncProgress?.collectAsState()?.value ?: chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingSyncProgress()
+    val syncProgress = vm?.syncProgress?.collectAsState()?.value ?: chromahub.rhythm.app.core.model.StreamingSyncProgress()
     val isSyncing = syncProgress.isSyncing
 
     val streamingSongById by rememberOffMain(emptyMap<String, StreamingSong>(), rawAllSongs, rawRecommendations, rawNewReleases, rawDownloadedSongs) {

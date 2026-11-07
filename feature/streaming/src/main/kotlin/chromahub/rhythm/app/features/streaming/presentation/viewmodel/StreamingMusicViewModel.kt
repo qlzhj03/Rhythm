@@ -13,7 +13,9 @@ import chromahub.rhythm.app.core.common.NetworkUtils
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseAccount
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseQrLoginState
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingMusicRepositoryImpl
-import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession
+import chromahub.rhythm.app.core.model.StreamingServiceSession
+import chromahub.rhythm.app.core.model.StreamingSyncProgress
+import chromahub.rhythm.app.core.model.StreamingSyncStage
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSessionRepository
 import chromahub.rhythm.app.core.model.BrowseCategory
 import chromahub.rhythm.app.core.model.StreamingAlbum
@@ -2442,24 +2444,3 @@ class StreamingMusicViewModel @Inject constructor(
         )
     }
 }
-
-/**
- * Stages of library synchronization for streaming services.
- */
-enum class StreamingSyncStage {
-    Idle,
-    Syncing,
-    Complete,
-    Error
-}
-
-/**
- * Live library sync progress state.
- */
-data class StreamingSyncProgress(
-    val isSyncing: Boolean = false,
-    val current: Int = 0,
-    val total: Int = 0,
-    val songsCount: Int = 0,
-    val stage: StreamingSyncStage = StreamingSyncStage.Idle
-)

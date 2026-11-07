@@ -52,7 +52,7 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginPhase
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
