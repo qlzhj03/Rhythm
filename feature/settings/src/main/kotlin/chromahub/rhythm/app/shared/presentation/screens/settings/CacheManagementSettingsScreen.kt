@@ -113,7 +113,6 @@ import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
@@ -246,10 +245,13 @@ fun trimArtworkCacheNow(cacheDir: File): ArtworkCacheStats {
 
 
 @Composable
-fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
+fun CacheManagementSettingsScreen(
+    onBackClick: () -> Unit,
+    cacheManager: chromahub.rhythm.app.core.domain.repository.LibraryCacheManager,
+    libraryAdmin: chromahub.rhythm.app.core.domain.repository.LibraryAdminController
+) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = hiltViewModel()
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
 
@@ -297,9 +299,8 @@ fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
     // Calculate storage backend stats
     LaunchedEffect(Unit) {
         try {
-            val repo = musicViewModel.getMusicRepository()
             roomSongCount = try {
-                repo.getRoomSongCount()
+                cacheManager.getRoomSongCount()
             } catch (_: Exception) { -1 }
         } catch (e: Exception) {
             Log.e("CacheManagement", "Error calculating storage stats", e)
@@ -565,7 +566,7 @@ fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
                                     scope.launch {
                                         try {
                                             isClearingCache = true
-                                            musicViewModel.clearAllLyricsCache()
+                                            cacheManager.clearAllLyricsCache()
                                             refreshCacheStats()
                                             Toast.makeText(context, context.getString(R.string.settings_lyrics_cache_cleared), Toast.LENGTH_SHORT).show()
                                         } catch (e: Exception) {
@@ -606,8 +607,8 @@ fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
                                             trimArtworkCacheNow(context.cacheDir)
                                         }
                                         chromahub.rhythm.app.util.CacheManager.clearAllCache(context, null)
-                                        musicViewModel.getMusicRepository().clearInMemoryCaches()
-                                        musicViewModel.getMusicRepository().clearSongCacheData()
+                                        cacheManager.clearInMemoryCaches()
+                                        cacheManager.clearSongCacheData()
                                         // Schedule a one-time full rescan on the next launch so embedded
                                         // artwork (which lives in filesDir and was just cleared) is
                                         // re-extracted from the audio files. This runs once after the
@@ -670,9 +671,9 @@ fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
                                         scope.launch {
                                             isRebuildingRoom = true
                                             try {
-                                                musicViewModel.getMusicRepository().clearSongCacheData()
-                                                musicViewModel.refreshLibrary()
-                                                roomSongCount = musicViewModel.getMusicRepository().getRoomSongCount()
+                                                cacheManager.clearSongCacheData()
+                                                libraryAdmin.refreshLibrary()
+                                                roomSongCount = cacheManager.getRoomSongCount()
                                                 Toast.makeText(context, context.getString(R.string.settings_storage_rebuild_success), Toast.LENGTH_SHORT).show()
                                             } catch (e: Exception) {
                                                 Log.e("CacheManagement", "Error rebuilding Room DB", e)

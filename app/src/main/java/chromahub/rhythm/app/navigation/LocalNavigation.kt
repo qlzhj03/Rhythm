@@ -2202,7 +2202,11 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerCacheManagement.route) {
-                    CacheManagementSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    CacheManagementSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        cacheManager = viewModel,
+                        libraryAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerBackupRestore.route) {
