@@ -21,7 +21,7 @@
 -keep class chromahub.rhythm.app.network.** { *; }
 
 # Keep ColorExtractor models used for Theme parsing (Gson targets)
--keep class chromahub.rhythm.app.util.ExtractedColors { *; }
+-keep class chromahub.rhythm.app.core.designsystem.utils.ExtractedColors { *; }
 
 # Keep updater local state models (Gson targets)
 -keep class chromahub.rhythm.app.shared.presentation.viewmodel.DownloadState { *; }
