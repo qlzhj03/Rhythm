@@ -3822,7 +3822,8 @@ fun MaterialPlayerScreen(
             onDismiss = { showSleepTimerBottomSheet = false },
             currentSong = song,
             isPlaying = isPlaying,
-            musicViewModel = musicViewModel
+            sleepTimer = musicViewModel,
+            appSettings = appSettings
         )
     }
     
