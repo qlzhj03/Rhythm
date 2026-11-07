@@ -60,6 +60,8 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSw
 import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
+import chromahub.rhythm.app.shared.presentation.components.common.normalizeStreamingQuality
+import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
@@ -662,21 +664,6 @@ private fun selectedServiceLabel(selectedService: String, context: Context): Str
     return matching?.let { context.getString(it.nameRes) } ?: context.getString(R.string.streaming_not_selected)
 }
 
-private fun normalizeStreamingQuality(rawValue: String): String {
-    val normalized = rawValue.uppercase()
-    return if (streamingQualityOptions.any { it.value == normalized }) normalized else "HIGH"
-}
-
-fun streamingQualityLabel(quality: String, context: Context): String {
-    return when (normalizeStreamingQuality(quality)) {
-        "LOW" -> context.getString(R.string.streaming_quality_low)
-        "NORMAL" -> context.getString(R.string.streaming_quality_normal)
-        "HIGH" -> context.getString(R.string.streaming_quality_high)
-        "LOSSLESS" -> context.getString(R.string.streaming_quality_lossless)
-        else -> quality
-    }
-}
-
 private fun rhythmGuardModeDisplayName(mode: String): String {
     return when (mode) {
         AppSettings.RHYTHM_GUARD_MODE_AUTO -> "Adaptive Guard"
@@ -699,31 +686,3 @@ private fun formatListeningDurationShort(durationMs: Long): String {
     }
 }
 
-data class StreamingQualityOption(
-    val value: String,
-    @param:StringRes val titleRes: Int,
-    @param:StringRes val descriptionRes: Int
-)
-
-val streamingQualityOptions = listOf(
-    StreamingQualityOption(
-        value = "LOW",
-        titleRes = R.string.streaming_quality_low,
-        descriptionRes = R.string.streaming_quality_low_desc
-    ),
-    StreamingQualityOption(
-        value = "NORMAL",
-        titleRes = R.string.streaming_quality_normal,
-        descriptionRes = R.string.streaming_quality_normal_desc
-    ),
-    StreamingQualityOption(
-        value = "HIGH",
-        titleRes = R.string.streaming_quality_high,
-        descriptionRes = R.string.streaming_quality_high_desc
-    ),
-    StreamingQualityOption(
-        value = "LOSSLESS",
-        titleRes = R.string.streaming_quality_lossless,
-        descriptionRes = R.string.streaming_quality_lossless_desc
-    )
-)
