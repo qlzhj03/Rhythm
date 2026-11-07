@@ -23,11 +23,6 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
 
-    // Known cross-feature debt (audited + documented in
-    // docs/multi-module-refactor-plan.md PR-5): HomeScreen and
-    // UniversalSearchScreen embed streaming state cards / view model.
-    implementation(project(":feature:streaming"))
-
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
