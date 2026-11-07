@@ -2172,7 +2172,10 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerMediaScan.route) {
-                    MediaScanSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    MediaScanSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        libraryAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerPlaylists.route) {
@@ -2203,7 +2206,12 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerBackupRestore.route) {
-                    BackupRestoreSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    BackupRestoreSettingsScreen(
+                        onBackClick = navigateBackOrToSettings,
+                        libraryAdmin = viewModel,
+                        backupRestore = viewModel,
+                        playlistAdmin = viewModel
+                    )
                 }
 
                 composable(Screen.TunerThemeCustomization.route) {

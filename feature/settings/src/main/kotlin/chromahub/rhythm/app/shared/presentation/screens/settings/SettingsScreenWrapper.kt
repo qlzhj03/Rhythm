@@ -340,7 +340,7 @@ fun SettingsScreenWrapper(
                             onBackClick = handleBack,
                             playlistAdmin = playlistAdmin
                         )
-                        SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack)
+                        SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack, libraryAdmin = libraryAdmin)
                         SettingsRoutes.ARTIST_SEPARATORS -> ArtistSeparatorsSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.ABOUT -> chromahub.rhythm.app.shared.presentation.screens.settings.AboutScreen(
                             onBackClick = handleBack,
@@ -375,7 +375,12 @@ fun SettingsScreenWrapper(
                         )
                         SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
-                        SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(onBackClick = handleBack)
+                        SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
+                            onBackClick = handleBack,
+                            libraryAdmin = libraryAdmin,
+                            backupRestore = backupRestore,
+                            playlistAdmin = playlistAdmin
+                        )
                         SettingsRoutes.THEME_CUSTOMIZATION -> ThemeCustomizationSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.PLAYER_CUSTOMIZATION -> PlayerCustomizationSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.MINIPLAYER_CUSTOMIZATION -> MiniPlayerCustomizationSettingsScreen(onBackClick = handleBack)
@@ -498,7 +503,7 @@ fun SettingsScreenWrapper(
                     onBackClick = handleBack,
                     playlistAdmin = playlistAdmin
                 )
-                SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack)
+                SettingsRoutes.MEDIA_SCAN -> MediaScanSettingsScreen(onBackClick = handleBack, libraryAdmin = libraryAdmin)
                 SettingsRoutes.ARTIST_SEPARATORS -> ArtistSeparatorsSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.ABOUT -> chromahub.rhythm.app.shared.presentation.screens.settings.AboutScreen(
                     onBackClick = handleBack,
@@ -533,7 +538,12 @@ fun SettingsScreenWrapper(
                 )
                 SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
-                SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(onBackClick = handleBack)
+                SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
+                            onBackClick = handleBack,
+                            libraryAdmin = libraryAdmin,
+                            backupRestore = backupRestore,
+                            playlistAdmin = playlistAdmin
+                        )
                 SettingsRoutes.THEME_CUSTOMIZATION -> ThemeCustomizationSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.PLAYER_CUSTOMIZATION -> PlayerCustomizationSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.MINIPLAYER_CUSTOMIZATION -> MiniPlayerCustomizationSettingsScreen(onBackClick = handleBack)
