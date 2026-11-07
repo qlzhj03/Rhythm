@@ -140,8 +140,6 @@ import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import androidx.compose.ui.res.stringResource
