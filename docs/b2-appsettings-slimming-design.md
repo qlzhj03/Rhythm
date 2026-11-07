@@ -38,7 +38,7 @@
 
 **目标**
 1. 死重清零（~37 成员，逐成员 builder-check 后删除）。
-2. 行为外迁：WorkManager 调度、backup/restore 体、歌词 CSV 移出 AppSettings，AppSettings 收敛为「纯设置存储 + 迁移」。
+2. 行为外迁：WorkManager 调度与歌词 CSV 移出 AppSettings，AppSettings 收敛为「纯设置存储 + 迁移」（backup/restore 经实施裁定留守，见 §4.2 补记）。
 3. 分域文件拆分：实现按域拆为 ~10 个 section 文件（:core:data 内），公共 API 一行不改。
 4. 启动后台预热，消除主线程等 XML 加载（macrobenchmark startup 指标对照验证）。
 
@@ -63,9 +63,11 @@
 
 | 块 | 去处 | 调用方处置 |
 | :-- | :-- | :-- |
-| WorkManager 调度（~140 行 + set 路径触发点 :3996-4008） | 新文件 `SettingsJobScheduler`（:core:data），沿用 `AppWorkerRegistry` 缝隙 | AppSettings 内部改调 scheduler，公共 API 不变 |
-| backup/restore 收集/恢复体（~400 行） | 归拢进既有 `BackupRestoreManager`（直接持 SharedPreferences 句柄，:core:data 内部合法；Gson 逻辑同迁） | AppSettings 保留薄委托（3-4 个直接调用方零改动）；MusicViewModel 走的 payload 路径已存在不受影响 |
-| 歌词 CSV（~110 行） | 新文件 `LyricsPreferenceIo`（:core:data） | LyricsSettingsScreen 2 处改调（或薄委托，实施时按改动面定） |
+| WorkManager 调度（~140 行 + set 路径触发点） | 新文件 `SettingsJobScheduler`（:core:data），沿用 `AppWorkerRegistry` 缝隙 | AppSettings 内部改调 scheduler，公共 API 不变（✅ 已实施） |
+| ~~backup/restore 体~~ | **实施裁定：取消外迁，留守 AppSettings**（见下） | — |
+**§4.2 实施裁定补记（2026-11-08）**：通读 backup/restore 体后推翻本表第二行的前提——`createBackup` 实为 prefs↔JSON 的**存储编解码**（读 `prefs.all` + 分节过滤 + Gson 类型标注，零流访问），`restoreFromBackup` 直写 390 个私有 backing 并在中段触发派生更新，本质是「设置状态恢复」的存储内聚逻辑，与键迁移同级，不属于「业务逻辑」。外迁需要（a）行为风险的 setter 改写（setter 带副作用：调度/重扫/归一化）或（b）390 个 backing 可见性放宽——均违背零行为变化与内聚目标。裁定：**二者留守 AppSettings**（存储职责的一部分），B2-2 以 workers + CSV 外迁收口。`triggerImmediateUpdateCheck` 实施中经核验为零调用方死代码，随块删除（未迁移）。
+
+| 歌词 CSV（~110 行） | 新文件 `LyricsPreferenceIo`（:core:data，纯编解码） | AppSettings 保留薄委托，backing 写入留在原处（✅ 已实施） |
 | guard 策略常量、`getRhythmGuardPolicyBands` | 随 GuardStats 域文件（§4.3） | 经 AppSettings 委托，API 不变 |
 
 键迁移逻辑（5 处）**留在 AppSettings**——迁移属于存储职责。`NetworkSettingsProvider` 实现留在 facade。
