@@ -50,7 +50,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.core.model.EqualizerPresetType
 import chromahub.rhythm.app.core.model.UnifiedEqualizerPreset
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
@@ -82,12 +81,12 @@ private fun groupedBottomSheetItemShape(index: Int, totalCount: Int): RoundedCor
 @Composable
 fun EqualizerPresetOrderBottomSheet(
     onDismiss: () -> Unit,
-    musicViewModel: MusicViewModel
+    audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
+    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    val appSettings = musicViewModel.appSettings
 
     val presetOrder by appSettings.equalizerPresetOrder.collectAsState()
     val hiddenPresets by appSettings.hiddenEqualizerPresets.collectAsState()
@@ -95,7 +94,7 @@ fun EqualizerPresetOrderBottomSheet(
     val pinnedAutoEQ by appSettings.pinnedAutoEQProfiles.collectAsState()
     val customAutoEQ by appSettings.customAutoEQProfiles.collectAsState()
     val currentAutoEQ by appSettings.autoEQProfile.collectAsState()
-    val autoEQProfiles by musicViewModel.autoEQProfiles.collectAsState()
+    val autoEQProfiles by audioEffects.autoEQProfiles.collectAsState()
     val userDevicesJson by appSettings.userAudioDevices.collectAsState()
     val userDevices = remember(userDevicesJson) {
         chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(userDevicesJson)
@@ -418,8 +417,8 @@ fun EqualizerPresetOrderBottomSheet(
                     RhythmButtonWeighted(
                         onClick = {
                             HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
-                            musicViewModel.resetEqualizerPresetOrder()
-                            musicViewModel.setHiddenEqualizerPresets(emptySet())
+                            audioEffects.resetEqualizerPresetOrder()
+                            audioEffects.setHiddenEqualizerPresets(emptySet())
                             reorderableList = allAutoEQKeys + customPresets.map { it.name } + builtInNames
                             hiddenPresetsSet = emptySet()
                             Toast.makeText(context, R.string.eq_preset_order_reset, Toast.LENGTH_SHORT).show()
@@ -433,8 +432,8 @@ fun EqualizerPresetOrderBottomSheet(
                     RhythmButtonWeighted(
                         onClick = {
                             HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
-                            musicViewModel.setEqualizerPresetOrder(reorderableList)
-                            musicViewModel.setHiddenEqualizerPresets(hiddenPresetsSet)
+                            audioEffects.setEqualizerPresetOrder(reorderableList)
+                            audioEffects.setHiddenEqualizerPresets(hiddenPresetsSet)
                             Toast.makeText(context, R.string.eq_preset_order_saved, Toast.LENGTH_SHORT).show()
                             scope.launch {
                                 sheetState.hide()
@@ -472,10 +471,10 @@ fun EqualizerPresetOrderBottomSheet(
                 Button(
                     onClick = {
                         val keyToRemove = if (preset.type == EqualizerPresetType.AUTO_EQ) {
-                            musicViewModel.deleteAutoEQProfile(preset.name)
+                            audioEffects.deleteAutoEQProfile(preset.name)
                             "AutoEQ: ${preset.name}"
                         } else {
-                            musicViewModel.deleteCustomEqualizerPreset(preset.id)
+                            audioEffects.deleteCustomEqualizerPreset(preset.id)
                             preset.name
                         }
                         reorderableList = reorderableList.filter { it != keyToRemove && it != preset.name }

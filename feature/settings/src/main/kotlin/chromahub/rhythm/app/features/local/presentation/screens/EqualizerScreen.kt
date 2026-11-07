@@ -1354,7 +1354,8 @@ fun EqualizerScreen(
         if (showReorderSheet) {
             EqualizerPresetOrderBottomSheet(
                 onDismiss = { showReorderSheet = false },
-                musicViewModel = viewModel
+                audioEffects = viewModel,
+                appSettings = viewModel.appSettings
             )
         }
 
@@ -1376,7 +1377,9 @@ fun EqualizerScreen(
         if (showDeviceConfigSheet) {
             DeviceConfigurationBottomSheet(
                 onDismiss = { showDeviceConfigSheet = false },
-                musicViewModel = viewModel
+                audioEffects = viewModel,
+                audioDevices = viewModel,
+                appSettings = viewModel.appSettings
             )
         }
     }
