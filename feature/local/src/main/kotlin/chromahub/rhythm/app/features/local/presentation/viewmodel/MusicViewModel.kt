@@ -135,7 +135,9 @@ class MusicViewModel @Inject constructor(
     chromahub.rhythm.app.core.domain.repository.PlaylistAdminController,
     chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
     chromahub.rhythm.app.core.domain.repository.LibraryCacheManager,
-    chromahub.rhythm.app.core.domain.repository.BackupRestoreController {
+    chromahub.rhythm.app.core.domain.repository.BackupRestoreController,
+    chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
+    chromahub.rhythm.app.infrastructure.service.AudioDeviceController {
 
     data class QueuedRestore(
         val backupJson: String,
@@ -237,7 +239,7 @@ class MusicViewModel @Inject constructor(
     private val playbackStatsRepository = PlaybackStatsRepository.getInstance(application)
     
     // Audio device manager (exposed for UI components that need device detection)
-    val audioDeviceManager = AudioDeviceManager(application)
+    override val audioDeviceManager = AudioDeviceManager(application)
     
     // Settings manager
     val appSettings = AppSettings.getInstance(application)
@@ -247,7 +249,7 @@ class MusicViewModel @Inject constructor(
     // AutoEQ manager
     private val autoEQManager = AutoEQManager(application)
     private val _autoEQProfiles = MutableStateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>>(emptyList())
-    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
+    override val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
     private val _autoEQLoading = MutableStateFlow(false)
     val autoEQLoading: StateFlow<Boolean> = _autoEQLoading.asStateFlow()
     
@@ -287,32 +289,32 @@ class MusicViewModel @Inject constructor(
     val playbackPitch = appSettings.playbackPitch
     
     // Equalizer settings
-    val equalizerEnabled = appSettings.equalizerEnabled
-    val equalizerPreset = appSettings.equalizerPreset
-    val equalizerBandLevels = appSettings.equalizerBandLevels
-    val bassBoostEnabled = appSettings.bassBoostEnabled
-    val bassBoostStrength = appSettings.bassBoostStrength
-    val virtualizerEnabled = appSettings.virtualizerEnabled
-    val virtualizerStrength = appSettings.virtualizerStrength
+    override val equalizerEnabled = appSettings.equalizerEnabled
+    override val equalizerPreset = appSettings.equalizerPreset
+    override val equalizerBandLevels = appSettings.equalizerBandLevels
+    override val bassBoostEnabled = appSettings.bassBoostEnabled
+    override val bassBoostStrength = appSettings.bassBoostStrength
+    override val virtualizerEnabled = appSettings.virtualizerEnabled
+    override val virtualizerStrength = appSettings.virtualizerStrength
     val monoAudioEnabled = appSettings.monoAudioEnabled
-    val customEqualizerPresets = appSettings.customEqualizerPresets
-    val equalizerPresetOrder = appSettings.equalizerPresetOrder
-    val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
-    val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
-    val customAutoEQProfiles = appSettings.customAutoEQProfiles
+    override val customEqualizerPresets = appSettings.customEqualizerPresets
+    override val equalizerPresetOrder = appSettings.equalizerPresetOrder
+    override val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
+    override val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
+    override val customAutoEQProfiles = appSettings.customAutoEQProfiles
     val speakerAutoEQBypass = appSettings.speakerAutoEQBypass
     private var lastHeadphoneAutoEQProfile: String? = null
     
     // Spatialization status
     private val _spatializationStatus = MutableStateFlow("Unknown")
-    val spatializationStatus: StateFlow<String> = _spatializationStatus.asStateFlow()
+    override val spatializationStatus: StateFlow<String> = _spatializationStatus.asStateFlow()
     
     private val _isSpatializationAvailable = MutableStateFlow(false)
-    val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
+    override val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
     
     // Bass boost availability (based on device support)
     private val _isBassBoostAvailable = MutableStateFlow(appSettings.isBassBoostAvailable())
-    val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
+    override val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
     
     // Media scanning progress
     val scanProgress = repository.scanProgress
@@ -8747,7 +8749,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Opens the system equalizer for the current audio session
      */
-    fun openSystemEqualizer(activity: Activity? = null, requestCode: Int = 0) {
+    override fun openSystemEqualizer(activity: Activity?, requestCode: Int) {
         val context = getApplication<Application>()
         // Simply use EqualizerUtils which handles the system equalizer opening properly
         EqualizerUtils.openSystemEqualizer(context, audioSessionId, activity, requestCode)
@@ -10200,7 +10202,7 @@ class MusicViewModel @Inject constructor(
         return true
     }
     
-    fun setEqualizerEnabled(enabled: Boolean) {
+    override fun setEqualizerEnabled(enabled: Boolean) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10241,7 +10243,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun setEqualizerBandLevel(band: Short, level: Short) {
+    override fun setEqualizerBandLevel(band: Short, level: Short) {
         val context = getApplication<Application>()
         
         // Clear AutoEQ profile and set preset to Custom when user manually adjusts bands
@@ -10268,7 +10270,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun setBassBoost(enabled: Boolean, strength: Short = 500) {
+    override fun setBassBoost(enabled: Boolean, strength: Short) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10295,7 +10297,7 @@ class MusicViewModel @Inject constructor(
         return _isBassBoostAvailable.value
     }
     
-    fun updateBassBoostAvailability() {
+    override fun updateBassBoostAvailability() {
         _isBassBoostAvailable.value = appSettings.isBassBoostAvailable()
     }
     
@@ -10304,7 +10306,7 @@ class MusicViewModel @Inject constructor(
         appSettings.setBassBoostAvailable(available)
     }
     
-    fun setVirtualizer(enabled: Boolean, strength: Short = 500) {
+    override fun setVirtualizer(enabled: Boolean, strength: Short) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10353,7 +10355,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun updateSpatializationStatus() {
+    override fun updateSpatializationStatus() {
         viewModelScope.launch {
             try {
                 val context = getApplication<Application>()
@@ -10372,7 +10374,7 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    fun applyEqualizerPreset(preset: String, levels: List<Float>) {
+    override fun applyEqualizerPreset(preset: String, levels: List<Float>) {
         val context = getApplication<Application>()
         
         // Save to settings
@@ -10403,7 +10405,7 @@ class MusicViewModel @Inject constructor(
     
     // AutoEQ functions
     
-    fun loadAutoEQProfiles() {
+    override fun loadAutoEQProfiles() {
         viewModelScope.launch {
             _autoEQLoading.value = true
             try {
@@ -10425,7 +10427,7 @@ class MusicViewModel @Inject constructor(
         return autoEQManager.searchProfiles(query)
     }
     
-    fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
+    override fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
         if (profile.name.isBlank() || profile.name.equals("None", ignoreCase = true)) {
             Log.d(TAG, "Disabling AutoEQ profile")
             appSettings.setAutoEQProfile("")
@@ -10482,7 +10484,7 @@ class MusicViewModel @Inject constructor(
     }
     
     // User Audio Device Management
-    fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    override fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         val currentDevicesJson = appSettings.userAudioDevices.value
         val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
@@ -10499,7 +10501,7 @@ class MusicViewModel @Inject constructor(
         appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
     }
     
-    fun deleteUserAudioDevice(deviceId: String) {
+    override fun deleteUserAudioDevice(deviceId: String) {
         val currentDevicesJson = appSettings.userAudioDevices.value
         val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
         
@@ -10514,7 +10516,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Deleted audio device: $deviceId")
     }
     
-    fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    override fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         appSettings.setActiveAudioDeviceId(device.id)
         Log.d(TAG, "Set active audio device: ${device.name}")
         
@@ -10543,7 +10545,7 @@ class MusicViewModel @Inject constructor(
      * Try to match a connected audio device (from PlaybackLocation) with saved UserAudioDevice
      * Uses fuzzy matching to account for slight name variations
      */
-    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
+    override fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
         val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
         if (devices.isEmpty()) return null
         
@@ -10581,7 +10583,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Mark a device as "don't ask again" for AutoEQ suggestions
      */
-    fun dismissAutoEQSuggestion(deviceId: String) {
+    override fun dismissAutoEQSuggestion(deviceId: String) {
         val current = appSettings.dismissedAutoEQSuggestions.value ?: ""
         val dismissedList = if (current.isEmpty()) {
             listOf(deviceId)
@@ -10593,7 +10595,7 @@ class MusicViewModel @Inject constructor(
     }
 
     // Custom Equalizer Presets & Reordering
-    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
+    override fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
         val preset = chromahub.rhythm.app.core.model.CustomEqualizerPreset(
             name = name,
             bands = bands
@@ -10603,7 +10605,7 @@ class MusicViewModel @Inject constructor(
         return preset
     }
 
-    fun deleteCustomEqualizerPreset(id: String) {
+    override fun deleteCustomEqualizerPreset(id: String) {
         val customPresets = appSettings.customEqualizerPresets.value
         val preset = customPresets.find { it.id == id }
         val currentPreset = appSettings.equalizerPreset.value
@@ -10634,7 +10636,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Saved custom AutoEQ profile with 10 bands: ${normalized.name}")
     }
 
-    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
+    override fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
         val normalizedList = profiles.map { profile ->
             val verifiedBands = when {
                 profile.bands.size == 10 -> profile.bands
@@ -10650,7 +10652,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Saved ${normalizedList.size} custom AutoEQ profiles (10 bands enforced)")
     }
 
-    fun deleteAutoEQProfile(name: String) {
+    override fun deleteAutoEQProfile(name: String) {
         // 1. Delete from custom profiles if present
         appSettings.deleteCustomAutoEQProfile(name)
         autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
@@ -10705,19 +10707,19 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Deleted AutoEQ profile and cleaned references: $name")
     }
 
-    fun setEqualizerPresetOrder(order: List<String>) {
+    override fun setEqualizerPresetOrder(order: List<String>) {
         appSettings.setEqualizerPresetOrder(order)
     }
 
-    fun resetEqualizerPresetOrder() {
+    override fun resetEqualizerPresetOrder() {
         appSettings.resetEqualizerPresetOrder()
     }
 
-    fun setHiddenEqualizerPresets(hidden: Set<String>) {
+    override fun setHiddenEqualizerPresets(hidden: Set<String>) {
         appSettings.setHiddenEqualizerPresets(hidden)
     }
 
-    fun pinAutoEQProfile(name: String) {
+    override fun pinAutoEQProfile(name: String) {
         appSettings.pinAutoEQProfile(name)
         Log.d(TAG, "Pinned AutoEQ profile: $name")
     }
