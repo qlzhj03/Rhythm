@@ -129,16 +129,12 @@
 - settings 屏新参数的默认值处理：建议全部显式必填（杜绝静默退化为自取）。
 - PR 描述与提交切分粒度。
 
-## 附录 A：AudioEffectsController 成员清单（EqualizerScreen 实测 30 项 + builder check 补遗 6 项 = 36 项）
+## 附录 A：AudioEffectsController 成员清单（EqualizerScreen 实测 28 项 + builder check 补遗 6 项 = 34 项）
 
-状态/流（18）：`equalizerEnabled`、`equalizerPreset`、`equalizerPresetOrder`、`equalizerBandLevels`、`customEqualizerPresets`、`hiddenEqualizerPresets`、`autoEQProfiles`、`customAutoEQProfiles`、`pinnedAutoEQProfiles`、`virtualizerEnabled`、`virtualizerStrength`、`spatializationStatus`、`isSpatializationAvailable`、`bassBoostEnabled`、`bassBoostStrength`、`isBassBoostAvailable`、`updateSpatializationStatus`、`updateBassBoostAvailability`
+状态/流（16）：`equalizerEnabled`、`equalizerPreset`、`equalizerPresetOrder`、`equalizerBandLevels`、`customEqualizerPresets`、`hiddenEqualizerPresets`、`autoEQProfiles`、`customAutoEQProfiles`、`pinnedAutoEQProfiles`、`virtualizerEnabled`、`virtualizerStrength`、`spatializationStatus`、`isSpatializationAvailable`、`bassBoostEnabled`、`bassBoostStrength`、`isBassBoostAvailable`
 
-动作（12）：`setEqualizerEnabled`、`setEqualizerBandLevel`、`applyEqualizerPreset`、`saveCustomEqualizerPreset`、`applyAutoEQProfile`、`loadAutoEQProfiles`、`pinAutoEQProfile`、`setVirtualizer`、`setBassBoost`、`openSystemEqualizer`
+动作（12）：`setEqualizerEnabled`、`setEqualizerBandLevel`、`applyEqualizerPreset`、`saveCustomEqualizerPreset`、`applyAutoEQProfile`、`loadAutoEQProfiles`、`pinAutoEQProfile`、`setVirtualizer`、`setBassBoost`、`openSystemEqualizer`、`updateSpatializationStatus`、`updateBassBoostAvailability`
 
 补遗（6，来自 EqualizerPresetOrderBottomSheet 消费面）：`setEqualizerPresetOrder`、`resetEqualizerPresetOrder`、`deleteAutoEQProfile`、`deleteCustomEqualizerPreset`、`setHiddenEqualizerPresets`、`saveCustomAutoEQProfiles`
 
 （另有 12 处 `viewModel.appSettings.*` 直改 AppSettings，不走接口；设备域成员单独归 `AudioDeviceController`，见 §4.4 PR-9。）
-
-状态/流（18）：`equalizerEnabled`、`equalizerPreset`、`equalizerPresetOrder`、`equalizerBandLevels`、`customEqualizerPresets`、`hiddenEqualizerPresets`、`autoEQProfiles`、`customAutoEQProfiles`、`pinnedAutoEQProfiles`、`virtualizerEnabled`、`virtualizerStrength`、`spatializationStatus`、`isSpatializationAvailable`、`bassBoostEnabled`、`bassBoostStrength`、`isBassBoostAvailable`、`updateSpatializationStatus`、`updateBassBoostAvailability`
-
-动作（12）：`setEqualizerEnabled`、`setEqualizerBandLevel`、`applyEqualizerPreset`、`saveCustomEqualizerPreset`、`applyAutoEQProfile`、`loadAutoEQProfiles`、`pinAutoEQProfile`、`setVirtualizer`、`setBassBoost`、`openSystemEqualizer`（另有 12 处 `viewModel.appSettings.*` 直改 AppSettings，不走接口）
