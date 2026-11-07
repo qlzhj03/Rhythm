@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.navigation
+package chromahub.rhythm.app.navigation
 
 /**
  * Main navigation screens for mode selection and top-level routing.
