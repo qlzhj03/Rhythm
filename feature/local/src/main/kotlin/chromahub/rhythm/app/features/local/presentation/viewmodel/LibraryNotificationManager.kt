@@ -10,7 +10,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.features.local.data.repository.MusicRepository
+import chromahub.rhythm.app.features.local.data.repository.LocalMusicRepository
 import chromahub.rhythm.app.core.model.ScanPhase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -166,7 +166,7 @@ class LibraryNotificationManager(private val context: Application) {
 
     fun startMediaScanProgressNotifications(
         scope: CoroutineScope,
-        repository: MusicRepository,
+        repository: LocalMusicRepository,
         sequence: Long
     ) {
         mediaScanNotificationSequence = sequence
