@@ -29,24 +29,24 @@
 ## PR-D2：settings→streaming（基于 D1 分支 stacked）
 
 ### Task 5: 出栈导航改造
-- [ ] Step 1: `core/ui/.../SettingsRoutes.kt` — 新增 `const val STREAMING_GO_SETTINGS = "tuner_go_settings"`（注释镜像 LOCAL_EQUALIZER 先例）
-- [ ] Step 2: `SettingsScreenWrapper.kt` 四处成对编辑：
+- [x] Step 1: `core/ui/.../SettingsRoutes.kt` — 新增 `const val STREAMING_GO_SETTINGS = "tuner_go_settings"`（注释镜像 LOCAL_EQUALIZER 先例）
+- [x] Step 2: `SettingsScreenWrapper.kt` 四处成对编辑：
   - `onNavigateToSubsetting`(:231 EQUALIZER 后) 新增 GO_SETTINGS 出栈分支
   - 平板 master 列表 lambda(:254) 特殊条件加入 GO_SETTINGS
   - LaunchedEffect 初始子路由(:199-204) pending==GO_SETTINGS 时出栈导航不入栈
   - 删除两处 `GO_SETTINGS -> GoSettingsScreen(...)` 分支（平板 :363-372 / 手机 :530-539）
-- [ ] Step 3: `./gradlew :app:compileDebugKotlin` 收口
-- [ ] Step 4: Commit `refactor: exit-navigate GO settings to :app-hosted route`
+- [x] Step 3: `./gradlew :app:compileDebugKotlin` 收口
+- [x] Step 4: Commit `refactor: exit-navigate GO settings to :app-hosted route`
 
 ### Task 6: 剪断依赖
-- [ ] Step 1: `feature/settings/build.gradle.kts` 删除 `:feature:streaming` 依赖与注释（:23-24）
-- [ ] Step 2: `./gradlew :app:compileDebugKotlin`
-- [ ] Step 3: Commit `build!: drop :feature:streaming dependency from :feature:settings`
+- [x] Step 1: `feature/settings/build.gradle.kts` 删除 `:feature:streaming` 依赖与注释（:23-24）
+- [x] Step 2: `./gradlew :app:compileDebugKotlin`
+- [x] Step 3: Commit `build!: drop :feature:streaming dependency from :feature:settings`
 
 ### Task 7: 登记与门禁
-- [ ] Step 1: AGENTS.md 债务清单更新为仅剩 local→streaming；文档状态标记 D2 完成
-- [ ] Step 2: Commit `docs: mark D2 closed — only local→streaming remains`
-- [ ] Step 3: `./gradlew assembleDebug` + 全量 JVM 单测
+- [x] Step 1: AGENTS.md 债务清单更新为仅剩 local→streaming；文档状态标记 D2 完成
+- [x] Step 2: Commit `docs: mark D2 closed — only local→streaming remains`
+- [x] Step 3: `./gradlew assembleDebug` + 全量 JVM 单测
 
 ## 收尾（需用户明示后执行）
 
