@@ -8,10 +8,10 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 
 /**
- * Convention for the :app module. Adopting it in :app is deferred to a later PR —
- * until then :app keeps its standalone build script, which must stay in sync with
- * [configureAndroidBase]. Compose for :app comes from the compose plugin directly
- * (a matching application-compose convention can be added when :app migrates).
+ * Convention for the :app module (adopted by :app in the post-PR-7 cleanup —
+ * the standalone script previously mirrored [configureAndroidBase] by hand).
+ * Compose for :app comes from the compose plugin directly; a matching
+ * application-compose convention can be added later if duplication grows.
  */
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
