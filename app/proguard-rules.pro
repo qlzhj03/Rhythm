@@ -26,9 +26,6 @@
 # Keep updater local state models (Gson targets)
 -keep class chromahub.rhythm.app.shared.presentation.viewmodel.DownloadState { *; }
 
-# Keep streaming models (Gson targets)
--keep class chromahub.rhythm.app.features.streaming.domain.model.** { *; }
-
 # Keep the streaming catalog cache (persisted to disk with Gson): without this R8 renames its
 # fields to a, b, c..., so the file's JSON keys depend on the R8 naming of each release build.
 -keep class chromahub.rhythm.app.features.streaming.data.repository.StreamingCatalogCache { *; }
