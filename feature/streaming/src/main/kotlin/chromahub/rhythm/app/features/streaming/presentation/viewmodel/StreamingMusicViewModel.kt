@@ -26,6 +26,7 @@ import chromahub.rhythm.app.core.model.StreamingServiceId
 import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.core.model.StreamingSong
 import chromahub.rhythm.app.core.model.StreamingSearchResults
+import chromahub.rhythm.app.core.domain.repository.StreamingLibraryController
 import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
@@ -84,7 +85,7 @@ data class NetEaseQrLoginUiState(
 class StreamingMusicViewModel @Inject constructor(
     application: Application,
     val repository: StreamingMusicRepository,
-) : AndroidViewModel(application), StreamingSearchController {
+) : AndroidViewModel(application), StreamingSearchController, StreamingLibraryController {
     private val appSettings = AppSettings.getInstance(application)
 
     companion object {
@@ -183,7 +184,7 @@ class StreamingMusicViewModel @Inject constructor(
                             val connected = checkAndSyncAuthentication(serviceId, forceCheck = true)
                             if (connected) {
                                 loadHomeContent()
-                                loadLibrary()
+                                loadLibrary(false)
                             }
                         }
                     }
@@ -268,7 +269,7 @@ class StreamingMusicViewModel @Inject constructor(
     
     // Home content
     private val _recommendations = MutableStateFlow<List<StreamingSong>>(emptyList())
-    val recommendations: StateFlow<List<StreamingSong>> = _recommendations.asStateFlow()
+    override val recommendations: StateFlow<List<StreamingSong>> = _recommendations.asStateFlow()
     
     private val _newReleases = MutableStateFlow<List<StreamingAlbum>>(emptyList())
     val newReleases: StateFlow<List<StreamingAlbum>> = _newReleases.asStateFlow()
@@ -297,7 +298,7 @@ class StreamingMusicViewModel @Inject constructor(
     val savedPlaylists: StateFlow<List<StreamingPlaylist>> = _savedPlaylists.asStateFlow()
     
     private val _downloadedSongs = MutableStateFlow<List<StreamingSong>>(emptyList())
-    val downloadedSongs: StateFlow<List<StreamingSong>> = _downloadedSongs.asStateFlow()
+    override val downloadedSongs: StateFlow<List<StreamingSong>> = _downloadedSongs.asStateFlow()
 
     private val _downloadedAlbums = MutableStateFlow<List<StreamingAlbum>>(emptyList())
     val downloadedAlbums: StateFlow<List<StreamingAlbum>> = _downloadedAlbums.asStateFlow()
@@ -306,11 +307,11 @@ class StreamingMusicViewModel @Inject constructor(
     val downloadedArtists: StateFlow<List<StreamingArtist>> = _downloadedArtists.asStateFlow()
 
     private val _downloadingSongIds = MutableStateFlow<Set<String>>(emptySet())
-    val downloadingSongIds: StateFlow<Set<String>> = _downloadingSongIds.asStateFlow()
+    override val downloadingSongIds: StateFlow<Set<String>> = _downloadingSongIds.asStateFlow()
 
     // All provider songs (full catalog exposed by repository)
     private val _allSongs = MutableStateFlow<List<StreamingSong>>(emptyList())
-    val allSongs: StateFlow<List<StreamingSong>> = _allSongs.asStateFlow()
+    override val allSongs: StateFlow<List<StreamingSong>> = _allSongs.asStateFlow()
     
     // Current playback state
     private val _currentSong = MutableStateFlow<StreamingSong?>(null)
@@ -384,7 +385,7 @@ class StreamingMusicViewModel @Inject constructor(
                             val connected = checkAndSyncAuthentication(serviceId, forceCheck = true)
                             if (connected) {
                                 loadHomeContent()
-                                loadLibrary()
+                                loadLibrary(false)
                             }
                         }
                     }
@@ -401,7 +402,7 @@ class StreamingMusicViewModel @Inject constructor(
                             val connected = checkAndSyncAuthentication(serviceId, forceCheck = true)
                             if (connected) {
                                 loadHomeContent()
-                                loadLibrary()
+                                loadLibrary(false)
                             } else {
                                 switchToDownloadedMode()
                             }
@@ -448,7 +449,7 @@ class StreamingMusicViewModel @Inject constructor(
                     val connected = checkAndSyncAuthentication(normalizedServiceId)
                     if (connected) {
                         loadHomeContent()
-                        loadLibrary()
+                        loadLibrary(false)
                     } else {
                         switchToDownloadedMode()
                     }
@@ -742,7 +743,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Load home screen content.
      */
-    fun loadHomeContent() {
+    override fun loadHomeContent() {
         viewModelScope.launch {
             _isLoading.value = true
             _hasLoadedHomeContent.value = false
@@ -768,7 +769,7 @@ class StreamingMusicViewModel @Inject constructor(
 
                 val syncedPlaylists = repository.syncPlaylists()
                 // The library tab reads [_savedPlaylists]; keep it in step with a successful sync
-                // even when this home-content path runs before loadLibrary().
+                // even when this home-content path runs before loadLibrary(false).
                 if (syncedPlaylists.isNotEmpty() && _savedPlaylists.value.isEmpty()) {
                     _savedPlaylists.value = syncedPlaylists
                 }
@@ -811,7 +812,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Refresh home screen and library content.
      */
-    fun refreshHome() {
+    override fun refreshHome() {
         viewModelScope.launch {
             checkAndSyncAuthentication(forceCheck = true)
             loadHomeContent()
@@ -907,7 +908,7 @@ class StreamingMusicViewModel @Inject constructor(
      * @param forceSync If true, performs a full network sync and shows notifications.
      *                  If false, loads quickly from disk/memory cache without notifications or server overhead.
      */
-    fun loadLibrary(forceSync: Boolean = false) {
+    override fun loadLibrary(forceSync: Boolean) {
         viewModelScope.launch {
             _isLoading.value = true
             val serviceName = getSourceTypeName(_currentService.value)
@@ -1370,7 +1371,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Resolve songs for an album with repository-first lookup and local fallback.
      */
-    suspend fun getAlbumSongs(album: StreamingAlbum): List<StreamingSong> {
+    override suspend fun getAlbumSongs(album: StreamingAlbum): List<StreamingSong> {
         // 1. If the album already contains tracks (derived from songs or downloaded), return immediately
         if (album.tracks.isNotEmpty()) {
             return album.tracks
@@ -1669,7 +1670,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Download a song for offline playback.
      */
-    fun downloadSong(song: StreamingSong) {
+    override fun downloadSong(song: StreamingSong) {
         if (!_isOnline.value || !NetworkUtils.isNetworkAvailable(getApplication()) || appSettings.offlineMode.value) {
             showToast(getApplication<Application>().getString(R.string.streamingmusicviewmodel_download_offline_blocked))
             return
@@ -1703,7 +1704,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Download a song by ID for offline playback.
      */
-    fun downloadSongById(songId: String) {
+    override fun downloadSongById(songId: String) {
         if (!_isOnline.value || !NetworkUtils.isNetworkAvailable(getApplication()) || appSettings.offlineMode.value) {
             showToast(getApplication<Application>().getString(R.string.streamingmusicviewmodel_download_offline_blocked))
             return
@@ -1745,7 +1746,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Remove a downloaded song.
      */
-    fun removeDownload(songId: String) {
+    override fun removeDownload(songId: String) {
         viewModelScope.launch {
             try {
                 val success = repository.removeDownload(songId)
@@ -2036,7 +2037,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Clear error state.
      */
-    fun clearError() {
+    override fun clearError() {
         _error.value = null
     }
 
