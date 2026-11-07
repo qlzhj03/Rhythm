@@ -1,10 +1,11 @@
-package chromahub.rhythm.app.features.local.presentation.navigation
+package chromahub.rhythm.app.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
+import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 
 import android.content.Context
 import android.net.Uri
