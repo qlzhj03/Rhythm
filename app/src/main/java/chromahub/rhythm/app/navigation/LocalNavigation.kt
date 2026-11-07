@@ -2259,7 +2259,8 @@ private fun LocalNavigationContent(
                             },
                             currentSong = currentSong,
                             isPlaying = isPlaying,
-                            musicViewModel = viewModel
+                            sleepTimer = viewModel,
+                            appSettings = appSettings
                         )
                     } else {
                         // Navigate back if bottom sheet is dismissed without opening

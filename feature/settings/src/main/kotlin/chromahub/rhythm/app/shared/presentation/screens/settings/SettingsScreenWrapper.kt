@@ -592,7 +592,8 @@ fun SettingsScreenWrapper(
             onDismiss = { showSleepTimerBottomSheet = false },
             currentSong = currentSong,
             isPlaying = isPlaying,
-            musicViewModel = musicViewModel
+            sleepTimer = sleepTimer,
+            appSettings = appSettings
         )
     }
 }
