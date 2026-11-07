@@ -14,9 +14,9 @@ class ArtistArtworkFilenameTest {
         val artist2 = "初音ミク"
         val artist3 = "重音テト"
 
-        val file1 = MusicRepository.getArtistImageFileName(artist1)
-        val file2 = MusicRepository.getArtistImageFileName(artist2)
-        val file3 = MusicRepository.getArtistImageFileName(artist3)
+        val file1 = LocalMusicRepository.getArtistImageFileName(artist1)
+        val file2 = LocalMusicRepository.getArtistImageFileName(artist2)
+        val file3 = LocalMusicRepository.getArtistImageFileName(artist3)
 
         assertNotEquals(file1, file2)
         assertNotEquals(file2, file3)
@@ -33,9 +33,9 @@ class ArtistArtworkFilenameTest {
 
     @Test
     fun getArtistImageFileName_artistsWithPunctuationDoNotCollide() {
-        val fileSlash = MusicRepository.getArtistImageFileName("AC/DC")
-        val fileDash = MusicRepository.getArtistImageFileName("AC-DC")
-        val fileSpace = MusicRepository.getArtistImageFileName("AC DC")
+        val fileSlash = LocalMusicRepository.getArtistImageFileName("AC/DC")
+        val fileDash = LocalMusicRepository.getArtistImageFileName("AC-DC")
+        val fileSpace = LocalMusicRepository.getArtistImageFileName("AC DC")
 
         assertNotEquals(fileSlash, fileDash)
         assertNotEquals(fileDash, fileSpace)
@@ -45,7 +45,7 @@ class ArtistArtworkFilenameTest {
     @Test
     fun getArtistImageFileName_filesystemSafety() {
         val dangerousName = "Artist/With:Forbidden*Chars?\"<>|\r\n\t"
-        val fileName = MusicRepository.getArtistImageFileName(dangerousName)
+        val fileName = LocalMusicRepository.getArtistImageFileName(dangerousName)
 
         val forbiddenChars = listOf('/', '\\', ':', '*', '?', '"', '<', '>', '|', '\r', '\n', '\t')
         for (char in forbiddenChars) {
@@ -57,7 +57,7 @@ class ArtistArtworkFilenameTest {
     @Test
     fun getArtistImageFileName_longNamesAreBounded() {
         val veryLongName = "A".repeat(300)
-        val fileName = MusicRepository.getArtistImageFileName(veryLongName)
+        val fileName = LocalMusicRepository.getArtistImageFileName(veryLongName)
 
         assertTrue("Filename length exceeds safe limit: ${fileName.length}", fileName.length <= 100)
         assertTrue(fileName.endsWith(".jpg"))
@@ -65,9 +65,9 @@ class ArtistArtworkFilenameTest {
 
     @Test
     fun legacyArtistImageFileName_demonstratesLegacyCollisionAndSafeMigrationFilter() {
-        val legacy1 = MusicRepository.getLegacyArtistImageFileName("はろける")
-        val legacy2 = MusicRepository.getLegacyArtistImageFileName("初音ミク")
-        val legacy3 = MusicRepository.getLegacyArtistImageFileName("重音テト")
+        val legacy1 = LocalMusicRepository.getLegacyArtistImageFileName("はろける")
+        val legacy2 = LocalMusicRepository.getLegacyArtistImageFileName("初音ミク")
+        val legacy3 = LocalMusicRepository.getLegacyArtistImageFileName("重音テト")
 
         assertEquals("____.jpg", legacy1)
         assertEquals("____.jpg", legacy2)
@@ -75,15 +75,15 @@ class ArtistArtworkFilenameTest {
 
         assertTrue(legacy1.removeSuffix(".jpg").all { it == '_' })
 
-        val validLegacy = MusicRepository.getLegacyArtistImageFileName("Taylor Swift")
+        val validLegacy = LocalMusicRepository.getLegacyArtistImageFileName("Taylor Swift")
         assertEquals("Taylor_Swift.jpg", validLegacy)
         assertFalse(validLegacy.removeSuffix(".jpg").all { it == '_' })
     }
 
     @Test
     fun getArtistImageFileName_caseInsensitiveHashConsistency() {
-        val file1 = MusicRepository.getArtistImageFileName("Taylor Swift")
-        val file2 = MusicRepository.getArtistImageFileName("taylor swift")
+        val file1 = LocalMusicRepository.getArtistImageFileName("Taylor Swift")
+        val file2 = LocalMusicRepository.getArtistImageFileName("taylor swift")
 
         val hash1 = file1.substringAfterLast('_').removeSuffix(".jpg")
         val hash2 = file2.substringAfterLast('_').removeSuffix(".jpg")

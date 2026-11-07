@@ -1674,7 +1674,7 @@ private fun ModernScrollableContent(
                                 onPlayAll = {
                                     coroutineScope.launch {
                                         val allNewReleaseSongs = newReleases.flatMap { album ->
-                                            musicViewModel.getMusicRepository().getSongsForAlbumLocal(album.id)
+                                            musicViewModel.getLocalMusicRepository().getSongsForAlbumLocal(album.id)
                                         }
                                         if (allNewReleaseSongs.isNotEmpty()) {
                                             musicViewModel.playSongs(allNewReleaseSongs)
@@ -1684,7 +1684,7 @@ private fun ModernScrollableContent(
                                 onShufflePlay = {
                                     coroutineScope.launch {
                                         val allNewReleaseSongs = newReleases.flatMap { album ->
-                                            musicViewModel.getMusicRepository().getSongsForAlbumLocal(album.id)
+                                            musicViewModel.getLocalMusicRepository().getSongsForAlbumLocal(album.id)
                                         }
                                         if (allNewReleaseSongs.isNotEmpty()) {
                                             musicViewModel.playShuffled(allNewReleaseSongs)

@@ -145,11 +145,11 @@ data class FolderSuggestion(
     val confidence: Double
 )
 
-class MusicRepository @Inject constructor(
+class LocalMusicRepository @Inject constructor(
     @ApplicationContext context: Context,
     private val streamingRepository: chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository,
 ) {
-    private val TAG = "MusicRepository"
+    private val TAG = "LocalMusicRepository"
     // Use WeakReference to prevent context leaks, but store applicationContext which is safe
     private val contextRef = WeakReference(context.applicationContext)
     private val context: Context
@@ -5597,16 +5597,16 @@ class MusicRepository @Inject constructor(
             emptyList()
         }
 
-        Log.d("MusicRepository", "Getting songs for artist ID: $artistId")
+        Log.d("LocalMusicRepository", "Getting songs for artist ID: $artistId")
 
         // Find the artist by ID
         val artist = allArtists.find { it.id == artistId }
         if (artist == null) {
-            Log.e("MusicRepository", "Artist not found with ID: $artistId")
+            Log.e("LocalMusicRepository", "Artist not found with ID: $artistId")
             return@withContext emptyList()
         }
 
-        Log.d("MusicRepository", "Found artist: ${artist.name} (ID: $artistId, groupByAlbumArtist=$groupByAlbumArtist)")
+        Log.d("LocalMusicRepository", "Found artist: ${artist.name} (ID: $artistId, groupByAlbumArtist=$groupByAlbumArtist)")
 
         // Filter songs that match the artist's name
         val artistSongs = allSongs.filter { song ->
@@ -5626,7 +5626,7 @@ class MusicRepository @Inject constructor(
             }
         }
 
-        Log.d("MusicRepository", "Found ${artistSongs.size} songs for artist: ${artist.name}")
+        Log.d("LocalMusicRepository", "Found ${artistSongs.size} songs for artist: ${artist.name}")
         return@withContext artistSongs
     }
 
@@ -5643,16 +5643,16 @@ class MusicRepository @Inject constructor(
             emptyList()
         }
 
-        Log.d("MusicRepository", "Getting albums for artist ID: $artistId")
+        Log.d("LocalMusicRepository", "Getting albums for artist ID: $artistId")
 
         // Find the artist by ID
         val artist = allArtists.find { it.id == artistId }
         if (artist == null) {
-            Log.e("MusicRepository", "Artist not found with ID: $artistId")
+            Log.e("LocalMusicRepository", "Artist not found with ID: $artistId")
             return@withContext emptyList()
         }
 
-        Log.d("MusicRepository", "Found artist: ${artist.name} (ID: $artistId, groupByAlbumArtist=$groupByAlbumArtist)")
+        Log.d("LocalMusicRepository", "Found artist: ${artist.name} (ID: $artistId, groupByAlbumArtist=$groupByAlbumArtist)")
 
         // Filter albums that match the artist's name
         val artistAlbums = allAlbums.filter { album ->
@@ -5675,7 +5675,7 @@ class MusicRepository @Inject constructor(
             }
         }
 
-        Log.d("MusicRepository", "Found ${artistAlbums.size} albums for artist: ${artist.name}")
+        Log.d("LocalMusicRepository", "Found ${artistAlbums.size} albums for artist: ${artist.name}")
         return@withContext artistAlbums
     }
 
@@ -6578,7 +6578,7 @@ class MusicRepository @Inject constructor(
      * Call this when the repository is no longer needed
      */
     fun cleanup() {
-        Log.d(TAG, "Cleaning up MusicRepository...")
+        Log.d(TAG, "Cleaning up LocalMusicRepository...")
         
         // Cancel all coroutines
         repositoryScope.coroutineContext[kotlinx.coroutines.Job]?.cancel()
@@ -6592,7 +6592,7 @@ class MusicRepository @Inject constructor(
         lastApiCalls.clear()
         apiCallCounts.clear()
         
-        Log.d(TAG, "MusicRepository cleaned up")
+        Log.d(TAG, "LocalMusicRepository cleaned up")
     }
     
     /**

@@ -46,7 +46,7 @@ import chromahub.rhythm.app.core.model.Artist
 import chromahub.rhythm.app.core.model.LyricsSourcePreference
 import chromahub.rhythm.app.core.model.MediaScanMode
 import chromahub.rhythm.app.core.model.ScanPhase
-import chromahub.rhythm.app.features.local.data.repository.MusicRepository
+import chromahub.rhythm.app.features.local.data.repository.LocalMusicRepository
 import chromahub.rhythm.app.features.local.data.database.entity.toSong
 import chromahub.rhythm.app.features.local.data.database.entity.toEntity
 import chromahub.rhythm.app.core.model.StreamingPlaybackUris
@@ -125,7 +125,7 @@ import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 @HiltViewModel
 class MusicViewModel @Inject constructor(
     application: Application,
-    private val repository: MusicRepository,
+    private val repository: LocalMusicRepository,
     private val streamingRepository: StreamingMusicRepository,
 ) : AndroidViewModel(application),
     chromahub.rhythm.app.infrastructure.service.LocalQueueController,
@@ -6960,7 +6960,7 @@ class MusicViewModel @Inject constructor(
         
         // Clean up repository to prevent memory leaks
         try {
-            getMusicRepository().cleanup()
+            getLocalMusicRepository().cleanup()
             Log.d(TAG, "Repository cleaned up successfully")
         } catch (e: Exception) {
             Log.e(TAG, "Error cleaning up repository", e)
@@ -10095,10 +10095,10 @@ class MusicViewModel @Inject constructor(
     }
     
     /**
-     * Exposes the MusicRepository instance for cache cleanup operations
-     * @return The MusicRepository instance
+     * Exposes the LocalMusicRepository instance for cache cleanup operations
+     * @return The LocalMusicRepository instance
      */
-    fun getMusicRepository(): MusicRepository {
+    fun getLocalMusicRepository(): LocalMusicRepository {
         return repository
     }
     
