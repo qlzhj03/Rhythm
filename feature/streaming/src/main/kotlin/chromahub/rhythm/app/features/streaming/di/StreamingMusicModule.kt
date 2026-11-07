@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.di
 
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingMusicRepositoryImpl
-import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
+import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

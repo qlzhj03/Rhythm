@@ -23,7 +23,7 @@ import chromahub.rhythm.app.core.model.StreamingPlaylist
 import chromahub.rhythm.app.core.model.StreamingServiceId
 import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
+import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
 import chromahub.rhythm.app.shared.data.model.AppSettings
