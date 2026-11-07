@@ -374,7 +374,11 @@ fun SettingsScreenWrapper(
                             }
                         )
                         SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
-                        SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
+                        SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
+                            onBackClick = handleBack,
+                            cacheManager = cacheManager,
+                            libraryAdmin = libraryAdmin
+                        )
                         SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
                             onBackClick = handleBack,
                             libraryAdmin = libraryAdmin,
@@ -537,7 +541,11 @@ fun SettingsScreenWrapper(
                     }
                 )
                 SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
-                SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(onBackClick = handleBack)
+                SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
+                            onBackClick = handleBack,
+                            cacheManager = cacheManager,
+                            libraryAdmin = libraryAdmin
+                        )
                 SettingsRoutes.BACKUP_RESTORE -> BackupRestoreSettingsScreen(
                             onBackClick = handleBack,
                             libraryAdmin = libraryAdmin,
