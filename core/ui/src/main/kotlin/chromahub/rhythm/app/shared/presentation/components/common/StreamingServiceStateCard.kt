@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.features.streaming.presentation.components
+package chromahub.rhythm.app.shared.presentation.components.common
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon

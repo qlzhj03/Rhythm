@@ -149,7 +149,7 @@ import chromahub.rhythm.app.core.model.toLibraryAlbum
 import chromahub.rhythm.app.core.model.toLibraryArtist
 import chromahub.rhythm.app.core.model.toLibraryPlaylist
 import chromahub.rhythm.app.core.model.toLibrarySong
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
 import chromahub.rhythm.app.core.model.StreamingArtist

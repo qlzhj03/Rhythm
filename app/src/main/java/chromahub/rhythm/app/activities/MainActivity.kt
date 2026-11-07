@@ -142,7 +142,7 @@ import chromahub.rhythm.app.onboarding.OnboardingStep
 import chromahub.rhythm.app.onboarding.PermissionScreenState
 import androidx.core.content.pm.ShortcutManagerCompat
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingSyncStage
+import chromahub.rhythm.app.core.model.StreamingSyncStage
 import chromahub.rhythm.app.core.model.SourceType
 import android.content.BroadcastReceiver
 import android.content.Context

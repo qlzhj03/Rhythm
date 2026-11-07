@@ -169,7 +169,7 @@ import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
