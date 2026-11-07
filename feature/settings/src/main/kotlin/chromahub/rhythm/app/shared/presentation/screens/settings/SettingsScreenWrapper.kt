@@ -198,7 +198,10 @@ fun SettingsScreenWrapper(
     // Consume any initial subroute requested by external callers (e.g., open settings -> specific pane)
     LaunchedEffect(Unit) {
         val pending = appSettings.consumeInitialSettingsSubroute()
-        if (!pending.isNullOrBlank()) {
+        if (pending == SettingsRoutes.GO_SETTINGS) {
+            // Exit-navigation (D-phase D2): Go settings lives in :app's NavHost.
+            navController.navigate(SettingsRoutes.STREAMING_GO_SETTINGS)
+        } else if (!pending.isNullOrBlank()) {
             routeStack = listOf(pending)
         }
     }
@@ -230,6 +233,11 @@ fun SettingsScreenWrapper(
             }
         } else if (route == SettingsRoutes.EQUALIZER) {
             navController.navigate(SettingsRoutes.LOCAL_EQUALIZER)
+        } else if (route == SettingsRoutes.GO_SETTINGS) {
+            // Exit-navigation (D-phase D2): Go settings is hosted in :app's
+            // NavHost (Screen.TunerGoSettings) instead of embedding
+            // :feature:streaming's GoSettingsScreen here.
+            navController.navigate(SettingsRoutes.STREAMING_GO_SETTINGS)
         } else if (route == SettingsRoutes.SLEEP_TIMER) {
             showSleepTimerBottomSheet = true
         } else {
@@ -251,7 +259,9 @@ fun SettingsScreenWrapper(
                 SettingsScreen(
                     onBackClick = handleBack,
                     onNavigateTo = { route ->
-                        if (route == SettingsRoutes.RHYTHM_STATS || route == SettingsRoutes.EQUALIZER || route == SettingsRoutes.SLEEP_TIMER) {
+                        if (route == SettingsRoutes.RHYTHM_STATS || route == SettingsRoutes.EQUALIZER ||
+                            route == SettingsRoutes.GO_SETTINGS || route == SettingsRoutes.SLEEP_TIMER
+                        ) {
                             onNavigateToSubsetting(route)
                         } else {
                             routeStack = listOf(route)
@@ -359,16 +369,6 @@ fun SettingsScreenWrapper(
                             onBackClick = handleBack,
                             onNavigateTo = onNavigateToSubsetting,
                             onNavigateToGoSettings = { onNavigateToSubsetting(SettingsRoutes.GO_SETTINGS) }
-                        )
-                        SettingsRoutes.GO_SETTINGS -> chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen(
-                            onBackClick = handleBack,
-                            onConfigureCurrentProvider = { serviceId ->
-                                appSettings.setInitialStreamingRoute("streaming_service_setup/$serviceId")
-                                appSettings.setAppMode("STREAMING")
-                                if (!navController.popBackStack()) {
-                                    safeNavigateToMain(navController)
-                                }
-                            }
                         )
                         SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
@@ -526,16 +526,6 @@ fun SettingsScreenWrapper(
                     onBackClick = handleBack,
                     onNavigateTo = onNavigateToSubsetting,
                     onNavigateToGoSettings = { onNavigateToSubsetting(SettingsRoutes.GO_SETTINGS) }
-                )
-                SettingsRoutes.GO_SETTINGS -> chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen(
-                    onBackClick = handleBack,
-                    onConfigureCurrentProvider = { serviceId ->
-                        appSettings.setInitialStreamingRoute("streaming_service_setup/$serviceId")
-                        appSettings.setAppMode("STREAMING")
-                        if (!navController.popBackStack()) {
-                            safeNavigateToMain(navController)
-                        }
-                    }
                 )
                 SettingsRoutes.API_MANAGEMENT -> ApiManagementSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.CACHE_MANAGEMENT -> CacheManagementSettingsScreen(
