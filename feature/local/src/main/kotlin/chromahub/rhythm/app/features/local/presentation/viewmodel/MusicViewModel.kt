@@ -2,7 +2,7 @@ package chromahub.rhythm.app.features.local.presentation.viewmodel
 
 import chromahub.rhythm.app.infrastructure.service.SleepAction
 import chromahub.rhythm.app.core.domain.backup.RestoreResult
-import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
+import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

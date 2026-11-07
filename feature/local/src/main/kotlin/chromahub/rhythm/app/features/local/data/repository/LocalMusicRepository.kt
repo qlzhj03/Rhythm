@@ -147,7 +147,7 @@ data class FolderSuggestion(
 
 class LocalMusicRepository @Inject constructor(
     @ApplicationContext context: Context,
-    private val streamingRepository: chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository,
+    private val streamingRepository: chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository,
 ) {
     private val TAG = "LocalMusicRepository"
     // Use WeakReference to prevent context leaks, but store applicationContext which is safe
