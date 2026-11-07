@@ -1,5 +1,6 @@
 package chromahub.rhythm.app.features.local.presentation.viewmodel
 
+import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -127,13 +128,6 @@ class MusicViewModel @Inject constructor(
     private val streamingRepository: StreamingMusicRepository,
 ) : AndroidViewModel(application),
     chromahub.rhythm.app.infrastructure.service.LocalQueueController {
-
-    sealed class RestoreResult {
-        object Idle : RestoreResult()
-        object Queued : RestoreResult()
-        data class Success(val wasQueued: Boolean) : RestoreResult()
-        data class Failure(val errorMessage: String) : RestoreResult()
-    }
 
     data class QueuedRestore(
         val backupJson: String,
