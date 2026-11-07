@@ -31,6 +31,10 @@ object SettingsRoutes {
     const val HOME_SCREEN = "home_screen_settings"
     const val GESTURES = "gestures_settings"
     const val RHYTHM_STATS = "rhythm_stats"
+    // Local-NavHost destinations the settings scaffold links into (B1 PR-9):
+    // the local feature's Screen sealed class lives in :feature:local, which
+    // :feature:settings no longer depends on, so the literals live here.
+    const val LOCAL_EQUALIZER = "equalizer"
     const val EXPRESSIVE_SHAPES = "expressive_shapes_settings"
     const val LIBRARY_SETTINGS = "library_settings"
     const val RHYTHM_GUARD = "rhythm_guard_settings"

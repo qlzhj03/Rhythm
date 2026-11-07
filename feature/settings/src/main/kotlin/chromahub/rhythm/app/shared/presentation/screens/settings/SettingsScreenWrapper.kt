@@ -136,7 +136,6 @@ import chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
 import chromahub.rhythm.app.infrastructure.service.PlaybackStateSource
 import chromahub.rhythm.app.infrastructure.service.SleepTimerController
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -211,7 +210,7 @@ fun SettingsScreenWrapper(
 
     val onNavigateToSubsetting: (String) -> Unit = { route: String ->
         if (route == SettingsRoutes.RHYTHM_STATS) {
-            val localStatsRoute = Screen.RhythmStats.route
+            val localStatsRoute = SettingsRoutes.RHYTHM_STATS
             val streamingStatsRoute = "streaming_rhythm_stats"
             when {
                 navController.graph.findNode(streamingStatsRoute) != null -> navController.navigate(streamingStatsRoute)
@@ -230,7 +229,7 @@ fun SettingsScreenWrapper(
                 }
             }
         } else if (route == SettingsRoutes.EQUALIZER) {
-            navController.navigate(Screen.Equalizer.route)
+            navController.navigate(SettingsRoutes.LOCAL_EQUALIZER)
         } else if (route == SettingsRoutes.SLEEP_TIMER) {
             showSleepTimerBottomSheet = true
         } else {

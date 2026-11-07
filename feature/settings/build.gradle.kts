@@ -19,10 +19,6 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
 
-    // Known cross-feature debt (explicitly sanctioned by
-    // docs/multi-module-refactor-plan.md §一): settings screens take
-    // MusicViewModel, reuse local dialogs/scaffold and preview widgets.
-    implementation(project(":feature:local"))
     implementation(project(":feature:widget"))
     // The settings scaffold (SettingsScreenWrapper) embeds GoSettingsScreen.
     implementation(project(":feature:streaming"))

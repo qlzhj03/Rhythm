@@ -70,7 +70,6 @@ import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.EqualizerUtils
 import chromahub.rhythm.app.util.getLocalizedPresetName
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.util.AudioDeviceManager
@@ -126,7 +125,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.lerp
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.runtime.remember
 import androidx.compose.ui.hapticfeedback.HapticFeedback
@@ -252,19 +250,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
-import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
-import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Delete
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
 import chromahub.rhythm.app.core.designsystem.components.SmallTabAnimation
-import chromahub.rhythm.app.shared.presentation.screens.player.PlayerScreen
-import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
