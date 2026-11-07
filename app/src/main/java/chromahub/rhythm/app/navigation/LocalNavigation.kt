@@ -2107,7 +2107,6 @@ private fun LocalNavigationContent(
                             },
                             appSettings = appSettings,
                             navController = navController,
-                            musicViewModel = viewModel,
                             playbackState = viewModel,
                             playbackSettings = viewModel,
                             playlistAdmin = viewModel,

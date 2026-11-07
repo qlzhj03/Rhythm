@@ -251,7 +251,6 @@ fun RhythmNavigation(
                     },
                     appSettings = appSettings,
                     navController = rootNavController,
-                    musicViewModel = musicViewModel,
                     playbackState = musicViewModel,
                     playbackSettings = musicViewModel,
                     playlistAdmin = musicViewModel,
