@@ -2242,7 +2242,12 @@ private fun LocalNavigationContent(
                     }
                 ) {
                     SlideUpCornerWrapper {
-                        EqualizerScreen(navController = navController, viewModel = viewModel)
+                        EqualizerScreen(
+                            navController = navController,
+                            audioEffects = viewModel,
+                            audioDevices = viewModel,
+                            appSettings = appSettings
+                        )
                     }
                 }
 
@@ -2408,7 +2413,12 @@ private fun LocalNavigationContent(
                     }
                 ) {
                     SlideUpCornerWrapper {
-                        EqualizerScreen(navController = navController, viewModel = viewModel)
+                        EqualizerScreen(
+                            navController = navController,
+                            audioEffects = viewModel,
+                            audioDevices = viewModel,
+                            appSettings = appSettings
+                        )
                     }
                 }
 
