@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -314,7 +316,7 @@ fun TunerAnimatedSwitch(
 @Composable
 fun EqualizerScreen(
     navController: NavController,
-    viewModel: MusicViewModel = viewModel()
+    viewModel: MusicViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current

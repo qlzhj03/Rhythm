@@ -1,4 +1,7 @@
 package chromahub.rhythm.app.features.local.data.repository
+
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import chromahub.rhythm.app.core.model.ScanProgress
 import chromahub.rhythm.app.core.domain.scan.MediaScanEngine
 import chromahub.rhythm.app.core.domain.scan.StableDateAddedResolver
@@ -142,7 +145,10 @@ data class FolderSuggestion(
     val confidence: Double
 )
 
-class MusicRepository(context: Context) {
+class MusicRepository @Inject constructor(
+    @ApplicationContext context: Context,
+    private val streamingRepository: chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository,
+) {
     private val TAG = "MusicRepository"
     // Use WeakReference to prevent context leaks, but store applicationContext which is safe
     private val contextRef = WeakReference(context.applicationContext)
@@ -4443,7 +4449,7 @@ class MusicRepository(context: Context) {
 
             if (isStreaming) {
                 try {
-                    val streamingRepo = chromahub.rhythm.app.features.streaming.di.StreamingMusicModule.provideStreamingMusicRepository(context)
+                    val streamingRepo = streamingRepository
                     val streamingLyrics = streamingRepo.getLyrics(songId.orEmpty(), artist, title)
                     if (streamingLyrics != null && streamingLyrics.hasLyrics()) {
                         Log.d(TAG, "Found lyrics from streaming provider for: $artist - $title (source=${streamingLyrics.source})")

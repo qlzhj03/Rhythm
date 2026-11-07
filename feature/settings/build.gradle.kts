@@ -27,9 +27,11 @@ dependencies {
     // The settings scaffold (SettingsScreenWrapper) embeds GoSettingsScreen.
     implementation(project(":feature:streaming"))
 
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.io.coil.kt.coil.compose)
     implementation(libs.com.google.accompanist.accompanist.permissions)
     implementation(libs.com.google.code.gson.gson)

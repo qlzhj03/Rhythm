@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.activities
 
+import dagger.hilt.android.AndroidEntryPoint
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 
@@ -94,6 +96,7 @@ import java.util.Locale
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
+@AndroidEntryPoint
 class RhythmGuardTimeoutActivity : AppCompatActivity() {
 
     private val appSettings by lazy { AppSettings.getInstance(applicationContext) }

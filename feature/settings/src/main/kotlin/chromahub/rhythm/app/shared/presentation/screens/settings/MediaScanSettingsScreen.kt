@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -179,7 +181,7 @@ fun MediaScanSettingsScreen(onBackClick: () -> Unit) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
 
     // Get all songs and filtered items
     val allSongs by musicViewModel.songs.collectAsState()

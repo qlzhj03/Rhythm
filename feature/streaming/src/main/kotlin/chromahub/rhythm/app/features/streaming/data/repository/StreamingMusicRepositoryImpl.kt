@@ -1,5 +1,8 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+
 import chromahub.rhythm.app.R
 import android.content.Context
 import android.util.Log
@@ -68,8 +71,8 @@ data class StreamingCatalogCache(
 /**
  * Provider-backed implementation used by Rhythm GO mode.
  */
-class StreamingMusicRepositoryImpl(
-    private val context: Context
+class StreamingMusicRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : StreamingMusicRepository {
 
     data class ServiceConnectionInfo(

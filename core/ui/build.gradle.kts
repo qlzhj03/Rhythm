@@ -6,6 +6,7 @@
 
 plugins {
     id("rhythm.android.library.compose")
+    id("rhythm.hilt")
 }
 
 android {
@@ -21,8 +22,10 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:media"))
 
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.io.coil.kt.coil.compose)
     // EditAlbumSheet consumes Deezer search responses; QueueBottomSheet reorders
     // via sh.calvin.reorderable — both come from libraries their old host pulled

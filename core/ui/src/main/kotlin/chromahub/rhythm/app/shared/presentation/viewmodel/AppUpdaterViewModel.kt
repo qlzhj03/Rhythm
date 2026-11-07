@@ -1,5 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.Manifest
 import android.app.Application
 import android.app.NotificationChannel
@@ -102,7 +105,8 @@ private data class PendingMismatchedDownload(
 /**
  * ViewModel for handling app updates
  */
-class AppUpdaterViewModel(
+@HiltViewModel
+class AppUpdaterViewModel @Inject constructor(
     application: Application,
 ) : AndroidViewModel(application) {
     private val tag = "AppUpdaterViewModel"

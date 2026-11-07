@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
@@ -190,7 +192,7 @@ fun BackupRestoreSettingsScreen(onBackClick: () -> Unit) {
     val appSettings = AppSettings.getInstance(context)
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
 
     // Collect states
     val autoBackupEnabled by appSettings.autoBackupEnabled.collectAsState()

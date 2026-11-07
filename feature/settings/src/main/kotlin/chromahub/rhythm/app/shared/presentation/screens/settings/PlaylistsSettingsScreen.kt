@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 
 
@@ -168,7 +170,7 @@ fun PlaylistsSettingsScreen(
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
     val playlists by musicViewModel.playlists.collectAsState()
     val defaultPlaylistsEnabled by appSettings.defaultPlaylistsEnabled.collectAsState()
 

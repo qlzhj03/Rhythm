@@ -1,6 +1,9 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
 
 package chromahub.rhythm.app.features.local.presentation.screens
+import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+
+import androidx.hilt.navigation.compose.hiltViewModel
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
@@ -2846,7 +2849,7 @@ private fun ModernArtistCard(
     onPlayClick: ((Artist) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel>()
+    val viewModel = hiltViewModel<MusicViewModel>()
     val haptic = LocalHapticFeedback.current
     val handleArtistPlayClick = onPlayClick ?: { artistToPlay -> viewModel.playArtist(artistToPlay) }
 
@@ -2932,7 +2935,7 @@ private fun ModernAlbumCard(
     onPlayClick: ((Album) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel>()
+    val viewModel = hiltViewModel<MusicViewModel>()
     val haptic = LocalHapticFeedback.current
     val handlePlayClick = onPlayClick ?: { albumToPlay -> viewModel.playAlbum(albumToPlay) }
 
@@ -3092,7 +3095,7 @@ private fun ModernListeningStatsSection(
     onClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel>()
+    val viewModel = hiltViewModel<MusicViewModel>()
     val songs by viewModel.songs.collectAsState()
 
     var statsSummary by remember { mutableStateOf<chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary?>(null) }

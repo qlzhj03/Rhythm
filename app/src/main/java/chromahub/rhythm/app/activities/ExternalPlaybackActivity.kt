@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.activities
 
+import dagger.hilt.android.AndroidEntryPoint
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -63,6 +65,7 @@ import java.util.Locale
  * Compact bottom sheet activity for playing external audio files.
  * Provides a minimal, focused UI without jumping to the main app.
  */
+@AndroidEntryPoint
 class ExternalPlaybackActivity : ComponentActivity() {
     private val TAG = "ExternalPlaybackActivity"
     private val musicViewModel: MusicViewModel by viewModels()

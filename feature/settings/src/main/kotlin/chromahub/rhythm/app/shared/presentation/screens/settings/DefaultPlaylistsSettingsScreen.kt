@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -35,7 +37,7 @@ fun DefaultPlaylistsSettingsScreen(
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
     
     val defaultPlaylistsEnabled by appSettings.defaultPlaylistsEnabled.collectAsState()
     val showLikedInPlaylists by appSettings.showLikedInPlaylists.collectAsState()

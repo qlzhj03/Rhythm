@@ -1,5 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import chromahub.rhythm.app.shared.data.model.AppSettings
 
-class ThemeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class ThemeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     private val appSettings = AppSettings.getInstance(application)
     
     // Theme state - initialize from AppSettings

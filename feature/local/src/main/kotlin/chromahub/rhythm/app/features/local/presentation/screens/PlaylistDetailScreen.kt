@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -218,7 +220,7 @@ fun PlaylistDetailScreen(
     onGoToAlbum: (Song) -> Unit = {},
     onGoToArtist: (Song) -> Unit = {},
     onShare: (Song) -> Unit = {},
-    musicViewModel: MusicViewModel = viewModel()
+    musicViewModel: MusicViewModel = hiltViewModel()
 ) {
     // Screen size detection for responsive UI
     val configuration = LocalConfiguration.current

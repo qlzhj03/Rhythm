@@ -15,7 +15,11 @@ import okhttp3.Dispatcher
 import chromahub.rhythm.app.infrastructure.widget.glance.GlanceShapeBitmaps
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmCookieWidget
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
+import chromahub.rhythm.app.di.NetworkClientInitializer
+import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.shared.data.model.AppSettings
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 import chromahub.rhythm.app.core.common.ANRWatchdog
 import chromahub.rhythm.app.core.common.HapticsGate
 import chromahub.rhythm.app.util.CacheManager
@@ -33,6 +37,7 @@ import kotlinx.coroutines.launch
  * - NetworkClient
  * - ANR Watchdog (debug builds)
  */
+@HiltAndroidApp
 class RhythmApplication : Application(), ImageLoaderFactory {
     
     companion object {
@@ -45,6 +50,12 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             private set
     }
     
+    // Hilt-injected composition-root wiring (multi-module split PR-6).
+    @Inject
+    lateinit var streamingRepository: StreamingMusicRepository
+    @Inject
+    lateinit var networkClientInitializer: NetworkClientInitializer
+
     private var anrWatchdog: ANRWatchdog? = null
     
     override fun onCreate() {
@@ -132,10 +143,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         // Streaming playback seam for :core:media (repository lives in :feature:streaming).
         chromahub.rhythm.app.infrastructure.service.PlaybackResolverInstaller.resolver =
             object : chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver {
-                private val repository by lazy {
-                    chromahub.rhythm.app.features.streaming.di.StreamingMusicModule.provideStreamingMusicRepository(applicationContext)
-                }
-                override suspend fun getStreamingUrl(songId: String): String? = repository.getStreamingUrl(songId)
+                override suspend fun getStreamingUrl(songId: String): String? = streamingRepository.getStreamingUrl(songId)
                 override fun buildUserTrustingHttpClientBuilder() =
                     chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
             }
@@ -181,21 +189,11 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             rhythmPulseWorkName = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker.WORK_NAME
         }
         
-        // Initialize NetworkClient with AppSettings
-        chromahub.rhythm.app.network.NetworkClient.initialize(
-            AppSettings.getInstance(applicationContext),
-            chromahub.rhythm.app.network.NetworkFeatureFlags(
-                youtubeMusic = BuildConfig.ENABLE_YOUTUBE_MUSIC,
-                lyrically = BuildConfig.ENABLE_LYRICALLY_API,
-                deezer = BuildConfig.ENABLE_DEEZER,
-                lrclib = BuildConfig.ENABLE_LRCLIB,
-                betterLyrics = BuildConfig.ENABLE_BETTERLYRICS,
-                spotifySearch = BuildConfig.ENABLE_SPOTIFY_SEARCH,
-                wikipedia = BuildConfig.ENABLE_WIKIPEDIA,
-            ),
+        // Initialize NetworkClient (settings/flags flow through Hilt + the
+        // AppBuildInfo seam; version/token stay :app BuildConfig references).
+        networkClientInitializer.initialize(
             BuildConfig.VERSION_NAME,
             BuildConfig.APPLE_MUSIC_FALLBACK_TOKEN,
-            BuildConfig.DEBUG
         )
         Log.d(TAG, "✓ NetworkClient initialized")
         

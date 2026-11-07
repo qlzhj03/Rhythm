@@ -1,5 +1,8 @@
 package chromahub.rhythm.app.features.streaming.presentation.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +15,6 @@ import chromahub.rhythm.app.features.streaming.data.provider.NetEaseQrLoginState
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingMusicRepositoryImpl
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSessionRepository
-import chromahub.rhythm.app.features.streaming.di.StreamingMusicModule
 import chromahub.rhythm.app.core.model.BrowseCategory
 import chromahub.rhythm.app.core.model.StreamingAlbum
 import chromahub.rhythm.app.core.model.StreamingArtist
@@ -74,7 +76,11 @@ data class NetEaseQrLoginUiState(
  * ViewModel for managing streaming music playback and library.
  * Handles authentication, browsing, and playback for streaming services.
  */
-class StreamingMusicViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class StreamingMusicViewModel @Inject constructor(
+    application: Application,
+    val repository: StreamingMusicRepository,
+) : AndroidViewModel(application) {
     private val appSettings = AppSettings.getInstance(application)
 
     companion object {
@@ -83,7 +89,6 @@ class StreamingMusicViewModel(application: Application) : AndroidViewModel(appli
         private const val NETEASE_QR_POLL_INTERVAL_MS = 1500L
     }
     private val serviceSessionRepository = StreamingServiceSessionRepository(application)
-    val repository = StreamingMusicModule.provideStreamingMusicRepository(application)
     private val providerRepository = repository as? StreamingMusicRepositoryImpl
     private val notificationManager = StreamingNotificationManager(application)
     private var playbackHandler: ((List<StreamingSong>, Int) -> Unit)? = null

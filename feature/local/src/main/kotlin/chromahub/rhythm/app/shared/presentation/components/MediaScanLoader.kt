@@ -1,4 +1,6 @@
 package chromahub.rhythm.app.shared.presentation.components
+
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.collectAsState
@@ -83,7 +85,7 @@ import androidx.compose.ui.res.stringResource
  */
 @Composable
 fun MediaScanLoader(
-    musicViewModel: MusicViewModel = viewModel(),
+    musicViewModel: MusicViewModel = hiltViewModel(),
     onScanComplete: () -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current

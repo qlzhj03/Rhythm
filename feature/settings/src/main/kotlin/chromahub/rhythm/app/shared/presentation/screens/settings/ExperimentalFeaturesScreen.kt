@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
@@ -184,7 +186,7 @@ fun LabsSettingsScreen(
     
     val forcePlayerCompactMode by appSettings.forcePlayerCompactMode.collectAsState()
     
-    val updaterViewModel: AppUpdaterViewModel = viewModel()
+    val updaterViewModel: AppUpdaterViewModel = hiltViewModel()
     val latestVersion by updaterViewModel.latestVersion.collectAsState()
 
     var showRestartDialog by remember { mutableStateOf(false) }

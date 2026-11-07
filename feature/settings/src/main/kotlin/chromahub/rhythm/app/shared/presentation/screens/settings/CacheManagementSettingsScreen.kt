@@ -1,6 +1,8 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
+
+import androidx.hilt.navigation.compose.hiltViewModel
 import chromahub.rhythm.app.features.local.data.repository.MusicRepository
 
 
@@ -247,7 +249,7 @@ fun trimArtworkCacheNow(cacheDir: File): ArtworkCacheStats {
 fun CacheManagementSettingsScreen(onBackClick: () -> Unit) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
 

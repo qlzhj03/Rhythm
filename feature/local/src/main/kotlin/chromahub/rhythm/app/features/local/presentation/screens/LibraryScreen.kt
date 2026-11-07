@@ -1,6 +1,8 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
@@ -4846,7 +4848,7 @@ fun SingleCardArtistsContent(
     onSortOptionChange: (ArtistSortOption) -> Unit = {}
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel<chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel>()
+    val viewModel = hiltViewModel<MusicViewModel>()
     val appSettings = remember { AppSettings.getInstance(context) }
     
     val artistViewType by appSettings.artistViewType.collectAsState()

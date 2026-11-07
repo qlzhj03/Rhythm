@@ -1,5 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +25,8 @@ import kotlinx.coroutines.launch
  * 
  * NOTE: Uses AppSettings as the single source of truth for settings.
  */
-class AppModeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class AppModeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     
     private val appSettings = AppSettings.getInstance(application)
     

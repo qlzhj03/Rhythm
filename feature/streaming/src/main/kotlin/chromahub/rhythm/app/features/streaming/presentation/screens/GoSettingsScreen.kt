@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.streaming.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -70,7 +72,7 @@ import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 fun GoSettingsScreen(
     onBackClick: () -> Unit,
     onConfigureCurrentProvider: (String) -> Unit = {},
-    viewModel: StreamingMusicViewModel = viewModel()
+    viewModel: StreamingMusicViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
