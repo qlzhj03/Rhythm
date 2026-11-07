@@ -71,7 +71,7 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.navigation.RhythmNavigation
 import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
-import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveOverlayFromSettings
+import chromahub.rhythm.app.shared.presentation.theme.festive.FestiveOverlayFromSettings
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.util.CrashReporter
