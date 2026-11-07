@@ -115,7 +115,6 @@ import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
@@ -165,13 +164,13 @@ import chromahub.rhythm.app.core.common.safeGetQuantityString
 @Composable
 fun PlaylistsSettingsScreen(
     onBackClick: () -> Unit,
-    onNavigateTo: (String) -> Unit = {}
+    onNavigateTo: (String) -> Unit = {},
+    playlistAdmin: chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = hiltViewModel()
-    val playlists by musicViewModel.playlists.collectAsState()
+    val playlists by playlistAdmin.playlists.collectAsState()
     val defaultPlaylistsEnabled by appSettings.defaultPlaylistsEnabled.collectAsState()
 
     val defaultPlaylists = playlists.filter { it.isDefault }
@@ -471,7 +470,7 @@ fun PlaylistsSettingsScreen(
         CreatePlaylistDialog(
             onDismiss = { showCreatePlaylistDialog = false },
             onConfirm = { name ->
-                musicViewModel.createPlaylist(name)
+                playlistAdmin.createPlaylist(name)
                 showCreatePlaylistDialog = false
             }
         )
@@ -485,7 +484,7 @@ fun PlaylistsSettingsScreen(
                 showBulkExportDialog = false
                 showOperationProgress = true
                 operationProgressText = context.getString(R.string.operation_exporting_playlists)
-                musicViewModel.exportAllPlaylists(format, includeDefault) { result ->
+                playlistAdmin.exportAllPlaylists(format, includeDefault) { result ->
                     showOperationProgress = false
                 }
             },
@@ -493,7 +492,7 @@ fun PlaylistsSettingsScreen(
                 showBulkExportDialog = false
                 showOperationProgress = true
                 operationProgressText = context.getString(R.string.operation_exporting_playlists_location)
-                musicViewModel.exportAllPlaylists(format, includeDefault, directoryUri) { result ->
+                playlistAdmin.exportAllPlaylists(format, includeDefault, directoryUri) { result ->
                     showOperationProgress = false
                 }
             }
@@ -507,7 +506,7 @@ fun PlaylistsSettingsScreen(
                 showImportDialog = false
                 showOperationProgress = true
                 operationProgressText = context.getString(R.string.operation_importing_playlist)
-                musicViewModel.importPlaylist(uri, onResult) {
+                playlistAdmin.importPlaylist(uri, onResult) {
                     // When import completes successfully, show restart dialog
                     showOperationProgress = false
                     showRestartDialog = true
@@ -549,7 +548,7 @@ fun PlaylistsSettingsScreen(
                 Button(
                     onClick = {
                         emptyPlaylists.forEach { playlist ->
-                            musicViewModel.deletePlaylist(playlist.id)
+                            playlistAdmin.deletePlaylist(playlist.id)
                         }
                         showCleanupConfirmDialog = false
                     },
@@ -619,7 +618,7 @@ fun PlaylistsSettingsScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        musicViewModel.deletePlaylist(playlist.id)
+                        playlistAdmin.deletePlaylist(playlist.id)
                         playlistToDelete = null
                     },
                     colors = ButtonDefaults.buttonColors(
