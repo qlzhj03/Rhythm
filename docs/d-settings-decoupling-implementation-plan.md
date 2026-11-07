@@ -6,25 +6,25 @@
 
 ### Task 1: 设计稿与本计划入库
 - [x] Step 1: 新建 `docs/d-settings-decoupling-design.md`、本文件
-- [ ] Step 2: Commit `docs: add D-phase settings decoupling design and plan`
+- [x] Step 2: Commit `docs: add D-phase settings decoupling design and plan`
 
 ### Task 2: 缝隙四处改造
-- [ ] Step 1: `core/media/.../infrastructure/service/MediaServiceHooks.kt` — `PlaybackWidgetBridge` 新增 `fun updateAllWidgets(context: Context)`（无默认实现）
-- [ ] Step 2: `feature/widget/.../glance/GlanceWidgetUpdater.kt` — 新增 `updateAllWidgets(context)`，逻辑从 `WidgetSettingsScreen.kt:675-685` 原样搬入（广播块 + `forceUpdateAll`）
-- [ ] Step 3: `app/.../RhythmApplication.kt:116-141` 匿名 bridge 实现 — 新增 override 委托 `GlanceWidgetUpdater.updateAllWidgets`
-- [ ] Step 4: `feature/settings/.../WidgetSettingsScreen.kt` — 助手体改为一行 `PlaybackWidgetBridgeInstaller.bridge?.updateAllWidgets(context)`；删 import `AppWidgetManager`/`ComponentName`/`GlanceWidgetUpdater`/`RhythmWidgetReceiver`，增 `PlaybackWidgetBridgeInstaller`
-- [ ] Step 5: `./gradlew :app:compileDebugKotlin` 收口
-- [ ] Step 6: Commit `refactor: route settings widget refresh through PlaybackWidgetBridge`
+- [x] Step 1: `core/media/.../infrastructure/service/MediaServiceHooks.kt` — `PlaybackWidgetBridge` 新增 `fun updateAllWidgets(context: Context)`（无默认实现）
+- [x] Step 2: `feature/widget/.../glance/GlanceWidgetUpdater.kt` — 新增 `updateAllWidgets(context)`，逻辑从 `WidgetSettingsScreen.kt:675-685` 原样搬入（广播块 + `forceUpdateAll`）
+- [x] Step 3: `app/.../RhythmApplication.kt:116-141` 匿名 bridge 实现 — 新增 override 委托 `GlanceWidgetUpdater.updateAllWidgets`
+- [x] Step 4: `feature/settings/.../WidgetSettingsScreen.kt` — 助手体改为一行 `PlaybackWidgetBridgeInstaller.bridge?.updateAllWidgets(context)`；删 import `AppWidgetManager`/`ComponentName`/`GlanceWidgetUpdater`/`RhythmWidgetReceiver`，增 `PlaybackWidgetBridgeInstaller`
+- [x] Step 5: `./gradlew :app:compileDebugKotlin` 收口
+- [x] Step 6: Commit `refactor: route settings widget refresh through PlaybackWidgetBridge`
 
 ### Task 3: 剪断依赖
-- [ ] Step 1: `feature/settings/build.gradle.kts` 删除 `implementation(project(":feature:widget"))`（:22）
-- [ ] Step 2: `./gradlew :app:compileDebugKotlin`（单独可编译 = 依赖确实剪断）
-- [ ] Step 3: Commit `build!: drop :feature:widget dependency from :feature:settings`
+- [x] Step 1: `feature/settings/build.gradle.kts` 删除 `implementation(project(":feature:widget"))`（:22）
+- [x] Step 2: `./gradlew :app:compileDebugKotlin`（单独可编译 = 依赖确实剪断）
+- [x] Step 3: Commit `build!: drop :feature:widget dependency from :feature:settings`
 
 ### Task 4: 登记与门禁
-- [ ] Step 1: AGENTS.md §4 债务清单去掉 settings→widget；设计稿/本计划状态标记 D1 完成
-- [ ] Step 2: Commit `docs: mark D1 closed in debt registry`
-- [ ] Step 3: `./gradlew assembleDebug` + 全量 JVM 单测（`:app` `:core:common` `:core:media` `:core:ui` `:core:designsystem` `:core:data` `:feature:local` `:feature:streaming`）
+- [x] Step 1: AGENTS.md §4 债务清单去掉 settings→widget；设计稿/本计划状态标记 D1 完成
+- [x] Step 2: Commit `docs: mark D1 closed in debt registry`
+- [x] Step 3: `./gradlew assembleDebug` + 全量 JVM 单测（`:app` `:core:common` `:core:media` `:core:ui` `:core:designsystem` `:core:data` `:feature:local` `:feature:streaming`）
 
 ## PR-D2：settings→streaming（基于 D1 分支 stacked）
 
