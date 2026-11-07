@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 清除 32 文件 / 19 组「目录 ≠ 声明包」错位，具体类 `MusicRepository` 改名 `LocalMusicRepository`，keep 审计收尾；分两个 PR 落地。
+**Goal:** 清除 33 文件 / 19 组「目录 ≠ 声明包」错位（初扫 32，1 个 BOM 漏计文件执行中补移），具体类 `MusicRepository` 改名 `LocalMusicRepository`，keep 审计收尾；分两个 PR 落地。
 
 **Architecture:** 纯机械重构、零行为变更：PR-1 挪文件与改名（FQCN 与声明一律不变），PR-2 改 package 声明并更新 import。三个 WorkManager Worker 只挪目录、声明红线不动。
 
@@ -167,9 +167,10 @@ git mv PlaylistEntity.kt PlaylistSongEntity.kt ArtistEntity.kt SongEntity.kt Son
 git add -A && git commit -m "refactor: place dao/entity/worker files into matching package dirs"
 ```
 
-### Task 4: Rule 3 测试目录就位（8 文件，声明不动）
+### Task 4: Rule 3 测试目录就位（9 文件，声明不动）
 
-**Files:** 仅移动，零代码改动。清单 = 设计稿附录 C。
+**Files:** 仅移动，零代码改动。清单 = 设计稿附录 C。第 9 个文件
+`ExplorerNavigationAnimationTest.kt` 因初扫脚本的 BOM 缺陷漏列，执行中以 c2e1c34 按同规则补移。
 
 - [ ] **Step 1: git mv（目标目录 mkdir -p）**
 
@@ -328,4 +329,4 @@ for b in sorted(bad): print(b)
 EOF
 ```
 
-预期：PR-1 前 32 条 → Task 5 后 12 条（附录 A 的 11 文件 + FakeUri）→ Task 10 后 1 条（FakeUri）。
+预期（BOM 容错脚本）：PR-1 前 33 条 → Task 5 时点 13 条（附录 A 的 11 文件 + FakeUri + 初扫漏计的 ExplorerNavigationAnimationTest）→ Task 10 后 1 条（FakeUri）。

@@ -1,12 +1,12 @@
 # C 项「名实归位」设计（短稿）
 
-- 日期：2026-11-07 · 状态：待批准
+- 日期：2026-11-07 · 状态：已批准并落地（PR #11 / #12）
 - 来源：重构路线图 C 项 + 本次全仓侦查
 - 范围：包名归位（一次性）+ MusicRepository 改名 + proguard keep 审计；Gson 收尾挂账 B2
 
 ## 意图与动机
 
-多模块拆分采用零 churn 策略，留下 32 文件 / 19 组「目录 ≠ 声明包」错位，靠
+多模块拆分采用零 churn 策略，留下 33 文件 / 19 组「目录 ≠ 声明包」错位（初扫 32：1 个文件因 UTF-8 BOM 被扫描脚本漏计，执行中已补并修正脚本），靠
 `android.uniquePackageNames=false` 宽容。目标：声明包与所在目录一致，**import 即定位
 文件位置**，AGENTS.md §4 的模块≠包名对照说明可撤。
 
@@ -36,7 +36,7 @@
    - Rule 1 声明就位：声明指向错误模块/旧包的 11 文件，package 改为目录包（附录 A）。
    - Rule 2 目录就位：声明正确、目录缺层的 12 文件，`git mv` 进声明对应子目录，
      零代码改动（附录 B）。
-   - Rule 3 测试目录就位：8 个测试文件 `git mv` 进 `features/` 路径，零代码改动（附录 C）。
+   - Rule 3 测试目录就位：9 个测试文件 `git mv` 进 `features/` 路径，零代码改动（附录 C）。
    - 例外：`feature/streaming/src/test/java/net/FakeUri.kt` 是刻意的 android.net 影子
      桩，不动。
 2. **Worker 特例（红线级）**：三个 Worker **只挪目录、不改声明**——WorkManager 的
@@ -96,12 +96,13 @@
 | core/data/src/main/kotlin/.../features/local/data/database/{SongDao,SongArtistDao,ArtistDao,PlaylistDao}.kt | .../database/dao/ |
 | core/data/src/main/kotlin/.../features/local/data/database/{PlaylistEntity,PlaylistSongEntity,ArtistEntity,SongEntity,SongArtistEntity}.kt | .../database/entity/ |
 
-## 附录 C：Rule 3 测试目录就位（8 文件，声明不变，纯 git mv）
+## 附录 C：Rule 3 测试目录就位（9 文件，声明不变，纯 git mv）
 
 | 现路径（test 源集） | 目标路径 |
 | :-- | :-- |
 | feature/local/.../app/local/data/repository/ArtistArtworkFilenameTest.kt | .../app/features/local/data/repository/ |
 | feature/local/.../app/local/presentation/screens/DiscoverCarouselSupportTest.kt | .../app/features/local/presentation/screens/ |
+| feature/local/.../app/local/presentation/screens/ExplorerNavigationAnimationTest.kt | .../app/features/local/presentation/screens/ |
 | feature/streaming/.../app/streaming/StreamingFixesTest.kt | .../app/features/streaming/ |
 | feature/streaming/.../app/streaming/data/provider/{NetEaseApiClientTest,NetEaseCryptoTest,SubsonicLibrarySyncTest}.kt | .../app/features/streaming/data/provider/ |
 | feature/streaming/.../app/streaming/data/repository/StreamingCatalogOptimizationTest.kt | .../app/features/streaming/data/repository/ |
