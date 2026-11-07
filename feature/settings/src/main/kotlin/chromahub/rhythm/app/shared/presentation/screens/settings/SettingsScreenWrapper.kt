@@ -381,7 +381,8 @@ fun SettingsScreenWrapper(
                         SettingsRoutes.QUEUE -> QueueSettingsScreen(onBackClick = handleBack)
                         SettingsRoutes.PLAYBACK -> PlaybackSettingsScreen(
                             onBackClick = handleBack,
-                            onNavigateTo = onNavigateToSubsetting
+                            onNavigateTo = onNavigateToSubsetting,
+                            playbackSettings = playbackSettings
                         )
                         SettingsRoutes.REPLAY_GAIN -> ReplayGainSettingsScreen(
                             onBackClick = handleBack,
@@ -536,7 +537,8 @@ fun SettingsScreenWrapper(
                 SettingsRoutes.QUEUE -> QueueSettingsScreen(onBackClick = handleBack)
                 SettingsRoutes.PLAYBACK -> PlaybackSettingsScreen(
                     onBackClick = handleBack,
-                    onNavigateTo = onNavigateToSubsetting
+                    onNavigateTo = onNavigateToSubsetting,
+                    playbackSettings = playbackSettings
                 )
                 SettingsRoutes.REPLAY_GAIN -> ReplayGainSettingsScreen(
                     onBackClick = handleBack,

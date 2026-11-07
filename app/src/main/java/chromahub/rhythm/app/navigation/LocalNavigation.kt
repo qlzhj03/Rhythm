@@ -2267,6 +2267,7 @@ private fun LocalNavigationContent(
                 composable(Screen.TunerPlayback.route) {
                     PlaybackSettingsScreen(
                         onBackClick = navigateBackOrToSettings,
+                        playbackSettings = viewModel,
                         onNavigateTo = { route ->
                             when (route) {
                                 SettingsRoutes.REPLAY_GAIN -> navController.navigate(Screen.TunerReplayGain.route)
