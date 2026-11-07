@@ -119,7 +119,7 @@ import chromahub.rhythm.app.core.common.NaturalSortComparator
 import chromahub.rhythm.app.util.LyricLine
 import chromahub.rhythm.app.util.LyricsParser
 import chromahub.rhythm.app.core.common.ServiceStartUtils
-import chromahub.rhythm.app.utils.StatusBroadcaster
+import chromahub.rhythm.app.util.StatusBroadcaster
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 
 @HiltViewModel
