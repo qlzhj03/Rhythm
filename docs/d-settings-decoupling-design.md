@@ -1,6 +1,6 @@
 # D 专项：settings 模块跨 feature 债务解除（D1 widget / D2 streaming）
 
-> 状态：已批准（2026-11-08）；D1 已收口（缝隙化 + 依赖剪断 + 全量门禁绿，2026-11-08），D2 执行中。上游蓝图：`docs/multi-module-refactor-plan.md`（PR-1..7 已收口）、`docs/b1-musicviewmodel-seams-design.md`（settings→local 已解除）。
+> 状态：已批准并收口（2026-11-08）——D1、D2 均完成（改造 + 依赖剪断 + 全量门禁绿），仅剩 local→streaming 待 D3。上游蓝图：`docs/multi-module-refactor-plan.md`（PR-1..7 已收口）、`docs/b1-musicviewmodel-seams-design.md`（settings→local 已解除）。
 > 范围：AGENTS.md §4 登记 3 条 feature→feature 债务中的两条——**settings→widget（D1）** 与 **settings→streaming（D2）**。第三条 local→streaming 消费面更重，另立 D3 设计，本专项不动。
 
 ## 1. 意图与动机
