@@ -74,6 +74,10 @@
 
 ### 4.3 B2-3 分域文件拆分（API 不变）
 
+**§4.3 实施方式裁定补记（2026-11-08）**：§4.2 裁定 restoreFromBackup 留守后，原定的「internal section 委托类」形态代价剧增——restore 直写 390 个私有 backing，委托类要求这些写点全部改写为跨对象访问（390 处机械改写 + 回归面）。改用**同包扩展拆分**：backing（改 internal）与 prefs/KEY 留守 AppSettings，域内 setter/域 fun/StateFlow 暴露以 **扩展属性（`val AppSettings.x get() = _x.asStateFlow()`）与扩展函数**形式迁入 `settings/` 目录的域文件——调用方语法零变化、restore 零改写、公共 API 不变。接口 override 成员（NetworkSettingsProvider）与嵌套类型留守类内。逐域分批提交。原「section 委托类 + 状态封装」推迟到 B3（DataStore 迁移时状态本就要重构）。
+
+
+
 - 新目录 `core/data/.../shared/data/model/settings/`（包名随目录，C 阶段规则）；每域一个 `internal class XxxSettingsSection(ctx: SectionContext)`，`SectionContext` 持 prefs/Gson/appContext/scope 与跨域只读引用。
 - AppSettings 构造全部 section 并委托——386 个 vals 的 getter/setter 逐个转委托调用（机械改写，编译驱动）；`updateDerivedSettings`、`commit()`、5 处迁移、`NetworkSettingsProvider` 留 facade。
 - 域清单（按勘测聚类，~10 文件）：**CustomizationSections**（home/player/miniplayer/gesture/expressive，~89 props，可拆 2 文件）、**AudioEqSection**（~45）、**LibrarySection**（~42，含 view types/folders）、**GuardStatsSection**（~39，含 listening stats 与 guard 策略常量）、**PlaybackQueueSection**（~28）、**LyricsSection**（~27）、**ThemeSection**（~24）、**StreamingModeSection**（~17，含 appMode/offline）、**CollectionsSection**（playlists/默认列表 ~16）、**PlatformSection**（notifications/updates/backup 键/onboarding/cache/widget/misc ~35，widget 11 成员虽近单消费者但体量小不单列）。
