@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.utils.FontLoader
+import chromahub.rhythm.app.core.designsystem.utils.FontLoader
 import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
 import chromahub.rhythm.app.core.designsystem.utils.ExtractedColors
 import com.google.android.material.color.utilities.Hct

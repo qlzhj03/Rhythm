@@ -478,7 +478,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
     private lateinit var appSettings: AppSettings
     
     // Status broadcaster for Tasker, KWGT, and other automation apps
-    private lateinit var statusBroadcaster: chromahub.rhythm.app.utils.StatusBroadcaster
+    private lateinit var statusBroadcaster: chromahub.rhythm.app.util.StatusBroadcaster
     
     // SharedPreferences keys
     companion object {
@@ -617,7 +617,7 @@ class MediaPlaybackService : MediaLibraryService(), Player.Listener {
         }
         
         // Initialize status broadcaster for Tasker/KWGT
-        statusBroadcaster = chromahub.rhythm.app.utils.StatusBroadcaster(applicationContext)
+        statusBroadcaster = chromahub.rhythm.app.util.StatusBroadcaster(applicationContext)
 
         // Register BroadcastReceiver for favorite changes
         androidx.core.content.ContextCompat.registerReceiver(

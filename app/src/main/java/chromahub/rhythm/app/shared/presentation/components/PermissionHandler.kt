@@ -52,9 +52,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.OnboardingStep
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.PermissionScreenState
-import chromahub.rhythm.app.features.local.presentation.screens.OnboardingScreen
+import chromahub.rhythm.app.onboarding.OnboardingStep
+import chromahub.rhythm.app.onboarding.PermissionScreenState
+import chromahub.rhythm.app.onboarding.OnboardingScreen
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted

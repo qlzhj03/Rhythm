@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.shared.presentation.navigation
+package chromahub.rhythm.app.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -94,11 +94,12 @@ import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.core.model.AppMode
-import chromahub.rhythm.app.features.local.presentation.navigation.LocalNavigation
+import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import chromahub.rhythm.app.shared.presentation.navigation.RhythmGuardRiskLevel
+import chromahub.rhythm.app.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.AudioDeviceManager
