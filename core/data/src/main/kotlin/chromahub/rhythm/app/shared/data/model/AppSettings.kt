@@ -5523,135 +5523,24 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _lrcRenameBehavior.value = value
         prefs.edit { putString(KEY_LRC_RENAME_BEHAVIOR, value) }
     }
-
-    fun exportLyricsPreferencesToCsv(context: Context, uri: Uri): Boolean {
-        return try {
-            val contentResolver = context.contentResolver
-            contentResolver.openOutputStream(uri)?.use { outputStream ->
-                val writer = java.io.BufferedWriter(java.io.OutputStreamWriter(outputStream))
-                writer.write("Song ID,Title,Artist,Source Preference,Custom LRC Filename\n")
-                
-                val currentPrefs = _songLyricsPreferences.value
-                val customFiles = _songCustomLrcFiles.value
-                val allSongIds = currentPrefs.keys + customFiles.keys
-                
-                val songMeta = mutableMapOf<String, Pair<String, String>>()
-                try {
-                    val projection = arrayOf(android.provider.MediaStore.Audio.Media._ID, android.provider.MediaStore.Audio.Media.TITLE, android.provider.MediaStore.Audio.Media.ARTIST)
-                    context.contentResolver.query(
-                        android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null
-                    )?.use { cursor ->
-                        val idCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
-                        val titleCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
-                        val artistCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST)
-                        while (cursor.moveToNext()) {
-                            val id = cursor.getString(idCol)
-                            val title = cursor.getString(titleCol).orEmpty()
-                            val artist = cursor.getString(artistCol).orEmpty()
-                            songMeta[id] = Pair(title, artist)
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("AppSettings", "Error querying song metadata for CSV export", e)
-                }
-
-                for (id in allSongIds) {
-                    val meta = songMeta[id]
-                    val title = meta?.first?.replace("\"", "\"\"") ?: ""
-                    val artist = meta?.second?.replace("\"", "\"\"") ?: ""
-                    val pref = currentPrefs[id] ?: ""
-                    val file = customFiles[id] ?: ""
-                    
-                    writer.write("\"$id\",\"$title\",\"$artist\",\"$pref\",\"$file\"\n")
-                }
-                writer.flush()
-            }
-            true
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to export lyrics preferences to CSV", e)
-            false
-        }
-    }
+    fun exportLyricsPreferencesToCsv(context: Context, uri: Uri): Boolean =
+        chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.export(
+            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+        )
 
     fun importLyricsPreferencesFromCsv(context: Context, uri: Uri): Boolean {
-        return try {
-            val contentResolver = context.contentResolver
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                val reader = java.io.BufferedReader(java.io.InputStreamReader(inputStream))
-                val header = reader.readLine() // Read header
-                
-                val currentPrefs = _songLyricsPreferences.value.toMutableMap()
-                val currentFiles = _songCustomLrcFiles.value.toMutableMap()
-                
-                var line = reader.readLine()
-                while (line != null) {
-                    val tokens = parseCsvLine(line)
-                    if (tokens.size >= 5) {
-                        val id = tokens[0].trim()
-                        val pref = tokens[3].trim()
-                        val file = tokens[4].trim()
-                        
-                        if (id.isNotEmpty()) {
-                            if (pref.isNotEmpty()) {
-                                currentPrefs[id] = pref
-                            } else {
-                                currentPrefs.remove(id)
-                            }
-                            
-                            if (file.isNotEmpty()) {
-                                currentFiles[id] = file
-                            } else {
-                                currentFiles.remove(id)
-                            }
-                        }
-                    }
-                    line = reader.readLine()
-                }
-                
-                _songLyricsPreferences.value = currentPrefs
-            prefs.edit {
-                putString(KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(currentPrefs))
-            }
-                
-                _songCustomLrcFiles.value = currentFiles
-                prefs.edit { putString(KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(currentFiles)) }
-            }
-            true
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to import lyrics preferences from CSV", e)
-            false
-        }
+        val imported = chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.import(
+            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+        ) ?: return false
+        _songLyricsPreferences.value = imported.first
+        prefs.edit { putString(KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(imported.first)) }
+        _songCustomLrcFiles.value = imported.second
+        prefs.edit { putString(KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(imported.second)) }
+        return true
     }
 
-    private fun parseCsvLine(line: String): List<String> {
-        val result = mutableListOf<String>()
-        var inQuotes = false
-        var currentToken = StringBuilder()
-        var i = 0
-        while (i < line.length) {
-            val c = line[i]
-            if (c == '"') {
-                if (inQuotes && i + 1 < line.length && line[i + 1] == '"') {
-                    currentToken.append('"')
-                    i++ // Skip next quote
-                } else {
-                    inQuotes = !inQuotes
-                }
-            } else if (c == ',' && !inQuotes) {
-                result.add(currentToken.toString())
-                currentToken = StringBuilder()
-            } else {
-                currentToken.append(c)
-            }
-            i++
-        }
-        result.add(currentToken.toString())
-        return result
-    }
+
+
     
     // ==================== Widget Settings ====================
     
