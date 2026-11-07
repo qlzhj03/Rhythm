@@ -110,7 +110,6 @@ import chromahub.rhythm.app.core.model.UserAudioDevice
 import chromahub.rhythm.app.util.AutoEQImportExport
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import chromahub.rhythm.app.R
@@ -121,7 +120,9 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Standard
 
 @Composable
 fun DeviceConfigurationBottomSheet(
-    musicViewModel: MusicViewModel,
+    audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
+    audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
+    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     onDismiss: () -> Unit
 ) {
     val bottomSheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden, enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded))
@@ -129,10 +130,10 @@ fun DeviceConfigurationBottomSheet(
     val context = LocalContext.current
     
     // States
-    val userDevicesJson by musicViewModel.appSettings.userAudioDevices.collectAsState()
-    val activeDeviceId by musicViewModel.appSettings.activeAudioDeviceId.collectAsState()
-    val autoEQProfiles by musicViewModel.autoEQProfiles.collectAsState()
-    val currentAutoEQProfile by musicViewModel.appSettings.autoEQProfile.collectAsState()
+    val userDevicesJson by appSettings.userAudioDevices.collectAsState()
+    val activeDeviceId by appSettings.activeAudioDeviceId.collectAsState()
+    val autoEQProfiles by audioEffects.autoEQProfiles.collectAsState()
+    val currentAutoEQProfile by appSettings.autoEQProfile.collectAsState()
     
     val userDevices = remember(userDevicesJson) {
         UserAudioDevice.fromJson(userDevicesJson)
@@ -171,7 +172,7 @@ fun DeviceConfigurationBottomSheet(
     // Load AutoEQ profiles if not loaded
     LaunchedEffect(Unit) {
         if (autoEQProfiles.isEmpty()) {
-            musicViewModel.loadAutoEQProfiles()
+            audioEffects.loadAutoEQProfiles()
         }
     }
     
@@ -197,9 +198,9 @@ fun DeviceConfigurationBottomSheet(
             
             Column {
                 // Current device detection hint
-                val currentLocation = musicViewModel.audioDeviceManager.currentDevice.collectAsState().value
+                val currentLocation = audioDevices.audioDeviceManager.currentDevice.collectAsState().value
                 if (currentLocation != null && currentLocation.id != "speaker") {
-                    val matchedDevice = musicViewModel.findMatchingUserDevice(currentLocation.name)
+                    val matchedDevice = audioDevices.findMatchingUserDevice(currentLocation.name)
                     val detectedType = matchedDevice?.type ?: UserAudioDevice.inferDeviceType(currentLocation.name, currentLocation.id)
                     val detectedBrand = if (matchedDevice != null && matchedDevice.brand.isNotEmpty()) {
                         matchedDevice.brand
@@ -400,7 +401,7 @@ fun DeviceConfigurationBottomSheet(
                                     isActive = device.autoEQProfileName == currentAutoEQProfile && currentAutoEQProfile.isNotEmpty(),
                                     onSelect = {
                                         HapticUtils.performHapticFeedback(context, haptics, HapticType.HEAVY)
-                                        musicViewModel.setActiveAudioDevice(device)
+                                        audioDevices.setActiveAudioDevice(device)
                                     },
                                     onEdit = {
                                         HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
@@ -457,7 +458,7 @@ fun DeviceConfigurationBottomSheet(
 
     // AutoEQ Suggestion BottomSheet for detected device
     if (showDetectionBottomSheet && detectedDeviceForSheet != null) {
-        val equalizerEnabled by musicViewModel.appSettings.equalizerEnabled.collectAsState()
+        val equalizerEnabled by appSettings.equalizerEnabled.collectAsState()
         AutoEQSuggestionDialog(
             deviceName = detectedDeviceForSheet!!.name,
             savedDevice = detectedDeviceForSheet!!,
@@ -465,8 +466,8 @@ fun DeviceConfigurationBottomSheet(
             onApplyProfile = {
                 val profile = autoEQProfiles.find { it.name == detectedDeviceForSheet!!.autoEQProfileName }
                 if (profile != null) {
-                    musicViewModel.applyAutoEQProfile(profile)
-                    musicViewModel.setActiveAudioDevice(detectedDeviceForSheet!!)
+                    audioEffects.applyAutoEQProfile(profile)
+                    audioDevices.setActiveAudioDevice(detectedDeviceForSheet!!)
                     Toast.makeText(context, context.getString(R.string.ui_profile_applied, profile.name), Toast.LENGTH_SHORT).show()
                 }
                 showDetectionBottomSheet = false
@@ -475,7 +476,7 @@ fun DeviceConfigurationBottomSheet(
                 showDetectionBottomSheet = false
             },
             onDontAskAgain = {
-                musicViewModel.dismissAutoEQSuggestion(detectedDeviceForSheet!!.id)
+                audioDevices.dismissAutoEQSuggestion(detectedDeviceForSheet!!.id)
                 showDetectionBottomSheet = false
             },
             onConfigureDevice = {
@@ -495,7 +496,7 @@ fun DeviceConfigurationBottomSheet(
                 deviceToEdit = null
             },
             onSave = { device ->
-                musicViewModel.saveUserAudioDevice(device)
+                audioDevices.saveUserAudioDevice(device)
                 showAddDeviceDialog = false
                 deviceToEdit = null
             }
@@ -519,7 +520,7 @@ fun DeviceConfigurationBottomSheet(
             confirmButton = {
                 Button(
                     onClick = {
-                        musicViewModel.deleteUserAudioDevice(device.id)
+                        audioDevices.deleteUserAudioDevice(device.id)
                         showDeleteConfirmDialog = null
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -564,10 +565,10 @@ fun DeviceConfigurationBottomSheet(
                 val updatedDevice = deviceForAutoEQ!!.copy(
                     autoEQProfileName = if (isNone) null else profile.name
                 )
-                musicViewModel.saveUserAudioDevice(updatedDevice)
+                audioDevices.saveUserAudioDevice(updatedDevice)
                 
                 // Apply or reset the profile immediately
-                musicViewModel.applyAutoEQProfile(profile)
+                audioEffects.applyAutoEQProfile(profile)
                 
                 // Show feedback
                 val message = if (isNone) {
@@ -731,10 +732,10 @@ fun DeviceConfigurationBottomSheet(
                             val parsedProfiles = AutoEQImportExport.autoDetectAndParse(importText, context.getString(R.string.device_configuration_imported_profile))
                             
                             if (parsedProfiles.isNotEmpty()) {
-                                musicViewModel.saveCustomAutoEQProfiles(parsedProfiles)
+                                audioEffects.saveCustomAutoEQProfiles(parsedProfiles)
                                 val profile = parsedProfiles.first()
-                                musicViewModel.applyAutoEQProfile(profile)
-                                musicViewModel.pinAutoEQProfile(profile.name)
+                                audioEffects.applyAutoEQProfile(profile)
+                                audioEffects.pinAutoEQProfile(profile.name)
                                 scope.launch {
                                     importSheetState.hide()
                                     showImportDialog = false
@@ -762,10 +763,10 @@ fun DeviceConfigurationBottomSheet(
     
     // Export Dialog
     if (showExportDialog) {
-        val currentAutoEQProfile = musicViewModel.appSettings.autoEQProfile.collectAsState().value
-        val currentPreset = musicViewModel.appSettings.equalizerPreset.collectAsState().value
-        val currentBandLevels = musicViewModel.appSettings.equalizerBandLevels.collectAsState().value
-        val equalizerEnabled = musicViewModel.appSettings.equalizerEnabled.collectAsState().value
+        val currentAutoEQProfile = appSettings.autoEQProfile.collectAsState().value
+        val currentPreset = appSettings.equalizerPreset.collectAsState().value
+        val currentBandLevels = appSettings.equalizerBandLevels.collectAsState().value
+        val equalizerEnabled = appSettings.equalizerEnabled.collectAsState().value
         
         // Try to find profile in database, or create from current settings
         val profileToExport = if (currentAutoEQProfile.isNotEmpty() && currentAutoEQProfile != "None") {

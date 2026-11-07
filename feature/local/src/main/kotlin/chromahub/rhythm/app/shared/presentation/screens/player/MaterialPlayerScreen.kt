@@ -3910,7 +3910,9 @@ fun MaterialPlayerScreen(
     // Device Configuration Dialog
     if (showDeviceConfig) {
         chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
-            musicViewModel = musicViewModel,
+            audioEffects = musicViewModel,
+            audioDevices = musicViewModel,
+            appSettings = appSettings,
             onDismiss = { showDeviceConfig = false }
         )
     }
