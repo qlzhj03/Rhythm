@@ -3487,7 +3487,7 @@ private fun LocalNavigationContent(
                         },
                         onRefreshClick = {
                             if (isStreamingMode) {
-                                streamingMusicViewModel.loadLibrary()
+                                streamingMusicViewModel.loadLibrary(false)
                             } else {
                                 viewModel.refreshLibrary(showMediaScanLoader = false)
                             }

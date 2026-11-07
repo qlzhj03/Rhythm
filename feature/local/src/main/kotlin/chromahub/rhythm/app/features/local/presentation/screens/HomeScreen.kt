@@ -899,7 +899,7 @@ private fun StreamingHomeBody(
     }
     LaunchedEffect(vm, hasLoadedLibrary) {
         if (vm != null && !hasLoadedLibrary) {
-            vm.loadLibrary()
+            vm.loadLibrary(false)
         }
     }
 
