@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.features.local.presentation.screens
+package chromahub.rhythm.app.onboarding
 
 import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -163,9 +163,6 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistAr
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import chromahub.rhythm.app.core.model.AutoEQProfile
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.OnboardingStep
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.PermissionScreenState
-import chromahub.rhythm.app.features.local.presentation.screens.onboarding.StreamingProviderSelectionList
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
