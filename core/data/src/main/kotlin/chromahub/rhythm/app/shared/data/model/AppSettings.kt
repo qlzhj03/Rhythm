@@ -205,7 +205,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_ALBUM_SORT_ORDER = "album_sort_order"
         private const val KEY_PLAYLIST_SORT_ORDER = "playlist_sort_order"
         private const val KEY_PLAYLIST_DETAIL_SORT_ORDER = "playlist_detail_sort_order"
-        private const val KEY_ARTIST_COLLABORATION_MODE = "artist_collaboration_mode"
         private const val KEY_LIBRARY_TAB_ORDER = "library_tab_order"
         private const val KEY_LIBRARY_COMBINE_DISCS = "library_combine_discs"
         private const val KEY_PLAYER_CHIP_ORDER = "player_chip_order"
@@ -218,17 +217,13 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         const val MAX_EXPRESSIVE_BOTTOM_PINS_NORMAL = 2
         const val MAX_EXPRESSIVE_BOTTOM_BUTTONS_MERGE = 5
         val fixedBottomButtonsNormal = listOf("LYRICS", "FAVORITE")
-        private const val KEY_LYRICALLY_SOURCES_ORDER = "lyrically_sources_order"
-        private const val KEY_DISABLED_LYRICALLY_SOURCES = "disabled_lyrically_sources"
         private const val KEY_GROUP_BY_ALBUM_ARTIST = "group_by_album_artist" // New setting for album artist grouping
         private const val KEY_PREFER_SONG_ARTWORK = "prefer_song_artwork" // Prefer per-song embedded artwork over shared album art
         private const val KEY_IGNORE_MEDIASTORE_COVERS = "ignore_mediastore_covers" // Legacy key kept for migration compatibility
         private const val KEY_LOSSLESS_ARTWORK = "lossless_artwork" // Show cover art without downscaling/compression
-        private const val KEY_SHOW_LIBRARY_SECTION_HEADERS = "show_library_section_headers"
         private const val KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS = "show_library_bottom_bar_always"
         
         // Audio Device Settings
-        private const val KEY_LAST_AUDIO_DEVICE = "last_audio_device"
         private const val KEY_AUTO_CONNECT_DEVICE = "auto_connect_device"
         private const val KEY_USE_SYSTEM_VOLUME = "use_system_volume"
         private const val KEY_APP_VOLUME = "app_volume"
@@ -392,7 +387,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private const val KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS = "rhythm_pulse_notification_interval_hours"
     
     // UI Settings
-    private const val KEY_USE_SETTINGS = "use_settings"
     private const val KEY_DEFAULT_SCREEN = "default_screen"
     private const val KEY_FORCE_PLAYER_COMPACT_MODE = "force_player_compact_mode"
     
@@ -402,9 +396,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_ENHANCED_SEEKING_ENABLED = "enhanced_seeking_enabled"
         
         // Media3 1.9.0 Features
-        private const val KEY_USE_CUSTOM_COMMAND_BUTTONS = "use_custom_command_buttons"
-        private const val KEY_SCRUBBING_MODE_ENABLED = "scrubbing_mode_enabled"
-        private const val KEY_STUCK_PLAYER_DETECTION_ENABLED = "stuck_player_detection_enabled"
         private const val KEY_TRACK_ERROR_CHECKER_ENABLED = "track_error_checker_enabled"
         
         // Festive Theme Settings
@@ -533,7 +524,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_HOME_APP_ICON_VISIBILITY = "home_app_icon_visibility" // 0=Both, 1=Expanded, 2=Collapsed
         
         // Home Screen Customization Settings - Section Visibility
-        private const val KEY_HOME_SHOW_GREETING = "home_show_greeting"
         private const val KEY_HOME_SHOW_RECENTLY_PLAYED = "home_show_recently_played"
         private const val KEY_HOME_SHOW_DISCOVER_CAROUSEL = "home_show_discover_carousel"
         private const val KEY_HOME_SHOW_ARTISTS = "home_show_artists"
@@ -546,7 +536,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_HOME_DISCOVER_AUTO_SCROLL = "home_discover_auto_scroll"
         private const val KEY_HOME_DISCOVER_AUTO_SCROLL_INTERVAL = "home_discover_auto_scroll_interval"
         private const val KEY_HOME_DISCOVER_ITEM_COUNT = "home_discover_item_count"
-        private const val KEY_HOME_DISCOVER_CAROUSEL_STYLE = "home_discover_carousel_style" // 0=Default (2 side peeks), 1=Hero (1 side peek)
         private const val KEY_HOME_DISCOVER_SHOW_ALBUM_NAME = "home_discover_show_album_name"
         private const val KEY_HOME_DISCOVER_SHOW_ARTIST_NAME = "home_discover_show_artist_name"
         private const val KEY_HOME_DISCOVER_SHOW_YEAR = "home_discover_show_year"
@@ -561,12 +550,9 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_HOME_RECOMMENDED_COUNT = "home_recommended_count"
         
         // Home Screen Customization Settings - Card Appearance
-        private const val KEY_HOME_COMPACT_CARDS = "home_compact_cards"
-        private const val KEY_HOME_SHOW_PLAY_BUTTONS = "home_show_play_buttons"
         private const val KEY_HOME_SECTION_ORDER = "home_section_order"
 
         // Streaming Home Screen Customization
-        private const val KEY_STREAMING_HOME_SHOW_GREETING = "streaming_home_show_greeting"
         private const val KEY_STREAMING_HOME_SHOW_RHYTHM_GUARD = "streaming_home_show_rhythm_guard"
         private const val KEY_STREAMING_HOME_SHOW_RHYTHM_STATS = "streaming_home_show_rhythm_stats"
         private const val KEY_STREAMING_HOME_SHOW_RECENTLY_PLAYED = "streaming_home_show_recently_played"
@@ -574,8 +560,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_STREAMING_HOME_SHOW_RECOMMENDED = "streaming_home_show_recommended"
         private const val KEY_STREAMING_HOME_SHOW_NEW_RELEASES = "streaming_home_show_new_releases"
         private const val KEY_STREAMING_HOME_SHOW_PLAYLISTS = "streaming_home_show_playlists"
-        private const val KEY_STREAMING_HOME_SHOW_RECOMMENDATIONS = "streaming_home_show_recommendations"
-        private const val KEY_STREAMING_HOME_SHOW_TOP_CHARTS = "streaming_home_show_top_charts"
         private const val KEY_STREAMING_HOME_SECTION_ORDER = "streaming_home_section_order"
 
         private const val KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR = "album_bottom_sheet_gradient_blur"
@@ -591,10 +575,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         
         // Player Screen Customization Settings
         private const val KEY_PLAYER_SHOW_GRADIENT_OVERLAY = "player_show_gradient_overlay"
-        private const val KEY_PLAYER_ART_OVERLAY_TYPE = "player_art_overlay_type" // 0=Gradient, 1=Blur
-        private const val KEY_PLAYER_ART_OVERLAY_INTENSITY = "player_art_overlay_intensity" // Float 0.0-1.0
-        private const val KEY_PLAYER_LYRICS_OVERLAY_TYPE = "player_lyrics_overlay_type" // 0=Gradient, 1=Blur
-        private const val KEY_PLAYER_LYRICS_OVERLAY_INTENSITY = "player_lyrics_overlay_intensity" // Float 0.0-1.0
         private const val KEY_PLAYER_AMBIENT_BACKDROP_ENABLED = "player_ambient_backdrop_enabled" // Ambient backdrop from artwork
         private const val KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY = "player_ambient_backdrop_intensity" // Float 0.0-1.0, controls container transparency
         private const val KEY_PLAYER_AMBIENT_INFINITE_ZOOM = "player_ambient_infinite_zoom" // Boolean, continuous slow zoom on ambient backdrop
@@ -622,11 +602,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_MINIPLAYER_ARTWORK_SIZE = "miniplayer_artwork_size" // 40-72 dp
         private const val KEY_MINIPLAYER_CORNER_RADIUS = "miniplayer_corner_radius" // 0-28 dp
         private const val KEY_MINIPLAYER_SHOW_TIME = "miniplayer_show_time"
-        private const val KEY_MINIPLAYER_ARTWORK_STYLE = "miniplayer_artwork_style" // "ROUNDED", "CIRCLE", "SQUARE"
-        private const val KEY_MINIPLAYER_SHOW_SKIP_BUTTONS = "miniplayer_show_skip_buttons"
-        private const val KEY_MINIPLAYER_TEXT_ALIGNMENT = "miniplayer_text_alignment" // "START", "CENTER"
         private const val KEY_MINIPLAYER_SWIPE_GESTURES = "miniplayer_swipe_gestures"
-        private const val KEY_MINIPLAYER_SHOW_ARTIST = "miniplayer_show_artist"
         private const val KEY_MINIPLAYER_ALWAYS_SHOW_TABLET = "miniplayer_always_show_tablet"
         
         // Gesture Settings
@@ -927,8 +903,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val playlistDetailSortOrder: StateFlow<String> = _playlistDetailSortOrder.asStateFlow()
     
     // Artist Collaboration Mode
-    private val _artistCollaborationMode = MutableStateFlow(prefs.getBoolean(KEY_ARTIST_COLLABORATION_MODE, false))
-    val artistCollaborationMode: StateFlow<Boolean> = _artistCollaborationMode.asStateFlow()
     
     // Library Tab Order
     private val defaultTabOrder = listOf("SONGS", "LIKED", "PLAYLISTS", "ALBUMS", "ARTISTS", "ALBUM_ARTISTS", "EXPLORER")
@@ -1083,28 +1057,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     )
     val expressiveHiddenBottomButtonsMerge: StateFlow<Set<String>> = _expressiveHiddenBottomButtonsMerge.asStateFlow()
     
-    // Lyrically Sources Order
-    val defaultLyricallySources = listOf(
-        "APPLE_MUSIC"
-    )
-    val defaultDisabledLyricallySources = emptySet<String>()
-    private val _lyricallySourcesOrder = MutableStateFlow(
-        prefs.getString(KEY_LYRICALLY_SOURCES_ORDER, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() && it in defaultLyricallySources }
-            ?.takeIf { it.isNotEmpty() }
-            ?: defaultLyricallySources
-    )
-    val lyricallySourcesOrder: StateFlow<List<String>> = _lyricallySourcesOrder.asStateFlow()
-
-    private val _disabledLyricallySources = MutableStateFlow(
-        prefs.getString(KEY_DISABLED_LYRICALLY_SOURCES, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() && it in defaultLyricallySources }
-            ?.toSet()
-            ?: defaultDisabledLyricallySources
-    )
-    val disabledLyricallySources: StateFlow<Set<String>> = _disabledLyricallySources.asStateFlow()
     
     // Group By Album Artist
     private val _groupByAlbumArtist = MutableStateFlow(false)
@@ -1121,15 +1073,12 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val preferSongArtwork: StateFlow<Boolean> = _preferSongArtwork.asStateFlow()
 
     @Deprecated("Use preferSongArtwork")
-    val ignoreMediaStoreCovers: StateFlow<Boolean> = preferSongArtwork
 
     // Lossless Artwork - Show cover art as-is without compression
     private val _losslessArtwork = MutableStateFlow(prefs.getBoolean(KEY_LOSSLESS_ARTWORK, true))
     val losslessArtwork: StateFlow<Boolean> = _losslessArtwork.asStateFlow()
 
     // Show Library Section Headers
-    private val _showLibrarySectionHeaders = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LIBRARY_SECTION_HEADERS, true))
-    val showLibrarySectionHeaders: StateFlow<Boolean> = _showLibrarySectionHeaders.asStateFlow()
 
     // Show Library Bottom Bar Always
     private val _showLibraryBottomBarAlways = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false))
@@ -1164,8 +1113,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val rememberStreamingPasswords: StateFlow<Boolean> = _rememberStreamingPasswords.asStateFlow()
     
     // Audio Device Settings
-    private val _lastAudioDevice = MutableStateFlow(prefs.getString(KEY_LAST_AUDIO_DEVICE, null))
-    val lastAudioDevice: StateFlow<String?> = _lastAudioDevice.asStateFlow()
     
     private val _autoConnectDevice = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CONNECT_DEVICE, true))
     val autoConnectDevice: StateFlow<Boolean> = _autoConnectDevice.asStateFlow()
@@ -1287,8 +1234,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         prefs.getBoolean(KEY_HIDE_PLAYED_SONGS_IN_QUEUE, false)
     )
 
-    private val _hidePlayedSongsInQueue = MutableStateFlow(initialHidePlayedQueueValue)
-    val hidePlayedSongsInQueue: StateFlow<Boolean> = _hidePlayedSongsInQueue.asStateFlow()
     
     private val _showQueueDialog = MutableStateFlow(prefs.getBoolean(KEY_SHOW_QUEUE_DIALOG, true))
     val showQueueDialog: StateFlow<Boolean> = _showQueueDialog.asStateFlow()
@@ -1490,14 +1435,12 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     )
     val rhythmGuardMode: StateFlow<String> = _rhythmAuraMode.asStateFlow()
     @Deprecated("Use rhythmGuardMode")
-    val rhythmAuraMode: StateFlow<String> = rhythmGuardMode
 
     private val _rhythmAuraAge = MutableStateFlow(
         prefs.getInt(KEY_RHYTHM_GUARD_AGE, prefs.getInt(KEY_RHYTHM_AURA_AGE, 18)).coerceIn(8, 80)
     )
     val rhythmGuardAge: StateFlow<Int> = _rhythmAuraAge.asStateFlow()
     @Deprecated("Use rhythmGuardAge")
-    val rhythmAuraAge: StateFlow<Int> = rhythmGuardAge
 
     private val _rhythmAuraManualWarningsEnabled = MutableStateFlow(
         prefs.getBoolean(
@@ -1507,7 +1450,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     )
     val rhythmGuardManualWarningsEnabled: StateFlow<Boolean> = _rhythmAuraManualWarningsEnabled.asStateFlow()
     @Deprecated("Use rhythmGuardManualWarningsEnabled")
-    val rhythmAuraManualWarningsEnabled: StateFlow<Boolean> = rhythmGuardManualWarningsEnabled
 
     private val _rhythmAuraManualVolumeThreshold = MutableStateFlow(
         prefs.getFloat(
@@ -1517,7 +1459,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     )
     val rhythmGuardManualVolumeThreshold: StateFlow<Float> = _rhythmAuraManualVolumeThreshold.asStateFlow()
     @Deprecated("Use rhythmGuardManualVolumeThreshold")
-    val rhythmAuraManualVolumeThreshold: StateFlow<Float> = rhythmGuardManualVolumeThreshold
 
     private val _rhythmGuardApplyVolumeLimitOnSpeaker = MutableStateFlow(
         prefs.getBoolean(KEY_RHYTHM_GUARD_APPLY_VOLUME_LIMIT_ON_SPEAKER, false)
@@ -1529,7 +1470,6 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     )
     val rhythmGuardLastAutoAppliedAt: StateFlow<Long> = _rhythmAuraLastAutoAppliedAt.asStateFlow()
     @Deprecated("Use rhythmGuardLastAutoAppliedAt")
-    val rhythmAuraLastAutoAppliedAt: StateFlow<Long> = rhythmGuardLastAutoAppliedAt
 
     private val _rhythmGuardAlertThresholdMinutes = MutableStateFlow(
         prefs.getInt(KEY_RHYTHM_GUARD_ALERT_THRESHOLD_MINUTES, -1).coerceIn(-1, 24 * 60)
@@ -1957,8 +1897,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     val rhythmPulseNotificationIntervalHours: StateFlow<Int> = _rhythmPulseNotificationIntervalHours.asStateFlow()
     
     // UI Settings
-    private val _useSettings = MutableStateFlow(prefs.getBoolean(KEY_USE_SETTINGS, true))
-    val useSettings: StateFlow<Boolean> = _useSettings.asStateFlow()
     
     private val _forcePlayerCompactMode = MutableStateFlow(prefs.getBoolean(KEY_FORCE_PLAYER_COMPACT_MODE, false))
     val forcePlayerCompactMode: StateFlow<Boolean> = _forcePlayerCompactMode.asStateFlow()
@@ -2005,14 +1943,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     val enhancedSeekingEnabled: StateFlow<Boolean> = _enhancedSeekingEnabled.asStateFlow()
     
     // Media3 1.9.0 Features
-    private val _useCustomCommandButtons = MutableStateFlow(prefs.getBoolean(KEY_USE_CUSTOM_COMMAND_BUTTONS, true))
-    val useCustomCommandButtons: StateFlow<Boolean> = _useCustomCommandButtons.asStateFlow()
     
-    private val _scrubbingModeEnabled = MutableStateFlow(prefs.getBoolean(KEY_SCRUBBING_MODE_ENABLED, true))
-    val scrubbingModeEnabled: StateFlow<Boolean> = _scrubbingModeEnabled.asStateFlow()
     
-    private val _stuckPlayerDetectionEnabled = MutableStateFlow(prefs.getBoolean(KEY_STUCK_PLAYER_DETECTION_ENABLED, true))
-    val stuckPlayerDetectionEnabled: StateFlow<Boolean> = _stuckPlayerDetectionEnabled.asStateFlow()
 
     // Battery Saver StateFlows
     private val _batterySaverEnabled = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_ENABLED, false))
@@ -2717,10 +2649,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _playlistDetailSortOrder.value = sortOrder
     }
     
-    fun setArtistCollaborationMode(enabled: Boolean) {
-        prefs.edit { putBoolean(KEY_ARTIST_COLLABORATION_MODE, enabled) }
-        _artistCollaborationMode.value = enabled
-    }
     
     fun setLibraryTabOrder(tabOrder: List<String>) {
         val orderString = tabOrder.joinToString(",")
@@ -2817,24 +2745,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _expressiveHiddenBottomButtonsMerge.value = emptySet()
     }
 
-    fun setLyricallySourcesOrder(order: List<String>) {
-        val sanitized = order.filter { it in defaultLyricallySources }
-        val orderString = sanitized.joinToString(",")
-        prefs.edit { putString(KEY_LYRICALLY_SOURCES_ORDER, orderString) }
-        _lyricallySourcesOrder.value = sanitized
-    }
 
-    fun resetLyricallySourcesOrder() {
-        prefs.edit { remove(KEY_LYRICALLY_SOURCES_ORDER) }
-        _lyricallySourcesOrder.value = defaultLyricallySources
-    }
-
-    fun setDisabledLyricallySources(disabled: Set<String>) {
-        val sanitized = disabled.filter { it in defaultLyricallySources }.toSet()
-        val disabledString = sanitized.joinToString(",")
-        prefs.edit { putString(KEY_DISABLED_LYRICALLY_SOURCES, disabledString) }
-        _disabledLyricallySources.value = sanitized
-    }
     
     fun setGroupByAlbumArtist(enable: Boolean) {
         prefs.edit { putBoolean(KEY_GROUP_BY_ALBUM_ARTIST, false) }
@@ -2856,10 +2767,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         updateDerivedSettings()
     }
 
-    @Deprecated("Use setPreferSongArtwork")
-    fun setIgnoreMediaStoreCovers(enabled: Boolean) {
-        setPreferSongArtwork(enabled)
-    }
 
     fun setLosslessArtwork(enabled: Boolean) {
         val changed = _losslessArtwork.value != enabled
@@ -2873,10 +2780,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         }
     }
 
-    fun setShowLibrarySectionHeaders(enable: Boolean) {
-        prefs.edit { putBoolean(KEY_SHOW_LIBRARY_SECTION_HEADERS, enable) }
-        _showLibrarySectionHeaders.value = enable
-    }
 
     fun setShowLibraryBottomBarAlways(enable: Boolean) {
         prefs.edit { putBoolean(KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, enable) }
@@ -2976,14 +2879,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
     
     // Audio Device Settings Methods
-    fun setLastAudioDevice(deviceId: String?) {
-        if (deviceId == null) {
-            prefs.edit { remove(KEY_LAST_AUDIO_DEVICE) }
-        } else {
-            prefs.edit { putString(KEY_LAST_AUDIO_DEVICE, deviceId) }
-        }
-        _lastAudioDevice.value = deviceId
-    }
     
     fun setAutoConnectDevice(enable: Boolean) {
         prefs.edit { putBoolean(KEY_AUTO_CONNECT_DEVICE, enable) }
@@ -3261,14 +3156,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _clearQueueOnNewSong.value = clearQueue
     }
 
-    fun setHidePlayedSongsInQueue(hidePlayedSongs: Boolean) {
-        prefs.edit {
-    putBoolean(KEY_HIDE_PLAYED_SONGS_IN_QUEUE, hidePlayedSongs)
-    putBoolean(KEY_HIDE_PLAYED_QUEUE_SONGS, hidePlayedSongs)
-}
-        _hidePlayedSongsInQueue.value = hidePlayedSongs
-        _hidePlayedQueueSongs.value = hidePlayedSongs
-    }
     
     fun setShowQueueDialog(show: Boolean) {
         prefs.edit { putBoolean(KEY_SHOW_QUEUE_DIALOG, show) }
@@ -3288,7 +3175,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     putBoolean(KEY_HIDE_PLAYED_SONGS_IN_QUEUE, hide)
 }
         _hidePlayedQueueSongs.value = hide
-        _hidePlayedSongsInQueue.value = hide
     }
     
     fun setRepeatModePersistence(persist: Boolean) {
@@ -3548,7 +3434,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use setRhythmGuardMode")
-    fun setRhythmAuraMode(mode: String) = setRhythmGuardMode(mode)
 
     fun setRhythmGuardAge(age: Int) {
         val safeAge = age.coerceIn(8, 80)
@@ -3564,7 +3449,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use setRhythmGuardAge")
-    fun setRhythmAuraAge(age: Int) = setRhythmGuardAge(age)
 
     fun setRhythmGuardManualWarningsEnabled(enabled: Boolean) {
         prefs.edit {
@@ -3575,7 +3459,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use setRhythmGuardManualWarningsEnabled")
-    fun setRhythmAuraManualWarningsEnabled(enabled: Boolean) = setRhythmGuardManualWarningsEnabled(enabled)
 
     fun setRhythmGuardManualVolumeThreshold(threshold: Float) {
         val safeThreshold = threshold.coerceIn(0.40f, 0.95f)
@@ -3592,7 +3475,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use setRhythmGuardManualVolumeThreshold")
-    fun setRhythmAuraManualVolumeThreshold(threshold: Float) = setRhythmGuardManualVolumeThreshold(threshold)
 
     fun setRhythmGuardLastAutoAppliedAt(timestamp: Long) {
         prefs.edit {
@@ -3603,7 +3485,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use setRhythmGuardLastAutoAppliedAt")
-    fun setRhythmAuraLastAutoAppliedAt(timestamp: Long) = setRhythmGuardLastAutoAppliedAt(timestamp)
 
     fun setRhythmGuardAlertThresholdMinutes(minutes: Int) {
         val safeMinutes = minutes.coerceIn(-1, 24 * 60)
@@ -3712,7 +3593,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
 
     @Deprecated("Use getRhythmGuardPolicy")
-    fun getRhythmAuraPolicy(age: Int = _rhythmAuraAge.value): RhythmAuraPolicyBand = getRhythmGuardPolicy(age)
 
     fun estimateRhythmGuardTodayListeningMinutes(
         dailyListeningStats: Map<String, Long>,
@@ -4193,26 +4073,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     }
     
     // Media3 1.9.0 Feature Methods
-    fun setUseCustomCommandButtons(enabled: Boolean) {
-        prefs.edit { putBoolean(KEY_USE_CUSTOM_COMMAND_BUTTONS, enabled) }
-        _useCustomCommandButtons.value = enabled
-    }
     
-    fun setScrubbingModeEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(KEY_SCRUBBING_MODE_ENABLED, enabled) }
-        _scrubbingModeEnabled.value = enabled
-    }
     
-    fun setStuckPlayerDetectionEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(KEY_STUCK_PLAYER_DETECTION_ENABLED, enabled) }
-        _stuckPlayerDetectionEnabled.value = enabled
-    }
     
     // UI Settings Methods
-    fun setUseSettings(enabled: Boolean) {
-        prefs.edit { putBoolean(KEY_USE_SETTINGS, enabled) }
-        _useSettings.value = enabled
-    }
     
     // Festive Theme Settings Methods
     fun setFestiveThemeEnabled(enabled: Boolean) {
@@ -5488,7 +5352,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _albumViewType.value = AlbumViewType.valueOf(prefs.getString(KEY_ALBUM_VIEW_TYPE, AlbumViewType.GRID.name) ?: AlbumViewType.GRID.name)
         _artistViewType.value = ArtistViewType.valueOf(prefs.getString(KEY_ARTIST_VIEW_TYPE, ArtistViewType.GRID.name) ?: ArtistViewType.GRID.name)
         _albumSortOrder.value = prefs.getString(KEY_ALBUM_SORT_ORDER, "TRACK_NUMBER") ?: "TRACK_NUMBER"
-        _artistCollaborationMode.value = prefs.getBoolean(KEY_ARTIST_COLLABORATION_MODE, false)
         _songsSortOrder.value = prefs.getString(KEY_SONGS_SORT_ORDER, "TITLE_ASC") ?: "TITLE_ASC"
         _libraryCombineDiscs.value = prefs.getBoolean(KEY_LIBRARY_COMBINE_DISCS, false)
         _preferSongArtwork.value = if (prefs.contains(KEY_PREFER_SONG_ARTWORK)) {
@@ -5498,11 +5361,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         }
         _albumBottomSheetDiscFilter.value = prefs.getInt(KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, 0).coerceAtLeast(0)
         _albumBottomSheetGradientBlur.value = prefs.getBoolean(KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, true)
-        _showLibrarySectionHeaders.value = prefs.getBoolean(KEY_SHOW_LIBRARY_SECTION_HEADERS, true)
         _showLibraryBottomBarAlways.value = prefs.getBoolean(KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false)
         
         // Audio Device Settings
-        _lastAudioDevice.value = prefs.getString(KEY_LAST_AUDIO_DEVICE, null)
         _autoConnectDevice.value = prefs.getBoolean(KEY_AUTO_CONNECT_DEVICE, true)
         _useSystemVolume.value = prefs.getBoolean(KEY_USE_SYSTEM_VOLUME, true)
         _appVolume.value = prefs.getFloat(KEY_APP_VOLUME, 1.0f)
@@ -5613,16 +5474,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _appleCanvasNetworkMode.value = CanvasNetworkMode.fromOrdinal(
             prefs.getInt(KEY_APPLE_CANVAS_NETWORK_MODE, CanvasNetworkMode.BOTH.ordinal)
         )
-        _lyricallySourcesOrder.value = prefs.getString(KEY_LYRICALLY_SOURCES_ORDER, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() && it in defaultLyricallySources }
-            ?.takeIf { it.isNotEmpty() }
-            ?: defaultLyricallySources
-        _disabledLyricallySources.value = prefs.getString(KEY_DISABLED_LYRICALLY_SOURCES, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() && it in defaultLyricallySources }
-            ?.toSet()
-            ?: defaultDisabledLyricallySources
         _autoFetchArtwork.value = prefs.getBoolean(KEY_AUTO_FETCH_ARTWORK, true)
         _spotifyClientId.value = prefs.getString(KEY_SPOTIFY_CLIENT_ID, "") ?: ""
         _spotifyClientSecret.value = prefs.getString(KEY_SPOTIFY_CLIENT_SECRET, "") ?: ""
@@ -5735,10 +5586,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         
         // Player Screen Customization Settings
         _playerShowGradientOverlay.value = prefs.getBoolean(KEY_PLAYER_SHOW_GRADIENT_OVERLAY, true)
-        _playerArtOverlayType.value = prefs.getInt(KEY_PLAYER_ART_OVERLAY_TYPE, 0)
-        _playerArtOverlayIntensity.value = prefs.getFloat(KEY_PLAYER_ART_OVERLAY_INTENSITY, 1.0f)
-        _playerLyricsOverlayType.value = prefs.getInt(KEY_PLAYER_LYRICS_OVERLAY_TYPE, 0)
-        _playerLyricsOverlayIntensity.value = prefs.getFloat(KEY_PLAYER_LYRICS_OVERLAY_INTENSITY, 0.1f)
         _playerLyricsTransition.value = prefs.getInt(KEY_PLAYER_LYRICS_TRANSITION, 2) // 2 = Scale
         _playerAmbientBackdropEnabled.value = prefs.getBoolean(KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, false)
         _playerAmbientBackdropIntensity.value = prefs.getFloat(KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY, 0.85f)
@@ -6050,12 +5897,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putInt(KEY_HOME_APP_ICON_VISIBILITY, value) }
     }
     
-    private val _homeShowGreeting = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_GREETING, true))
-    val homeShowGreeting: StateFlow<Boolean> = _homeShowGreeting.asStateFlow()
-    fun setHomeShowGreeting(value: Boolean) {
-        _homeShowGreeting.value = value
-        prefs.edit { putBoolean(KEY_HOME_SHOW_GREETING, value) }
-    }
     
     private val _homeShowRecentlyPlayed = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_RECENTLY_PLAYED, true))
     val homeShowRecentlyPlayed: StateFlow<Boolean> = _homeShowRecentlyPlayed.asStateFlow()
@@ -6106,12 +5947,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_HOME_SHOW_LISTENING_STATS, value) }
     }
 
-    private val _streamingHomeShowGreeting = MutableStateFlow(prefs.getBoolean(KEY_STREAMING_HOME_SHOW_GREETING, true))
-    val streamingHomeShowGreeting: StateFlow<Boolean> = _streamingHomeShowGreeting.asStateFlow()
-    fun setStreamingHomeShowGreeting(value: Boolean) {
-        _streamingHomeShowGreeting.value = value
-        prefs.edit { putBoolean(KEY_STREAMING_HOME_SHOW_GREETING, value) }
-    }
 
     private val _streamingHomeShowRhythmGuard = MutableStateFlow(prefs.getBoolean(KEY_STREAMING_HOME_SHOW_RHYTHM_GUARD, true))
     val streamingHomeShowRhythmGuard: StateFlow<Boolean> = _streamingHomeShowRhythmGuard.asStateFlow()
@@ -6162,19 +5997,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_STREAMING_HOME_SHOW_PLAYLISTS, value) }
     }
 
-    private val _streamingHomeShowRecommendations = MutableStateFlow(prefs.getBoolean(KEY_STREAMING_HOME_SHOW_RECOMMENDATIONS, true))
-    val streamingHomeShowRecommendations: StateFlow<Boolean> = _streamingHomeShowRecommendations.asStateFlow()
-    fun setStreamingHomeShowRecommendations(value: Boolean) {
-        _streamingHomeShowRecommendations.value = value
-        prefs.edit { putBoolean(KEY_STREAMING_HOME_SHOW_RECOMMENDATIONS, value) }
-    }
 
-    private val _streamingHomeShowTopCharts = MutableStateFlow(prefs.getBoolean(KEY_STREAMING_HOME_SHOW_TOP_CHARTS, true))
-    val streamingHomeShowTopCharts: StateFlow<Boolean> = _streamingHomeShowTopCharts.asStateFlow()
-    fun setStreamingHomeShowTopCharts(value: Boolean) {
-        _streamingHomeShowTopCharts.value = value
-        prefs.edit { putBoolean(KEY_STREAMING_HOME_SHOW_TOP_CHARTS, value) }
-    }
     
     // ==================== Player Screen Customization Settings ====================
     
@@ -6239,33 +6062,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putFloat(KEY_PLAYER_GLASS_INTENSITY, value) }
     }
     
-    private val _playerArtOverlayType = MutableStateFlow(prefs.getInt(KEY_PLAYER_ART_OVERLAY_TYPE, 0))
-    val playerArtOverlayType: StateFlow<Int> = _playerArtOverlayType.asStateFlow()
-    fun setPlayerArtOverlayType(value: Int) {
-        _playerArtOverlayType.value = value
-        prefs.edit { putInt(KEY_PLAYER_ART_OVERLAY_TYPE, value) }
-    }
 
-    private val _playerArtOverlayIntensity = MutableStateFlow(prefs.getFloat(KEY_PLAYER_ART_OVERLAY_INTENSITY, 1.0f))
-    val playerArtOverlayIntensity: StateFlow<Float> = _playerArtOverlayIntensity.asStateFlow()
-    fun setPlayerArtOverlayIntensity(value: Float) {
-        _playerArtOverlayIntensity.value = value
-        prefs.edit { putFloat(KEY_PLAYER_ART_OVERLAY_INTENSITY, value) }
-    }
 
-    private val _playerLyricsOverlayType = MutableStateFlow(prefs.getInt(KEY_PLAYER_LYRICS_OVERLAY_TYPE, 0))
-    val playerLyricsOverlayType: StateFlow<Int> = _playerLyricsOverlayType.asStateFlow()
-    fun setPlayerLyricsOverlayType(value: Int) {
-        _playerLyricsOverlayType.value = value
-        prefs.edit { putInt(KEY_PLAYER_LYRICS_OVERLAY_TYPE, value) }
-    }
 
-    private val _playerLyricsOverlayIntensity = MutableStateFlow(prefs.getFloat(KEY_PLAYER_LYRICS_OVERLAY_INTENSITY, 0.1f))
-    val playerLyricsOverlayIntensity: StateFlow<Float> = _playerLyricsOverlayIntensity.asStateFlow()
-    fun setPlayerLyricsOverlayIntensity(value: Float) {
-        _playerLyricsOverlayIntensity.value = value
-        prefs.edit { putFloat(KEY_PLAYER_LYRICS_OVERLAY_INTENSITY, value) }
-    }
 
     private val _playerLyricsTransition = MutableStateFlow(prefs.getInt(KEY_PLAYER_LYRICS_TRANSITION, 2)) // 2 = Scale
     val playerLyricsTransition: StateFlow<Int> = _playerLyricsTransition.asStateFlow()
@@ -6413,26 +6212,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_MINIPLAYER_SHOW_TIME, value) }
     }
     
-    private val _miniPlayerArtworkStyle = MutableStateFlow(prefs.getString(KEY_MINIPLAYER_ARTWORK_STYLE, "ROUNDED") ?: "ROUNDED")
-    val miniPlayerArtworkStyle: StateFlow<String> = _miniPlayerArtworkStyle.asStateFlow()
-    fun setMiniPlayerArtworkStyle(value: String) {
-        _miniPlayerArtworkStyle.value = value
-        prefs.edit { putString(KEY_MINIPLAYER_ARTWORK_STYLE, value) }
-    }
     
-    private val _miniPlayerShowSkipButtons = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SHOW_SKIP_BUTTONS, true))
-    val miniPlayerShowSkipButtons: StateFlow<Boolean> = _miniPlayerShowSkipButtons.asStateFlow()
-    fun setMiniPlayerShowSkipButtons(value: Boolean) {
-        _miniPlayerShowSkipButtons.value = value
-        prefs.edit { putBoolean(KEY_MINIPLAYER_SHOW_SKIP_BUTTONS, value) }
-    }
     
-    private val _miniPlayerTextAlignment = MutableStateFlow(prefs.getString(KEY_MINIPLAYER_TEXT_ALIGNMENT, "START") ?: "START")
-    val miniPlayerTextAlignment: StateFlow<String> = _miniPlayerTextAlignment.asStateFlow()
-    fun setMiniPlayerTextAlignment(value: String) {
-        _miniPlayerTextAlignment.value = value
-        prefs.edit { putString(KEY_MINIPLAYER_TEXT_ALIGNMENT, value) }
-    }
     
     private val _miniPlayerSwipeGestures = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SWIPE_GESTURES, true))
     val miniPlayerSwipeGestures: StateFlow<Boolean> = _miniPlayerSwipeGestures.asStateFlow()
@@ -6441,12 +6222,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_MINIPLAYER_SWIPE_GESTURES, value) }
     }
     
-    private val _miniPlayerShowArtist = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SHOW_ARTIST, true))
-    val miniPlayerShowArtist: StateFlow<Boolean> = _miniPlayerShowArtist.asStateFlow()
-    fun setMiniPlayerShowArtist(value: Boolean) {
-        _miniPlayerShowArtist.value = value
-        prefs.edit { putBoolean(KEY_MINIPLAYER_SHOW_ARTIST, value) }
-    }
     
     private val _miniPlayerAlwaysShowTablet = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_ALWAYS_SHOW_TABLET, false))
     val miniPlayerAlwaysShowTablet: StateFlow<Boolean> = _miniPlayerAlwaysShowTablet.asStateFlow()
@@ -6525,31 +6300,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         }
     }
     
-    private val _homeCompactCards = MutableStateFlow(prefs.getBoolean(KEY_HOME_COMPACT_CARDS, false))
-    val homeCompactCards: StateFlow<Boolean> = _homeCompactCards.asStateFlow()
-    fun setHomeCompactCards(value: Boolean) {
-        _homeCompactCards.value = value
-        prefs.edit { putBoolean(KEY_HOME_COMPACT_CARDS, value) }
-    }
     
-    private val _homeShowPlayButtons = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_PLAY_BUTTONS, true))
-    val homeShowPlayButtons: StateFlow<Boolean> = _homeShowPlayButtons.asStateFlow()
-    fun setHomeShowPlayButtons(value: Boolean) {
-        _homeShowPlayButtons.value = value
-        prefs.edit { putBoolean(KEY_HOME_SHOW_PLAY_BUTTONS, value) }
-    }
     
 
     
-    // Carousel Style: 0=Default (CenteredHero, 2 side peeks), 1=Hero (Uncontained, 1 side peek)
-    private val _homeDiscoverCarouselStyle = MutableStateFlow(prefs.getInt(KEY_HOME_DISCOVER_CAROUSEL_STYLE, 0))
-    val homeDiscoverCarouselStyle: StateFlow<Int> = _homeDiscoverCarouselStyle.asStateFlow()
-    fun setHomeDiscoverCarouselStyle(value: Int) {
-        if (value in 0..1) {
-            _homeDiscoverCarouselStyle.value = value
-            prefs.edit { putInt(KEY_HOME_DISCOVER_CAROUSEL_STYLE, value) }
-        }
-    }
     
     // Discover Widget - Content Visibility Settings
     private val _homeDiscoverShowAlbumName = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_ALBUM_NAME, true))
