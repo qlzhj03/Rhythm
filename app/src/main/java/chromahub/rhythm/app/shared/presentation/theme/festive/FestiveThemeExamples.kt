@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.core.designsystem.theme.festive
+package chromahub.rhythm.app.shared.presentation.theme.festive
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
