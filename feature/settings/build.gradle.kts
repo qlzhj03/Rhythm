@@ -19,7 +19,6 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
 
-    implementation(project(":feature:widget"))
     // The settings scaffold (SettingsScreenWrapper) embeds GoSettingsScreen.
     implementation(project(":feature:streaming"))
 
