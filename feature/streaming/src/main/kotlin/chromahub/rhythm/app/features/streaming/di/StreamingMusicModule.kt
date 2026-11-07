@@ -1,33 +1,23 @@
 package chromahub.rhythm.app.features.streaming.di
 
-import android.content.Context
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingMusicRepositoryImpl
 import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
- * Dependency injection module for streaming music feature.
- * Provides minimal stub instances for streaming functionality.
- * 
- * This uses manual DI for now. Can be converted to Hilt/Dagger later.
+ * Hilt bindings for the streaming feature (multi-module split PR-6, was a
+ * manual double-checked singleton object). StreamingMusicRepositoryImpl
+ * exposes its own @Inject constructor.
  */
-object StreamingMusicModule {
-    
-    /**
-     * Singleton instance of StreamingMusicRepository.
-     */
-    @Volatile
-    private var streamingMusicRepository: StreamingMusicRepository? = null
-    
-    /**
-     * Provides StreamingMusicRepository instance.
-     * Currently returns a stub implementation.
-     */
-    fun provideStreamingMusicRepository(context: Context): StreamingMusicRepository {
-        return streamingMusicRepository ?: synchronized(this) {
-            streamingMusicRepository ?: StreamingMusicRepositoryImpl(context.applicationContext).also {
-                streamingMusicRepository = it
-            }
-        }
-    }
-    
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class StreamingMusicModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindStreamingMusicRepository(impl: StreamingMusicRepositoryImpl): StreamingMusicRepository
 }

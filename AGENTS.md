@@ -93,8 +93,9 @@ PR-5 后共 **11 个 Gradle 模块** + `:macrobenchmark` + `build-logic/`。模�
 ## 5. 架构与状态管理
 
 - 导航：`MainActivity.setContent` → `:app` 的 `navigation/RhythmNavigation.kt`（物理 `app/src/main/java/chromahub/rhythm/app/navigation/`，package 未改）。共 **2 个 NavHost**：根 NavHost（承载 `settings` 等根级路由）+ 内嵌 NavHost（同目录 `LocalNavigation.kt`）；`appMode` 的 LOCAL 与 STREAMING 两种状态都渲染 `LocalNavigation`。新页面 = 新增 Composable route 并在上述导航文件接线，不是新 Activity；路由常量用 `Screen`（`:feature:local`）与 `SettingsRoutes`（`:core:ui`）。
-- DI：过渡期。存量是手动 DI——`features/local/di/LocalMusicModule` 与 `features/streaming/di/StreamingMusicModule` 是 `object` + `@Volatile` + `synchronized` 双检锁单例工厂；`shared/data/model/AppSettings.getInstance(context)` 管设置；`RhythmApplication.instance` 提供全局入口。已批准迁移到 **Hilt**（官方 Gradle 插件 + KSP，spike 验证与 AGP 9.4.1 兼容；`@HiltAndroidApp` 只能用于 :app）：迁移分阶段进行（见 `docs/multi-module-refactor-plan.md` PR-5/6），存量手动 DI 在迁移到该模块的 PR 落地前保持原样；禁止引入 Koin 等其他 DI 框架。
-- ViewModel：5 个 ViewModel 全部继承 `AndroidViewModel(application)`（`MusicViewModel`、`StreamingMusicViewModel`、`AppModeViewModel`、`ThemeViewModel`、`AppUpdaterViewModel`）；多数 UI 用默认 `viewModel()` 获取，`AppUpdaterViewModel` 等已有 `rememberAppUpdaterViewModel()` 工厂，沿用同文件已有做法。只允许 Application 级 context，禁止持有 Activity / View / Fragment / Context。
+- DI：**Hilt 已全面接线（PR-6）**。`@HiltAndroidApp` 在 RhythmApplication（缝隙安装保留在 onCreate）；`@AndroidEntryPoint` ×4 Activity；`@HiltViewModel` ×5（MusicViewModel/StreamingMusicViewModel/ThemeViewModel/AppUpdaterViewModel/AppModeViewModel，全部构造注入 `Application`，MusicViewModel 另注入 MusicRepository + StreamingMusicRepository）。绑定：`:feature:streaming` 的 StreamingMusicModule `@Binds` 接口←Impl（`@Inject constructor(@ApplicationContext)`）；本地具体类 `MusicRepository` 直接 `@Inject constructor(@ApplicationContext, StreamingMusicRepository)`（它**不实现** core.domain.repository.MusicRepository 接口，勿想当然 @Binds）。`NetworkClientInitializer`（:app di/）+ AppModule（@Provides NetworkSettingsProvider←AppSettings）。`AppSettings.getInstance()` 调用点不改（整体搬入方案）；`RhythmApplication.instance` 全局入口保留。禁止引入 Koin 等其他 DI 框架。
+- **UI 获取 ViewModel 一律 `hiltViewModel()`**（androidx.hilt:hilt-navigation-compose，33 处已迁移）：`viewModel()` 在 NavBackStackEntry 上走 SavedStateViewModelFactory、不走 Hilt 工厂，对多参构造反射必崩（PR-6 真机踩坑）。`rememberAppUpdaterViewModel()` 内部已是 hiltViewModel。
+- ViewModel：5 个 ViewModel 全部继承 `AndroidViewModel(application)` 且 `@HiltViewModel`（`MusicViewModel`、`StreamingMusicViewModel`、`AppModeViewModel`（零引用，待清理）、`ThemeViewModel`、`AppUpdaterViewModel`）。只允许 Application 级 context，禁止持有 Activity / View / Fragment / Context。
 - 状态：主流写法是 `private val _x = MutableStateFlow(initial)` + 暴露 `val x: StateFlow<T> = _x.asStateFlow()`；派生状态用 `combine/map` + `stateIn(...)`。现存两种 `SharingStarted` 都有：`MusicViewModel` 的大列表用 `Eagerly`，`AppModeViewModel` 与组合状态用 `WhileSubscribed(5000)`；跟随所在文件 / 邻近代码，不要强行统一。
 - **UI 收集方式统一 `collectAsState()`**（全仓 1000+ 处，91 个文件）。不要新写 `collectAsStateWithLifecycle()`，也不要两种混用；`lifecycle-runtime-compose` 未作为直接依赖声明（只显式依赖 `lifecycle-runtime-ktx`，`LocalLifecycleOwner` 可经传递依赖 import）。若要切换，属于需要审批的依赖 + 全量迁移。
 - **本项目不是 MVI**：没有 `XxxIntent` / `XxxEffect`。屏幕直接调用 ViewModel 的 `fun xxx()`；不要为「架构纯洁」引入 Intent/Reducer 层。
@@ -166,6 +167,6 @@ PR-5 后共 **11 个 Gradle 模块** + `:macrobenchmark` + `build-logic/`。模�
 | 构建 | `./gradlew assembleDebug`（arm64-only，debug applicationId `chromahub.rhythm.app.debug`） |
 | 测试 | 第 2 节「全部 JVM 单测」命令（36 类分布 7 个模块；无 MockK / Turbine / coroutines-test） |
 | 关键路径 | `app/src/main/java/chromahub/rhythm/app/`（组合根：Activity/导航/RhythmApplication）+ `core/`、`feature/` 模块（package 保留旧路径，import 按 package 不按模块） |
-| 状态 | `StateFlow` + `asStateFlow()`，UI 用 `collectAsState()`；无 MVI、无 XML 布局；Hilt 迁移进行中（存量手动 DI） |
+| 状态 | `StateFlow` + `asStateFlow()`，UI 用 `collectAsState()`；无 MVI、无 XML 布局；Hilt 已接线（PR-6）：UI 取 VM 用 `hiltViewModel()`，勿用 `viewModel()` |
 | 质量 | 无 lint / detekt / ktlint / spotless；只跑 `python3 scripts/check_plural_specifiers.py` |
-| 禁止 | 加 `kotlin-android` 插件、加 Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号、拆分外新建 Gradle 模块、feature→feature 新依赖 |
+| 禁止 | 加 `kotlin-android` 插件、加 Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号、拆分外新建 Gradle 模块、feature→feature 新依赖、`viewModel()` 取 5 个 Hilt VM |

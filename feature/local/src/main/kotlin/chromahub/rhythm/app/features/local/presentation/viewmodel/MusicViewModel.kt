@@ -1,5 +1,9 @@
 package chromahub.rhythm.app.features.local.presentation.viewmodel
 
+import chromahub.rhythm.app.features.streaming.domain.repository.StreamingMusicRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 import android.app.Activity
 import android.app.Application
 import android.content.BroadcastReceiver
@@ -116,7 +120,12 @@ import chromahub.rhythm.app.core.common.ServiceStartUtils
 import chromahub.rhythm.app.utils.StatusBroadcaster
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 
-class MusicViewModel(application: Application) : AndroidViewModel(application),
+@HiltViewModel
+class MusicViewModel @Inject constructor(
+    application: Application,
+    private val repository: MusicRepository,
+    private val streamingRepository: StreamingMusicRepository,
+) : AndroidViewModel(application),
     chromahub.rhythm.app.infrastructure.service.LocalQueueController {
 
     sealed class RestoreResult {
@@ -179,7 +188,6 @@ class MusicViewModel(application: Application) : AndroidViewModel(application),
         private const val METADATA_EXTRA_ORIGINAL_ALBUM = "chromahub.rhythm.app.extra.original_album"
     }
 
-    private val repository = MusicRepository(application)
     private val notificationManagerHelper = LibraryNotificationManager(application)
     private val metadataManagerHelper = LibraryMetadataManager(
         context = application,
@@ -5546,8 +5554,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application),
         if (songId.startsWith("streaming://") || songId.contains("::")) {
             viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
                 try {
-                    val repository = chromahub.rhythm.app.features.streaming.di.StreamingMusicModule.provideStreamingMusicRepository(getApplication())
-                    repository.reportPlaybackStart(songId)
+                    streamingRepository.reportPlaybackStart(songId)
                 } catch (e: Exception) {
                     Log.e(TAG, "Failed to scrobble playback start for song: $songId", e)
                 }
@@ -5634,8 +5641,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application),
                 if (songId.startsWith("streaming://") || songId.contains("::")) {
                     viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
                         try {
-                            val repository = chromahub.rhythm.app.features.streaming.di.StreamingMusicModule.provideStreamingMusicRepository(getApplication())
-                            repository.reportPlaybackStop(songId, actualDuration)
+                            streamingRepository.reportPlaybackStop(songId, actualDuration)
                         } catch (e: Exception) {
                             Log.e(TAG, "Failed to scrobble playback stop for song: $songId", e)
                         }

@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.components
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -77,9 +79,9 @@ fun PermissionHandler(
     isInitializingApp: Boolean, // Pass as parameter
     onSetIsLoading: (Boolean) -> Unit, // Callback to update state
     onSetIsInitializingApp: (Boolean) -> Unit, // Callback to update state
-    musicViewModel: MusicViewModel = viewModel(),
+    musicViewModel: MusicViewModel = hiltViewModel(),
     updaterViewModel: AppUpdaterViewModel = rememberAppUpdaterViewModel(),
-    streamingViewModel: StreamingMusicViewModel = viewModel(),
+    streamingViewModel: StreamingMusicViewModel = hiltViewModel(),
     showMediaScanLoader: Boolean,
     onShowMediaScanLoaderChange: (Boolean) -> Unit
 ) {

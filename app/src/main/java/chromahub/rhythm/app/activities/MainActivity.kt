@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.activities
 
+import dagger.hilt.android.AndroidEntryPoint
+
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
@@ -151,6 +153,7 @@ import androidx.mediarouter.media.MediaRouter
 import androidx.mediarouter.media.MediaRouteSelector
 import androidx.mediarouter.media.MediaControlIntent
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val musicViewModel: MusicViewModel by viewModels()

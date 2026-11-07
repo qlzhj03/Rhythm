@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -250,7 +252,7 @@ fun OnboardingScreen(
     appSettings: AppSettings,
     musicViewModel: MusicViewModel,
     updaterViewModel: AppUpdaterViewModel = rememberAppUpdaterViewModel(),
-    streamingViewModel: StreamingMusicViewModel = viewModel(),
+    streamingViewModel: StreamingMusicViewModel = hiltViewModel(),
     onFinish: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -1881,7 +1883,7 @@ fun EnhancedBackupRestoreContent(
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
     val scrollState = rememberScrollState()
 
     // State for backup settings
@@ -4853,7 +4855,7 @@ fun EnhancedFullTourPromptContent(
 fun EnhancedUpdaterContent(
     onNextStep: () -> Unit,
     appSettings: AppSettings,
-    updaterViewModel: AppUpdaterViewModel = viewModel(),
+    updaterViewModel: AppUpdaterViewModel = hiltViewModel(),
     isTablet: Boolean = false,
     backButton: @Composable (() -> Unit)? = null,
     nextButton: @Composable () -> Unit

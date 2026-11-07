@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -106,8 +108,8 @@ import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UniversalSearchScreen(
-    localViewModel: MusicViewModel = viewModel(),
-    streamingViewModel: StreamingMusicViewModel = viewModel(),
+    localViewModel: MusicViewModel = hiltViewModel(),
+    streamingViewModel: StreamingMusicViewModel = hiltViewModel(),
     onLocalSongClick: (Song) -> Unit = {},
     onLocalAlbumClick: (Album) -> Unit = {},
     onLocalArtistClick: (Artist) -> Unit = {},

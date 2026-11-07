@@ -2,6 +2,8 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
@@ -50,7 +52,7 @@ fun PlaybackSettingsScreen(
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)
     val hapticFeedback = LocalHapticFeedback.current
-    val musicViewModel: MusicViewModel = viewModel()
+    val musicViewModel: MusicViewModel = hiltViewModel()
 
     val replayGain by appSettings.replayGain.collectAsState()
     val skipSilenceEnabled by appSettings.skipSilenceEnabled.collectAsState()

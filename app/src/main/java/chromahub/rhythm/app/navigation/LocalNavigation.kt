@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -366,10 +368,10 @@ private fun AnimateIn(
 @Composable
 fun LocalNavigation(
     navController: NavHostController = rememberNavController(),
-    viewModel: MusicViewModel = viewModel(),
-    themeViewModel: ThemeViewModel = viewModel(),
+    viewModel: MusicViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
-    streamingMusicViewModel: StreamingMusicViewModel = viewModel()
+    streamingMusicViewModel: StreamingMusicViewModel = hiltViewModel()
 ) {
     val miniPlayerThemeId by appSettings.miniPlayerThemeId.collectAsState()
     val respectAlbumOnPlay by appSettings.respectAlbumOnPlay.collectAsState()

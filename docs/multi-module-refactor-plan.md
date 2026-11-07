@@ -151,12 +151,18 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 > - 导航：RhythmNavigation + LocalNavigation + MainScreen → `:app/navigation/`；`Screen` → :feature:local、`SettingsRoutes` → :core:ui。
 > - 验收：`:app:compileDebugKotlin` + 全模块 testDebugUnitTest + `assembleDebug` 全绿（2026-11-07）；assembleRelease 留待 PR-6 门禁。
 
-### PR-6：Hilt 全面接线
-- `@HiltAndroidApp`（RhythmApplication 瘦身：删 NetworkClient.initialize，保留 CrashReporter/Coil ImageLoaderFactory/ANR watchdog）。
-- `@AndroidEntryPoint` ×4 Activity；`@HiltViewModel` ×5（MusicViewModel 10800 行构造注入为机械改动，单独评审）。
-- LocalMusicModule/StreamingMusicModule → `@Module @InstallIn`；Multibinding 实现 `StreamingProviderRegistry`；过渡期手动注入点全部替换为 @Inject。
-- AppSettings.getInstance() 调用点**不改**（用户已选整体搬入方案）。
-- 验收：编译 + 单测绿 + 全功能冒烟 + **assembleRelease 一次**（验证 proguard × Hilt）。
+### PR-6：Hilt 全面接线（已完成 ✅ 2026-11-07）
+> 执行偏差（已回写）：
+> 1. **LocalMusicModule 直接删除**（原计划转 @Module @InstallIn）：审计发现它已是零调用死代码——MusicViewModel 直连具体类构造；且具体类 `class MusicRepository` **从未实现**同名 `core.domain.repository.MusicRepository` 接口（接口只被 StreamingMusicRepository 继承），@Binds 无从谈起。具体类改 `@Inject constructor(@ApplicationContext, StreamingMusicRepository)`，Hilt 直接提供。
+> 2. **StreamingProviderRegistry Multibinding 缓期**：三个流媒体 client 在 StreamingMusicRepositoryImpl 内直接构造、无 provider 分派缝隙；建无消费者的注册表违背仓库死代码纪律。留给后续 PR 在真实分派需求出现时再做。
+> 3. **hiltViewModel() 迁移（计划外必要修正）**：`lifecycle-viewmodel-compose` 的 `viewModel()` 在 NavBackStackEntry 上走 SavedStateViewModelFactory（不委托父级 Hilt 工厂），对多参构造反射失败——真机启动崩溃，CrashReporter 堆栈定位。33 处 `viewModel()` → `hiltViewModel()`（androidx.hilt:hilt-navigation-compose 入 catalog 自 PR-1 首次启用）；`rememberAppUpdaterViewModel` 内部同步改。
+> 4. NetworkClientInitializer（:app di/）收编 NetworkClient.initialize 调用：settings 经 AppModule @Provides（AppSettings 实现接口不变），flags/debug 走 AppBuildInfo 缝隙，version/token 保持 :app BuildConfig 引用（红线不动）。
+> 5. 顺带消掉一处跨 feature data import：MusicRepositoryImpl 内 `StreamingMusicModule.provide...` → 构造注入 StreamingMusicRepository（AGENTS.md「禁止新增两个 feature 的 data 层互相 import」的历史违例就此清零）。
+> 6. **PR-5 遗留修复**：assembleRelease 的库级资源校验（debug 不执行）暴露 designsystem 的 drawable 引用外部颜色——`widget_preview_bg/art` → `:feature:widget`、`ic_launcher_background` → `:app`（与蓝图 §二.2 资源策略一致，属 PR-5 应搬未搬）。
+> - `@HiltAndroidApp`（RhythmApplication：@Inject streamingRepository/networkClientInitializer，缝隙安装保留）。
+> - `@AndroidEntryPoint` ×4 Activity（含 `:crash_process` 的 CrashActivity）；`@HiltViewModel` ×5（MusicViewModel 构造注入 repository + streamingRepository，10800 行主体零改动）。
+> - AppSettings.getInstance() 调用点**不改**（整体搬入方案）。
+> - 验收：编译 + 全模块单测绿 + assembleRelease（proguard × Hilt）绿 + 真机冒烟（启动/流媒体播放/设置/备份页/后台播放，0 崩溃）。
 
 ### PR-7：kotlinx.serialization + 收尾
 - :core:network Gson → kotlinx.serialization（15 文件 DTO、9 个 ApiService 注解、converter 替换、proguard 规则）。

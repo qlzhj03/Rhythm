@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -121,9 +123,9 @@ import chromahub.rhythm.app.core.common.rhythmGuardFormatDurationFromMinutes
 @Composable
 fun RhythmNavigation(
     modifier: Modifier = Modifier,
-    musicViewModel: MusicViewModel = viewModel(),
-    themeViewModel: ThemeViewModel = viewModel(),
-    streamingMusicViewModel: StreamingMusicViewModel = viewModel(),
+    musicViewModel: MusicViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+    streamingMusicViewModel: StreamingMusicViewModel = hiltViewModel(),
     navigateToSettingsTrigger: Boolean = false,
     onSettingsNavigationComplete: (() -> Unit)? = null
 ) {

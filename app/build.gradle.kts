@@ -15,6 +15,7 @@ plugins {
     // support via com.android.application; the baselineProfile() dep below and
     // the baseline-prof.txt file are sufficient.
     id("kotlin-parcelize")
+    id("rhythm.hilt")
 //    alias(libs.plugins.kotlin.serialization)
 }
 
@@ -202,6 +203,7 @@ dependencies {
     coreLibraryDesugaring(libs.androidx.desugar.jdk.libs)
 
     // Core Android dependencies
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core)
@@ -249,6 +251,7 @@ dependencies {
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Permissions
     implementation(libs.com.google.accompanist.accompanist.permissions)

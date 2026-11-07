@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 import androidx.activity.compose.BackHandler
@@ -212,7 +214,7 @@ fun AlbumDetailScreen(
         onComplete: (successCount: Int, failCount: Int) -> Unit
     ) -> Unit)? = null,
     isStreamingMode: Boolean = false,
-    viewModel: MusicViewModel = viewModel()
+    viewModel: MusicViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current

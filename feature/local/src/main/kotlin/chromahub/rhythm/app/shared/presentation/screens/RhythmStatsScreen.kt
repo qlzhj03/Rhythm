@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.screens
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
@@ -78,7 +80,7 @@ import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 @Composable
 fun RhythmStatsScreen(
     navController: NavController,
-    viewModel: MusicViewModel = viewModel()
+    viewModel: MusicViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current

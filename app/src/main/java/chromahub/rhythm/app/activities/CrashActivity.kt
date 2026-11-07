@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.activities
 
+import dagger.hilt.android.AndroidEntryPoint
+
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 
@@ -64,6 +66,7 @@ import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 
+@AndroidEntryPoint
 class CrashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
