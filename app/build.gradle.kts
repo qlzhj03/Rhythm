@@ -304,6 +304,10 @@ dependencies {
 
     // Testing
     testImplementation(libs.junit)
+    // Benchmark variant only: merges androidx.benchmark IsolationActivity into
+    // the manifest so AndroidBenchmarkRunner (targeting this app) can launch it
+    // during baseline profile generation (PR-7).
+    add("benchmarkImplementation", libs.androidx.benchmark.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver3)
     // Real org.json for JVM tests; android.jar only has stubs.
     testImplementation(libs.org.json)

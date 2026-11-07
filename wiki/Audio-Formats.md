@@ -1,3 +1,7 @@
+> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
+> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
+> 保留仅供历史参考，内容可能不再准确。
+
 # 音频格式支持
 
 Rhythm 使用 **Media3 ExoPlayer 1.11.1 + FFmpeg 解码器**（Jellyfin media3-ffmpeg-decoder）实现专业级音频播放。本页详细介绍支持的格式、技术限制和推荐建议。

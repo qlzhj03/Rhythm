@@ -1,9 +1,11 @@
 package chromahub.rhythm.app.network
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -38,7 +40,7 @@ object AppleMusicCanvasProvider {
             .build()
     }
 
-    private val gson = Gson()
+    private val json = Json { ignoreUnknownKeys = true }
 
     private data class CacheEntry(
         val value: CanvasArtwork?,
@@ -213,26 +215,26 @@ object AppleMusicCanvasProvider {
             client.newCall(request).execute().use { response ->
                 if (response.code != 200) return@use null
                 val bodyStr = response.body.string()
-                val root = JsonParser.parseString(bodyStr).asJsonObject
-                val resultsObj = root.getAsJsonObject("results") ?: return@use null
-                val typeObj = resultsObj.getAsJsonObject("albums") ?: return@use null
-                val dataArray = typeObj.getAsJsonArray("data") ?: return@use null
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val resultsObj = root["results"]?.jsonObject ?: return@use null
+                val typeObj = resultsObj["albums"]?.jsonObject ?: return@use null
+                val dataArray = typeObj["data"]?.jsonArray ?: return@use null
 
                 for (itemElement in dataArray) {
-                    val obj = itemElement.asJsonObject
-                    val attributes = obj.getAsJsonObject("attributes") ?: continue
-                    val resultArtistName = attributes.get("artistName")?.asString ?: ""
-                    val resultName = attributes.get("name")?.asString ?: ""
+                    val obj = itemElement.jsonObject
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
 
                     if (artistMatches(artist, resultArtistName) &&
                         (resultName.equals(album, ignoreCase = true) ||
                          resultName.contains(album, ignoreCase = true) ||
                          album.contains(resultName, ignoreCase = true))
                     ) {
-                        val editorialNotes = attributes.getAsJsonObject("editorialNotes")
+                        val editorialNotes = attributes["editorialNotes"]?.jsonObject
                         if (editorialNotes != null) {
-                            val description = editorialNotes.get("standard")?.asString
-                                ?: editorialNotes.get("short")?.asString
+                            val description = editorialNotes["standard"]?.jsonPrimitive?.contentOrNull
+                                ?: editorialNotes["short"]?.jsonPrimitive?.contentOrNull
                             if (!description.isNullOrBlank()) {
                                 return@use description.replace(Regex("<[^>]*>"), "").trim()
                             }
@@ -286,20 +288,20 @@ object AppleMusicCanvasProvider {
                 }
 
                 val bodyStr = response.body.string()
-                val root = JsonParser.parseString(bodyStr).asJsonObject
-                val resultsObj = root.getAsJsonObject("results") ?: return@use null
-                val typeObj = resultsObj.getAsJsonObject(type) ?: return@use null
-                val dataArray = typeObj.getAsJsonArray("data") ?: return@use null
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val resultsObj = root["results"]?.jsonObject ?: return@use null
+                val typeObj = resultsObj[type]?.jsonObject ?: return@use null
+                val dataArray = typeObj["data"]?.jsonArray ?: return@use null
 
                 val scoredResults = mutableListOf<Pair<Int, JsonObject>>()
 
                 for (itemElement in dataArray) {
-                    val obj = itemElement.asJsonObject
-                    val attributes = obj.getAsJsonObject("attributes") ?: continue
-                    val resultArtistName = attributes.get("artistName")?.asString ?: ""
-                    val resultName = attributes.get("name")?.asString ?: ""
-                    val resultCollectionName = attributes.get("albumName")?.asString 
-                        ?: attributes.get("collectionName")?.asString 
+                    val obj = itemElement.jsonObject
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultCollectionName = attributes["albumName"]?.jsonPrimitive?.contentOrNull 
+                        ?: attributes["collectionName"]?.jsonPrimitive?.contentOrNull 
                         ?: ""
 
                     val nameLower = resultName.lowercase(Locale.ROOT)
@@ -360,29 +362,29 @@ object AppleMusicCanvasProvider {
                         NetworkLog.d(APPLE_CANVAS_LOG_TAG, "skipping result with low score: $score")
                         continue
                     }
-                    val attributes = obj.getAsJsonObject("attributes") ?: continue
-                    val resultName = attributes.get("name")?.asString ?: ""
-                    val resultArtistName = attributes.get("artistName")?.asString ?: ""
+                    val attributes = obj["attributes"]?.jsonObject ?: continue
+                    val resultName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                    val resultArtistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: ""
 
                     var targetAlbumId: String? = null
-                    val objType = obj.get("type")?.asString
+                    val objType = obj["type"]?.jsonPrimitive?.contentOrNull
 
                     if (objType == "songs") {
-                        val relationships = obj.getAsJsonObject("relationships")
+                        val relationships = obj["relationships"]?.jsonObject
                         if (relationships != null) {
-                            val albumsRel = relationships.getAsJsonObject("albums")
+                            val albumsRel = relationships["albums"]?.jsonObject
                             if (albumsRel != null) {
-                                val albumsData = albumsRel.getAsJsonArray("data")
-                                if (albumsData != null && albumsData.size() > 0) {
-                                    targetAlbumId = albumsData.get(0).asJsonObject.get("id")?.asString
+                                val albumsData = albumsRel["data"]?.jsonArray
+                                if (albumsData != null && albumsData.isNotEmpty()) {
+                                    targetAlbumId = albumsData[0].jsonObject["id"]?.jsonPrimitive?.contentOrNull
                                 }
                             }
                         }
                         if (targetAlbumId == null) {
-                            targetAlbumId = attributes.get("collectionId")?.asString
+                            targetAlbumId = attributes["collectionId"]?.jsonPrimitive?.contentOrNull
                         }
                         if (targetAlbumId == null) {
-                            val url = attributes.get("url")?.asString
+                            val url = attributes["url"]?.jsonPrimitive?.contentOrNull
                             if (url != null) {
                                 val albumPart = url.substringAfter("/album/", "").substringBefore("?")
                                 val id = albumPart.substringAfterLast("/", "")
@@ -392,7 +394,7 @@ object AppleMusicCanvasProvider {
                             }
                         }
                     } else if (objType == "albums") {
-                        targetAlbumId = obj.get("id")?.asString
+                        targetAlbumId = obj["id"]?.jsonPrimitive?.contentOrNull
                     }
 
                     if (targetAlbumId == null || targetAlbumId.startsWith("pl.")) {
@@ -403,11 +405,11 @@ object AppleMusicCanvasProvider {
                     NetworkLog.d(APPLE_CANVAS_LOG_TAG, "trying resolve for $targetAlbumId (from $objType)")
 
                     // Check editorialVideo directly in the search result
-                    val ev = attributes.getAsJsonObject("editorialVideo")
+                    val ev = attributes["editorialVideo"]?.jsonObject
                     if (ev != null) {
                         val hlsUrl = extractEditorialVideoUrl(ev)
                         if (!hlsUrl.isNullOrBlank()) {
-                            val collName = attributes.get("collectionName")?.asString
+                            val collName = attributes["collectionName"]?.jsonPrimitive?.contentOrNull
                             val resolvedAlbumName = if (objType == "songs") collName else resultName
                             NetworkLog.d(APPLE_CANVAS_LOG_TAG, "Found direct editorialVideo for $resultName (ID: $targetAlbumId)")
                             return@use CanvasArtwork(
@@ -466,14 +468,14 @@ object AppleMusicCanvasProvider {
                 }
 
                 val bodyStr = response.body.string()
-                val root = JsonParser.parseString(bodyStr).asJsonObject
-                val dataArray = root.getAsJsonArray("data") ?: return@use null
-                if (dataArray.size() == 0) return@use null
+                val root = json.parseToJsonElement(bodyStr).jsonObject
+                val dataArray = root["data"]?.jsonArray ?: return@use null
+                if (dataArray.isEmpty()) return@use null
 
-                val albumObj = dataArray.get(0).asJsonObject
-                val attributes = albumObj.getAsJsonObject("attributes") ?: return@use null
-                val albumName = attributes.get("name")?.asString ?: ""
-                val artistName = attributes.get("artistName")?.asString ?: fallbackArtist
+                val albumObj = dataArray[0].jsonObject
+                val attributes = albumObj["attributes"]?.jsonObject ?: return@use null
+                val albumName = attributes["name"]?.jsonPrimitive?.contentOrNull ?: ""
+                val artistName = attributes["artistName"]?.jsonPrimitive?.contentOrNull ?: fallbackArtist
 
                 val nameLower = albumName.lowercase(Locale.ROOT)
                 val isBlacklisted = nameLower.contains("playlist") || nameLower.contains("set list") ||
@@ -489,7 +491,7 @@ object AppleMusicCanvasProvider {
                 val finalTitle = titleOverride ?: albumName
                 val finalArtist = artistOverride ?: artistName
 
-                val ev = attributes.getAsJsonObject("editorialVideo")
+                val ev = attributes["editorialVideo"]?.jsonObject
                 if (ev != null) {
                     val videoUrl = extractEditorialVideoUrl(ev)
                     if (!videoUrl.isNullOrBlank()) {
@@ -515,11 +517,11 @@ object AppleMusicCanvasProvider {
     private fun extractEditorialVideoUrl(ev: JsonObject): String? {
         val candidates = listOf("motionDetailRaw", "motionDetailSquare", "motionDetailTall", "motionDetailStatic")
         for (key in candidates) {
-            val asset = ev.getAsJsonObject(key) ?: continue
-            val video = asset.get("video")?.asString
-                ?: asset.get("videoUrl")?.asString
-                ?: asset.get("hlsUrl")?.asString
-                ?: asset.get("url")?.asString
+            val asset = ev[key]?.jsonObject ?: continue
+            val video = asset["video"]?.jsonPrimitive?.contentOrNull
+                ?: asset["videoUrl"]?.jsonPrimitive?.contentOrNull
+                ?: asset["hlsUrl"]?.jsonPrimitive?.contentOrNull
+                ?: asset["url"]?.jsonPrimitive?.contentOrNull
             
             if (!video.isNullOrBlank()) return video
         }

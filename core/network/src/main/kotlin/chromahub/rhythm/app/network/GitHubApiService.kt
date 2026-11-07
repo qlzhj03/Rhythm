@@ -1,5 +1,6 @@
 package chromahub.rhythm.app.network
 
+import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -10,28 +11,29 @@ import retrofit2.http.Query
 /**
  * GitHub Release model that matches the GitHub API release response format
  */
+@Serializable
 data class GitHubRelease(
-    val id: Long,
-    val tag_name: String,
-    val name: String,
-    val body: String,
-    val draft: Boolean,
-    val prerelease: Boolean,
-    val published_at: String,
-    val html_url: String,
-    val assets: List<GitHubAsset>
-)
+    val id: Long = 0L,
+    val tag_name: String = "",
+    val name: String = "",
+    val body: String = "",
+    val draft: Boolean = false,
+    val prerelease: Boolean = false,
+    val published_at: String = "",
+    val html_url: String = "",
+    val assets: List<GitHubAsset> = emptyList())
 
 /**
  * GitHub Asset model for release assets
  */
+@Serializable
 data class GitHubAsset(
-    val id: Long,
-    val name: String,
-    val browser_download_url: String,
-    val content_type: String,
-    val size: Long,
-    val state: String,
+    val id: Long = 0L,
+    val name: String = "",
+    val browser_download_url: String = "",
+    val content_type: String = "",
+    val size: Long = 0L,
+    val state: String = "",
     val download_count: Long = 0
 )
 
@@ -151,48 +153,48 @@ interface GitHubApiService {
 /**
  * GitHub Artifacts Response wrapper
  */
+@Serializable
 data class GitHubArtifactsResponse(
-    val total_count: Int,
-    val artifacts: List<GitHubArtifact>
-)
+    val total_count: Int = 0,
+    val artifacts: List<GitHubArtifact> = emptyList())
 
 /**
  * GitHub Artifact model
  */
+@Serializable
 data class GitHubArtifact(
-    val id: Long,
-    val name: String,
-    val size_in_bytes: Long,
-    val expired: Boolean
-)
+    val id: Long = 0L,
+    val name: String = "",
+    val size_in_bytes: Long = 0L,
+    val expired: Boolean = false)
 
 /**
  * GitHub Workflow Runs Response wrapper
  */
+@Serializable
 data class GitHubWorkflowRunsResponse(
-    val total_count: Int,
-    val workflow_runs: List<GitHubWorkflowRun>
-)
+    val total_count: Int = 0,
+    val workflow_runs: List<GitHubWorkflowRun> = emptyList())
 
 /**
  * GitHub Workflow Run model
  */
+@Serializable
 data class GitHubWorkflowRun(
-    val id: Long,
-    val run_number: Int,
-    val status: String,
-    val conclusion: String?,
-    val updated_at: String,
-    val head_branch: String,
-    val head_sha: String,
-    val head_commit: GitHubHeadCommit?
-)
+    val id: Long = 0L,
+    val run_number: Int = 0,
+    val status: String = "",
+    val conclusion: String? = null,
+    val updated_at: String = "",
+    val head_branch: String = "",
+    val head_sha: String = "",
+    val head_commit: GitHubHeadCommit? = null)
 
 /**
  * GitHub Head Commit model inside workflow run
  */
+@Serializable
 data class GitHubHeadCommit(
-    val id: String,
-    val message: String,
-    val timestamp: String
-) 
+    val id: String = "",
+    val message: String = "",
+    val timestamp: String = "") 

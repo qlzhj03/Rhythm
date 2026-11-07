@@ -1,6 +1,8 @@
 package chromahub.rhythm.app.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,16 +17,16 @@ interface ITunesSearchApiService {
     ): ITunesSearchResponse
 }
 
+@Serializable
 data class ITunesSearchResponse(
-    @SerializedName("resultCount") val resultCount: Int,
-    @SerializedName("results") val results: List<ITunesTrackResult>
-)
+    @SerialName("resultCount") val resultCount: Int = 0,
+    @SerialName("results") val results: List<ITunesTrackResult> = emptyList())
 
+@Serializable
 data class ITunesTrackResult(
-    @SerializedName("trackId") val trackId: Long,
-    @SerializedName("trackName") val trackName: String?,
-    @SerializedName("artistName") val artistName: String?,
-    @SerializedName("collectionName") val collectionName: String?,
-    @SerializedName("trackTimeMillis") val trackTimeMillis: Long?,
-    @SerializedName("artworkUrl100") val artworkUrl100: String?
-)
+    @SerialName("trackId") val trackId: Long = 0L,
+    @SerialName("trackName") val trackName: String? = null,
+    @SerialName("artistName") val artistName: String? = null,
+    @SerialName("collectionName") val collectionName: String? = null,
+    @SerialName("trackTimeMillis") val trackTimeMillis: Long? = null,
+    @SerialName("artworkUrl100") val artworkUrl100: String? = null)

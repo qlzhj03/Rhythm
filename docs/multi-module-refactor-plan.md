@@ -164,11 +164,12 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 > - AppSettings.getInstance() 调用点**不改**（整体搬入方案）。
 > - 验收：编译 + 全模块单测绿 + assembleRelease（proguard × Hilt）绿 + 真机冒烟（启动/流媒体播放/设置/备份页/后台播放，0 崩溃）。
 
-### PR-7：kotlinx.serialization + 收尾
-- :core:network Gson → kotlinx.serialization（15 文件 DTO、9 个 ApiService 注解、converter 替换、proguard 规则）。
-- **baseline profile 重生成**：包名全变后旧 35272 行条目已失效（不崩溃但性能回退）——需 arm64 真机/模拟器跑 macrobenchmark BaselineProfileGenerator。
-- AGENTS.md 终稿 + wiki 过时标注；与用户确认后重估 `org.gradle.parallel=false`。
-- 验收：`./gradlew assembleDebug :app:testDebugUnitTest` + `assembleRelease` + installDebug 冒烟 + （可选）benchmark 变体跑通。
+### PR-7：kotlinx.serialization + 收尾（已完成 ✅ 2026-11-07，baseline profile 生成待人工配合）
+> 执行偏差（已回写）：
+> 1. **:core:network Gson → kotlinx.serialization 完成**：7 个 @SerializedName DTO 文件（79 注解）+ GitHubApiService（无注解 DTO 6 类）共 61 个 data class 加 @Serializable 并补默认值；NetworkClient 8 处 GsonConverterFactory → `json.asConverterFactory`（Gson-parity 配置：ignoreUnknownKeys/isLenient/coerceInputValues/explicitNulls=false/**encodeDefaults=true**——保持请求体默认字段序列化）；AppleMusicCanvasProvider/WikipediaProvider 的手动 JsonParser 遍历迁 kotlinx JsonElement API；NetworkManager 同步换 converter。proguard 规则按官方模板追加 network 包 keep。
+> 2. **baseline profile 重生成被 OEM 拦截，待人工配合**（流程已文档化进 AGENTS.md §9）：真机实测连修 4 个 macrobenchmark 结构问题——`self-instrumenting=true` 使 targetPackage 指向 test 自身（旧 profile 只有库类的根因，已移除）；benchmark buildType 签名必须与 :app 一致（keystore.properties）；:app benchmark 变体需 `benchmarkImplementation` 注入 IsolationActivity；test 侧 lifecycle 与 :app 对齐（否则 NoSuchFieldError）。修复后 target 进程被荣耀系统管家（iAware）"by app" 杀掉——需用户在系统管家中加白名单后按 AGENTS.md §9 流程执行。`benchmark` 变体生成期间需临时 non-minified（混淆名 profile 无法 R8 remap），已还原。
+> 3. AGENTS.md 终稿 + wiki 14 文件过时横幅 完成；`org.gradle.parallel=false` 重估**留待用户确认**（gradle.properties 红线不动）。
+> - 验收：assembleDebug + 全模块单测绿 + assembleRelease 绿（proguard × kotlinx.serialization）+ installDebug 冒烟（流媒体播放经新 converter，0 SerializationException）。
 
 ---
 

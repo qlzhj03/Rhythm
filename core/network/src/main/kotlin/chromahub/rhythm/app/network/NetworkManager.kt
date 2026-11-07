@@ -4,7 +4,9 @@ import android.content.Context
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -56,7 +58,8 @@ object NetworkManager {
         val retrofit = Retrofit.Builder()
             .baseUrl(GITHUB_API_BASE_URL)
             .client(createOkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json { ignoreUnknownKeys = true; coerceInputValues = true; explicitNulls = false; encodeDefaults = true }
+            .asConverterFactory("application/json".toMediaType()))
             .build()
         
         return retrofit.create(GitHubApiService::class.java)

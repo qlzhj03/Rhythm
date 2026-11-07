@@ -1,6 +1,8 @@
 package chromahub.rhythm.app.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,10 +25,11 @@ interface SpotifySearchApiService {
 
 // ---------- DTOs ----------
 
+@Serializable
 data class SpotifySearchResponse(
-    val tracks: SpotifyTracksResponse?
-)
+    val tracks: SpotifyTracksResponse? = null)
 
+@Serializable
 data class SpotifyTracksResponse(
     val items: List<SpotifyTrack> = emptyList(),
     val total: Int = 0,
@@ -34,35 +37,35 @@ data class SpotifyTracksResponse(
     val offset: Int = 0
 )
 
+@Serializable
 data class SpotifyTrack(
-    val id: String,
-    val name: String,
+    val id: String = "",
+    val name: String = "",
     val artists: List<SpotifyArtist> = emptyList(),
-    val album: SpotifyAlbum?,
-    @SerializedName("duration_ms") val durationMs: Long = 0,
+    val album: SpotifyAlbum? = null,
+    @SerialName("duration_ms") val durationMs: Long = 0,
     val popularity: Int = 0,
-    @SerializedName("external_urls") val externalUrls: SpotifyExternalUrls?
-)
+    @SerialName("external_urls") val externalUrls: SpotifyExternalUrls? = null)
 
+@Serializable
 data class SpotifyArtist(
-    val id: String,
-    val name: String,
-    @SerializedName("external_urls") val externalUrls: SpotifyExternalUrls?
-)
+    val id: String = "",
+    val name: String = "",
+    @SerialName("external_urls") val externalUrls: SpotifyExternalUrls? = null)
 
+@Serializable
 data class SpotifyAlbum(
-    val id: String,
-    val name: String,
+    val id: String = "",
+    val name: String = "",
     val images: List<SpotifyImage> = emptyList(),
-    @SerializedName("release_date") val releaseDate: String?
-)
+    @SerialName("release_date") val releaseDate: String? = null)
 
+@Serializable
 data class SpotifyImage(
-    val url: String,
-    val width: Int?,
-    val height: Int?
-)
+    val url: String = "",
+    val width: Int? = null,
+    val height: Int? = null)
 
+@Serializable
 data class SpotifyExternalUrls(
-    val spotify: String?
-)
+    val spotify: String? = null)
