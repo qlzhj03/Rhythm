@@ -90,94 +90,7 @@
         </receiver>
         
 
-
-        <!-- Rhythm Music Widget (Modern Glance with Material 3) -->
-        <receiver
-            android:name=".infrastructure.widget.glance.RhythmWidgetReceiver"
-            android:exported="true"
-            android:label="@string/widget_name_glance"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_glance" />
-        </receiver>
-
-        <!-- Lyric Widget Provider (Glance-based) -->
-        <receiver
-            android:name=".infrastructure.widget.glance.RhythmLyricsWidgetReceiver"
-            android:exported="true"
-            android:label="Rhythm Lyrics"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/lyric_widget" />
-        </receiver>
-
-        <!-- Rhythm Cookie Widget -->
-        <receiver
-            android:name=".infrastructure.widget.glance.RhythmCookieWidgetReceiver"
-            android:exported="true"
-            android:label="Rhythm Cookie"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/rhythm_cookie_widget_info" />
-        </receiver>
-
-        <!-- Rhythm Stats Widget -->
-        <receiver
-            android:name=".infrastructure.widget.glance.RhythmStatsWidgetReceiver"
-            android:exported="true"
-            android:label="Rhythm Stats"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/rhythm_stats_widget_info" />
-        </receiver>
         
-        <!-- MediaPlaybackService is exported so Android Auto, the system
-             media controller and other apps can connect to the media session
-             and MediaBrowserService. A permission would block those clients. -->
-        <service
-            android:name=".infrastructure.service.MediaPlaybackService"
-            android:exported="true"
-            android:foregroundServiceType="mediaPlayback"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="androidx.media3.session.MediaSessionService" />
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-            <meta-data
-                android:name="androidx.media3.ui.PlayerNotificationManager.smallIcon"
-                android:resource="@drawable/ic_notification" />
-            <meta-data
-                android:name="androidx.media3.session.MediaNotification.smallIcon"
-                android:resource="@drawable/ic_notification" />
-            <meta-data
-                android:name="androidx.media3.ui.NotificationUtil.smallIcon"
-                android:resource="@drawable/ic_notification" />
-            <meta-data
-                android:name="androidx.media3.session.DefaultMediaNotificationProvider.smallIcon"
-                android:resource="@drawable/ic_notification" />
-            <meta-data
-                android:name="androidx.media3.ui.notification.small_icon"
-                android:resource="@drawable/ic_notification" />
-            <meta-data
-                android:name="androidx.media3.session.notification.small_icon"
-                android:resource="@drawable/ic_notification" />
-        </service>
         
         <activity
             android:name=".activities.CrashActivity"
@@ -280,24 +193,6 @@
                 android:value="true" />
         </service>
 
-        <!-- Rhythm Quick Settings Tile Service -->
-        <service
-            android:name=".infrastructure.service.RhythmTileService"
-            android:label="@string/app_name"
-            android:icon="@drawable/ic_notification"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <!-- On-demand album and song artwork provider -->
-        <provider
-            android:name=".infrastructure.provider.RhythmAlbumArtProvider"
-            android:authorities="${applicationId}.albumart"
-            android:exported="true"
-            android:grantUriPermissions="true" />
     </application>
 
 </manifest>

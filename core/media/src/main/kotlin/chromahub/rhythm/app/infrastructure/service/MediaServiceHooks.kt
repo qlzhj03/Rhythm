@@ -5,12 +5,15 @@ import android.content.Context
 
 /** Main-activity class + widget bridge, installed by :app (multi-module split PR-4). */
 object MediaServiceHooks {
+    /** Audio-effects panel request code (openSystemEqualizer contract). */
+    const val DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST = 1002
+
     /** Extra key for opening the player directly (owned by MainActivity). */
     @Volatile
     var openPlayerExtraKey: String = ""
 
     @Volatile
-    var mainActivityClass: Class<*>? = null
+    var mainActivityClass: Class<out android.app.Activity>? = null
 
     /** Artwork bitmap loader for the media session (lives in :app until PR-5). */
     /** Quality-tier icon drawables owned by :app (:core:media is resource-free). */
@@ -28,7 +31,7 @@ object MediaServiceHooks {
     @Volatile
     var guardTimeoutStarter: ((Context, String, Long, Long) -> Unit)? = null
 
-    fun requireMainActivity(): Class<*> =
+    fun requireMainActivity(): Class<out android.app.Activity> =
         mainActivityClass ?: error("MainActivity class not installed by :app")
 }
 

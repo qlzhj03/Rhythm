@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <!-- MediaPlaybackService is exported so Android Auto, the system
+             media controller and other apps can connect to the media session
+             and MediaBrowserService. A permission would block those clients. -->
+        <service
+            android:name=".infrastructure.service.MediaPlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.media3.ui.PlayerNotificationManager.smallIcon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="androidx.media3.session.MediaNotification.smallIcon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="androidx.media3.ui.NotificationUtil.smallIcon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="androidx.media3.session.DefaultMediaNotificationProvider.smallIcon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="androidx.media3.ui.notification.small_icon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="androidx.media3.session.notification.small_icon"
+                android:resource="@drawable/ic_notification" />
+        </service>
+
+        <!-- On-demand album and song artwork provider -->
+        <provider
+            android:name=".infrastructure.provider.RhythmAlbumArtProvider"
+            android:authorities="${applicationId}.albumart"
+            android:exported="true"
+            android:grantUriPermissions="true" />
+    </application>
+
+</manifest>

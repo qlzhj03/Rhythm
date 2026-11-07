@@ -179,7 +179,8 @@ class MainActivity : AppCompatActivity() {
     }
     
     companion object {
-        const val DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST = 1002
+        const val DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST =
+            chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST
         const val EXTRA_OPEN_PLAYER = "OPEN_PLAYER"
         const val EXTRA_OPEN_QUEUE = "OPEN_QUEUE"
     }

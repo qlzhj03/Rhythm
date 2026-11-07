@@ -190,6 +190,12 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:data"))
     implementation(project(":core:media"))
+    implementation(project(":core:ui"))
+    // PR-5 feature modules (:app is the only module allowed to see them all).
+    implementation(project(":feature:local"))
+    implementation(project(":feature:streaming"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:widget"))
 
     implementation(libs.androidx.compose.ui.unit)
     // Desugaring library

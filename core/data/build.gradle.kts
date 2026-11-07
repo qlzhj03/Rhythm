@@ -15,6 +15,9 @@ dependencies {
     api(project(":core:common"))
     api(project(":core:model"))
     api(project(":core:network"))
+    // BackupRestoreManager resolves user-facing strings through the shared
+    // resource center (PR-5 moved it here from :app).
+    implementation(project(":core:designsystem"))
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

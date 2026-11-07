@@ -54,6 +54,7 @@ uiautomator = "2.4.0"
 window = "1.5.1"
 reorderables = "3.1.0"
 zxingCore = "3.5.3"
+documentfile = "1.0.1"
 
 [libraries]
 androidx-window = { group = "androidx.window", name = "window", version.ref = "window" }
@@ -108,6 +109,7 @@ com-google-code-gson-gson = { group = "com.google.code.gson", name = "gson", ver
 org-jetbrains-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 androidx-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 androidx-compose-animation-core = { group = "androidx.compose.animation", name = "animation-core", version.ref = "animationCore" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }

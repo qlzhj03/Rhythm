@@ -47,16 +47,20 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 
 ```
 :app → 全部（唯一组合根）
-:feature:* → :core:*（禁止 feature→feature；PR-5 审计后如 :feature:settings 仍需 :feature:local，显式声明并记录为已知债务）
-:core:data → :core:model / :core:common / :core:network
+:feature:local → :core:* + :core:ui + :feature:streaming（已知债务：HomeScreen/UniversalSearch 嵌入流媒体状态卡）
+:feature:streaming → :core:* + :core:ui（无 feature 依赖）
+:feature:settings → :core:* + :core:ui + :feature:local（已知债务，蓝图明示）+ :feature:widget（债务）+ :feature:streaming（GoSettingsScreen，债务）
+:feature:widget → :core:*（无 feature 依赖）
+:core:data → :core:model / :core:common / :core:network / :core:designsystem（BackupRestoreManager 的 R.string）
 :core:media → :core:data / :core:model / :core:common / :core:network
 :core:network → :core:common
-:core:ui → :core:model / :core:designsystem / :core:common
+:core:ui → :core:model / :core:designsystem / :core:common / :core:data / :core:media
 :core:designsystem → :core:common
 :core:model / :core:common → 无依赖
 ```
 
-禁止：`infrastructure`→`features`（由接口倒置替代）、`data`→`presentation`（现状已干净，保持）。
+禁止：新增 feature→feature 依赖（现有 4 条为 PR-5 审计后的显式债务，见 PR-5 节）、`infrastructure`→`features`（由接口倒置替代）、`data`→`presentation`（现状已干净，保持）。
+注：蓝图原列的 `:feature:player` 已并入 `:feature:local`（PR-5 偏差 1），现共 13 个代码模块。
 
 ---
 
@@ -131,16 +135,21 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 - 测试搬移：播放器 9 个测试类 → :core:media。
 - 验收：编译 + 单测绿 + **播放冒烟**（后台播放、锁屏/蓝牙控制、QS tile、媒体路由、EQ/ReplayGain）。
 
-### PR-5：UI 层 `:core:ui` + 5 个 feature 模块 + 导航归位
-- :core:ui：bottomsheets 22 + dialogs 10 + 根级组件 5（AudioQualityBadges、MediaScanLoader、PermissionHandler 等）。
-- :feature:local：11 屏 + 13 组件 + MusicViewModel（10800 行原样搬移，构造/调用点改为注入接口）+ viewmodel 辅助 4 文件。
-- :feature:streaming：provider 3 家 + repository + StreamingMusicViewModel（`playNext(song, localViewModel)` 改接 `LocalQueueController`）+ 5 屏 + notification。
-- :feature:player：3 屏 + player 组件 14 + lyrics 组件 4（消费者仅 player 屏，不放 :core:ui）。
-- :feature:settings：44 屏 + 把被 25 个设置屏 import 的 local settings 组件（HomeSectionOrderBottomSheet 等）迁入，消掉 shared→features.local 反向依赖的大头；剩余依赖审计后显式声明。
-- :feature:widget：glance 15 文件 + widget res + receiver manifest。
-- 导航：RhythmNavigation + LocalNavigation → `:app/navigation/`；feature 导出 Routes 常量。
-- 测试搬移：Discover/Explorer/ArtistArtwork 等剩余测试类归位。
-- 验收：编译 + 全量单测绿 + 全功能冒烟（本地/流媒体/设置/小组件/搜索/歌词/外链播放/Crash 流程）。
+### PR-5：UI 层 `:core:ui` + 5 个 feature 模块 + 导航归位（已完成 ✅ 2026-11-07）
+> 执行偏差（已回写）：**零 import churn 贯穿全 PR**——所有搬移文件保留原 package（沿用 PR-3 策略），全仓 import 零改动；代价是「模块 ≠ 包名」，AGENTS.md §4 已登记全部错位。主要偏差：
+> 1. **`:feature:player` 并入 `:feature:local`**（蓝图原定独立）：本地脚手架（HomeScreen/LibraryScreen/EqualizerScreen）内嵌 MiniPlayer/PlayerScreen，而 player 屏组件又消费 MusicViewModel —— 双向依赖无法拆成两个 Gradle 模块，除非对 10800 行 MusicViewModel 做大规模接口手术，违背「原样搬移」。
+> 2. **EqualizerScreen + SettingsScreenWrapper 归 `:feature:settings`**（EqualizerScreen 包名仍是 `features.local.presentation.screens`）：EqualizerScreen 依赖 SettingsScreenWrapper（设置页 NavHost 宿主，引用全部设置屏），若留 local 会造成 local↔settings 双向依赖；其唯一引用方 LocalNavigation 在 :app，可见两个模块。
+> 3. **OnboardingScreen 三件套 + PermissionHandler 留 `:app`**：OnboardingScreen 同时消费 local/streaming/settings 三方符号（10k 行），PermissionHandler 是 MainActivity 专属的权限编排器 —— 放 :app 免缝隙。`AppModeViewModel`（零引用）留 :app。
+> 4. **AppUpdaterViewModel/ThemeViewModel/rememberAppUpdaterViewModel → `:core:ui`**：settings/local/app 三方共用且 AppUpdaterViewModel 被核心 ui（UpdateBottomSheet/BetaProgramPopup）引用；BuildConfig×11 → `AppBuildInfo` 缝隙（versionName/versionCode/releaseDate/flavor/isDebugBuild/isNightly/7 个 ENABLE_*），MainActivity×2 → `MediaServiceHooks.requireMainActivity()`。
+> 5. **新缝隙**：`LocalQueueController`（:core:media，替代 StreamingMusicViewModel 的 `localViewModel: MusicViewModel` 参数，MusicViewModel implements）；`LyricsSettingsGate`（:core:common，替代 LyricsParser→RhythmApplication.instance 读设置）；`CrashReporter.crashScreenStarter`（:app 安装 CrashActivity 启动器，CrashReporter 本体迁 :core:ui）；widget/streaming 侧 MainActivity intent 全部改走 `MediaServiceHooks.requireMainActivity()`；`MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST`（EqualizerScreen 引用，MainActivity const 委托到该常量）。
+> 6. **归属再平衡**：`ExtendedSongInfo`→`:core:model`；`formatDuration`→`:core:designsystem`（TimeFormat.kt，包名保留）；`MediaUtils`/`MetadataHeuristics`/`LyricsParser`/`RhythmLyricsParser`/`CacheManager`/`PlaceholderImageFactory`/`AudioArtworkFetcher`/`RhythmAlbumArtProvider`→`:core:media`；`MusicRepository` 接口 + `BackupRestoreManager`→`:core:data`（data 新增 designsystem 依赖供 R.string）；`MediaScanEngine`/`EqualizerUtils`/`PlaylistImportExportUtils`/`LyricsFileUtils`/`MediaScanLoader`/`AutoEQProfileSelector`/`ExpressiveScrollBarLabelResolvers`→`:feature:local`；`SettingsRoutes`/`SettingsSearchBar`/`smartPlaylistDisplayName`/`TunerAnimatedSwitch`/`AudioRoutingDialog`/`ImageUtils`/`M3ImageUtils`→`:core:ui`；`Screen` sealed class 自 LocalNavigation 抽出→`:feature:local`；`RhythmGuardRiskLevel`+`rhythmGuardResolveRiskLevel` 抽出→`:core:common`；`RhythmTileService`→`:feature:widget`（蓝图原定 :core:media，因其 import RhythmMusicWidget）。
+> 7. **已知债务（审计后显式保留）**：`:feature:settings` → `:feature:local`（MusicViewModel+本地对话框+播放器排序 sheet）、→ `:feature:widget`（WidgetSettingsScreen 预览）、→ `:feature:streaming`（GoSettingsScreen）；`:feature:local` → `:feature:streaming`（HomeScreen/UniversalSearch 嵌入流媒体状态卡，方向与蓝图预期相反但无环）。禁新增 feature→feature 依赖。
+> 8. **可见性放宽**：`UserTrustManager`、`GlanceShapeBitmaps`、`streamingQualityOptions/Label/StreamingQualityOption` 由 internal 改 public（跨模块消费方所需）；`shared/.../viewmodel/MusicViewModel.kt` typealias 已删除（零引用）。
+> 9. **测试归位**：36 个测试类分布 7 个模块（media 19 / streaming 6 / common 5 / local 3 / designsystem 1 / ui 1 / app 1），FakeUri 随流媒体测试；全量单测命令改为按模块列出（:app 只剩 1 类）。
+> - :core:ui：bottomsheets 20 + dialogs 9 + 根级组件 3（MediaScanLoader→local、PermissionHandler→:app、MediaScanMode 死副本已删）+ common 12 + 设置原语。
+> - :feature:streaming：provider 3 家 + repository + StreamingMusicViewModel（`playNext(song, localQueueController)` 改接 `LocalQueueController`）+ 5 屏 + notification。
+> - 导航：RhythmNavigation + LocalNavigation + MainScreen → `:app/navigation/`；`Screen` → :feature:local、`SettingsRoutes` → :core:ui。
+> - 验收：`:app:compileDebugKotlin` + 全模块 testDebugUnitTest + `assembleDebug` 全绿（2026-11-07）；assembleRelease 留待 PR-6 门禁。
 
 ### PR-6：Hilt 全面接线
 - `@HiltAndroidApp`（RhythmApplication 瘦身：删 NetworkClient.initialize，保留 CrashReporter/Coil ImageLoaderFactory/ANR watchdog）。

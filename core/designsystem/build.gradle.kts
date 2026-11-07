@@ -24,4 +24,6 @@ dependencies {
     implementation(libs.androidx.window)
     // DragDropList reorderable lazy lists
     implementation(libs.reorderables)
+
+    testImplementation(libs.junit)
 }

@@ -26,14 +26,14 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 | :-- | :-- |
 | 日常安装 debug | `./gradlew :app:installDebug` |
 | 最快编译检查 | `./gradlew :app:compileDebugKotlin` |
-| 全部 JVM 单测（36 个测试类） | `./gradlew :app:testDebugUnitTest` |
-| 单个测试类 | `./gradlew :app:testDebugUnitTest --tests "chromahub.rhythm.app.util.VersionComparatorTest"` |
+| 全部 JVM 单测（36 个测试类，分属 7 个模块） | `./gradlew :app:testDebugUnitTest :core:common:testDebugUnitTest :core:media:testDebugUnitTest :core:ui:testDebugUnitTest :core:designsystem:testDebugUnitTest :feature:local:testDebugUnitTest :feature:streaming:testDebugUnitTest` |
+| 单个测试类 | `./gradlew :core:media:testDebugUnitTest --tests "chromahub.rhythm.app.util.VersionComparatorTest"`（测试在哪个模块就跑哪个模块的任务） |
 | 构建 debug APK | `./gradlew assembleDebug` |
 | 构建 release（仅发布前） | `./gradlew assembleRelease` |
 | 复数占位符校验（改 strings 后） | `python3 scripts/check_plural_specifiers.py` |
-| 提交前最小集合 | `./gradlew assembleDebug :app:testDebugUnitTest` |
+| 提交前最小集合 | `./gradlew assembleDebug` + 上表「全部 JVM 单测」一行 |
 
-- **不要用裸 `./gradlew test`**：会连带 release / benchmark 变体，慢且容易因环境失败；始终指定 `:app:testDebugUnitTest`。
+- **不要用裸 `./gradlew test`**：会连带 release / benchmark 变体，慢且容易因环境失败；始终按模块指定 `:module:testDebugUnitTest`。PR-5 起 :app 只剩 1 个测试类（RhythmBitmapLoaderTest），只跑 `:app:testDebugUnitTest` 不再覆盖全量单测。
 - 仓库没有 CI（无 `.github/workflows/`），单测只能本地跑；`wiki/Build-Instructions.md` 里的 workflow 描述已过时。
 - 设备要求：APK 只含 `arm64-v8a`（`defaultConfig.ndk.abiFilters`），x86_64 模拟器装不上；instrumentation / macrobenchmark 需要 arm64 真机或 arm64 模拟器。
 - `app/src/androidTest/` 不存在（`app/build.gradle.kts` 仍保留 4 条 `androidTestImplementation` 依赖，但没有源码）。
@@ -48,7 +48,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
   - `.config/` 目录当前不存在，也不是签名路径；根目录 `rhythm_keystore.jks` 存在但已被 `.gitignore` 忽略。
 - **版本**：不在 `libs.versions.toml` 之外指定依赖版本；不在 `build.gradle.kts` 硬编码版本；不自行升级 Kotlin / AGP / Compose BOM / Material3。
 - **结构**：不为新页面建 Activity、不引入 Fragment（`MainActivity` 是唯一 Compose 宿主，辅助 Activity 仅 `CrashActivity` / `ExternalPlaybackActivity` / `RhythmGuardTimeoutActivity`）；不新增 product flavor；不新增第三种语言目录。DI：已批准迁移到 Hilt（官方 Gradle 插件 + KSP，spike 已验证与 AGP 9 兼容），迁移按 `docs/multi-module-refactor-plan.md` 分阶段进行——迁移完成前**不要**在新代码里手写新的单例工厂（沿用 `LocalMusicModule` 模式的做法已冻结）；Gson → kotlinx-serialization 在 PR-7 于 `:core:network` 内执行，不要提前在全仓散改。
-- **Manifest**：`exported=true` 共 10 个组件，其 `exported` 与 intent-filter 是对外协议（Android Auto / 系统 / 启动器 / 小组件 / 其他应用依赖），勿移除、勿额外加 permission（`RhythmTileService` 已有的 `BIND_QUICK_SETTINGS_TILE` 除外）。cleartext + user CA 放行（`res/xml/network_security_config.xml`）是自托管 Navidrome/Jellyfin 的既定取舍，勿收紧。
+- **Manifest**：`exported=true` 共 10 个组件，其 `exported` 与 intent-filter 是对外协议（Android Auto / 系统 / 启动器 / 小组件 / 其他应用依赖），勿移除、勿额外加 permission（`RhythmTileService` 已有的 `BIND_QUICK_SETTINGS_TILE` 除外）。PR-5 起组件声明随类所在模块拆分：4 个 Activity 在 `:app`；`MediaPlaybackService` + `RhythmAlbumArtProvider` 在 `:core:media` 的 manifest；4 个 widget receiver + `RhythmTileService` 在 `:feature:widget` 的 manifest（manifest merge 拼回同一份最终清单，属性一字不改）。cleartext + user CA 放行（`res/xml/network_security_config.xml`）是自托管 Navidrome/Jellyfin 的既定取舍，勿收紧。
 - **生成物与敏感区**：不改 `build/`、`app/build/generated/`、`app/src/main/baseline-prof/`；新增 `.github/workflows/`、`.githooks/` 或改动 `scripts/prepare_release.py` / `scripts/generate_release_notes.py` 前先询问（两者交互式，会改版本号并写 changelog / fastlane，后两者当前不存在）。
 - **Gradle**：只用 `./gradlew`，不用系统 `gradle`；不改 `gradle-wrapper.properties`；不动 `gradle.properties` 的内存与并发调优。
 - **Git**：仓库已 `git init`（默认分支 `main`，尚无提交）；未经明确要求，不执行 `commit` / `push` / `tag`。
@@ -56,37 +56,43 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 
 ## 4. 工程结构与模块边界
 
-`app/src/main/java/chromahub/rhythm/app/`（377 个 `.kt`，7 个一级目录 + 根文件 `RhythmApplication.kt`）：
+PR-5 后共 **11 个 Gradle 模块** + `:macrobenchmark` + `build-logic/`。模块物理路径：`core/<name>`、`feature/<name>`、`app/`。**所有模块 namespace 复用 `chromahub.rhythm.app`，且搬移文件保留原 package（零 import churn，沿用 PR-3 策略）**——所以「文件在哪个模块」与「package 是什么」相互独立，import 一律按 package 写。
 
-| 目录 | 职责 |
+| 模块 | 职责（物理目录 → package 另见下表） |
 | :-- | :-- |
-| `activities/` | 4 个 Activity：`MainActivity`（唯一 Compose 宿主 + 权限/外部 Intent）、`CrashActivity`（独立 `:crash_process`）、`ExternalPlaybackActivity`（外部 VIEW 音频）、`RhythmGuardTimeoutActivity`（`singleTop`） |
-| `core/` | `domain/`（`model` / `repository` / `usecase` / `scan` MediaStore 扫描 / `backup`）；`device/`（`DeviceCapabilitiesProvider`、`HiFiCapabilityChecker`） |
-| `features/local/` | 本地音乐：`data`（Room DB/DAO/Entity + repository）、`di`、`presentation`（`viewmodel` / `screens` / `components` / `navigation`） |
-| `features/streaming/` | 在线音乐：`data`（`provider` 含 Subsonic / Jellyfin / 网易云 API client）、`domain`、`di`、`infrastructure/notification`、`presentation`（无 `navigation/`，页面挂在 `LocalNavigation`）；Deezer / LRCLib / BetterLyrics / YouTube Music / Spotify 搜索 / Wikipedia / Apple Music Canvas / iTunes / GitHub 等 API 定义在 `infrastructure/network/` |
-| `shared/` | `data/model`（`AppSettings` 全局设置单例）、`data/repository`、`domain/utils`、`presentation`（`navigation` 根导航、`screens` 设置页、`components`、`theme`、`ui`、`viewmodel`） |
-| `infrastructure/` | `audio`（DSP/EQ/重采样/ReplayGain）、`network`、`service`（Media3 播放服务）、`widget/glance`、`worker`、`provider` |
-| `util/`、`utils/` | 纯 Kotlin 工具；`utils/` 目录仅 `StatusBroadcaster.kt`，但另有若干 `util/*.kt` 声明 `...app.utils` 包 |
+| `:app` | 组合根：4 个 Activity、`RhythmApplication`（缝隙安装）、导航装配（`navigation/`：`RhythmNavigation` / `LocalNavigation` / `MainScreen`，package 仍为旧路径）、`onboarding/`（OnboardingScreen 三件套）、`PermissionHandler`、`FestiveOverlay`/`FestiveThemeExamples`、`AppModeViewModel`（零引用遗留）、`RhythmBitmapLoader`、2 个 worker、`ProfileImportExportUtils` |
+| `:core:model` | 纯领域模型（`core.model.*`）+ `ExtendedSongInfo`（PR-5 自 bottomsheets 抽出） |
+| `:core:common` | 纯工具（`core.common.*`）+ 缝隙对象（`AppBuildInfo`/`AppStrings`/`HapticsGate`/`LyricsSettingsGate`/`RhythmGuardRisk`）+ `ArtistSeparator`/`LrcUtils`/`SemanticLyrics`/`DragDropUtils`/`AudioQualityDetector` 等 |
+| `:core:designsystem` | 资源中心（strings 中英 3285 条/drawable/font/theme）+ theme + icons + 基础组件；`formatDuration` 在 `.../shared/presentation/components/player/TimeFormat.kt`（包名未改） |
+| `:core:network` | NetworkClient + 9 个 API service + `NetworkSettingsProvider`/`AppWorkerRegistry`/`NetworkBuildInfo` 缝隙（package `chromahub.rhythm.app.network`） |
+| `:core:data` | Room + **AppSettings（整体，包名仍 `shared.data.model`）** + `MusicRepository` 接口（`core.domain.repository`）+ `BackupRestoreManager`（`core.domain.backup`）+ `StableDateAddedResolver` + 仓储；依赖 `:core:designsystem`（BackupRestoreManager 的 R.string） |
+| `:core:media` | 播放核心：MediaPlaybackService、player/ 引擎、DSP/EQ/ReplayGain、`RhythmAlbumArtProvider`、`AudioArtworkFetcher`（coil keyers 同文件）、`MediaUtils`（3698 行）、`MetadataHeuristics`、`LyricsParser`/`RhythmLyricsParser`、`CacheManager`、`QueueUtils`、`AudioFormatDetector`、`AudioDeviceManager`、`AutoEQ*`、缝隙（`MediaServiceHooks`/`PlaybackWidgetBridge`/`PlaybackResolverInstaller`/`LocalQueueController`）；manifest 携带 MediaPlaybackService + RhythmAlbumArtProvider 组件声明 |
+| `:core:ui` | 跨功能共享 UI（包名保持 `shared.presentation.components.*` / `shared.presentation.screens.settings`）：bottomsheets 20 + dialogs 9 + `Material3SettingsGroup`/`AudioQualityBadges` + common 组件 12（MarqueeText/CollapsibleHeader/M3Placeholders/占位图等）+ 设置原语（`TunerAnimatedSwitch`/`SettingsSearchBar`/`SettingsRoutes`/`smartPlaylistDisplayName`）+ `ImageUtils`/`M3ImageUtils` + **`AppUpdaterViewModel`/`ThemeViewModel`/`rememberAppUpdaterViewModel`**（设置/local/app 共用，故放这里）+ `CrashReporter`（crashScreenStarter 缝隙）；依赖 `:core:data`/`:core:media` |
+| `:feature:local` | 本地音乐 + **播放器 UI（蓝图中的 `:feature:player` 已并入，原因见蓝图 PR-5 偏差）**：`features/local/**`（11 屏 + 组件 + `MusicViewModel` 等 5 个 viewmodel 文件 + `MusicRepositoryImpl` + `LocalMusicModule` + `MediaScanEngine`）、`shared/presentation/components/{player,lyrics}`（16 组件）、`shared/presentation/screens/player`（3 屏）、`PlaybackBottomSheet`、`MediaScanLoader`、`AutoEQProfileSelector`、`UniversalSearchScreen`/`RhythmStatsScreen`、`Screen` 路由 sealed class + `LocalScreen.kt`、`EqualizerUtils`/`PlaylistImportExportUtils`/`LyricsFileUtils` |
+| `:feature:streaming` | 自托管流媒体：provider 3 家（Subsonic/Jellyfin/网易云）、repository、`StreamingMusicViewModel`、5 屏、`StreamingNotificationManager`；**无任何 feature 依赖**（被 local/settings 反向依赖） |
+| `:feature:settings` | 45 个设置屏 + 设置对话框/选择器 + `SettingsScreen`（含 SettingItem/SettingGroup/SettingRow/SettingsTips*）+ `SettingsScreenWrapper`（settings 子页 NavHost 宿主）+ `TunerComponents` + `SettingsSearch`；**EqualizerScreen 也在本模块**（包名仍是 `features.local.presentation.screens`，PR-5 断环调整） |
+| `:feature:widget` | Glance 4 widget + receivers + `GlanceWidgetUpdater`/`WidgetUpdater` + `RhythmTileService` + `GlanceShapeBitmaps` + widget res（4 个 widget_info xml、4 个 preview layout、widget_colors） |
 
-- **Gradle 模块现状**：`:app` + `:macrobenchmark` + `build-logic/`（约定插件）+ 已落地叶子模块 `:core:common`/`:core:model`/`:core:designsystem`/`:core:network`（NetworkSettingsProvider 五缝隙注入）/`:core:data`（AppSettings+Room 保原包名零 churn）/`:core:designsystem`（theme/festive/icons/common 组件 + strings/drawable/font 资源中心）。拆分进行中（目标见 `docs/multi-module-refactor-plan.md`）——`:app` 依赖三个 core 模块；`android.nonTransitiveRClass=false` 使 `chromahub.rhythm.app.R` 全仓可用（所有新模块 namespace 复用 `chromahub.rhythm.app`，`android.uniquePackageNames=false` 允许）；不要在拆分之外随手建新 Gradle 模块。
+- **Gradle 依赖方向**：`:app` → 全部；`:feature:local` → `:feature:streaming`（HomeScreen/UniversalSearch 嵌入流媒体状态卡，已审计债务）；`:feature:settings` → `:feature:local`（MusicViewModel + 本地对话框 + 播放器排序 sheet，蓝图明示的已知债务）+ `:feature:widget`（WidgetSettingsScreen 预览，债务）+ `:feature:streaming`（GoSettingsScreen，债务）；`:core:ui` → `:core:data`/`:core:media`；`:core:data` → `:core:designsystem`；`features 之间禁止新增依赖`，新增前先在蓝图记录。
 - 调用链：`Screen(Composable)` → `AndroidViewModel` → `Repository`（持有 DAO / MediaStore / `MediaController`）→ 数据源。ViewModel **禁止**直接写 SQL、查询 MediaStore 或拼 HTTP 请求，必须经 Repository / DAO / API service。
-- 依赖方向：`presentation` → `data` / `domain`；`data` **不得**依赖 `presentation` 或 Compose；`infrastructure` **不得**反向依赖 `features/*/presentation`。
-- `features/local` 与 `features/streaming` 的主要缝合点是 `features/local/presentation/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel`；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
-- 可复用 Composable 放 `shared/presentation/components/{common,player,bottomsheets,dialogs,icons,lyrics}`；设置页放 `shared/presentation/screens/settings`。**禁止**把新的复用组件放进 `features/*/presentation/components`（现存 8 个历史遗留的本地专用组件，其 package 已与目录统一，不要照抄、不要再扩散）。
-- **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB）、`StreamingMusicViewModel.kt`（约 108 KB）、`AppUpdaterViewModel.kt`、`OnboardingScreen.kt`（10,000+ 行）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
+- 依赖方向（源码层）：`presentation` → `data` / `domain`；`data` **不得**依赖 `presentation` 或 Compose；`infrastructure` **不得**反向依赖 `features/*/presentation`。
+- `:app/navigation/LocalNavigation.kt` 与 `StreamingMusicViewModel` 是 local↔streaming 的缝合点；跨模式数据转换沿用 `toLibrarySong/Album/Artist/Playlist`，**禁止**新增两个 feature 的 data 层互相 import。
+- 可复用 Composable 放 `:core:ui`（跨 feature）或 `:feature:local` 的 `shared/presentation/components/{player,lyrics}`（仅播放器域）；设置页放 `:feature:settings`。**禁止**把新的复用组件放进 `features/*/presentation/components`（现存 13 个历史遗留的本地专用组件，不要照抄、不要再扩散）。
+- **巨型文件禁令**：不要往 `MusicViewModel.kt`（约 480 KB，现 `:feature:local`）、`StreamingMusicViewModel.kt`（约 108 KB，`:feature:streaming`）、`AppUpdaterViewModel.kt`（`:core:ui`）、`OnboardingScreen.kt`（10,000+ 行，`:app/onboarding/`）、`LibraryScreen.kt`（约 7,000 行）、`HomeScreen.kt`（约 3,400 行）继续追加功能；新功能新建文件、新建 ViewModel。
 - **UseCase 层不是强制的**：当前没有 UseCase（零引用的 `SongUseCases.kt` 已删除）；只有被多个 ViewModel 复用的逻辑才抽 UseCase，不要机械地「每个方法建一个类」。
-- **包名与目录不一致（必须按文件里的 `package` 声明 import，不要按目录猜）**：
-  - `infrastructure/network/`（15 个文件）→ `chromahub.rhythm.app.network`（PR-3）
-  - `AppSettings.kt`/`PlaybackQualityInfo.kt` 仍在 `shared.data.model`（PR-3）；`HapticUtils`/`FestiveOverlay` 等含 AppSettings/模型依赖的组件留守 `:app`（PR-5）
-  - `infrastructure/worker/`（3 个文件）→ `chromahub.rhythm.app.worker`
-  - `shared/presentation/theme/`（14 个文件）→ `chromahub.rhythm.app.ui.theme`（`festive/` 下 `...ui.theme.festive`），已全部统一，无例外。
-  - `features/local/presentation/components/` 下 13 个文件的 package 已与目录统一（`...features.local.presentation.components.{bottomsheets,dialogs,player,settings}`）；`shared/presentation/viewmodel/MusicViewModel.kt` 的 `typealias` 已归入 `...shared.presentation.viewmodel`。
-  - `util/FontLoader.kt`、`util/ProfileImportExportUtils.kt` → `...app.utils`；`util/ScrollStateUtils.kt` → `...app.ui.utils`
+- **包名与目录/模块不一致（必须按文件里的 `package` 声明 import，不要按目录或模块猜）**：
+  - `:core:network`（物理 `core/network/src/main/kotlin/chromahub/rhythm/app/infrastructure/network/`… 实为直接放 `network/` 源码目录）→ package `chromahub.rhythm.app.network`（PR-3）
+  - `:core:data` 的 AppSettings/Room 保留 `shared.data.model` / `features.local.data.database.*`（PR-3）；`MusicRepository`/`BackupRestoreManager` 用 `core.domain.repository`/`core.domain.backup`（PR-5 自 :app 迁入）
+  - `:core:media` 与 `:core:ui`、`:feature:local` 均含 package `chromahub.rhythm.app.util`（同一包跨模块拆分：MediaUtils/MetadataHeuristics/歌词解析器/CacheManager 在 media；ImageUtils/M3ImageUtils 在 ui；EqualizerUtils/PlaylistImportExportUtils/LyricsFileUtils 在 local）
+  - `:core:ui` 宿主 `shared.presentation.components.*` 与 `shared.presentation.screens.settings` 包（PR-5 零 churn）；`:core:common` 宿主 `shared.presentation.navigation.RhythmGuardRisk`；`:core:designsystem` 宿主 `shared.presentation.components.player.TimeFormat`
+  - `:feature:settings` 宿主 `features.local.presentation.screens.EqualizerScreen` 与 `shared.presentation.screens.settings.*`；`:feature:local` 宿主 `shared.presentation.screens.player`、`shared.presentation.components.{player,lyrics}`、`features.local.presentation.navigation.Screen`
+  - `infrastructure/worker/`（2 个文件）→ `chromahub.rhythm.app.worker`，仍在 `:app`
+  - `util/ProfileImportExportUtils.kt` → `...app.utils`（:app）；`ScrollStateUtils` → `...app.ui.utils`（:core:designsystem）
   - `gradle.properties` 已设 `android.uniquePackageNames=false`，这类重复包名不会被构建拦住——**靠自觉**。
 
 ## 5. 架构与状态管理
 
-- 导航：`MainActivity.setContent` → `shared/presentation/navigation/RhythmNavigation`。共 **2 个 NavHost**：根 NavHost（承载 `settings` 等根级路由）+ 内嵌 NavHost（`features/local/presentation/navigation/LocalNavigation.kt`）；`appMode` 的 LOCAL 与 STREAMING 两种状态都渲染 `LocalNavigation`。新页面 = 新增 Composable route 并在上述导航文件接线，不是新 Activity。
+- 导航：`MainActivity.setContent` → `:app` 的 `navigation/RhythmNavigation.kt`（物理 `app/src/main/java/chromahub/rhythm/app/navigation/`，package 未改）。共 **2 个 NavHost**：根 NavHost（承载 `settings` 等根级路由）+ 内嵌 NavHost（同目录 `LocalNavigation.kt`）；`appMode` 的 LOCAL 与 STREAMING 两种状态都渲染 `LocalNavigation`。新页面 = 新增 Composable route 并在上述导航文件接线，不是新 Activity；路由常量用 `Screen`（`:feature:local`）与 `SettingsRoutes`（`:core:ui`）。
 - DI：过渡期。存量是手动 DI——`features/local/di/LocalMusicModule` 与 `features/streaming/di/StreamingMusicModule` 是 `object` + `@Volatile` + `synchronized` 双检锁单例工厂；`shared/data/model/AppSettings.getInstance(context)` 管设置；`RhythmApplication.instance` 提供全局入口。已批准迁移到 **Hilt**（官方 Gradle 插件 + KSP，spike 验证与 AGP 9.4.1 兼容；`@HiltAndroidApp` 只能用于 :app）：迁移分阶段进行（见 `docs/multi-module-refactor-plan.md` PR-5/6），存量手动 DI 在迁移到该模块的 PR 落地前保持原样；禁止引入 Koin 等其他 DI 框架。
 - ViewModel：5 个 ViewModel 全部继承 `AndroidViewModel(application)`（`MusicViewModel`、`StreamingMusicViewModel`、`AppModeViewModel`、`ThemeViewModel`、`AppUpdaterViewModel`）；多数 UI 用默认 `viewModel()` 获取，`AppUpdaterViewModel` 等已有 `rememberAppUpdaterViewModel()` 工厂，沿用同文件已有做法。只允许 Application 级 context，禁止持有 Activity / View / Fragment / Context。
 - 状态：主流写法是 `private val _x = MutableStateFlow(initial)` + 暴露 `val x: StateFlow<T> = _x.asStateFlow()`；派生状态用 `combine/map` + `stateIn(...)`。现存两种 `SharingStarted` 都有：`MusicViewModel` 的大列表用 `Eagerly`，`AppModeViewModel` 与组合状态用 `WhileSubscribed(5000)`；跟随所在文件 / 邻近代码，不要强行统一。
@@ -123,12 +129,13 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 
 ## 8. 测试策略
 
-- 只有 JVM 单测：36 个 `*Test.kt` + 1 个 `java/android/net/FakeUri.kt` Uri stub；JUnit4 + MockWebServer3 + 真 `org.json`（均为 `testImplementation`）。
+- 只有 JVM 单测：36 个 `*Test.kt` + 1 个 `FakeUri.kt` Uri stub（PR-5 起随流媒体测试位于 `:feature:streaming` 的 `src/test/java/android/net/`）；JUnit4 + MockWebServer3 + 真 `org.json`（均为 `testImplementation`）。
+- 测试分布（跟随被测类的模块）：`:core:media` 19、`:feature:streaming` 6、`:core:common` 5、`:feature:local` 3、`:core:designsystem` 1、`:core:ui` 1、`:app` 1（RhythmBitmapLoaderTest）。跑全量见第 2 节命令。
 - **禁止引入**：MockK、Turbine、`kotlinx-coroutines-test`、JUnit 5、Robolectric、Paparazzi / Roborazzi 截图测试（仓库无基准图目录）。
 - `unitTests.isReturnDefaultValues = true`（android.jar stub 返回默认值），这是预期行为；不要因此改成 Robolectric。
-- 测试与源码同包放在 `app/src/test/java/...`；可测逻辑优先抽成顶层纯函数再测。禁止在单元测试里打真实网络或真实数据库；HTTP 用 `MockWebServer` 打桩；禁止 `Thread.sleep` 等异步等待，用 `CompletableDeferred`、`withTimeout`、`awaitCancellation`、`cancelAndJoin`。
+- 测试与源码同包放在对应模块的 `src/test/java/...`；可测逻辑优先抽成顶层纯函数再测。禁止在单元测试里打真实网络或真实数据库；HTTP 用 `MockWebServer` 打桩；禁止 `Thread.sleep` 等异步等待，用 `CompletableDeferred`、`withTimeout`、`awaitCancellation`、`cancelAndJoin`。
 - 必须补 / 改测试的区域：`util/`、domain 模型、`infrastructure/audio` DSP、`infrastructure/service/player`、`features/streaming/data/provider` 协议解析。
-- `app/src/androidTest/` 不存在；不要新建 androidTest 源集或往里面放文件。仓库无 CI，测试是否通过只有本地 `./gradlew :app:testDebugUnitTest` 能证明。
+- `app/src/androidTest/` 不存在；不要新建 androidTest 源集或往里面放文件。仓库无 CI，测试是否通过只有本地跑第 2 节的全量单测命令能证明。
 
 ## 9. 发布与安全边界
 
@@ -147,7 +154,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 - 仓库已 `git init`（默认分支 `main`，尚无提交），没有 CI；未经用户明确要求，不执行 `git commit` / `git push` / `git tag`。仓库约定见 `wiki/Contributing.md`。
 - 文档现状：`wiki/` 14 个 `.md`（部分内容过时）；`docs/` 仅有 `multi-module-refactor-plan.md`（多模块拆分蓝图，进行中）；没有 `.github/`、`.githooks/`；原根目录 `BUILD_VARIANTS.md` 已删除，构建变体 / BuildConfig / 产物说明并入本文件。不要按旧文档里的路径或 CI 配置行事（GitHub Actions 片段只是示例，本仓库无 CI）。
 - 发布脚本 `scripts/prepare_release.py` 与 `scripts/generate_release_notes.py` 是交互式脚本，会改版本号并写 changelog / fastlane；未经要求不要运行。
-- 开始工作前按区域先读源码内注释（非常详尽）：构建 / 签名 → `app/build.gradle.kts`；播放 → `infrastructure/service/MediaPlaybackService.kt`；导航 → `shared/presentation/navigation/RhythmNavigation.kt`；主题 → `shared/presentation/theme/Theme.kt` 与 `ExtendedTheme.kt`。
+- 开始工作前按区域先读源码内注释（非常详尽）：构建 / 签名 → `app/build.gradle.kts`；播放 → `core/media/.../infrastructure/service/MediaPlaybackService.kt`；导航 → `app/src/main/java/chromahub/rhythm/app/navigation/RhythmNavigation.kt`；主题 → `core/designsystem/.../theme/Theme.kt` 与 `ExtendedTheme.kt`；缝隙安装 → `RhythmApplication.kt`。
 - 当前没有模块级 `AGENTS.md`；若未来新增 `:core:*` / `:feature:*` 模块，才在该模块根目录加就近 `AGENTS.md`，只写模块入口、关键类、局部禁令，不要复制根规则。
 
 ---
@@ -157,8 +164,8 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
 | 项 | 值 |
 | :--- | :--- |
 | 构建 | `./gradlew assembleDebug`（arm64-only，debug applicationId `chromahub.rhythm.app.debug`） |
-| 测试 | `./gradlew :app:testDebugUnitTest`（JUnit4，无 MockK / Turbine / coroutines-test） |
-| 关键路径 | `app/src/main/java/chromahub/rhythm/app/`（拆分前单模块；`shared/` 与 `infrastructure/` 是跨模式核心） |
+| 测试 | 第 2 节「全部 JVM 单测」命令（36 类分布 7 个模块；无 MockK / Turbine / coroutines-test） |
+| 关键路径 | `app/src/main/java/chromahub/rhythm/app/`（组合根：Activity/导航/RhythmApplication）+ `core/`、`feature/` 模块（package 保留旧路径，import 按 package 不按模块） |
 | 状态 | `StateFlow` + `asStateFlow()`，UI 用 `collectAsState()`；无 MVI、无 XML 布局；Hilt 迁移进行中（存量手动 DI） |
 | 质量 | 无 lint / detekt / ktlint / spotless；只跑 `python3 scripts/check_plural_specifiers.py` |
-| 禁止 | 加 `kotlin-android` 插件、加 Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号、拆分外新建 Gradle 模块 |
+| 禁止 | 加 `kotlin-android` 插件、加 Koin、用 `material-icons-extended`、新增语言 / flavor、bump 版本号、拆分外新建 Gradle 模块、feature→feature 新依赖 |
