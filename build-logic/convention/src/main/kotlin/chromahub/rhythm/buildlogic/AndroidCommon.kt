@@ -12,8 +12,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidExtension
 
 /**
  * Shared Android configuration for all rhythm.* convention plugins. Mirrors the
- * settings :app carried before the multi-module split — keep :app in sync until
- * it adopts the application convention plugin.
+ * settings :app carried before the multi-module split (now applied to :app
+ * itself via the application convention plugin).
  */
 internal fun Project.configureAndroidBase(common: CommonExtension) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

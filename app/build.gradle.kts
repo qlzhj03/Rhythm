@@ -7,13 +7,11 @@ val localProperties =
     }
 
 plugins {
-    alias(libs.plugins.android.application)
+    id("rhythm.android.application")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-    // Note: androidx.baselineprofile plugin is NOT applied here because it is
-    // incompatible with AGP 9.x. AGP 8.3+ includes native baseline profile
-    // support via com.android.application; the baselineProfile() dep below and
-    // the baseline-prof.txt file are sufficient.
+    // Note: the androidx.baselineprofile plugin is AGP 8.x-only and is not used;
+    // baseline profiles were dropped on 2026-11-07 (stale pre-split profile deleted).
     id("kotlin-parcelize")
     id("rhythm.hilt")
 //    alias(libs.plugins.kotlin.serialization)
@@ -21,12 +19,11 @@ plugins {
 
 android {
     namespace = "chromahub.rhythm.app"
-    compileSdk = 37
+    // compileSdk / minSdk / targetSdk / desugaring / JVM 21 / testOptions /
+    // lint-off all come from the rhythm.android.application convention plugin.
 
     defaultConfig {
         applicationId = "chromahub.rhythm.app"
-        minSdk = 26
-        targetSdk = 37
 
         val overrideVersionCode = project.findProperty("versionCodeOverride")?.toString()?.toIntOrNull()
         val overrideVersionName = project.findProperty("versionNameOverride")?.toString()
@@ -58,10 +55,6 @@ android {
         buildConfigField("boolean", "ENABLE_WIKIPEDIA", "true")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    testOptions {
-        unitTests.isReturnDefaultValues = true
     }
 
     val signingProperties = getProperties("keystore.properties")
@@ -124,14 +117,10 @@ android {
             isDebuggable = false
         }
     }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
     kotlin {
+        // jvmTarget = JVM_21 is set by the convention plugin (afterEvaluate);
+        // only the Material3 Expressive opt-ins are app-specific here.
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
             freeCompilerArgs.addAll(
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
@@ -140,7 +129,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 
     dependenciesInfo {
@@ -159,18 +147,6 @@ android {
 
     // No ABI splits: abiFilters above already limits every variant to a single
     // arm64-v8a APK, so splits would only add packaging/signing passes.
-
-    // Lint checks are disabled: this is an AI-agent-driven codebase and lint only adds
-    // build latency without catching issues the agent workflow cares about.
-    lint {
-        abortOnError = false
-        checkReleaseBuilds = false
-    }
-    tasks.configureEach {
-        if (name.startsWith("lint")) {
-            enabled = false
-        }
-    }
 }
 
 androidComponents {
@@ -199,8 +175,6 @@ dependencies {
     implementation(project(":feature:widget"))
 
     implementation(libs.androidx.compose.ui.unit)
-    // Desugaring library
-    coreLibraryDesugaring(libs.androidx.desugar.jdk.libs)
 
     // Core Android dependencies
     implementation(libs.androidx.hilt.navigation.compose)
@@ -296,25 +270,20 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
 
-    // Baseline Profile – installer ensures the .prof asset is loaded into ART on first launch.
-    // AGP 9.x natively picks up app/src/main/baseline-prof/baseline-prof.txt without any
-    // additional plugin wiring; the baselineProfile() configuration is not available without
-    // the standalone plugin (which is AGP 8.x only).
+    // Profile installer: no-op without a baseline profile asset (profiles dropped 2026-11-07).
     implementation(libs.androidx.profileinstaller)
 
     // Testing
     testImplementation(libs.junit)
     // Benchmark variant only: merges androidx.benchmark IsolationActivity into
     // the manifest so AndroidBenchmarkRunner (targeting this app) can launch it
-    // during baseline profile generation (PR-7).
+    // during macrobenchmark runs. Kept after baseline profile generation was
+    // dropped (2026-11-07); the benchmark buildType serves startup measurement.
     add("benchmarkImplementation", libs.androidx.benchmark.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver3)
     // Real org.json for JVM tests; android.jar only has stubs.
     testImplementation(libs.org.json)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    // No androidTest source set exists (AGENTS.md §1); only debug preview tooling.
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
