@@ -128,6 +128,13 @@ import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import chromahub.rhythm.app.core.domain.repository.BackupRestoreController
+import chromahub.rhythm.app.core.domain.repository.LibraryAdminController
+import chromahub.rhythm.app.core.domain.repository.LibraryCacheManager
+import chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
+import chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
+import chromahub.rhythm.app.infrastructure.service.PlaybackStateSource
+import chromahub.rhythm.app.infrastructure.service.SleepTimerController
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
@@ -157,7 +164,14 @@ fun SettingsScreenWrapper(
     onBack: () -> Unit,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     navController: androidx.navigation.NavController,
-    musicViewModel: MusicViewModel
+    musicViewModel: MusicViewModel,
+    playbackState: PlaybackStateSource,
+    playbackSettings: PlaybackSettingsController,
+    playlistAdmin: PlaylistAdminController,
+    libraryAdmin: LibraryAdminController,
+    cacheManager: LibraryCacheManager,
+    backupRestore: BackupRestoreController,
+    sleepTimer: SleepTimerController
 ) {
     val isTablet = windowScreenWidthDp() >= 600
     val isLandscapeTablet = isTablet && windowScreenWidthDp() > windowScreenHeightDp()
