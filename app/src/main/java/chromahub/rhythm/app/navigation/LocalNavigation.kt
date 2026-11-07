@@ -2046,7 +2046,7 @@ private fun LocalNavigationContent(
                     SlideUpCornerWrapper {
                         chromahub.rhythm.app.shared.presentation.screens.UniversalSearchScreen(
                             localViewModel = viewModel,
-                            streamingViewModel = streamingMusicViewModel,
+                            streamingSearch = streamingMusicViewModel,
                             onLocalSongClick = { song ->
                                 viewModel.playSongFromSearch(song, songs)
                                 navController.navigate(Screen.Player.route)

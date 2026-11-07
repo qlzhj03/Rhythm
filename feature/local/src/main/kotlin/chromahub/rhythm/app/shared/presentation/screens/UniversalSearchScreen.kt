@@ -79,7 +79,7 @@ import chromahub.rhythm.app.core.model.StreamingArtist
 import chromahub.rhythm.app.core.model.StreamingPlaybackUris
 import chromahub.rhythm.app.core.model.StreamingPlaylist
 import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.core.model.Artist
@@ -109,7 +109,7 @@ import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 @Composable
 fun UniversalSearchScreen(
     localViewModel: MusicViewModel = hiltViewModel(),
-    streamingViewModel: StreamingMusicViewModel = hiltViewModel(),
+    streamingSearch: StreamingSearchController,
     onLocalSongClick: (Song) -> Unit = {},
     onLocalAlbumClick: (Album) -> Unit = {},
     onLocalArtistClick: (Artist) -> Unit = {},
@@ -212,13 +212,13 @@ fun UniversalSearchScreen(
     val searchHistory by localViewModel.searchHistory.collectAsState()
     val favoriteSongs by localViewModel.favoriteSongs.collectAsState()
 
-    val streamingQuery by streamingViewModel.searchQuery.collectAsState()
-    val streamingResults by streamingViewModel.searchResults.collectAsState()
-    val isStreamingLoading by streamingViewModel.isLoading.collectAsState()
-    val streamingLikedSongs by streamingViewModel.likedSongs.collectAsState()
+    val streamingQuery by streamingSearch.searchQuery.collectAsState()
+    val streamingResults by streamingSearch.searchResults.collectAsState()
+    val isStreamingLoading by streamingSearch.isLoading.collectAsState()
+    val streamingLikedSongs by streamingSearch.likedSongs.collectAsState()
 
     val isGenreDetectionComplete by localViewModel.isGenreDetectionComplete.collectAsState()
-    val streamingBrowseCategories by streamingViewModel.browseCategories.collectAsState()
+    val streamingBrowseCategories by streamingSearch.browseCategories.collectAsState()
 
     val genres = remember(localSongs, streamingBrowseCategories, streamingResults.songs) {
         val localGenres = localSongs
@@ -239,7 +239,7 @@ fun UniversalSearchScreen(
 
     LaunchedEffect(query) {
         if (query.isNotBlank() && streamingQuery != query) {
-            streamingViewModel.search(query)
+            streamingSearch.search(query)
         }
     }
 
@@ -1478,7 +1478,7 @@ fun UniversalSearchScreen(
                         if (localSong != null) {
                             localViewModel.playNext(localSong)
                         } else if (streamingSong != null) {
-                            streamingViewModel.playNext(streamingSong, localViewModel)
+                            streamingSearch.playNext(streamingSong, localViewModel)
                         }
                     }
                     showSongOptionsSheet = false
@@ -1488,7 +1488,7 @@ fun UniversalSearchScreen(
                         if (localSong != null) {
                             localViewModel.addSongToQueue(localSong)
                         } else if (streamingSong != null) {
-                            streamingViewModel.addSongToQueue(streamingSong, localViewModel)
+                            streamingSearch.addSongToQueue(streamingSong, localViewModel)
                         }
                     }
                     showSongOptionsSheet = false
@@ -1504,10 +1504,10 @@ fun UniversalSearchScreen(
                     } else if (streamingSong != null) {
                         val isCurrentlyLiked = streamingLikedSongs.any { it.id == streamingSong.id }
                         if (isCurrentlyLiked) {
-                            streamingViewModel.unlikeSong(streamingSong)
+                            streamingSearch.unlikeSong(streamingSong)
                             Toast.makeText(context, R.string.universalsearchscreen_removed_from_streaming_favorites, Toast.LENGTH_SHORT).show()
                         } else {
-                            streamingViewModel.likeSong(streamingSong)
+                            streamingSearch.likeSong(streamingSong)
                             Toast.makeText(context, R.string.universalsearchscreen_added_to_streaming_favorites, Toast.LENGTH_SHORT).show()
                         }
                     }

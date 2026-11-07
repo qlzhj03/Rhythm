@@ -23,7 +23,9 @@ import chromahub.rhythm.app.core.model.StreamingPlaylist
 import chromahub.rhythm.app.core.model.StreamingServiceId
 import chromahub.rhythm.app.core.model.StreamingServiceRules
 import chromahub.rhythm.app.core.model.StreamingSong
+import chromahub.rhythm.app.core.model.StreamingSearchResults
 import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
+import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
 import chromahub.rhythm.app.shared.data.model.AppSettings
@@ -80,7 +82,7 @@ data class NetEaseQrLoginUiState(
 class StreamingMusicViewModel @Inject constructor(
     application: Application,
     val repository: StreamingMusicRepository,
-) : AndroidViewModel(application) {
+) : AndroidViewModel(application), StreamingSearchController {
     private val appSettings = AppSettings.getInstance(application)
 
     companion object {
@@ -248,7 +250,7 @@ class StreamingMusicViewModel @Inject constructor(
     
     // Loading state
     private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+    override val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _syncProgress = MutableStateFlow(StreamingSyncProgress())
     val syncProgress: StateFlow<StreamingSyncProgress> = _syncProgress.asStateFlow()
@@ -274,14 +276,14 @@ class StreamingMusicViewModel @Inject constructor(
     
     // Browse content
     private val _browseCategories = MutableStateFlow<List<BrowseCategory>>(emptyList())
-    val browseCategories: StateFlow<List<BrowseCategory>> = _browseCategories.asStateFlow()
+    override val browseCategories: StateFlow<List<BrowseCategory>> = _browseCategories.asStateFlow()
     
     private val _topCharts = MutableStateFlow<List<StreamingSong>>(emptyList())
     val topCharts: StateFlow<List<StreamingSong>> = _topCharts.asStateFlow()
     
     // Library content
     private val _likedSongs = MutableStateFlow<List<StreamingSong>>(emptyList())
-    val likedSongs: StateFlow<List<StreamingSong>> = _likedSongs.asStateFlow()
+    override val likedSongs: StateFlow<List<StreamingSong>> = _likedSongs.asStateFlow()
     
     private val _savedAlbums = MutableStateFlow<List<StreamingAlbum>>(emptyList())
     val savedAlbums: StateFlow<List<StreamingAlbum>> = _savedAlbums.asStateFlow()
@@ -327,10 +329,10 @@ class StreamingMusicViewModel @Inject constructor(
     
     // Search state
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+    override val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
     
     private val _searchResults = MutableStateFlow<StreamingSearchResults>(StreamingSearchResults())
-    val searchResults: StateFlow<StreamingSearchResults> = _searchResults.asStateFlow()
+    override val searchResults: StateFlow<StreamingSearchResults> = _searchResults.asStateFlow()
     
     init {
         observeSelectedService()
@@ -1176,7 +1178,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Search across the streaming service.
      */
-    fun search(query: String) {
+    override fun search(query: String) {
         _searchQuery.value = query
 
         if (query.isBlank()) {
@@ -1620,7 +1622,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Like/save a song.
      */
-    fun likeSong(song: StreamingSong) {
+    override fun likeSong(song: StreamingSong) {
         viewModelScope.launch {
             try {
                 repository.likeSong(song.id)
@@ -1635,7 +1637,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Unlike/unsave a song.
      */
-    fun unlikeSong(song: StreamingSong) {
+    override fun unlikeSong(song: StreamingSong) {
         viewModelScope.launch {
             try {
                 repository.unlikeSong(song.id)
@@ -2331,7 +2333,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Play the streaming song next in the active local playback queue.
      */
-    fun playNext(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
+    override fun playNext(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
         viewModelScope.launch {
             try {
                 val isDownloadedSong = isSongDownloaded(song.id) || repository.isDownloaded(song.id)
@@ -2380,7 +2382,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Add the streaming song to the end of the active local playback queue.
      */
-    fun addSongToQueue(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
+    override fun addSongToQueue(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
         viewModelScope.launch {
             try {
                 val isDownloadedSong = isSongDownloaded(song.id) || repository.isDownloaded(song.id)
@@ -2439,22 +2441,6 @@ class StreamingMusicViewModel @Inject constructor(
             albumArtist = albumArtist
         )
     }
-}
-
-/**
- * Container for streaming search results.
- */
-data class StreamingSearchResults(
-    val songs: List<StreamingSong> = emptyList(),
-    val albums: List<StreamingAlbum> = emptyList(),
-    val artists: List<StreamingArtist> = emptyList(),
-    val playlists: List<StreamingPlaylist> = emptyList()
-) {
-    val isEmpty: Boolean
-        get() = songs.isEmpty() && albums.isEmpty() && artists.isEmpty() && playlists.isEmpty()
-    
-    val totalCount: Int
-        get() = songs.size + albums.size + artists.size + playlists.size
 }
 
 /**
