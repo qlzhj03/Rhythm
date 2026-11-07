@@ -70,7 +70,22 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         }
 
         // Media service seams for :core:media (PR-4).
-        chromahub.rhythm.app.core.common.AppBuildInfo.applicationId = packageName
+        chromahub.rhythm.app.core.common.AppBuildInfo.apply {
+            applicationId = packageName
+            versionName = BuildConfig.VERSION_NAME
+            versionCode = BuildConfig.VERSION_CODE
+            releaseDate = BuildConfig.RELEASE_DATE
+            flavor = BuildConfig.FLAVOR
+            isDebugBuild = BuildConfig.DEBUG
+            isNightly = BuildConfig.IS_NIGHTLY
+            enableYouTubeMusic = BuildConfig.ENABLE_YOUTUBE_MUSIC
+            enableLyricallyApi = BuildConfig.ENABLE_LYRICALLY_API
+            enableDeezer = BuildConfig.ENABLE_DEEZER
+            enableLrclib = BuildConfig.ENABLE_LRCLIB
+            enableBetterLyrics = BuildConfig.ENABLE_BETTERLYRICS
+            enableSpotifySearch = BuildConfig.ENABLE_SPOTIFY_SEARCH
+            enableWikipedia = BuildConfig.ENABLE_WIKIPEDIA
+        }
         chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.qualityIcons =
             chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons(
                 hd = chromahub.rhythm.app.R.drawable.ic_hd,
@@ -89,6 +104,8 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             chromahub.rhythm.app.activities.MainActivity::class.java
         chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller.bridge =
             object : chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridge {
+                // NOTE: must call the Glance updater directly — WidgetUpdater now
+                // forwards through this very bridge (PR-5 seam inversion).
                 override fun updateWidget(
                     context: android.content.Context,
                     song: chromahub.rhythm.app.core.model.Song?,
@@ -98,8 +115,15 @@ class RhythmApplication : Application(), ImageLoaderFactory {
                     isFavorite: Boolean,
                     isShuffleEnabled: Boolean,
                     repeatMode: Int,
-                ) = chromahub.rhythm.app.infrastructure.widget.WidgetUpdater.updateWidget(
-                    context, song, isPlaying, hasPrevious, hasNext, isFavorite, isShuffleEnabled, repeatMode)
+                ) = chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateWidget(
+                    context = context,
+                    song = song,
+                    isPlaying = isPlaying,
+                    hasPrevious = hasPrevious,
+                    hasNext = hasNext,
+                    isFavorite = isFavorite,
+                    isShuffleEnabled = isShuffleEnabled,
+                    repeatMode = repeatMode)
 
                 override fun updateLyrics(context: android.content.Context, lyricTexts: List<String>, activeIndex: Int) =
                     chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
@@ -120,6 +144,12 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         // so its helpers stay decoupled from AppSettings (multi-module split PR-2).
         HapticsGate.isEnabled = { settings.isHapticEnabled.value }
 
+        // Lyrics parsing seam for :core:media's LyricsParser (PR-5).
+        chromahub.rhythm.app.core.common.LyricsSettingsGate.apply {
+            trimLyrics = { settings.trimLyrics.value }
+            translationAutoWord = { settings.translationAutoWord.value }
+        }
+
         // Apply the user's theme preference to the system configuration so the
         // system splash screen and window background match the app theme
         // (light in light mode, dark in dark mode) instead of always being dark.
@@ -133,7 +163,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         AppCompatDelegate.setDefaultNightMode(nightMode)
         Log.d(TAG, "✓ Applied night mode: $nightMode")
         
-        // Initialize CrashReporter
+        // Initialize CrashReporter + its :app-side crash screen starter
+        CrashReporter.crashScreenStarter = { context, crashLog ->
+            chromahub.rhythm.app.activities.CrashActivity.start(context, crashLog)
+        }
         CrashReporter.init(this)
         Log.d(TAG, "✓ CrashReporter initialized")
         
