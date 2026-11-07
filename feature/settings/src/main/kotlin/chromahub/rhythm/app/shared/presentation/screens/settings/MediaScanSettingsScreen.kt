@@ -128,7 +128,6 @@ import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
@@ -177,15 +176,17 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.SettingGroup
 // ✅ REDESIGNED Media Scan Screen with improved UI
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaScanSettingsScreen(onBackClick: () -> Unit) {
+fun MediaScanSettingsScreen(
+    onBackClick: () -> Unit,
+    libraryAdmin: chromahub.rhythm.app.core.domain.repository.LibraryAdminController
+) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = hiltViewModel()
 
     // Get all songs and filtered items
-    val allSongs by musicViewModel.songs.collectAsState()
-    val filteredSongs by musicViewModel.filteredSongs.collectAsState()
+    val allSongs by libraryAdmin.songs.collectAsState()
+    val filteredSongs by libraryAdmin.filteredSongs.collectAsState()
     val blacklistedSongs by appSettings.blacklistedSongs.collectAsState()
     val blacklistedFolders by appSettings.blacklistedFolders.collectAsState()
     val whitelistedSongs by appSettings.whitelistedSongs.collectAsState()
@@ -1382,7 +1383,7 @@ fun MediaScanSettingsScreen(onBackClick: () -> Unit) {
                                 val changed = appSettings.minimumDuration.value != newDuration
                                 appSettings.setMinimumDuration(newDuration)
                                 if (changed) {
-                                    musicViewModel.refreshLibrary(showMediaScanLoader = false)
+                                    libraryAdmin.refreshLibrary(showMediaScanLoader = false)
                                 }
                                 showDurationBottomSheet = false
                             },
