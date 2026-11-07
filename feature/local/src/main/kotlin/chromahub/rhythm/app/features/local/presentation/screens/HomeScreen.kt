@@ -17,7 +17,7 @@ import chromahub.rhythm.app.core.model.StreamingArtist
 import chromahub.rhythm.app.core.model.StreamingPlaylist
 import chromahub.rhythm.app.core.model.StreamingServiceId
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import chromahub.rhythm.app.core.domain.repository.StreamingLibraryController
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.core.model.toLibrarySong
@@ -280,7 +280,8 @@ fun HomeScreen(
     onNavigateToRhythmGuard: () -> Unit = {},
     onNavigateToArtist: (Artist) -> Unit = {},
     isStreamingMode: Boolean = false,
-    streamingViewModel: chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel? = null,
+    streamingLibrary: StreamingLibraryController? = null,
+    streamingHome: StreamingHomeState? = null,
     streamingSongs: List<Song> = emptyList(),
     streamingAlbums: List<Album> = emptyList(),
     streamingArtists: List<Artist> = emptyList(),
@@ -417,8 +418,8 @@ fun HomeScreen(
 
 
 
-    val homeDownloadedSongs = streamingViewModel?.downloadedSongs?.collectAsState()?.value ?: emptyList()
-    val homeDownloadingSongIds = streamingViewModel?.downloadingSongIds?.collectAsState()?.value ?: emptySet()
+    val homeDownloadedSongs = streamingLibrary?.downloadedSongs?.collectAsState()?.value ?: emptyList()
+    val homeDownloadingSongIds = streamingLibrary?.downloadingSongIds?.collectAsState()?.value ?: emptySet()
     val homeDownloadedSongIds = remember(homeDownloadedSongs) { homeDownloadedSongs.map { it.id }.toSet() }
 
     // Song info bottom sheet
@@ -431,16 +432,16 @@ fun HomeScreen(
             isStreamingMode = isStreamingMode,
             isDownloaded = homeDownloadedSongIds.contains(songForInfo.id),
             isDownloading = homeDownloadingSongIds.contains(songForInfo.id),
-            onToggleDownload = if (isStreamingMode && streamingViewModel != null) ({
+            onToggleDownload = if (isStreamingMode && streamingLibrary != null) ({
                 if (homeDownloadedSongIds.contains(songForInfo.id)) {
-                    streamingViewModel.removeDownload(songForInfo.id)
+                    streamingLibrary.removeDownload(songForInfo.id)
                 } else {
-                    val orig = streamingViewModel.allSongs.value.firstOrNull { it.id == songForInfo.id }
-                        ?: streamingViewModel.recommendations.value.firstOrNull { it.id == songForInfo.id }
+                    val orig = streamingLibrary.allSongs.value.firstOrNull { it.id == songForInfo.id }
+                        ?: streamingLibrary.recommendations.value.firstOrNull { it.id == songForInfo.id }
                     if (orig != null) {
-                        streamingViewModel.downloadSong(orig)
+                        streamingLibrary.downloadSong(orig)
                     } else {
-                        streamingViewModel.downloadSongById(songForInfo.id)
+                        streamingLibrary.downloadSongById(songForInfo.id)
                     }
                 }
             }) else null,
@@ -614,7 +615,8 @@ fun HomeScreen(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(bottom = if (currentSong != null) 0.dp else 0.dp),
-                streamingViewModel = streamingViewModel,
+                streamingLibrary = streamingLibrary,
+                streamingHome = streamingHome,
                 songs = streamingSongs,
                 albums = streamingAlbums,
                 artists = streamingArtists,
@@ -641,7 +643,7 @@ fun HomeScreen(
                 isRefreshing = streamingIsRefreshing,
                 onRefresh = {
                     streamingIsRefreshing = true
-                    streamingViewModel?.refreshHome()
+                    streamingLibrary?.refreshHome()
                 }
             )
         } else {
@@ -693,7 +695,8 @@ fun HomeScreen(
 @Composable
 private fun StreamingHomeBody(
     modifier: Modifier = Modifier,
-    streamingViewModel: chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel?,
+    streamingLibrary: StreamingLibraryController?,
+    streamingHome: StreamingHomeState?,
     songs: List<Song>,
     albums: List<Album>,
     artists: List<Artist>,
@@ -795,17 +798,17 @@ private fun StreamingHomeBody(
         else -> 40.dp
     }
 
-    val vm = streamingViewModel
-    val rawAllSongs = vm?.allSongs?.collectAsState()?.value ?: emptyList()
-    val rawRecommendations = vm?.recommendations?.collectAsState()?.value ?: emptyList()
-    val rawNewReleases = vm?.newReleases?.collectAsState()?.value ?: emptyList()
-    val rawSavedAlbums = vm?.savedAlbums?.collectAsState()?.value ?: emptyList()
-    val rawArtists = vm?.followedArtists?.collectAsState()?.value ?: emptyList()
-    val rawPlaylists = vm?.savedPlaylists?.collectAsState()?.value ?: emptyList()
-    val rawDownloadedSongs = vm?.downloadedSongs?.collectAsState()?.value ?: emptyList()
-    val rawDownloadedAlbums = vm?.downloadedAlbums?.collectAsState()?.value ?: emptyList()
-    val rawDownloadedArtists = vm?.downloadedArtists?.collectAsState()?.value ?: emptyList()
-    val syncProgress = vm?.syncProgress?.collectAsState()?.value ?: chromahub.rhythm.app.core.model.StreamingSyncProgress()
+    val home = streamingHome
+    val rawAllSongs = home?.allSongs ?: emptyList()
+    val rawRecommendations = home?.recommendations ?: emptyList()
+    val rawNewReleases = home?.newReleases ?: emptyList()
+    val rawSavedAlbums = home?.savedAlbums ?: emptyList()
+    val rawArtists = home?.followedArtists ?: emptyList()
+    val rawPlaylists = home?.savedPlaylists ?: emptyList()
+    val rawDownloadedSongs = home?.downloadedSongs ?: emptyList()
+    val rawDownloadedAlbums = home?.downloadedAlbums ?: emptyList()
+    val rawDownloadedArtists = home?.downloadedArtists ?: emptyList()
+    val syncProgress = home?.syncProgress ?: chromahub.rhythm.app.core.model.StreamingSyncProgress()
     val isSyncing = syncProgress.isSyncing
 
     val streamingSongById by rememberOffMain(emptyMap<String, StreamingSong>(), rawAllSongs, rawRecommendations, rawNewReleases, rawDownloadedSongs) {
@@ -822,7 +825,7 @@ private fun StreamingHomeBody(
     val streamingPlaylistById = remember(rawPlaylists) { rawPlaylists.associateBy { it.id } }
 
     val offlineMode by appSettings.offlineMode.collectAsState()
-    val isVmOnline = vm?.isOnline?.collectAsState()?.value ?: true
+    val isVmOnline = home?.isOnline ?: true
     val isEffectivelyOffline = !serviceConnected || offlineMode || !isVmOnline
 
     val effectiveSongs = remember(isSyncing, isEffectivelyOffline, rawDownloadedSongs, songs) {
@@ -890,16 +893,16 @@ private fun StreamingHomeBody(
         effectiveArtists.isNotEmpty() ||
         effectiveRecentlyPlayed.isNotEmpty()
 
-    val hasLoadedHomeContent = vm?.hasLoadedHomeContent?.collectAsState()?.value ?: false
-    val hasLoadedLibrary = vm?.hasLoadedLibrary?.collectAsState()?.value ?: false
-    LaunchedEffect(vm, hasLoadedHomeContent) {
-        if (vm != null && !hasLoadedHomeContent) {
-            vm.loadHomeContent()
+    val hasLoadedHomeContent = home?.hasLoadedHomeContent ?: false
+    val hasLoadedLibrary = home?.hasLoadedLibrary ?: false
+    LaunchedEffect(streamingLibrary, hasLoadedHomeContent) {
+        if (streamingLibrary != null && !hasLoadedHomeContent) {
+            streamingLibrary.loadHomeContent()
         }
     }
-    LaunchedEffect(vm, hasLoadedLibrary) {
-        if (vm != null && !hasLoadedLibrary) {
-            vm.loadLibrary(false)
+    LaunchedEffect(streamingLibrary, hasLoadedLibrary) {
+        if (streamingLibrary != null && !hasLoadedLibrary) {
+            streamingLibrary.loadLibrary(false)
         }
     }
 
@@ -908,8 +911,8 @@ private fun StreamingHomeBody(
         if (originals.isNotEmpty()) onPlayQueue(originals, startIndex, shuffle)
     }
 
-    val serviceSessions = vm?.serviceSessions?.collectAsState()?.value ?: emptyMap()
-    val isAuthenticated = vm?.isAuthenticated?.collectAsState()?.value ?: false
+    val serviceSessions = home?.serviceSessions ?: emptyMap()
+    val isAuthenticated = home?.isAuthenticated ?: false
     val hasOfflineContent = rawDownloadedSongs.isNotEmpty() || rawDownloadedAlbums.isNotEmpty()
     // 网易云这类扫码服务没有服务器地址，已连接即视为已配置，否则登录成功也会被当成未配置。
     val hasConfiguredSession = serviceSessions.values.any { it.isConnected || it.serverUrl.isNotBlank() }
@@ -1007,7 +1010,7 @@ private fun StreamingHomeBody(
                             val rawAlbum = streamingAlbumById[album.id]
                             if (rawAlbum != null) {
                                 coroutineScope.launch {
-                                    val tracks = vm?.getAlbumSongs(rawAlbum).orEmpty()
+                                    val tracks = streamingLibrary?.getAlbumSongs(rawAlbum).orEmpty()
                                     if (tracks.isNotEmpty()) {
                                         onPlayQueue(tracks, 0, false)
                                     }
@@ -1040,7 +1043,7 @@ private fun StreamingHomeBody(
                 subtitle = context.getString(R.string.streaming_home_widget_empty_hint),
                 actionText = context.getString(R.string.streaming_service_setup_reconnect),
                 onAction = {
-                    vm?.clearError()
+                    streamingLibrary?.clearError()
                     onConfigureService(serviceName)
                 }
             )
