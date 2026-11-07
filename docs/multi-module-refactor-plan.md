@@ -164,11 +164,11 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 > - AppSettings.getInstance() 调用点**不改**（整体搬入方案）。
 > - 验收：编译 + 全模块单测绿 + assembleRelease（proguard × Hilt）绿 + 真机冒烟（启动/流媒体播放/设置/备份页/后台播放，0 崩溃）。
 
-### PR-7：kotlinx.serialization + 收尾（已完成 ✅ 2026-11-07，baseline profile 生成待人工配合）
+### PR-7：kotlinx.serialization + 收尾（已完成 ✅ 2026-11-07）
 > 执行偏差（已回写）：
 > 1. **:core:network Gson → kotlinx.serialization 完成**：7 个 @SerializedName DTO 文件（79 注解）+ GitHubApiService（无注解 DTO 6 类）共 61 个 data class 加 @Serializable 并补默认值；NetworkClient 8 处 GsonConverterFactory → `json.asConverterFactory`（Gson-parity 配置：ignoreUnknownKeys/isLenient/coerceInputValues/explicitNulls=false/**encodeDefaults=true**——保持请求体默认字段序列化）；AppleMusicCanvasProvider/WikipediaProvider 的手动 JsonParser 遍历迁 kotlinx JsonElement API；NetworkManager 同步换 converter。proguard 规则按官方模板追加 network 包 keep。
-> 2. **baseline profile 重生成被 OEM 拦截，待人工配合**（流程已文档化进 AGENTS.md §9）：真机实测连修 4 个 macrobenchmark 结构问题——`self-instrumenting=true` 使 targetPackage 指向 test 自身（旧 profile 只有库类的根因，已移除）；benchmark buildType 签名必须与 :app 一致（keystore.properties）；:app benchmark 变体需 `benchmarkImplementation` 注入 IsolationActivity；test 侧 lifecycle 与 :app 对齐（否则 NoSuchFieldError）。修复后 target 进程被荣耀系统管家（iAware）"by app" 杀掉——需用户在系统管家中加白名单后按 AGENTS.md §9 流程执行。`benchmark` 变体生成期间需临时 non-minified（混淆名 profile 无法 R8 remap），已还原。
-> 3. AGENTS.md 终稿 + wiki 14 文件过时横幅 完成；`org.gradle.parallel=false` 重估**留待用户确认**（gradle.properties 红线不动）。
+> 2. **baseline profile 重生成已取消（2026-11-07 用户决定，不存在遗留待办）**：不再重新生成。期间落地的 4 项 macrobenchmark 结构修复保留为历史（`self-instrumenting` 移除、benchmark buildType 签名对齐、`benchmarkImplementation` 注入 IsolationActivity、test 侧 lifecycle 对齐）。失效旧 profile（拆分前混淆名，运行时无法匹配的死资产）已删除；`profileinstaller` 依赖暂留（无 profile 时为 no-op）。
+> 3. AGENTS.md 终稿 + wiki 14 文件过时横幅 完成；`org.gradle.parallel=false` 重估已完成（2026-11-07 收尾批次）：clean `:app:assembleDebug` 同口径实测 false=225s / true=236s——`workers.max=4` 为并发瓶颈，跨项目并行无收益，**维持 false**（含测量结论已回写 `gradle.properties` 注释，下次不必重做实验）。
 > - 验收：assembleDebug + 全模块单测绿 + assembleRelease 绿（proguard × kotlinx.serialization）+ installDebug 冒烟（流媒体播放经新 converter，0 SerializationException）。
 
 ---
@@ -178,7 +178,6 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 - **每个 PR 的门禁**：`./gradlew assembleDebug :app:testDebugUnitTest`（不用裸 `test`）。
 - **冒烟清单**（PR-4/5/6 各跑一次，arm64 设备 `installDebug`）：本地播放/后台/锁屏、流媒体登录与播放、4 个 widget、QS tile、设置页全量、歌词、外链 VIEW、CrashActivity。
 - **发布链路**：PR-6/7 各跑一次 `assembleRelease` 验证 proguard keep 与新包名一致；APK 命名规则不变。
-- **性能回归**：PR-7 重生成 baseline profile 后跑 StartupBenchmarks 对比。
 - 本期 strings 只搬不改，占位符校验脚本跑一次确认路径可用即可。
 
 ## 五、风险与回退
@@ -188,7 +187,6 @@ build-logic/          included build：约定插件（AGP 9 内建 Kotlin，绝�
 | Hilt Gradle 插件与 AGP 9 内建 Kotlin 冲突 | ~~原假设~~ **PR-1 spike 已证伪**：插件 2.60.1 与 AGP 9.4.1 兼容，官方插件可用；后续 PR 直接采用 |
 | 110 文件 AppSettings import + 100+ 文件 theme/icons import 替换遗漏 | 脚本化批量替换 + 编译驱动逐模块清零 |
 | proguard keep 旧包名导致 release 混淆破坏 | 每次 PR 同步更新；PR-6/7 强制 assembleRelease 验证 |
-| baseline profile 失效性能回退 | PR-7 重生成；期间可接受 |
 | 10.8k 行 MusicViewModel 搬移/注入出错 | 原样搬移不重写逻辑；构造注入单独 PR、单独评审 |
 | exported 组件/平台契约破坏 | 组件声明只搬不改，manifest diff 逐项核对（AGENTS.md 红线） |
 | 每阶段周期内 main 不可构建 | 分阶段 PR 本身保证每阶段收口时全绿 |
