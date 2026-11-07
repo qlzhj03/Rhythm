@@ -137,7 +137,6 @@ import chromahub.rhythm.app.infrastructure.service.PlaybackStateSource
 import chromahub.rhythm.app.infrastructure.service.SleepTimerController
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -164,7 +163,6 @@ fun SettingsScreenWrapper(
     onBack: () -> Unit,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     navController: androidx.navigation.NavController,
-    musicViewModel: MusicViewModel,
     playbackState: PlaybackStateSource,
     playbackSettings: PlaybackSettingsController,
     playlistAdmin: PlaylistAdminController,
@@ -178,8 +176,8 @@ fun SettingsScreenWrapper(
 
     var routeStack by rememberSaveable { mutableStateOf(emptyList<String>()) }
     var showSleepTimerBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val currentSong by musicViewModel.currentSong.collectAsState()
-    val isPlaying by musicViewModel.isPlaying.collectAsState()
+    val currentSong by playbackState.currentSong.collectAsState()
+    val isPlaying by playbackState.isPlaying.collectAsState()
     val appMode by appSettings.appMode.collectAsState()
 
     // Hoist the main settings scroll state to persist across navigation
