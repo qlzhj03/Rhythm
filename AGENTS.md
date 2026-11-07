@@ -3,7 +3,7 @@
 AI 编码代理上下文文件。只写「读代码无法可靠推断」的项目约定、可直接执行的命令，以及会破坏本项目的反模式。
 
 **事实来源优先级：** 源码 / `app/build.gradle.kts` > `gradle/libs.versions.toml` > 本文件 > `wiki/`。
-`wiki/` 是历史快照（14 个 `.md`），已确认存在过期内容（提到的 CI workflow / `.githooks` 不存在、product flavor 已移除）。仓库已 `git init`（默认分支 `main`，尚无提交），没有 `.github/`、`.githooks/`；根目录有 `README.md`；`docs/multi-module-refactor-plan.md` 是进行中的多模块拆分权威蓝图（2026-11 启动）。
+`wiki/` 是历史快照（14 个 `.md`），已确认存在过期内容（提到的 CI workflow / `.githooks` 不存在、product flavor 已移除）。仓库已 `git init`（默认分支 `main`，尚无提交），没有 `.github/`、`.githooks/`；根目录有 `README.md`；`docs/multi-module-refactor-plan.md` 是多模块拆分的权威蓝图（2026-11 启动，PR-1~6 已落地，PR-7 收尾）。
 
 ## 1. 项目定位与技术基线
 
@@ -47,7 +47,7 @@ Android 音乐播放器：本地曲库（MediaStore + Room）+ 自托管流媒�
   - 签名读取的是**项目根目录 `keystore.properties`**（`getProperties("keystore.properties")`），`store_file` 相对 `rootProject` 解析；文件缺失时 release / debug / benchmark 回退 debug 签名。
   - `.config/` 目录当前不存在，也不是签名路径；根目录 `rhythm_keystore.jks` 存在但已被 `.gitignore` 忽略。
 - **版本**：不在 `libs.versions.toml` 之外指定依赖版本；不在 `build.gradle.kts` 硬编码版本；不自行升级 Kotlin / AGP / Compose BOM / Material3。
-- **结构**：不为新页面建 Activity、不引入 Fragment（`MainActivity` 是唯一 Compose 宿主，辅助 Activity 仅 `CrashActivity` / `ExternalPlaybackActivity` / `RhythmGuardTimeoutActivity`）；不新增 product flavor；不新增第三种语言目录。DI：已批准迁移到 Hilt（官方 Gradle 插件 + KSP，spike 已验证与 AGP 9 兼容），迁移按 `docs/multi-module-refactor-plan.md` 分阶段进行——迁移完成前**不要**在新代码里手写新的单例工厂（沿用 `LocalMusicModule` 模式的做法已冻结）；Gson → kotlinx-serialization 在 PR-7 于 `:core:network` 内执行，不要提前在全仓散改。
+- **结构**：不为新页面建 Activity、不引入 Fragment（`MainActivity` 是唯一 Compose 宿主，辅助 Activity 仅 `CrashActivity` / `ExternalPlaybackActivity` / `RhythmGuardTimeoutActivity`）；不新增 product flavor；不新增第三种语言目录。DI：Hilt 已全面接线（PR-6，见 §5）。**不要**再手写新的单例工厂对象。JSON：`:core:network` 已于 PR-7 迁到 kotlinx.serialization（DTO @Serializable + retrofit converter-kotlinx-serialization）；其余模块（:core:data AppSettings、:core:designsystem ColorExtractor、catalog 缓存、备份等）仍用 Gson——迁移范围刻意限定在 :core:network，勿全仓散改。
 - **Manifest**：`exported=true` 共 10 个组件，其 `exported` 与 intent-filter 是对外协议（Android Auto / 系统 / 启动器 / 小组件 / 其他应用依赖），勿移除、勿额外加 permission（`RhythmTileService` 已有的 `BIND_QUICK_SETTINGS_TILE` 除外）。PR-5 起组件声明随类所在模块拆分：4 个 Activity 在 `:app`；`MediaPlaybackService` + `RhythmAlbumArtProvider` 在 `:core:media` 的 manifest；4 个 widget receiver + `RhythmTileService` 在 `:feature:widget` 的 manifest（manifest merge 拼回同一份最终清单，属性一字不改）。cleartext + user CA 放行（`res/xml/network_security_config.xml`）是自托管 Navidrome/Jellyfin 的既定取舍，勿收紧。
 - **生成物与敏感区**：不改 `build/`、`app/build/generated/`、`app/src/main/baseline-prof/`；新增 `.github/workflows/`、`.githooks/` 或改动 `scripts/prepare_release.py` / `scripts/generate_release_notes.py` 前先询问（两者交互式，会改版本号并写 changelog / fastlane，后两者当前不存在）。
 - **Gradle**：只用 `./gradlew`，不用系统 `gradle`；不改 `gradle-wrapper.properties`；不动 `gradle.properties` 的内存与并发调优。
@@ -147,13 +147,19 @@ PR-5 后共 **11 个 Gradle 模块** + `:macrobenchmark` + `build-logic/`。模�
 - 版本号：`versionCode = 555001306`、`versionName = "5.5.500.1306 Beta"` 定义在 `app/build.gradle.kts`，由 `scripts/prepare_release.py` 更新。**AI 不得自行 bump**；临时构建用 `-PversionCodeOverride` / `-PversionNameOverride` / `-PreleaseDateOverride` / `-Pnightly=true`。
 - 语言规则见第 6 节；新增字符串必须同时写 `values/strings.xml`（中文）与 `values-en/strings.xml`（英文），并保持 `%s` / `%d` 占位符一致。
 - 平台契约（不要「顺手加固」，会破坏功能）：`MediaPlaybackService` 必须 `exported=true`（Android Auto / 系统媒体控制）、`MediaTransferReceiver` 必须 exported 无权限、`usesCleartextTraffic=true` + `networkSecurityConfig`（本地服务器常为 http）。
-- `app/src/main/baseline-prof/baseline-prof.txt` 与 `androidx.profileinstaller` 是刻意配置的基线 profile；**不要删除**。
+- `app/src/main/baseline-prof/baseline-prof.txt` 与 `androidx.profileinstaller` 是刻意配置的基线 profile；**不要删除**。当前文件是拆分前的旧档（混淆名 + 旧包名，对现行构建基本失效，不崩溃但启动性能回退）。重新生成流程（PR-7 实测，需 arm64 真机）：
+  1. 临时把 `:app` benchmark buildType 改 `isMinifyEnabled = false`（混淆名 profile 无法经 R8 remap，必须真名生成，生成后还原）；
+  2. `./gradlew :app:assembleBenchmark :macrobenchmark:assembleBenchmark`，安装两个 benchmark APK；
+  3. 先在系统管家里给 `chromahub.rhythm.app` 加白名单（荣耀 iAware 会以 "by app" 杀掉 instrumentation 的 target 进程——PR-7 在 HONOR BVL-AN16 上实测被拦，需人工配合）；
+  4. `adb shell am instrument -w -e class chromahub.rhythm.app.benchmark.BaselineProfileGenerator chromahub.rhythm.app.macrobenchmark/androidx.test.runner.AndroidJUnitRunner`；
+  5. `adb pull /storage/emulated/0/Android/media/chromahub.rhythm.app.macrobenchmark/*-startup-prof.txt` → 替换 `baseline-prof.txt`；还原 benchmark buildType 的 minify 并卸载设备上的两个 benchmark 包。
+  macrobenchmark 手工生成（无 baselineprofile-gradle-plugin）的关键前提——PR-7 已修入 `macrobenchmark/build.gradle.kts`：**不得**开 `android.experimental.self-instrumenting`（会让 targetPackage 指向 test 自身，只收得到库类）；benchmark buildType 签名必须与 `:app` 相同（keystore.properties）；`:app` 的 benchmark 变体需 `add("benchmarkImplementation", libs.androidx.benchmark.junit4)`（manifest 注入 IsolationActivity）；test 侧 lifecycle 版本与 :app 对齐（旧 ReportFragment 在 target 进程里引发 NoSuchFieldError）。
 - `BuildConfig` 功能开关定义在 `app/build.gradle.kts` `defaultConfig`，当前均为 `true`：`ENABLE_YOUTUBE_MUSIC`、`ENABLE_LYRICALLY_API`、`ENABLE_DEEZER`、`ENABLE_LRCLIB`、`ENABLE_BETTERLYRICS`、`ENABLE_SPOTIFY_SEARCH`、`ENABLE_WIKIPEDIA`；另有字符串 `FLAVOR="github"`。**不要**为「清理」删除这些字段（部分 UI 会读取）。
 
 ## 10. 协作流程与上下文入口
 
 - 仓库已 `git init`（默认分支 `main`，尚无提交），没有 CI；未经用户明确要求，不执行 `git commit` / `git push` / `git tag`。仓库约定见 `wiki/Contributing.md`。
-- 文档现状：`wiki/` 14 个 `.md`（部分内容过时）；`docs/` 仅有 `multi-module-refactor-plan.md`（多模块拆分蓝图，进行中）；没有 `.github/`、`.githooks/`；原根目录 `BUILD_VARIANTS.md` 已删除，构建变体 / BuildConfig / 产物说明并入本文件。不要按旧文档里的路径或 CI 配置行事（GitHub Actions 片段只是示例，本仓库无 CI）。
+- 文档现状：`wiki/` 14 个 `.md`（PR-7 起每个文件顶部带过时横幅，仅历史参考）；`docs/` 仅有 `multi-module-refactor-plan.md`（多模块拆分蓝图，进行中）；没有 `.github/`、`.githooks/`；原根目录 `BUILD_VARIANTS.md` 已删除，构建变体 / BuildConfig / 产物说明并入本文件。不要按旧文档里的路径或 CI 配置行事（GitHub Actions 片段只是示例，本仓库无 CI）。
 - 发布脚本 `scripts/prepare_release.py` 与 `scripts/generate_release_notes.py` 是交互式脚本，会改版本号并写 changelog / fastlane；未经要求不要运行。
 - 开始工作前按区域先读源码内注释（非常详尽）：构建 / 签名 → `app/build.gradle.kts`；播放 → `core/media/.../infrastructure/service/MediaPlaybackService.kt`；导航 → `app/src/main/java/chromahub/rhythm/app/navigation/RhythmNavigation.kt`；主题 → `core/designsystem/.../theme/Theme.kt` 与 `ExtendedTheme.kt`；缝隙安装 → `RhythmApplication.kt`。
 - 当前没有模块级 `AGENTS.md`；若未来新增 `:core:*` / `:feature:*` 模块，才在该模块根目录加就近 `AGENTS.md`，只写模块入口、关键类、局部禁令，不要复制根规则。

@@ -1,6 +1,8 @@
 package chromahub.rhythm.app.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,6 +24,6 @@ interface BetterLyricsApiService {
 /**
  * Response model for Better Lyrics getLyrics endpoint.
  */
+@Serializable
 data class BetterLyricsResponse(
-    @SerializedName("ttml") val ttml: String?
-)
+    @SerialName("ttml") val ttml: String? = null)

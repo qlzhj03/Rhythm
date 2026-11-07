@@ -1,6 +1,8 @@
 package chromahub.rhythm.app.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -33,17 +35,17 @@ interface LRCLibApiService {
 /**
  * Data class mapping of LRCLib search result
  */
+@Serializable
 data class LrcLibLyrics(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String? = null, // Legacy field
-    @SerializedName("trackName") val trackName: String?,
-    @SerializedName("artistName") val artistName: String?,
-    @SerializedName("albumName") val albumName: String?,
-    @SerializedName("duration") val duration: Double?,
-    @SerializedName("instrumental") val instrumental: Boolean? = false,
-    @SerializedName("plainLyrics") val plainLyrics: String?,
-    @SerializedName("syncedLyrics") val syncedLyrics: String?
-) {
+    @SerialName("id") val id: Int = 0,
+    @SerialName("name") val name: String? = null, // Legacy field
+    @SerialName("trackName") val trackName: String? = null,
+    @SerialName("artistName") val artistName: String? = null,
+    @SerialName("albumName") val albumName: String? = null,
+    @SerialName("duration") val duration: Double? = null,
+    @SerialName("instrumental") val instrumental: Boolean? = false,
+    @SerialName("plainLyrics") val plainLyrics: String? = null,
+    @SerialName("syncedLyrics") val syncedLyrics: String? = null) {
     /**
      * Helper method to check if lyrics are available
      */

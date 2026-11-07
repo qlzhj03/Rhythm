@@ -2,7 +2,9 @@ package chromahub.rhythm.app.network
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
@@ -38,6 +40,17 @@ object NetworkClient {
     private const val MAX_RETRIES = 3
     
     private val connectionPool by lazy { ConnectionPool(5, 30, TimeUnit.SECONDS) }
+
+    // Shared serializer config: Gson-parity leniency (unknown keys ignored,
+    // explicit nulls coerced, defaults still encoded so request bodies keep
+    // their optional fields — multi-module split PR-7).
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        coerceInputValues = true
+        explicitNulls = false
+        encodeDefaults = true
+    }
     
     // Store reference to AppSettings for dynamic API key
     private var appSettings: NetworkSettingsProvider? = null
@@ -170,7 +183,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(DEEZER_BASE_URL)
             .client(deezerHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
     
@@ -193,7 +206,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(LRCLIB_BASE_URL)
             .client(lrclibHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
     
@@ -213,7 +226,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(BETTERLYRICS_BASE_URL)
             .client(betterlyricsHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
     
@@ -233,7 +246,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(YTMUSIC_BASE_URL)
             .client(ytmusicHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
     
@@ -253,7 +266,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(SPOTIFY_API_BASE_URL)
             .client(spotifyHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
         
@@ -273,7 +286,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(LYRICALLY_BASE_URL)
             .client(lyricallyHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
@@ -293,7 +306,7 @@ object NetworkClient {
         Retrofit.Builder()
             .baseUrl(ITUNES_BASE_URL)
             .client(itunesHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
     

@@ -1,6 +1,11 @@
 package chromahub.rhythm.app.network
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
-import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -9,6 +14,7 @@ import java.net.URLEncoder
 
 object WikipediaProvider {
     private val client by lazy { OkHttpClient() }
+    private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun getAlbumDescription(albumTitle: String, artistName: String?): String? = withContext(Dispatchers.IO) {
         try {
@@ -70,8 +76,8 @@ object WikipediaProvider {
             client.newCall(request).execute().use { response ->
                 if (response.code == 200) {
                     val body = response.body.string()
-                    val obj = JsonParser.parseString(body).asJsonObject
-                    return@use obj.get("extract")?.asString
+                    val obj = json.parseToJsonElement(body).jsonObject
+                    return@use obj["extract"]?.jsonPrimitive?.contentOrNull
                 }
                 null
             }

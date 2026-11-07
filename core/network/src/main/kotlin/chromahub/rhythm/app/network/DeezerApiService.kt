@@ -1,6 +1,8 @@
 package chromahub.rhythm.app.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -31,78 +33,84 @@ interface DeezerApiService {
 
 // ---------- DTOs ----------
 
+@Serializable
 data class DeezerSearchResponse(
     val data: List<DeezerArtist> = emptyList(),
     val total: Int = 0,
     val next: String? = null
 )
 
+@Serializable
 data class DeezerAlbumSearchResponse(
     val data: List<DeezerAlbum> = emptyList(),
     val total: Int = 0,
     val next: String? = null
 )
 
+@Serializable
 data class DeezerArtist(
-    val id: Long,
-    val name: String,
-    val link: String,
+    val id: Long = 0L,
+    val name: String = "",
+    val link: String = "",
     val share: String? = null,
     val picture: String? = null,
-    @SerializedName("picture_small") val pictureSmall: String? = null,
-    @SerializedName("picture_medium") val pictureMedium: String? = null,
-    @SerializedName("picture_big") val pictureBig: String? = null,
-    @SerializedName("picture_xl") val pictureXl: String? = null,
-    @SerializedName("nb_album") val nbAlbum: Int = 0,
-    @SerializedName("nb_fan") val nbFan: Int = 0,
+    @SerialName("picture_small") val pictureSmall: String? = null,
+    @SerialName("picture_medium") val pictureMedium: String? = null,
+    @SerialName("picture_big") val pictureBig: String? = null,
+    @SerialName("picture_xl") val pictureXl: String? = null,
+    @SerialName("nb_album") val nbAlbum: Int = 0,
+    @SerialName("nb_fan") val nbFan: Int = 0,
     val radio: Boolean = false,
     val tracklist: String? = null,
     val type: String = "artist"
 )
 
+@Serializable
 data class DeezerAlbum(
-    val id: Long,
-    val title: String,
+    val id: Long = 0L,
+    val title: String = "",
     val link: String? = null,
     val cover: String? = null,
-    @SerializedName("cover_small") val coverSmall: String? = null,
-    @SerializedName("cover_medium") val coverMedium: String? = null,
-    @SerializedName("cover_big") val coverBig: String? = null,
-    @SerializedName("cover_xl") val coverXl: String? = null,
-    @SerializedName("nb_tracks") val nbTracks: Int = 0,
-    @SerializedName("release_date") val releaseDate: String? = null,
+    @SerialName("cover_small") val coverSmall: String? = null,
+    @SerialName("cover_medium") val coverMedium: String? = null,
+    @SerialName("cover_big") val coverBig: String? = null,
+    @SerialName("cover_xl") val coverXl: String? = null,
+    @SerialName("nb_tracks") val nbTracks: Int = 0,
+    @SerialName("release_date") val releaseDate: String? = null,
     val artist: DeezerAlbumArtist? = null,
     val type: String = "album"
 )
 
+@Serializable
 data class DeezerAlbumArtist(
-    val id: Long,
-    val name: String,
+    val id: Long = 0L,
+    val name: String = "",
     val link: String? = null,
     val picture: String? = null,
-    @SerializedName("picture_small") val pictureSmall: String? = null,
-    @SerializedName("picture_medium") val pictureMedium: String? = null,
-    @SerializedName("picture_big") val pictureBig: String? = null,
-    @SerializedName("picture_xl") val pictureXl: String? = null
+    @SerialName("picture_small") val pictureSmall: String? = null,
+    @SerialName("picture_medium") val pictureMedium: String? = null,
+    @SerialName("picture_big") val pictureBig: String? = null,
+    @SerialName("picture_xl") val pictureXl: String? = null
 )
 
+@Serializable
 data class DeezerTrackSearchResponse(
     val data: List<DeezerTrack> = emptyList()
 )
 
+@Serializable
 data class DeezerTrack(
-    val id: Long,
-    val title: String,
-    val artist: DeezerTrackArtist?,
-    val album: DeezerTrackAlbum?
-)
+    val id: Long = 0L,
+    val title: String = "",
+    val artist: DeezerTrackArtist? = null,
+    val album: DeezerTrackAlbum? = null)
 
+@Serializable
 data class DeezerTrackArtist(
-    val id: Long,
-    val name: String
-)
+    val id: Long = 0L,
+    val name: String = "")
 
+@Serializable
 data class DeezerTrackAlbum(
-    val id: Long,
-    val title: String
-)
+    val id: Long = 0L,
+    val title: String = "")
