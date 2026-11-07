@@ -2107,7 +2107,14 @@ private fun LocalNavigationContent(
                             },
                             appSettings = appSettings,
                             navController = navController,
-                            musicViewModel = viewModel
+                            musicViewModel = viewModel,
+                            playbackState = viewModel,
+                            playbackSettings = viewModel,
+                            playlistAdmin = viewModel,
+                            libraryAdmin = viewModel,
+                            cacheManager = viewModel,
+                            backupRestore = viewModel,
+                            sleepTimer = viewModel
                         )
                     }
                 }
