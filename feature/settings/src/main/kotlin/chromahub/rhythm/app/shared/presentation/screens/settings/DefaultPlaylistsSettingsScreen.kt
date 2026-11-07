@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
@@ -32,12 +31,12 @@ import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 
 @Composable
 fun DefaultPlaylistsSettingsScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    playlistAdmin: chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val appSettings = AppSettings.getInstance(context)
-    val musicViewModel: MusicViewModel = hiltViewModel()
     
     val defaultPlaylistsEnabled by appSettings.defaultPlaylistsEnabled.collectAsState()
     val showLikedInPlaylists by appSettings.showLikedInPlaylists.collectAsState()
@@ -95,7 +94,7 @@ fun DefaultPlaylistsSettingsScreen(
                         checked = defaultPlaylistsEnabled,
                         onCheckedChange = { enabled ->
                             HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
-                            musicViewModel.setDefaultPlaylistsEnabled(enabled)
+                            playlistAdmin.setDefaultPlaylistsEnabled(enabled)
                         }
                     )
                 }
@@ -130,7 +129,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_show_liked_in_playlists_desc),
                                         toggleState = showLikedInPlaylists,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setShowLikedInPlaylists(enabled)
+                                            playlistAdmin.setShowLikedInPlaylists(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
@@ -143,7 +142,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_smart_playlist_recently_added_desc),
                                         toggleState = smartPlaylistRecentlyAdded,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setSmartPlaylistRecentlyAdded(enabled)
+                                            playlistAdmin.setSmartPlaylistRecentlyAdded(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
@@ -156,7 +155,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_smart_playlist_most_played_desc),
                                         toggleState = smartPlaylistMostPlayed,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setSmartPlaylistMostPlayed(enabled)
+                                            playlistAdmin.setSmartPlaylistMostPlayed(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
@@ -169,7 +168,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_smart_playlist_on_repeat_desc),
                                         toggleState = smartPlaylistOnRepeat,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setSmartPlaylistOnRepeat(enabled)
+                                            playlistAdmin.setSmartPlaylistOnRepeat(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
@@ -182,7 +181,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_smart_playlist_forgotten_favorites_desc),
                                         toggleState = smartPlaylistForgottenFavorites,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setSmartPlaylistForgottenFavorites(enabled)
+                                            playlistAdmin.setSmartPlaylistForgottenFavorites(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
@@ -195,7 +194,7 @@ fun DefaultPlaylistsSettingsScreen(
                                         description = context.getString(R.string.settings_smart_playlist_recently_played_desc),
                                         toggleState = smartPlaylistRecentlyPlayed,
                                         onToggleChange = { enabled ->
-                                            musicViewModel.setSmartPlaylistRecentlyPlayed(enabled)
+                                            playlistAdmin.setSmartPlaylistRecentlyPlayed(enabled)
                                         }
                                     ),
                                     hapticFeedback = haptic
