@@ -1,6 +1,6 @@
 # D3 专项：解除最后一条 feature→feature 债务 local→streaming
 
-> 状态：**草稿（待批准）**（2026-11-08）。上游：`docs/multi-module-refactor-plan.md`（PR-1..7）、`docs/b1-musicviewmodel-seams-design.md`（settings→local）、`docs/d-settings-decoupling-design.md`（settings→widget / settings→streaming 已解除）。
+> 状态：**已批准并收口**（2026-11-08）——D3-1/2/3 全部完成，local→streaming 依赖已剪断，跨 feature 债务清零（§8 为实施裁定补记：Option T 落地）。上游：`docs/multi-module-refactor-plan.md`（PR-1..7）、`docs/b1-musicviewmodel-seams-design.md`（settings→local）、`docs/d-settings-decoupling-design.md`（settings→widget / settings→streaming 已解除）。
 > 本专项完成后，feature 模块完全平行，AGENTS.md §4 债务清零。
 
 ## 1. 意图与动机
