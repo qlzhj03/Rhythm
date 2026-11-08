@@ -220,10 +220,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.lazy.rememberLazyListState // Redundant, but ensuring it's there
-import androidx.compose.material3.OutlinedTextField // Redundant, but ensuring it's there
-import androidx.compose.foundation.shape.CircleShape // Redundant, but ensuring it's there
-import androidx.compose.ui.text.style.TextAlign // Redundant, but ensuring it's there
 import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.core.model.toLibraryAlbum
 import chromahub.rhythm.app.core.model.toLibraryArtist
