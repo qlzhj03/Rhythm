@@ -15,8 +15,6 @@ import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -48,8 +46,7 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmWidgetReceiver
+import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 
@@ -673,15 +670,7 @@ fun WidgetTipItem(
 }
 
 fun updateAllWidgets(context: Context) {
-    // Update Glance widgets via broadcast
-    val glanceIntent = android.content.Intent(context, RhythmWidgetReceiver::class.java).apply {
-        action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-    }
-    val glanceIds = AppWidgetManager.getInstance(context)
-        .getAppWidgetIds(ComponentName(context, RhythmWidgetReceiver::class.java))
-    glanceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, glanceIds)
-    context.sendBroadcast(glanceIntent)
-    GlanceWidgetUpdater.forceUpdateAll(context)
+    PlaybackWidgetBridgeInstaller.bridge?.updateAllWidgets(context)
 }
 /**
  * Bottom sheet for choosing the widget corner radius (shared with the onboarding tour).

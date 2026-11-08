@@ -1,5 +1,7 @@
 package chromahub.rhythm.app.infrastructure.widget.glance
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -209,6 +211,24 @@ try {
         
         // Also trigger worker update
         scheduleWidgetUpdate(appContext, delayMillis = 0)
+    }
+
+    /**
+     * Update all widgets via broadcast and forced refresh
+     *
+     * Moved verbatim from WidgetSettingsScreen's helper (D-phase D1) so settings
+     * no longer needs a compile dependency on :feature:widget.
+     */
+    fun updateAllWidgets(context: Context) {
+        // Update Glance widgets via broadcast
+        val glanceIntent = Intent(context, RhythmWidgetReceiver::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+        val glanceIds = AppWidgetManager.getInstance(context)
+            .getAppWidgetIds(ComponentName(context, RhythmWidgetReceiver::class.java))
+        glanceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, glanceIds)
+        context.sendBroadcast(glanceIntent)
+        forceUpdateAll(context)
     }
     
     /**

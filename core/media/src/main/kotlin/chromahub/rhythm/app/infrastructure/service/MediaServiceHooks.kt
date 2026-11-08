@@ -55,6 +55,9 @@ interface PlaybackWidgetBridge {
     )
 
     fun updateLyrics(context: Context, lyricTexts: List<String>, activeIndex: Int)
+
+    /** Refreshes every widget regardless of playback state (settings/onboarding triggers). */
+    fun updateAllWidgets(context: Context)
 }
 
 object PlaybackWidgetBridgeInstaller {

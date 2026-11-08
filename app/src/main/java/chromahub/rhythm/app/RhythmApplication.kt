@@ -138,6 +138,9 @@ class RhythmApplication : Application(), ImageLoaderFactory {
 
                 override fun updateLyrics(context: android.content.Context, lyricTexts: List<String>, activeIndex: Int) =
                     chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
+
+                override fun updateAllWidgets(context: android.content.Context) =
+                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateAllWidgets(context)
             }
 
         // Streaming playback seam for :core:media (repository lives in :feature:streaming).
