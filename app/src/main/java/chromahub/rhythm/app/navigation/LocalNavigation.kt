@@ -3588,6 +3588,9 @@ private fun LocalNavigationContent(
                     )
                 }
 
+                // Player anchor route: the player is a sheet, not a screen.
+                // This empty box keeps the 14+ navigate(Screen.Player.route)
+                // call sites resolving; do not remove.
                 composable(
                     route = Screen.Player.route,
                     enterTransition = { EnterTransition.None },
