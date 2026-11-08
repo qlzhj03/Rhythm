@@ -144,14 +144,14 @@ import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScree
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
-import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen
+import com.qlzhj.rhythm.feature.streaming.presentation.screens.StreamingServiceSetupScreen
+import com.qlzhj.rhythm.feature.streaming.presentation.screens.GoSettingsScreen
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
 import com.qlzhj.rhythm.core.model.toLibraryArtist
 import com.qlzhj.rhythm.core.model.toLibraryPlaylist
 import com.qlzhj.rhythm.core.model.toLibrarySong
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingAlbum
@@ -162,7 +162,7 @@ import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
+import com.qlzhj.rhythm.feature.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
@@ -2134,7 +2134,7 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerGoSettings.route) {
-                    chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen(
+                    com.qlzhj.rhythm.feature.streaming.presentation.screens.GoSettingsScreen(
                         onBackClick = navigateBackOrToSettings,
                         onConfigureCurrentProvider = { serviceId ->
                             appSettings.setInitialStreamingRoute("streaming_service_setup/$serviceId")

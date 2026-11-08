@@ -2,7 +2,7 @@ package chromahub.rhythm.app.navigation
 import androidx.hilt.navigation.compose.hiltViewModel
 import chromahub.rhythm.app.rhythmguard.RhythmGuardWarningHost
 import androidx.compose.animation.AnimatedContent
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.compose.animation.core.EaseInOutQuart
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn

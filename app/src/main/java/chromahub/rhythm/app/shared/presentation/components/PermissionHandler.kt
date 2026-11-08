@@ -65,7 +65,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
 

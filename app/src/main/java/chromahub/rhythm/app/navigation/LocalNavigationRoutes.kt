@@ -38,14 +38,14 @@ import com.qlzhj.rhythm.core.model.toLibraryArtist
 import com.qlzhj.rhythm.core.model.toLibraryPlaylist
 import com.qlzhj.rhythm.core.model.toLibrarySong
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingSong
 import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
+import com.qlzhj.rhythm.feature.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel

@@ -152,7 +152,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             object : com.qlzhj.rhythm.core.media.infrastructure.service.StreamingPlaybackResolver {
                 override suspend fun getStreamingUrl(songId: String): String? = streamingRepository.getStreamingUrl(songId)
                 override fun buildUserTrustingHttpClientBuilder() =
-                    chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
+                    com.qlzhj.rhythm.feature.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
             }
 
         // Haptics seam: :core:designsystem reads haptics setting through this gate
@@ -248,7 +248,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
      * cache at 25% of heap, which is far too large for an offline music app — bound both explicitly.
      */
     override fun newImageLoader(): ImageLoader {
-        val imageOkHttpClient = chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager
+        val imageOkHttpClient = com.qlzhj.rhythm.feature.streaming.data.provider.UserTrustManager
             .buildUserTrustingHttpClientBuilder()
             .dispatcher(Dispatcher().apply {
                 maxRequests = 16

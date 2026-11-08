@@ -168,12 +168,12 @@ import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdater
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.StreamingServiceRules
-import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
+import com.qlzhj.rhythm.feature.streaming.presentation.components.NetEaseQrLoginCard
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
-import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
-import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerScanner
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.NetEaseQrLoginUiState
+import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
+import com.qlzhj.rhythm.feature.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
+import com.qlzhj.rhythm.feature.streaming.presentation.components.bottomsheets.NearbyServerScanner
 import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 import com.qlzhj.rhythm.core.designsystem.theme.ColorSchemeOption
