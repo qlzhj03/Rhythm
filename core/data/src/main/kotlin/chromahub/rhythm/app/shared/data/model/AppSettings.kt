@@ -180,7 +180,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_CUSTOM_COLOR_SCHEME = "custom_color_scheme"
         private const val KEY_CUSTOM_FONT = "custom_font"
         private const val KEY_COLOR_SOURCE = "color_source" // ALBUM_ART, MONET, or CUSTOM
-        private const val KEY_EXTRACTED_ALBUM_COLORS = "extracted_album_colors" // JSON string with color values
+        internal const val KEY_EXTRACTED_ALBUM_COLORS = "extracted_album_colors" // JSON string with color values
         private const val KEY_FONT_SOURCE = "font_source" // SYSTEM or CUSTOM
         private const val KEY_CUSTOM_FONT_PATH = "custom_font_path" // Path to imported font file
         private const val KEY_CUSTOM_FONT_FAMILY = "custom_font_family" // Display name of custom font
@@ -189,19 +189,19 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_PLAYER_THEME_ID = "player_theme_id" // ID of the selected player theme (default, compact, large, minimal)
         internal const val KEY_MINI_PLAYER_THEME_ID = "miniplayer_theme_id"
         private const val KEY_USE_EXPERIMENTAL_PLAYER_UI = "use_experimental_player_ui"
-        private const val KEY_ENABLE_ALBUM_EDITING = "enable_album_editing"
+        internal const val KEY_ENABLE_ALBUM_EDITING = "enable_album_editing"
         
         // Library Settings
-        private const val KEY_ALBUM_VIEW_TYPE = "album_view_type"
+        internal const val KEY_ALBUM_VIEW_TYPE = "album_view_type"
         private const val KEY_ARTIST_VIEW_TYPE = "artist_view_type"
         private const val KEY_PLAYLIST_VIEW_TYPE = "playlist_view_type"
-        private const val KEY_ALBUM_SORT_ORDER = "album_sort_order"
+        internal const val KEY_ALBUM_SORT_ORDER = "album_sort_order"
         private const val KEY_PLAYLIST_SORT_ORDER = "playlist_sort_order"
         private const val KEY_PLAYLIST_DETAIL_SORT_ORDER = "playlist_detail_sort_order"
-        private const val KEY_LIBRARY_TAB_ORDER = "library_tab_order"
-        private const val KEY_LIBRARY_COMBINE_DISCS = "library_combine_discs"
+        internal const val KEY_LIBRARY_TAB_ORDER = "library_tab_order"
+        internal const val KEY_LIBRARY_COMBINE_DISCS = "library_combine_discs"
         internal const val KEY_PLAYER_CHIP_ORDER = "player_chip_order"
-        private const val KEY_HIDDEN_LIBRARY_TABS = "hidden_library_tabs"
+        internal const val KEY_HIDDEN_LIBRARY_TABS = "hidden_library_tabs"
         internal const val KEY_HIDDEN_PLAYER_CHIPS = "hidden_player_chips"
         internal const val KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL = "expressive_bottom_buttons_normal"
         internal const val KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL = "expressive_hidden_bottom_buttons_normal"
@@ -210,11 +210,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         const val MAX_EXPRESSIVE_BOTTOM_PINS_NORMAL = 2
         const val MAX_EXPRESSIVE_BOTTOM_BUTTONS_MERGE = 5
         val fixedBottomButtonsNormal = listOf("LYRICS", "FAVORITE")
-        private const val KEY_GROUP_BY_ALBUM_ARTIST = "group_by_album_artist" // New setting for album artist grouping
-        private const val KEY_PREFER_SONG_ARTWORK = "prefer_song_artwork" // Prefer per-song embedded artwork over shared album art
-        private const val KEY_IGNORE_MEDIASTORE_COVERS = "ignore_mediastore_covers" // Legacy key kept for migration compatibility
-        private const val KEY_LOSSLESS_ARTWORK = "lossless_artwork" // Show cover art without downscaling/compression
-        private const val KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS = "show_library_bottom_bar_always"
+        internal const val KEY_GROUP_BY_ALBUM_ARTIST = "group_by_album_artist" // New setting for album artist grouping
+        internal const val KEY_PREFER_SONG_ARTWORK = "prefer_song_artwork" // Prefer per-song embedded artwork over shared album art
+        internal const val KEY_IGNORE_MEDIASTORE_COVERS = "ignore_mediastore_covers" // Legacy key kept for migration compatibility
+        internal const val KEY_LOSSLESS_ARTWORK = "lossless_artwork" // Show cover art without downscaling/compression
+        internal const val KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS = "show_library_bottom_bar_always"
         
         // Audio Device Settings
         internal const val KEY_AUTO_CONNECT_DEVICE = "auto_connect_device"
@@ -265,8 +265,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         // User Statistics
         private const val KEY_LISTENING_TIME = "listening_time"
         private const val KEY_SONGS_PLAYED = "songs_played"
-        private const val KEY_UNIQUE_ARTISTS = "unique_artists"
-        private const val KEY_GENRE_PREFERENCES = "genre_preferences"
+        internal const val KEY_UNIQUE_ARTISTS = "unique_artists"
+        internal const val KEY_GENRE_PREFERENCES = "genre_preferences"
         private const val KEY_TIME_BASED_PREFERENCES = "time_based_preferences"
 
         // Rhythm Guard (listening health)
@@ -299,11 +299,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         const val RHYTHM_GUARD_MODE_AUTO = "AUTO"
         const val RHYTHM_GUARD_MODE_MANUAL = "MANUAL"
 
-        @Deprecated("Use RHYTHM_GUARD_MODE_OFF")
+        @Deprecated("Use AppSettings.RHYTHM_GUARD_MODE_OFF")
         const val RHYTHM_AURA_MODE_OFF = RHYTHM_GUARD_MODE_OFF
-        @Deprecated("Use RHYTHM_GUARD_MODE_AUTO")
+        @Deprecated("Use AppSettings.RHYTHM_GUARD_MODE_AUTO")
         const val RHYTHM_AURA_MODE_AUTO = RHYTHM_GUARD_MODE_AUTO
-        @Deprecated("Use RHYTHM_GUARD_MODE_MANUAL")
+        @Deprecated("Use AppSettings.RHYTHM_GUARD_MODE_MANUAL")
         const val RHYTHM_AURA_MODE_MANUAL = RHYTHM_GUARD_MODE_MANUAL
         
         // Recently Played
@@ -322,7 +322,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_SPOTIFY_CLIENT_SECRET = "spotify_client_secret"
         private const val KEY_LYRICALLY_API_ENABLED = "lyrically_api_enabled"
         private const val KEY_WIKIPEDIA_API_ENABLED = "wikipedia_api_enabled"
-        private const val KEY_AUTO_FETCH_ARTWORK = "auto_fetch_artwork"
+        internal const val KEY_AUTO_FETCH_ARTWORK = "auto_fetch_artwork"
         private const val KEY_ARTIST_ARTWORK_SOURCE = "artist_artwork_source"
         private const val KEY_APPLE_CANVAS_ENABLED = "apple_canvas_enabled"
         private const val KEY_APPLE_CANVAS_NETWORK_MODE = "apple_canvas_network_mode"
@@ -342,11 +342,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
 
         // Onboarding
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
-        private const val KEY_INITIAL_MEDIA_SCAN_COMPLETED = "initial_media_scan_completed"
-        private const val KEY_GENRE_DETECTION_COMPLETED = "genre_detection_completed"
+        internal const val KEY_INITIAL_MEDIA_SCAN_COMPLETED = "initial_media_scan_completed"
+        internal const val KEY_GENRE_DETECTION_COMPLETED = "genre_detection_completed"
         internal const val KEY_AUDIO_METADATA_EXTRACTION_COMPLETED = "audio_metadata_extraction_completed"
-        private const val KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED = "embedded_artwork_extraction_completed"
-        private const val KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS = "embedded_artwork_extraction_lossless_status"
+        internal const val KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED = "embedded_artwork_extraction_completed"
+        internal const val KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS = "embedded_artwork_extraction_lossless_status"
 
         // App Updater Settings
         private const val KEY_AUTO_CHECK_FOR_UPDATES = "auto_check_for_updates"
@@ -355,8 +355,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_UPDATES_ENABLED = "updates_enabled" // Master switch for updates
         private const val KEY_UPDATE_NOTIFICATIONS_ENABLED = "update_notifications_enabled" // Push-style notifications
         private const val KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED = "update_status_notifications_enabled" // Notify for no-update/error states
-        private const val KEY_MEDIA_SCAN_MODE = "media_scan_mode" // Mode for media scanning: "blacklist" or "whitelist"
-        private const val KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA = "include_hidden_whitelisted_media"
+        internal const val KEY_MEDIA_SCAN_MODE = "media_scan_mode" // Mode for media scanning: "blacklist" or "whitelist"
+        internal const val KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA = "include_hidden_whitelisted_media"
         private const val KEY_UPDATE_CHECK_INTERVAL_HOURS = "update_check_interval_hours" // Configurable interval
 
         // Beta Program
@@ -371,7 +371,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         
         // Notification Settings
     private const val KEY_USE_CUSTOM_NOTIFICATION = "use_custom_notification"
-    private const val KEY_LIBRARY_OPERATIONS_NOTIFICATIONS_ENABLED = "library_operations_notifications_enabled"
+    internal const val KEY_LIBRARY_OPERATIONS_NOTIFICATIONS_ENABLED = "library_operations_notifications_enabled"
     private const val KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED = "sleep_timer_notifications_enabled"
     private const val KEY_STREAMING_NOTIFICATIONS_ENABLED = "streaming_notifications_enabled"
     private const val KEY_RHYTHM_GUARD_ALERT_NOTIFICATIONS_ENABLED = "rhythm_guard_alert_notifications_enabled"
@@ -406,19 +406,19 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_FESTIVE_SHOW_SNOWFALL = "festive_show_snowfall"
         
         // Blacklisted Songs
-        private const val KEY_BLACKLISTED_SONGS = "blacklisted_songs"
+        internal const val KEY_BLACKLISTED_SONGS = "blacklisted_songs"
         
         // Blacklisted Folders
-        private const val KEY_BLACKLISTED_FOLDERS = "blacklisted_folders"
+        internal const val KEY_BLACKLISTED_FOLDERS = "blacklisted_folders"
         
         // Whitelisted Songs
-        private const val KEY_WHITELISTED_SONGS = "whitelisted_songs"
+        internal const val KEY_WHITELISTED_SONGS = "whitelisted_songs"
         
         // Whitelisted Folders
-        private const val KEY_WHITELISTED_FOLDERS = "whitelisted_folders"
+        internal const val KEY_WHITELISTED_FOLDERS = "whitelisted_folders"
 
         // Pinned Folders (Explorer)
-        private const val KEY_PINNED_FOLDERS = "pinned_folders"
+        internal const val KEY_PINNED_FOLDERS = "pinned_folders"
         
         // Playlist Playback Behavior
         
@@ -433,21 +433,21 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_SLEEP_TIMER_ACTION = "sleep_timer_action"
         
         // Media Scan Tracking
-        private const val KEY_LAST_SCAN_TIMESTAMP = "last_scan_timestamp"
-        private const val KEY_LAST_SCAN_DURATION = "last_scan_duration"
-        private const val KEY_PENDING_FULL_MEDIA_RESCAN = "pending_full_media_rescan"
-        private const val KEY_LAST_EMBEDDED_ART_SELF_HEAL_MS = "last_embedded_art_self_heal_ms"
+        internal const val KEY_LAST_SCAN_TIMESTAMP = "last_scan_timestamp"
+        internal const val KEY_LAST_SCAN_DURATION = "last_scan_duration"
+        internal const val KEY_PENDING_FULL_MEDIA_RESCAN = "pending_full_media_rescan"
+        internal const val KEY_LAST_EMBEDDED_ART_SELF_HEAL_MS = "last_embedded_art_self_heal_ms"
         
         // Media Scan Filtering
-        private const val KEY_ALLOWED_FORMATS = "allowed_formats"
+        internal const val KEY_ALLOWED_FORMATS = "allowed_formats"
         private const val KEY_MINIMUM_BITRATE = "minimum_bitrate"
-        private const val KEY_MINIMUM_DURATION = "minimum_duration"
+        internal const val KEY_MINIMUM_DURATION = "minimum_duration"
         
         // Library Sort Order
-        private const val KEY_SONGS_SORT_ORDER = "songs_sort_order"
+        internal const val KEY_SONGS_SORT_ORDER = "songs_sort_order"
         
         // Alphabet Bar Settings
-        private const val KEY_SHOW_ALPHABET_BAR = "show_alphabet_bar"
+        internal const val KEY_SHOW_ALPHABET_BAR = "show_alphabet_bar"
         private const val KEY_SHOW_SCROLL_TO_TOP = "show_scroll_to_top"
         
         // App Mode Settings (Local vs Streaming)
@@ -557,14 +557,14 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
 
         internal const val KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR = "album_bottom_sheet_gradient_blur"
         internal const val KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER = "album_bottom_sheet_disc_filter"
-        private const val KEY_ALBUM_HIDE_ABOUT = "album_hide_about"
+        internal const val KEY_ALBUM_HIDE_ABOUT = "album_hide_about"
         
         // Artist Separator Settings
         const val DEFAULT_ARTIST_SEPARATOR_DELIMITERS = ";/"
-        private const val KEY_ARTIST_SEPARATOR_ENABLED = "artist_separator_enabled"
-        private const val KEY_ARTIST_SEPARATOR_DELIMITERS = "artist_separator_delimiters" // Delimiter string or JSON array
-        private const val KEY_ARTIST_SEPARATOR_CUSTOM_DELIMITERS = "artist_separator_custom_delimiters"
-        private const val KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE = "artist_separator_cache_signature"
+        internal const val KEY_ARTIST_SEPARATOR_ENABLED = "artist_separator_enabled"
+        internal const val KEY_ARTIST_SEPARATOR_DELIMITERS = "artist_separator_delimiters" // Delimiter string or JSON array
+        internal const val KEY_ARTIST_SEPARATOR_CUSTOM_DELIMITERS = "artist_separator_custom_delimiters"
+        internal const val KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE = "artist_separator_cache_signature"
         
         // Player Screen Customization Settings
         internal const val KEY_PLAYER_SHOW_GRADIENT_OVERLAY = "player_show_gradient_overlay"
@@ -645,6 +645,13 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    val whitelistedSongs: StateFlow<List<String>> get() = librarySection.whitelistedSongs
+    val whitelistedFolders: StateFlow<List<String>> get() = librarySection.whitelistedFolders
+    val pinnedFolders: StateFlow<List<String>> get() = librarySection.pinnedFolders
+    val blacklistedSongs: StateFlow<List<String>> get() = librarySection.blacklistedSongs
+    val blacklistedFolders: StateFlow<List<String>> get() = librarySection.blacklistedFolders
+    fun normalizeStoragePath(path: String) = librarySection.normalizeStoragePath(path)
+    private val librarySection = chromahub.rhythm.app.shared.data.model.settings.LibrarySettingsSection(prefs, { updateDerivedSettings() })
     private val customizationSection = chromahub.rhythm.app.shared.data.model.settings.CustomizationSettingsSection(prefs, { updateDerivedSettings() })
     val defaultEqualizerPresetOrder get() = audioEqSection.defaultEqualizerPresetOrder
     val pinnedAutoEQProfiles: StateFlow<List<String>> get() = audioEqSection.pinnedAutoEQProfiles
@@ -832,21 +839,15 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val useDynamicColors: StateFlow<Boolean> = _useDynamicColors.asStateFlow()
     
     // Artist Separator Settings
-    private val _artistSeparatorEnabled = MutableStateFlow(prefs.getBoolean(KEY_ARTIST_SEPARATOR_ENABLED, true))
-    val artistSeparatorEnabled: StateFlow<Boolean> = _artistSeparatorEnabled.asStateFlow()
+    val artistSeparatorEnabled: StateFlow<Boolean> get() = librarySection.artistSeparatorEnabled
+    fun setArtistSeparatorEnabled(enabled: Boolean) = librarySection.setArtistSeparatorEnabled(enabled)
     
     // Default delimiters: ; /
-    private val _artistSeparatorDelimiters = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_ARTIST_SEPARATOR_DELIMITERS, DEFAULT_ARTIST_SEPARATOR_DELIMITERS) ?: DEFAULT_ARTIST_SEPARATOR_DELIMITERS
-    )
-    val artistSeparatorDelimiters: StateFlow<String> = _artistSeparatorDelimiters.asStateFlow()
+    val artistSeparatorDelimiters: StateFlow<String> get() = librarySection.artistSeparatorDelimiters
+    fun setArtistSeparatorDelimiters(delimiters: String) = librarySection.setArtistSeparatorDelimiters(delimiters)
 
-    private val _artistSeparatorCustomDelimiters = MutableStateFlow<List<String>>(
-        prefs.getString(AppSettings.KEY_ARTIST_SEPARATOR_CUSTOM_DELIMITERS, null)?.let {
-            ArtistSeparator.parseDelimiters(it)
-        } ?: emptyList()
-    )
-    val artistSeparatorCustomDelimiters: StateFlow<List<String>> = _artistSeparatorCustomDelimiters.asStateFlow()
+    val artistSeparatorCustomDelimiters: StateFlow<List<String>> get() = librarySection.artistSeparatorCustomDelimiters
+    fun setArtistSeparatorCustomDelimiters(tokens: List<String>) = librarySection.setArtistSeparatorCustomDelimiters(tokens)
     
     private val _customColorScheme = MutableStateFlow(prefs.getString(KEY_CUSTOM_COLOR_SCHEME, "Default") ?: "Default")
     val customColorScheme: StateFlow<String> = _customColorScheme.asStateFlow()
@@ -857,8 +858,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _colorSource = MutableStateFlow(prefs.getString(KEY_COLOR_SOURCE, "MONET") ?: "MONET")
     val colorSource: StateFlow<String> = _colorSource.asStateFlow()
     
-    private val _extractedAlbumColors = MutableStateFlow(prefs.getString(KEY_EXTRACTED_ALBUM_COLORS, null))
-    val extractedAlbumColors: StateFlow<String?> = _extractedAlbumColors.asStateFlow()
+    val extractedAlbumColors: StateFlow<String?> get() = librarySection.extractedAlbumColors
+    fun setExtractedAlbumColors(colorsJson: String?) = librarySection.setExtractedAlbumColors(colorsJson)
     
     private val _fontSource = MutableStateFlow(prefs.getString(KEY_FONT_SOURCE, "SYSTEM") ?: "SYSTEM")
     val fontSource: StateFlow<String> = _fontSource.asStateFlow()
@@ -877,10 +878,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     fun setMiniPlayerThemeId(themeId: String) = customizationSection.setMiniPlayerThemeId(themeId)
     
     // Library Settings
-    private val _albumViewType = MutableStateFlow(
-        AlbumViewType.valueOf(prefs.getString(AppSettings.KEY_ALBUM_VIEW_TYPE, AlbumViewType.GRID.name) ?: AlbumViewType.GRID.name)
-    )
-    val albumViewType: StateFlow<AlbumViewType> = _albumViewType.asStateFlow()
+    val albumViewType: StateFlow<AlbumViewType> get() = librarySection.albumViewType
+    fun setAlbumViewType(viewType: AlbumViewType) = librarySection.setAlbumViewType(viewType)
     
     private val _artistViewType = MutableStateFlow(
         ArtistViewType.valueOf(prefs.getString(AppSettings.KEY_ARTIST_VIEW_TYPE, ArtistViewType.GRID.name) ?: ArtistViewType.GRID.name)
@@ -893,8 +892,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val playlistViewType: StateFlow<PlaylistViewType> = _playlistViewType.asStateFlow()
     
     // Album Sort Order
-    private val _albumSortOrder = MutableStateFlow(prefs.getString(KEY_ALBUM_SORT_ORDER, "TRACK_NUMBER") ?: "TRACK_NUMBER")
-    val albumSortOrder: StateFlow<String> = _albumSortOrder.asStateFlow()
+    val albumSortOrder: StateFlow<String> get() = librarySection.albumSortOrder
+    fun setAlbumSortOrder(sortOrder: String) = librarySection.setAlbumSortOrder(sortOrder)
     
     // Playlist Sort Order
     private val _playlistSortOrder = MutableStateFlow(prefs.getString(KEY_PLAYLIST_SORT_ORDER, "NAME_ASC") ?: "NAME_ASC")
@@ -907,32 +906,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     // Artist Collaboration Mode
     
     // Library Tab Order
-    private val defaultTabOrder = listOf("SONGS", "LIKED", "PLAYLISTS", "ALBUMS", "ARTISTS", "ALBUM_ARTISTS", "EXPLORER")
-    private val _libraryTabOrder = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_LIBRARY_TAB_ORDER, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { order ->
-                val withLiked = if ("LIKED" in order) order
-                else {
-                    val songsIndex = order.indexOf("SONGS")
-                    if (songsIndex >= 0) order.toMutableList().apply { add(songsIndex + 1, "LIKED") }
-                    else order + "LIKED"
-                }
-                if ("ALBUM_ARTISTS" in withLiked) withLiked
-                else {
-                    val artistsIndex = withLiked.indexOf("ARTISTS")
-                    if (artistsIndex >= 0) withLiked.toMutableList().apply { add(artistsIndex + 1, "ALBUM_ARTISTS") }
-                    else withLiked + "ALBUM_ARTISTS"
-                }
-            }
-            ?: defaultTabOrder
-    )
-    val libraryTabOrder: StateFlow<List<String>> = _libraryTabOrder.asStateFlow()
+    val libraryTabOrder: StateFlow<List<String>> get() = librarySection.libraryTabOrder
+    fun setLibraryTabOrder(tabOrder: List<String>) = librarySection.setLibraryTabOrder(tabOrder)
 
-    private val _libraryCombineDiscs = MutableStateFlow(prefs.getBoolean(KEY_LIBRARY_COMBINE_DISCS, false))
-    val libraryCombineDiscs: StateFlow<Boolean> = _libraryCombineDiscs.asStateFlow()
+    val libraryCombineDiscs: StateFlow<Boolean> get() = librarySection.libraryCombineDiscs
+    fun setLibraryCombineDiscs(enabled: Boolean) = librarySection.setLibraryCombineDiscs(enabled)
     
     val playerChipOrder: StateFlow<List<String>> get() = customizationSection.playerChipOrder
     fun setPlayerChipOrder(chipOrder: List<String>) = customizationSection.setPlayerChipOrder(chipOrder)
@@ -942,20 +920,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val defaultScreen: StateFlow<String> = _defaultScreen.asStateFlow()
     
     // Hidden Library Tabs
-    private val _hiddenLibraryTabs = MutableStateFlow(
-        (prefs.getString(AppSettings.KEY_HIDDEN_LIBRARY_TABS, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.toSet()
-            ?: emptySet()) + if ("ALBUM_ARTISTS" in (prefs.getString(AppSettings.KEY_LIBRARY_TAB_ORDER, null) ?: "")) {
-            // User already has an order that includes Album Artists (they enabled it explicitly)
-            emptySet()
-        } else {
-            // Legacy or fresh installs: hide the Album Artists tab by default
-            setOf("ALBUM_ARTISTS")
-        }
-    )
-    val hiddenLibraryTabs: StateFlow<Set<String>> = _hiddenLibraryTabs.asStateFlow()
+    val hiddenLibraryTabs: StateFlow<Set<String>> get() = librarySection.hiddenLibraryTabs
+    fun setHiddenLibraryTabs(hiddenTabs: Set<String>) = librarySection.setHiddenLibraryTabs(hiddenTabs)
     
     // Hidden Player Chips
     val hiddenPlayerChips: StateFlow<Set<String>> get() = customizationSection.hiddenPlayerChips
@@ -981,34 +947,28 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     
     // Group By Album Artist
-    private val _groupByAlbumArtist = MutableStateFlow(false)
-    val groupByAlbumArtist: StateFlow<Boolean> = _groupByAlbumArtist.asStateFlow()
+    val groupByAlbumArtist: StateFlow<Boolean> get() = librarySection.groupByAlbumArtist
+    fun setGroupByAlbumArtist(enable: Boolean) = librarySection.setGroupByAlbumArtist(enable)
     
     // Prefer per-song embedded artwork over shared MediaStore album art.
-    private val _preferSongArtwork = MutableStateFlow(
-        if (prefs.contains(AppSettings.KEY_PREFER_SONG_ARTWORK)) {
-            prefs.getBoolean(AppSettings.KEY_PREFER_SONG_ARTWORK, true)
-        } else {
-            prefs.getBoolean(AppSettings.KEY_IGNORE_MEDIASTORE_COVERS, true)
-        }
-    )
-    val preferSongArtwork: StateFlow<Boolean> = _preferSongArtwork.asStateFlow()
+    val preferSongArtwork: StateFlow<Boolean> get() = librarySection.preferSongArtwork
+    fun setPreferSongArtwork(enabled: Boolean) = librarySection.setPreferSongArtwork(enabled)
 
     @Deprecated("Use preferSongArtwork")
 
     // Lossless Artwork - Show cover art as-is without compression
-    private val _losslessArtwork = MutableStateFlow(prefs.getBoolean(KEY_LOSSLESS_ARTWORK, true))
-    val losslessArtwork: StateFlow<Boolean> = _losslessArtwork.asStateFlow()
+    val losslessArtwork: StateFlow<Boolean> get() = librarySection.losslessArtwork
+    fun setLosslessArtwork(enabled: Boolean) = librarySection.setLosslessArtwork(enabled)
 
     // Show Library Section Headers
 
     // Show Library Bottom Bar Always
-    private val _showLibraryBottomBarAlways = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false))
-    val showLibraryBottomBarAlways: StateFlow<Boolean> = _showLibraryBottomBarAlways.asStateFlow()
+    val showLibraryBottomBarAlways: StateFlow<Boolean> get() = librarySection.showLibraryBottomBarAlways
+    fun setShowLibraryBottomBarAlways(enable: Boolean) = librarySection.setShowLibraryBottomBarAlways(enable)
     
     // Alphabet Bar Settings
-    private val _showAlphabetBar = MutableStateFlow(prefs.getBoolean(KEY_SHOW_ALPHABET_BAR, false))
-    val showAlphabetBar: StateFlow<Boolean> = _showAlphabetBar.asStateFlow()
+    val showAlphabetBar: StateFlow<Boolean> get() = librarySection.showAlphabetBar
+    fun setShowAlphabetBar(show: Boolean) = librarySection.setShowAlphabetBar(show)
     
     private val _showScrollToTop = MutableStateFlow(prefs.getBoolean(KEY_SHOW_SCROLL_TO_TOP, false))
     val showScrollToTop: StateFlow<Boolean> = _showScrollToTop.asStateFlow()
@@ -1320,7 +1280,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         sanitizeRhythmGuardMode(
             prefs.getString(
                 AppSettings.KEY_RHYTHM_GUARD_MODE,
-                prefs.getString(AppSettings.KEY_RHYTHM_AURA_MODE, RHYTHM_GUARD_MODE_OFF)
+                prefs.getString(AppSettings.KEY_RHYTHM_AURA_MODE, AppSettings.RHYTHM_GUARD_MODE_OFF)
             )
         )
     )
@@ -1423,22 +1383,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val homeShowRhythmGuard: StateFlow<Boolean> get() = customizationSection.homeShowRhythmGuard
     fun setHomeShowRhythmGuard(value: Boolean) = customizationSection.setHomeShowRhythmGuard(value)
     
-    private val _uniqueArtists = MutableStateFlow(prefs.getInt(KEY_UNIQUE_ARTISTS, 0))
-    val uniqueArtists: StateFlow<Int> = _uniqueArtists.asStateFlow()
+    val uniqueArtists: StateFlow<Int> get() = librarySection.uniqueArtists
+    fun setUniqueArtists(count: Int) = librarySection.setUniqueArtists(count)
     
-    private val _genrePreferences = MutableStateFlow<Map<String, Int>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_GENRE_PREFERENCES, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<Map<String, Int>>() {}.type)
-            } else {
-                emptyMap()
-            }
-        } catch (e: Exception) {
-            emptyMap()
-        }
-    )
-    val genrePreferences: StateFlow<Map<String, Int>> = _genrePreferences.asStateFlow()
+    val genrePreferences: StateFlow<Map<String, Int>> get() = librarySection.genrePreferences
+    fun setGenrePreferences(preferences: Map<String, Int>) = librarySection.setGenrePreferences(preferences)
     
     private val _timeBasedPreferences = MutableStateFlow<Map<Int, List<String>>>(
         try {
@@ -1557,8 +1506,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _wikipediaApiEnabled = MutableStateFlow(prefs.getBoolean(KEY_WIKIPEDIA_API_ENABLED, false))
     override val wikipediaApiEnabled: StateFlow<Boolean> = _wikipediaApiEnabled.asStateFlow()
     
-    private val _autoFetchArtwork = MutableStateFlow(prefs.getBoolean(KEY_AUTO_FETCH_ARTWORK, true))
-    val autoFetchArtwork: StateFlow<Boolean> = _autoFetchArtwork.asStateFlow()
+    val autoFetchArtwork: StateFlow<Boolean> get() = librarySection.autoFetchArtwork
+    fun setAutoFetchArtwork(enabled: Boolean) = librarySection.setAutoFetchArtwork(enabled)
 
     private val _artistArtworkSource = MutableStateFlow(
         ArtistArtworkSource.fromName(prefs.getString(AppSettings.KEY_ARTIST_ARTWORK_SOURCE, ArtistArtworkSource.PREFER_LOCAL_THEN_API.name))
@@ -1662,24 +1611,20 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _onboardingCompleted = MutableStateFlow(prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false))
     val onboardingCompleted: StateFlow<Boolean> = _onboardingCompleted.asStateFlow()
 
-    private val _initialMediaScanCompleted = MutableStateFlow(prefs.getBoolean(KEY_INITIAL_MEDIA_SCAN_COMPLETED, false))
-    val initialMediaScanCompleted: StateFlow<Boolean> = _initialMediaScanCompleted.asStateFlow()
+    val initialMediaScanCompleted: StateFlow<Boolean> get() = librarySection.initialMediaScanCompleted
+    fun setInitialMediaScanCompleted(completed: Boolean) = librarySection.setInitialMediaScanCompleted(completed)
 
-    private val _genreDetectionCompleted = MutableStateFlow(prefs.getBoolean(KEY_GENRE_DETECTION_COMPLETED, false))
-    val genreDetectionCompleted: StateFlow<Boolean> = _genreDetectionCompleted.asStateFlow()
+    val genreDetectionCompleted: StateFlow<Boolean> get() = librarySection.genreDetectionCompleted
+    fun setGenreDetectionCompleted(completed: Boolean) = librarySection.setGenreDetectionCompleted(completed)
 
-    val audioMetadataExtractionCompleted: StateFlow<Boolean> get() = audioEqSection.audioMetadataExtractionCompleted
-    fun setAudioMetadataExtractionCompleted(completed: Boolean) = audioEqSection.setAudioMetadataExtractionCompleted(completed)
+    val audioMetadataExtractionCompleted: StateFlow<Boolean> get() = librarySection.audioMetadataExtractionCompleted
+    fun setAudioMetadataExtractionCompleted(completed: Boolean) = librarySection.setAudioMetadataExtractionCompleted(completed)
 
-    private val _embeddedArtworkExtractionCompleted = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED, false)
-    )
-    val embeddedArtworkExtractionCompleted: StateFlow<Boolean> = _embeddedArtworkExtractionCompleted.asStateFlow()
+    val embeddedArtworkExtractionCompleted: StateFlow<Boolean> get() = librarySection.embeddedArtworkExtractionCompleted
+    fun setEmbeddedArtworkExtractionCompleted(completed: Boolean) = librarySection.setEmbeddedArtworkExtractionCompleted(completed)
 
-    private val _embeddedArtworkExtractionLosslessStatus = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS, false)
-    )
-    val embeddedArtworkExtractionLosslessStatus: StateFlow<Boolean> = _embeddedArtworkExtractionLosslessStatus.asStateFlow()
+    val embeddedArtworkExtractionLosslessStatus: StateFlow<Boolean> get() = librarySection.embeddedArtworkExtractionLosslessStatus
+    fun setEmbeddedArtworkExtractionLosslessStatus(lossless: Boolean) = librarySection.setEmbeddedArtworkExtractionLosslessStatus(lossless)
 
     // App Updater Settings
 private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_AUTO_CHECK_FOR_UPDATES, true))
@@ -1701,15 +1646,11 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val updateStatusNotificationsEnabled: StateFlow<Boolean> = _updateStatusNotificationsEnabled.asStateFlow()
 
     // Media Scan Mode
-    private val _mediaScanMode = MutableStateFlow(
-        MediaScanMode.fromValue(prefs.getString(AppSettings.KEY_MEDIA_SCAN_MODE, "blacklist") ?: "blacklist")
-    )
-    val mediaScanMode: StateFlow<MediaScanMode> = _mediaScanMode.asStateFlow()
+    val mediaScanMode: StateFlow<MediaScanMode> get() = librarySection.mediaScanMode
+    fun setMediaScanMode(mode: MediaScanMode) = librarySection.setMediaScanMode(mode)
 
-    private val _includeHiddenWhitelistedMedia = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA, true)
-    )
-    val includeHiddenWhitelistedMedia: StateFlow<Boolean> = _includeHiddenWhitelistedMedia.asStateFlow()
+    val includeHiddenWhitelistedMedia: StateFlow<Boolean> get() = librarySection.includeHiddenWhitelistedMedia
+    fun setIncludeHiddenWhitelistedMedia(include: Boolean) = librarySection.setIncludeHiddenWhitelistedMedia(include)
 
     private val _updateCheckIntervalHours = MutableStateFlow(prefs.getInt(KEY_UPDATE_CHECK_INTERVAL_HOURS, 6))
     val updateCheckIntervalHours: StateFlow<Int> = _updateCheckIntervalHours.asStateFlow()
@@ -1744,10 +1685,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     private val _useCustomNotification = MutableStateFlow(prefs.getBoolean(KEY_USE_CUSTOM_NOTIFICATION, false))
     val useCustomNotification: StateFlow<Boolean> = _useCustomNotification.asStateFlow()
 
-    private val _libraryOperationsNotificationsEnabled = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_LIBRARY_OPERATIONS_NOTIFICATIONS_ENABLED, true)
-    )
-    val libraryOperationsNotificationsEnabled: StateFlow<Boolean> = _libraryOperationsNotificationsEnabled.asStateFlow()
+    val libraryOperationsNotificationsEnabled: StateFlow<Boolean> get() = librarySection.libraryOperationsNotificationsEnabled
+    fun setLibraryOperationsNotificationsEnabled(enabled: Boolean) = librarySection.setLibraryOperationsNotificationsEnabled(enabled)
 
     private val _sleepTimerNotificationsEnabled = MutableStateFlow(
         prefs.getBoolean(AppSettings.KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED, true)
@@ -1787,8 +1726,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     private val _useExperimentalPlayerUi = MutableStateFlow(prefs.getBoolean(KEY_USE_EXPERIMENTAL_PLAYER_UI, false))
     val useExperimentalPlayerUi: StateFlow<Boolean> = _useExperimentalPlayerUi.asStateFlow()
 
-    private val _enableAlbumEditing = MutableStateFlow(prefs.getBoolean(KEY_ENABLE_ALBUM_EDITING, false))
-    val enableAlbumEditing: StateFlow<Boolean> = _enableAlbumEditing.asStateFlow()
+    val enableAlbumEditing: StateFlow<Boolean> get() = librarySection.enableAlbumEditing
+    fun setEnableAlbumEditing(enabled: Boolean) = librarySection.setEnableAlbumEditing(enabled)
     
     // Festive Theme Settings
     private val _festiveThemeEnabled = MutableStateFlow(prefs.getBoolean(KEY_FESTIVE_THEME_ENABLED, true))
@@ -1901,7 +1840,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         val masterEnabled = _batterySaverEnabled.value
         val mode = _batterySaverMode.value
         val disableLosslessInManual = _batterySaverDisableLosslessArtwork.value
-        val baseLossless = _losslessArtwork.value
+        val baseLossless = librarySection._losslessArtwork.value
         
         return baseLossless && !(masterEnabled && (mode == "auto" || disableLosslessInManual))
     }
@@ -1910,7 +1849,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         val masterEnabled = _batterySaverEnabled.value
         val mode = _batterySaverMode.value
         val disableAutoFetchInManual = _batterySaverDisableAutoFetchArtwork.value
-        val baseAutoFetch = _autoFetchArtwork.value
+        val baseAutoFetch = librarySection._autoFetchArtwork.value
         
         return baseAutoFetch && !(masterEnabled && (mode == "auto" || disableAutoFetchInManual))
     }
@@ -1937,91 +1876,14 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val festiveShowSnowfall: StateFlow<Boolean> = _festiveShowSnowfall.asStateFlow()
     
     // Blacklisted Songs
-    private val _blacklistedSongs = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_BLACKLISTED_SONGS, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val blacklistedSongs: StateFlow<List<String>> = _blacklistedSongs.asStateFlow()
     
     // Blacklisted Folders
-    private val _blacklistedFolders = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_BLACKLISTED_FOLDERS, null)
-            if (json != null) {
-                val rawList: List<String> = Gson().fromJson(json, object : TypeToken<List<String>>() {}.type) ?: emptyList()
-                val sanitized = rawList.map { StoragePathUtils.sanitizeAndNormalizePath(it) }.filter { it.isNotBlank() }.distinct()
-                if (sanitized != rawList) {
-                    prefs.edit { putString(AppSettings.KEY_BLACKLISTED_FOLDERS, Gson().toJson(sanitized)) }
-                }
-                sanitized
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val blacklistedFolders: StateFlow<List<String>> = _blacklistedFolders.asStateFlow()
     
     // Whitelisted Songs
-    private val _whitelistedSongs = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_WHITELISTED_SONGS, null)
-            if (json != null) {
-                val type = object : com.google.gson.reflect.TypeToken<List<String>>() {}.type
-                Gson().fromJson(json, type) ?: emptyList()
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val whitelistedSongs: StateFlow<List<String>> = _whitelistedSongs.asStateFlow()
     
     // Whitelisted Folders
-    private val _whitelistedFolders = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_WHITELISTED_FOLDERS, null)
-            if (json != null) {
-                val type = object : com.google.gson.reflect.TypeToken<List<String>>() {}.type
-                val rawList: List<String> = Gson().fromJson(json, type) ?: emptyList()
-                val sanitized = rawList.map { StoragePathUtils.sanitizeAndNormalizePath(it) }.filter { it.isNotBlank() }.distinct()
-                if (sanitized != rawList) {
-                    prefs.edit { putString(AppSettings.KEY_WHITELISTED_FOLDERS, Gson().toJson(sanitized)) }
-                }
-                sanitized
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val whitelistedFolders: StateFlow<List<String>> = _whitelistedFolders.asStateFlow()
 
     // Pinned Folders (Explorer)
-    private val _pinnedFolders = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_PINNED_FOLDERS, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val pinnedFolders: StateFlow<List<String>> = _pinnedFolders.asStateFlow()
 
     // Backup and Restore Settings
     private val _lastBackupTimestamp = MutableStateFlow(safeLong(KEY_LAST_BACKUP_TIMESTAMP, 0L))
@@ -2034,27 +1896,25 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val backupLocation: StateFlow<String?> = _backupLocation.asStateFlow()
     
     // Media Scan Tracking
-    private val _lastScanTimestamp = MutableStateFlow(safeLong(KEY_LAST_SCAN_TIMESTAMP, 0L))
-    val lastScanTimestamp: StateFlow<Long> = _lastScanTimestamp.asStateFlow()
+    val lastScanTimestamp: StateFlow<Long> get() = librarySection.lastScanTimestamp
+    fun setLastScanTimestamp(timestamp: Long) = librarySection.setLastScanTimestamp(timestamp)
     
-    private val _lastScanDuration = MutableStateFlow(safeLong(KEY_LAST_SCAN_DURATION, 0L))
-    val lastScanDuration: StateFlow<Long> = _lastScanDuration.asStateFlow()
+    val lastScanDuration: StateFlow<Long> get() = librarySection.lastScanDuration
+    fun setLastScanDuration(duration: Long) = librarySection.setLastScanDuration(duration)
     
     // Media Scan Filtering
-    private val _allowedFormats = MutableStateFlow(
-        prefs.getStringSet(AppSettings.KEY_ALLOWED_FORMATS, defaultAllowedFormats())?.toSet() ?: defaultAllowedFormats()
-    )
-    val allowedFormats: StateFlow<Set<String>> = _allowedFormats.asStateFlow()
+    val allowedFormats: StateFlow<Set<String>> get() = librarySection.allowedFormats
+    fun setAllowedFormats(formats: Set<String>) = librarySection.setAllowedFormats(formats)
     
     private val _minimumBitrate = MutableStateFlow(prefs.getInt(KEY_MINIMUM_BITRATE, 0)) // 0 = no filter
     val minimumBitrate: StateFlow<Int> = _minimumBitrate.asStateFlow()
     
-    private val _minimumDuration = MutableStateFlow(safeLong(KEY_MINIMUM_DURATION, 0L)) // 0 = no filter
-    val minimumDuration: StateFlow<Long> = _minimumDuration.asStateFlow()
+    val minimumDuration: StateFlow<Long> get() = librarySection.minimumDuration
+    fun setMinimumDuration(duration: Long) = librarySection.setMinimumDuration(duration)
     
     // Library Sort Order
-    private val _songsSortOrder = MutableStateFlow(prefs.getString(KEY_SONGS_SORT_ORDER, "TITLE_ASC") ?: "TITLE_ASC")
-    val songsSortOrder: StateFlow<String> = _songsSortOrder.asStateFlow()
+    val songsSortOrder: StateFlow<String> get() = librarySection.songsSortOrder
+    fun setSongsSortOrder(sortOrder: String) = librarySection.setSongsSortOrder(sortOrder)
     
     /**
      * Initialize scheduled workers after all StateFlow properties are initialized
@@ -2095,14 +1955,14 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
         val legacyValue = prefs.getBoolean(AppSettings.KEY_IGNORE_MEDIASTORE_COVERS, false)
         prefs.edit { putBoolean(AppSettings.KEY_PREFER_SONG_ARTWORK, legacyValue) }
-        _preferSongArtwork.value = legacyValue
+        librarySection._preferSongArtwork.value = legacyValue
         Log.d("AppSettings", "Migrated legacy ignore_mediastore_covers to prefer_song_artwork")
     }
 
     private fun normalizeArtworkPreferenceStateIfNeeded() {
-        if (_losslessArtwork.value && !_preferSongArtwork.value) {
+        if (librarySection._losslessArtwork.value && !librarySection._preferSongArtwork.value) {
             prefs.edit { putBoolean(AppSettings.KEY_LOSSLESS_ARTWORK, false) }
-            _losslessArtwork.value = false
+            librarySection._losslessArtwork.value = false
             Log.d("AppSettings", "Normalized artwork preferences by disabling lossless mode while song-based artwork is off")
         }
     }
@@ -2311,43 +2171,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Artist Separator Settings Methods
-    fun setArtistSeparatorEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_ARTIST_SEPARATOR_ENABLED, enabled) }
-        _artistSeparatorEnabled.value = enabled
-    }
     
-    fun setArtistSeparatorDelimiters(delimiters: String) {
-        val sanitized = delimiters.trim().ifEmpty { DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
-        prefs.edit { putString(AppSettings.KEY_ARTIST_SEPARATOR_DELIMITERS, sanitized) }
-        _artistSeparatorDelimiters.value = sanitized
-    }
 
-    fun setArtistSeparatorCustomDelimiters(tokens: List<String>) {
-        val clean = tokens.map { it.trim() }.filter { it.isNotEmpty() }.distinct()
-        val json = if (clean.isEmpty()) "" else ArtistSeparator.serializeDelimiters(clean)
-        prefs.edit {
-            if (json.isEmpty()) {
-                remove(AppSettings.KEY_ARTIST_SEPARATOR_CUSTOM_DELIMITERS)
-            } else {
-                putString(AppSettings.KEY_ARTIST_SEPARATOR_CUSTOM_DELIMITERS, json)
-            }
-        }
-        _artistSeparatorCustomDelimiters.value = clean
-    }
 
-    fun getArtistSeparatorCacheSignature(): String? {
-        return prefs.getString(AppSettings.KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE, null)
-    }
+    fun getArtistSeparatorCacheSignature() = librarySection.getArtistSeparatorCacheSignature()
 
-    fun setArtistSeparatorCacheSignature(signature: String?) {
-        prefs.edit {
-            if (signature.isNullOrBlank()) {
-                remove(AppSettings.KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE)
-            } else {
-                putString(AppSettings.KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE, signature)
-            }
-        }
-    }
+    fun setArtistSeparatorCacheSignature(signature: String?) = librarySection.setArtistSeparatorCacheSignature(signature)
     
     fun setCustomColorScheme(scheme: String) {
         prefs.edit { putString(AppSettings.KEY_CUSTOM_COLOR_SCHEME, scheme) }
@@ -2364,10 +2193,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _colorSource.value = source
     }
     
-    fun setExtractedAlbumColors(colorsJson: String?) {
-        prefs.edit { putString(AppSettings.KEY_EXTRACTED_ALBUM_COLORS, colorsJson) }
-        _extractedAlbumColors.value = colorsJson
-    }
     
     fun setFontSource(source: String) {
         prefs.edit { putString(AppSettings.KEY_FONT_SOURCE, source) }
@@ -2388,10 +2213,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     
     // Library Settings Methods
-    fun setAlbumViewType(viewType: AlbumViewType) {
-        prefs.edit { putString(AppSettings.KEY_ALBUM_VIEW_TYPE, viewType.name) }
-        _albumViewType.value = viewType
-    }
     
     fun setArtistViewType(viewType: ArtistViewType) {
         prefs.edit { putString(AppSettings.KEY_ARTIST_VIEW_TYPE, viewType.name) }
@@ -2403,10 +2224,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _playlistViewType.value = viewType
     }
     
-    fun setAlbumSortOrder(sortOrder: String) {
-        prefs.edit { putString(AppSettings.KEY_ALBUM_SORT_ORDER, sortOrder) }
-        _albumSortOrder.value = sortOrder
-    }
     
     fun setPlaylistSortOrder(sortOrder: String) {
         prefs.edit { putString(AppSettings.KEY_PLAYLIST_SORT_ORDER, sortOrder) }
@@ -2419,21 +2236,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     
-    fun setLibraryTabOrder(tabOrder: List<String>) {
-        val orderString = tabOrder.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_LIBRARY_TAB_ORDER, orderString) }
-        _libraryTabOrder.value = tabOrder
-    }
     
-    fun resetLibraryTabOrder() {
-        prefs.edit { remove(AppSettings.KEY_LIBRARY_TAB_ORDER) }
-        _libraryTabOrder.value = defaultTabOrder
-    }
+    fun resetLibraryTabOrder() = librarySection.resetLibraryTabOrder()
 
-    fun setLibraryCombineDiscs(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_LIBRARY_COMBINE_DISCS, enabled) }
-        _libraryCombineDiscs.value = enabled
-    }
     
     
     fun resetPlayerChipOrder() {
@@ -2446,11 +2251,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _defaultScreen.value = screen
     }
     
-    fun setHiddenLibraryTabs(hiddenTabs: Set<String>) {
-        val hiddenString = hiddenTabs.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_HIDDEN_LIBRARY_TABS, hiddenString) }
-        _hiddenLibraryTabs.value = hiddenTabs
-    }
     
 
 
@@ -2477,95 +2277,25 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
 
     
-    fun setGroupByAlbumArtist(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_GROUP_BY_ALBUM_ARTIST, false) }
-        _groupByAlbumArtist.value = false
-    }
-
-    fun setPreferSongArtwork(enabled: Boolean) {
-        val changed = _preferSongArtwork.value != enabled
-        val disableLossless = !enabled && _losslessArtwork.value
-        prefs.edit {
-            putBoolean(AppSettings.KEY_PREFER_SONG_ARTWORK, enabled)
-            putBoolean(AppSettings.KEY_IGNORE_MEDIASTORE_COVERS, enabled)
-            putBoolean(AppSettings.KEY_LOSSLESS_ARTWORK, if (disableLossless) false else _losslessArtwork.value)
-        }
-        _preferSongArtwork.value = enabled
-        if (disableLossless) {
-            _losslessArtwork.value = false
-        }
-        updateDerivedSettings()
-    }
 
 
-    fun setLosslessArtwork(enabled: Boolean) {
-        val changed = _losslessArtwork.value != enabled
-        prefs.edit { putBoolean(AppSettings.KEY_LOSSLESS_ARTWORK, enabled) }
-        _losslessArtwork.value = enabled
-        updateDerivedSettings()
-
-        // Lossless artwork requires per-song artwork mode to take effect.
-        if (enabled && !_preferSongArtwork.value) {
-            setPreferSongArtwork(true)
-        }
-    }
 
 
-    fun setShowLibraryBottomBarAlways(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, enable) }
-        _showLibraryBottomBarAlways.value = enable
-    }
 
-    fun requestFullMediaRescanOnNextLaunch(reason: String = "unspecified") {
-        prefs.edit {
-    putBoolean(AppSettings.KEY_PENDING_FULL_MEDIA_RESCAN, true)
-    putBoolean(AppSettings.KEY_INITIAL_MEDIA_SCAN_COMPLETED, false)
-    putBoolean(AppSettings.KEY_GENRE_DETECTION_COMPLETED, false)
-    putBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED, false)
-    putBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS, false)
-    putLong(AppSettings.KEY_LAST_SCAN_TIMESTAMP, 0L)
-    putLong(AppSettings.KEY_LAST_SCAN_DURATION, 0L)
-}
 
-        _initialMediaScanCompleted.value = false
-        _genreDetectionCompleted.value = false
-        audioEqSection._audioMetadataExtractionCompleted.value = false
-        _embeddedArtworkExtractionCompleted.value = false
-        _embeddedArtworkExtractionLosslessStatus.value = false
-        _lastScanTimestamp.value = 0L
-        _lastScanDuration.value = 0L
+    fun requestFullMediaRescanOnNextLaunch(reason: String = "unspecified") = librarySection.requestFullMediaRescanOnNextLaunch(reason)
 
-        Log.i("AppSettings", "Full media rescan scheduled for next launch (reason=$reason)")
-    }
-
-    fun consumePendingFullMediaRescanRequest(): Boolean {
-        val pending = prefs.getBoolean(AppSettings.KEY_PENDING_FULL_MEDIA_RESCAN, false)
-        if (pending) {
-            prefs.edit { putBoolean(AppSettings.KEY_PENDING_FULL_MEDIA_RESCAN, false) }
-            Log.i("AppSettings", "Consuming pending full media rescan request")
-        }
-        return pending
-    }
+    fun consumePendingFullMediaRescanRequest() = librarySection.consumePendingFullMediaRescanRequest()
 
     /**
      * Self-heal guard gate: allows the one-time embedded artwork re-extraction
      * at most once per 24h, so a wiped artwork cache self-heals on the next
      * launch without ever turning into a per-launch extraction loop.
      */
-    fun shouldRunEmbeddedArtSelfHeal(): Boolean {
-        val lastRun = prefs.getLong(AppSettings.KEY_LAST_EMBEDDED_ART_SELF_HEAL_MS, 0L)
-        return System.currentTimeMillis() - lastRun >= 24L * 60 * 60 * 1000
-    }
+    fun shouldRunEmbeddedArtSelfHeal() = librarySection.shouldRunEmbeddedArtSelfHeal()
 
-    fun markEmbeddedArtSelfHealDone() {
-        prefs.edit { putLong(AppSettings.KEY_LAST_EMBEDDED_ART_SELF_HEAL_MS, System.currentTimeMillis()) }
-        Log.i("AppSettings", "Marked embedded artwork self-heal as done")
-    }
+    fun markEmbeddedArtSelfHealDone() = librarySection.markEmbeddedArtSelfHealDone()
     
-    fun setShowAlphabetBar(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_ALPHABET_BAR, show) }
-        _showAlphabetBar.value = show
-    }
     
     fun setShowScrollToTop(show: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_SHOW_SCROLL_TO_TOP, show) }
@@ -2603,10 +2333,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _rememberStreamingPasswords.value = enabled
     }
     
-    fun setSongsSortOrder(sortOrder: String) {
-        prefs.edit { putString(AppSettings.KEY_SONGS_SORT_ORDER, sortOrder) }
-        _songsSortOrder.value = sortOrder
-    }
     
     // Audio Device Settings Methods
     
@@ -2963,7 +2689,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 }
         _rhythmAuraMode.value = normalizedMode
 
-        if (normalizedMode == RHYTHM_GUARD_MODE_AUTO) {
+        if (normalizedMode == AppSettings.RHYTHM_GUARD_MODE_AUTO) {
             applyRhythmGuardAutoProfileForAge(_rhythmAuraAge.value)
         }
     }
@@ -2978,7 +2704,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 }
         _rhythmAuraAge.value = safeAge
 
-        if (_rhythmAuraMode.value == RHYTHM_GUARD_MODE_AUTO) {
+        if (_rhythmAuraMode.value == AppSettings.RHYTHM_GUARD_MODE_AUTO) {
             applyRhythmGuardAutoProfileForAge(safeAge)
         }
     }
@@ -3173,26 +2899,17 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     private fun sanitizeRhythmGuardMode(mode: String?): String {
         return when (mode) {
-            RHYTHM_GUARD_MODE_AUTO,
-            RHYTHM_GUARD_MODE_MANUAL,
-            RHYTHM_GUARD_MODE_OFF -> mode
-            else -> RHYTHM_GUARD_MODE_OFF
+            AppSettings.RHYTHM_GUARD_MODE_AUTO,
+            AppSettings.RHYTHM_GUARD_MODE_MANUAL,
+            AppSettings.RHYTHM_GUARD_MODE_OFF -> mode
+            else -> AppSettings.RHYTHM_GUARD_MODE_OFF
         }
     }
 
     @Deprecated("Use sanitizeRhythmGuardMode")
     private fun sanitizeRhythmAuraMode(mode: String?): String = sanitizeRhythmGuardMode(mode)
     
-    fun setUniqueArtists(count: Int) {
-        prefs.edit { putInt(AppSettings.KEY_UNIQUE_ARTISTS, count) }
-        _uniqueArtists.value = count
-    }
     
-    fun setGenrePreferences(preferences: Map<String, Int>) {
-        val json = Gson().toJson(preferences)
-        prefs.edit { putString(AppSettings.KEY_GENRE_PREFERENCES, json) }
-        _genrePreferences.value = preferences
-    }
     
     fun setTimeBasedPreferences(preferences: Map<Int, List<String>>) {
         val json = Gson().toJson(preferences)
@@ -3291,11 +3008,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         if (enabled) setIntegrationsEnabled(true)
     }
     
-    fun setAutoFetchArtwork(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUTO_FETCH_ARTWORK, enabled) }
-        _autoFetchArtwork.value = enabled
-        updateDerivedSettings()
-    }
     
     fun setSpotifyClientId(clientId: String) {
         prefs.edit { putString(AppSettings.KEY_SPOTIFY_CLIENT_ID, clientId) }
@@ -3357,26 +3069,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _onboardingCompleted.value = completed
     }
 
-    fun setInitialMediaScanCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_INITIAL_MEDIA_SCAN_COMPLETED, completed) }
-        _initialMediaScanCompleted.value = completed
-    }
-
-    fun setGenreDetectionCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_GENRE_DETECTION_COMPLETED, completed) }
-        _genreDetectionCompleted.value = completed
-    }
 
 
-    fun setEmbeddedArtworkExtractionCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED, completed) }
-        _embeddedArtworkExtractionCompleted.value = completed
-    }
 
-    fun setEmbeddedArtworkExtractionLosslessStatus(lossless: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS, lossless) }
-        _embeddedArtworkExtractionLosslessStatus.value = lossless
-    }
+
 
     // App Updater Settings Methods
     fun setAutoCheckForUpdates(enable: Boolean) {
@@ -3435,23 +3131,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         }
     }
 
-    fun setMediaScanMode(mode: MediaScanMode) {
-        val changed = _mediaScanMode.value != mode
-        prefs.edit { putString(AppSettings.KEY_MEDIA_SCAN_MODE, mode.value) }
-        _mediaScanMode.value = mode
-        if (changed) {
-            requestFullMediaRescanOnNextLaunch(reason = "media_scan_mode_changed")
-        }
-    }
 
-    fun setIncludeHiddenWhitelistedMedia(include: Boolean) {
-        val changed = _includeHiddenWhitelistedMedia.value != include
-        prefs.edit { putBoolean(AppSettings.KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA, include) }
-        _includeHiddenWhitelistedMedia.value = include
-        if (changed) {
-            requestFullMediaRescanOnNextLaunch(reason = "hidden_nomedia_scan_toggle_changed")
-        }
-    }
 
     fun setUpdateCheckIntervalHours(hours: Int) {
         prefs.edit { putInt(AppSettings.KEY_UPDATE_CHECK_INTERVAL_HOURS, hours) }
@@ -3516,10 +3196,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _useCustomNotification.value = enabled
     }
 
-    fun setLibraryOperationsNotificationsEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_LIBRARY_OPERATIONS_NOTIFICATIONS_ENABLED, enabled) }
-        _libraryOperationsNotificationsEnabled.value = enabled
-    }
 
     fun setSleepTimerNotificationsEnabled(enabled: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED, enabled) }
@@ -3572,10 +3248,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _useExperimentalPlayerUi.value = enabled
     }
 
-    fun setEnableAlbumEditing(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_ENABLE_ALBUM_EDITING, enabled) }
-        _enableAlbumEditing.value = enabled
-    }
     
     // Codec Monitoring & Enhanced Seeking Methods
     fun setCodecMonitoringEnabled(enabled: Boolean) {
@@ -3658,254 +3330,62 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Blacklisted Songs Methods
-    fun addToBlacklist(songId: String) {
-        val currentList = _blacklistedSongs.value.toMutableList()
-        if (!currentList.contains(songId)) {
-            currentList.add(songId)
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_SONGS, json) }
-            _blacklistedSongs.value = currentList
-        }
-    }
+    fun addToBlacklist(songId: String) = librarySection.addToBlacklist(songId)
     
-    fun removeFromBlacklist(songId: String) {
-        val currentList = _blacklistedSongs.value.toMutableList()
-        if (currentList.remove(songId)) {
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_SONGS, json) }
-            _blacklistedSongs.value = currentList
-        }
-    }
+    fun removeFromBlacklist(songId: String) = librarySection.removeFromBlacklist(songId)
     
-    fun isBlacklisted(songId: String): Boolean {
-        return _blacklistedSongs.value.contains(songId)
-    }
+    fun isBlacklisted(songId: String) = librarySection.isBlacklisted(songId)
     
-    fun clearBlacklist() {
-        prefs.edit { remove(AppSettings.KEY_BLACKLISTED_SONGS) }
-        _blacklistedSongs.value = emptyList()
-    }
+    fun clearBlacklist() = librarySection.clearBlacklist()
     
     // Blacklisted Folders Methods
-    fun addFolderToBlacklist(folderPath: String) {
-        val normalized = StoragePathUtils.sanitizeAndNormalizePath(folderPath)
-        if (normalized.isBlank()) return
-        val currentList = _blacklistedFolders.value.toMutableList()
-        if (!currentList.contains(normalized)) {
-            currentList.add(normalized)
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_FOLDERS, json) }
-            _blacklistedFolders.value = currentList
-        }
-    }
+    fun addFolderToBlacklist(folderPath: String) = librarySection.addFolderToBlacklist(folderPath)
     
-    fun removeFolderFromBlacklist(folderPath: String) {
-        val normalized = StoragePathUtils.sanitizeAndNormalizePath(folderPath)
-        val currentList = _blacklistedFolders.value.toMutableList()
-        if (currentList.remove(normalized) || currentList.remove(folderPath)) {
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_FOLDERS, json) }
-            _blacklistedFolders.value = currentList
-        }
-    }
+    fun removeFolderFromBlacklist(folderPath: String) = librarySection.removeFolderFromBlacklist(folderPath)
     
-    fun normalizeStoragePath(path: String): String {
-        return StoragePathUtils.sanitizeAndNormalizePath(path)
-    }
-
-    private fun isFolderSubdirectoryOrEqual(parent: String, child: String): Boolean {
-        return StoragePathUtils.isFolderSubdirectoryOrEqual(parent, child)
-    }
-
-    fun isFolderBlacklisted(folderPath: String): Boolean {
-        return StoragePathUtils.isPathInFolders(folderPath, _blacklistedFolders.value)
-    }
+    fun isFolderBlacklisted(folderPath: String) = librarySection.isFolderBlacklisted(folderPath)
     
-    fun clearFolderBlacklist() {
-        prefs.edit { remove(AppSettings.KEY_BLACKLISTED_FOLDERS) }
-        _blacklistedFolders.value = emptyList()
-    }
+    fun clearFolderBlacklist() = librarySection.clearFolderBlacklist()
     
     // Bulk operations for better synchronization
-    fun removeFolderAndRelatedSongs(folderPath: String, songsInFolder: List<String>) {
-        // Remove folder from blacklist
-        val currentFolders = _blacklistedFolders.value.toMutableList()
-        if (currentFolders.remove(folderPath)) {
-            val foldersJson = Gson().toJson(currentFolders)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_FOLDERS, foldersJson) }
-            _blacklistedFolders.value = currentFolders
-        }
-        
-        // Remove related songs from individual blacklist
-        val currentSongs = _blacklistedSongs.value.toMutableList()
-        var songsRemoved = false
-        songsInFolder.forEach { songId ->
-            if (currentSongs.remove(songId)) {
-                songsRemoved = true
-            }
-        }
-        
-        if (songsRemoved) {
-            val songsJson = Gson().toJson(currentSongs)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_SONGS, songsJson) }
-            _blacklistedSongs.value = currentSongs
-        }
-    }
+    fun removeFolderAndRelatedSongs(folderPath: String, songsInFolder: List<String>) = librarySection.removeFolderAndRelatedSongs(folderPath, songsInFolder)
     
-    fun addFolderAndOptionalSong(folderPath: String, songId: String?) {
-        // Add folder to blacklist
-        val currentFolders = _blacklistedFolders.value.toMutableList()
-        if (!currentFolders.contains(folderPath)) {
-            currentFolders.add(folderPath)
-            val foldersJson = Gson().toJson(currentFolders)
-            prefs.edit { putString(AppSettings.KEY_BLACKLISTED_FOLDERS, foldersJson) }
-            _blacklistedFolders.value = currentFolders
-        }
-        
-        // Optionally add song to individual blacklist for immediate synchronization
-        songId?.let { id ->
-            val currentSongs = _blacklistedSongs.value.toMutableList()
-            if (!currentSongs.contains(id)) {
-                currentSongs.add(id)
-                val songsJson = Gson().toJson(currentSongs)
-                prefs.edit { putString(AppSettings.KEY_BLACKLISTED_SONGS, songsJson) }
-                _blacklistedSongs.value = currentSongs
-            }
-        }
-    }
+    fun addFolderAndOptionalSong(folderPath: String, songId: String?) = librarySection.addFolderAndOptionalSong(folderPath, songId)
     
     // Helper method to check if a song would be filtered by current blacklist rules
-    fun isEffectivelyBlacklisted(songId: String, songPath: String?): Boolean {
-        // Check individual song blacklist
-        if (_blacklistedSongs.value.contains(songId)) return true
-        
-        // Check folder blacklist
-        if (songPath != null) {
-            return _blacklistedFolders.value.any { folderPath ->
-                isFolderSubdirectoryOrEqual(folderPath, songPath)
-            }
-        }
-        
-        return false
-    }
+    fun isEffectivelyBlacklisted(songId: String, songPath: String?) = librarySection.isEffectivelyBlacklisted(songId, songPath)
     
     // Whitelisted Songs Methods
-    fun addToWhitelist(songId: String) {
-        val currentList = _whitelistedSongs.value.toMutableList()
-        if (!currentList.contains(songId)) {
-            currentList.add(songId)
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_WHITELISTED_SONGS, json) }
-            _whitelistedSongs.value = currentList
-        }
-    }
+    fun addToWhitelist(songId: String) = librarySection.addToWhitelist(songId)
     
-    fun removeFromWhitelist(songId: String) {
-        val currentList = _whitelistedSongs.value.toMutableList()
-        if (currentList.remove(songId)) {
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_WHITELISTED_SONGS, json) }
-            _whitelistedSongs.value = currentList
-        }
-    }
+    fun removeFromWhitelist(songId: String) = librarySection.removeFromWhitelist(songId)
     
-    fun isSongWhitelisted(songId: String): Boolean {
-        return _whitelistedSongs.value.contains(songId)
-    }
+    fun isSongWhitelisted(songId: String) = librarySection.isSongWhitelisted(songId)
     
-    fun clearWhitelist() {
-        prefs.edit { remove(AppSettings.KEY_WHITELISTED_SONGS) }
-        _whitelistedSongs.value = emptyList()
-    }
+    fun clearWhitelist() = librarySection.clearWhitelist()
     
     // Song Rating Methods
     // Whitelisted Folders Methods
-    fun addFolderToWhitelist(folderPath: String) {
-        val normalized = StoragePathUtils.sanitizeAndNormalizePath(folderPath)
-        if (normalized.isBlank()) return
-        val currentList = _whitelistedFolders.value.toMutableList()
-        if (!currentList.contains(normalized)) {
-            currentList.add(normalized)
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_WHITELISTED_FOLDERS, json) }
-            _whitelistedFolders.value = currentList
-            requestFullMediaRescanOnNextLaunch(reason = "whitelist_folder_added")
-        }
-    }
+    fun addFolderToWhitelist(folderPath: String) = librarySection.addFolderToWhitelist(folderPath)
     
-    fun removeFolderFromWhitelist(folderPath: String) {
-        val normalized = StoragePathUtils.sanitizeAndNormalizePath(folderPath)
-        val currentList = _whitelistedFolders.value.toMutableList()
-        if (currentList.remove(normalized) || currentList.remove(folderPath)) {
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_WHITELISTED_FOLDERS, json) }
-            _whitelistedFolders.value = currentList
-            requestFullMediaRescanOnNextLaunch(reason = "whitelist_folder_removed")
-        }
-    }
+    fun removeFolderFromWhitelist(folderPath: String) = librarySection.removeFolderFromWhitelist(folderPath)
     
-    fun isFolderWhitelisted(folderPath: String): Boolean {
-        return StoragePathUtils.isPathInFolders(folderPath, _whitelistedFolders.value)
-    }
+    fun isFolderWhitelisted(folderPath: String) = librarySection.isFolderWhitelisted(folderPath)
     
-    fun clearFolderWhitelist() {
-        val hadValues = _whitelistedFolders.value.isNotEmpty()
-        prefs.edit { remove(AppSettings.KEY_WHITELISTED_FOLDERS) }
-        _whitelistedFolders.value = emptyList()
-        if (hadValues) {
-            requestFullMediaRescanOnNextLaunch(reason = "whitelist_folders_cleared")
-        }
-    }
+    fun clearFolderWhitelist() = librarySection.clearFolderWhitelist()
 
     // Pinned Folders Methods (Explorer)
-    fun addFolderToPinned(folderPath: String) {
-        val currentList = _pinnedFolders.value.toMutableList()
-        if (!currentList.contains(folderPath)) {
-            currentList.add(folderPath)
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_PINNED_FOLDERS, json) }
-            _pinnedFolders.value = currentList
-        }
-    }
+    fun addFolderToPinned(folderPath: String) = librarySection.addFolderToPinned(folderPath)
 
-    fun removeFolderFromPinned(folderPath: String) {
-        val currentList = _pinnedFolders.value.toMutableList()
-        if (currentList.remove(folderPath)) {
-            val json = Gson().toJson(currentList)
-            prefs.edit { putString(AppSettings.KEY_PINNED_FOLDERS, json) }
-            _pinnedFolders.value = currentList
-        }
-    }
+    fun removeFolderFromPinned(folderPath: String) = librarySection.removeFolderFromPinned(folderPath)
 
-    fun isFolderPinned(folderPath: String): Boolean {
-        return _pinnedFolders.value.contains(folderPath)
-    }
+    fun isFolderPinned(folderPath: String) = librarySection.isFolderPinned(folderPath)
 
-    fun clearPinnedFolders() {
-        prefs.edit { remove(AppSettings.KEY_PINNED_FOLDERS) }
-        _pinnedFolders.value = emptyList()
-    }
+    fun clearPinnedFolders() = librarySection.clearPinnedFolders()
     
     
     // Helper method to check if a song would be filtered by current whitelist rules
-    fun isEffectivelyWhitelisted(songId: String, songPath: String?): Boolean {
-        // If no whitelist exists, all songs are effectively whitelisted
-        if (_whitelistedSongs.value.isEmpty() && _whitelistedFolders.value.isEmpty()) {
-            return true
-        }
-        
-        // Check individual song whitelist
-        if (_whitelistedSongs.value.contains(songId)) return true
-        
-        // Check folder whitelist
-        if (songPath != null) {
-            return _whitelistedFolders.value.any { folderPath ->
-                isFolderSubdirectoryOrEqual(folderPath, songPath)
-            }
-        }
-        
-        return false
-    }
+    fun isEffectivelyWhitelisted(songId: String, songPath: String?) = librarySection.isEffectivelyWhitelisted(songId, songPath)
     
     // Backup and Restore Methods
     fun setLastBackupTimestamp(timestamp: Long) {
@@ -3929,25 +3409,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Media Scanning Methods
-    fun setLastScanTimestamp(timestamp: Long) {
-        prefs.edit { putLong(AppSettings.KEY_LAST_SCAN_TIMESTAMP, timestamp) }
-        _lastScanTimestamp.value = timestamp
-    }
     
-    fun setLastScanDuration(duration: Long) {
-        prefs.edit { putLong(AppSettings.KEY_LAST_SCAN_DURATION, duration) }
-        _lastScanDuration.value = duration
-    }
     
-    fun setAllowedFormats(formats: Set<String>) {
-        val changed = _allowedFormats.value != formats
-        prefs.edit { putStringSet(AppSettings.KEY_ALLOWED_FORMATS, formats) }
-        _allowedFormats.value = formats
-        Log.d("AppSettings", "Allowed formats updated: $formats")
-        if (changed) {
-            requestFullMediaRescanOnNextLaunch(reason = "allowed_formats_changed")
-        }
-    }
     
     fun setMinimumBitrate(bitrate: Int) {
         val changed = _minimumBitrate.value != bitrate
@@ -3955,19 +3418,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _minimumBitrate.value = bitrate
         Log.d("AppSettings", "Minimum bitrate set to: ${bitrate}kbps")
         if (changed) {
-            requestFullMediaRescanOnNextLaunch(reason = "minimum_bitrate_changed")
+            librarySection.requestFullMediaRescanOnNextLaunch(reason = "minimum_bitrate_changed")
         }
     }
     
-    fun setMinimumDuration(duration: Long) {
-        val changed = _minimumDuration.value != duration
-        prefs.edit { putLong(AppSettings.KEY_MINIMUM_DURATION, duration) }
-        _minimumDuration.value = duration
-        Log.d("AppSettings", "Minimum duration set to: ${duration}ms")
-        if (changed) {
-            requestFullMediaRescanOnNextLaunch(reason = "minimum_duration_changed")
-        }
-    }
     
     /** Trigger an immediate one-time backup (useful for testing) */
     fun triggerImmediateBackup() = jobScheduler.triggerImmediateBackup()
@@ -4732,19 +4186,19 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _customFont.value = prefs.getString(AppSettings.KEY_CUSTOM_FONT, "Geom") ?: "Geom"
         
         // Library Settings
-        _albumViewType.value = AlbumViewType.valueOf(prefs.getString(AppSettings.KEY_ALBUM_VIEW_TYPE, AlbumViewType.GRID.name) ?: AlbumViewType.GRID.name)
+        librarySection._albumViewType.value = AlbumViewType.valueOf(prefs.getString(AppSettings.KEY_ALBUM_VIEW_TYPE, AlbumViewType.GRID.name) ?: AlbumViewType.GRID.name)
         _artistViewType.value = ArtistViewType.valueOf(prefs.getString(AppSettings.KEY_ARTIST_VIEW_TYPE, ArtistViewType.GRID.name) ?: ArtistViewType.GRID.name)
-        _albumSortOrder.value = prefs.getString(AppSettings.KEY_ALBUM_SORT_ORDER, "TRACK_NUMBER") ?: "TRACK_NUMBER"
-        _songsSortOrder.value = prefs.getString(AppSettings.KEY_SONGS_SORT_ORDER, "TITLE_ASC") ?: "TITLE_ASC"
-        _libraryCombineDiscs.value = prefs.getBoolean(AppSettings.KEY_LIBRARY_COMBINE_DISCS, false)
-        _preferSongArtwork.value = if (prefs.contains(AppSettings.KEY_PREFER_SONG_ARTWORK)) {
+        librarySection._albumSortOrder.value = prefs.getString(AppSettings.KEY_ALBUM_SORT_ORDER, "TRACK_NUMBER") ?: "TRACK_NUMBER"
+        librarySection._songsSortOrder.value = prefs.getString(AppSettings.KEY_SONGS_SORT_ORDER, "TITLE_ASC") ?: "TITLE_ASC"
+        librarySection._libraryCombineDiscs.value = prefs.getBoolean(AppSettings.KEY_LIBRARY_COMBINE_DISCS, false)
+        librarySection._preferSongArtwork.value = if (prefs.contains(AppSettings.KEY_PREFER_SONG_ARTWORK)) {
             prefs.getBoolean(AppSettings.KEY_PREFER_SONG_ARTWORK, true)
         } else {
             prefs.getBoolean(AppSettings.KEY_IGNORE_MEDIASTORE_COVERS, true)
         }
         customizationSection._albumBottomSheetDiscFilter.value = prefs.getInt(AppSettings.KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, 0).coerceAtLeast(0)
         customizationSection._albumBottomSheetGradientBlur.value = prefs.getBoolean(AppSettings.KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, true)
-        _showLibraryBottomBarAlways.value = prefs.getBoolean(AppSettings.KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false)
+        librarySection._showLibraryBottomBarAlways.value = prefs.getBoolean(AppSettings.KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false)
         
         // Audio Device Settings
         audioEqSection._autoConnectDevice.value = prefs.getBoolean(AppSettings.KEY_AUTO_CONNECT_DEVICE, true)
@@ -4776,9 +4230,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         // User Statistics
         _listeningTime.value = safeLong(AppSettings.KEY_LISTENING_TIME, 0L)
         _songsPlayed.value = prefs.getInt(AppSettings.KEY_SONGS_PLAYED, 0)
-        _uniqueArtists.value = prefs.getInt(AppSettings.KEY_UNIQUE_ARTISTS, 0)
+        librarySection._uniqueArtists.value = prefs.getInt(AppSettings.KEY_UNIQUE_ARTISTS, 0)
         _rhythmAuraMode.value = sanitizeRhythmGuardMode(
-            prefs.getString(AppSettings.KEY_RHYTHM_GUARD_MODE, prefs.getString(AppSettings.KEY_RHYTHM_AURA_MODE, RHYTHM_GUARD_MODE_OFF))
+            prefs.getString(AppSettings.KEY_RHYTHM_GUARD_MODE, prefs.getString(AppSettings.KEY_RHYTHM_AURA_MODE, AppSettings.RHYTHM_GUARD_MODE_OFF))
         )
         _rhythmAuraAge.value = prefs.getInt(AppSettings.KEY_RHYTHM_GUARD_AGE, prefs.getInt(AppSettings.KEY_RHYTHM_AURA_AGE, 18)).coerceIn(8, 80)
         _rhythmAuraManualWarningsEnabled.value = prefs.getBoolean(
@@ -4857,7 +4311,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _appleCanvasNetworkMode.value = CanvasNetworkMode.fromOrdinal(
             prefs.getInt(AppSettings.KEY_APPLE_CANVAS_NETWORK_MODE, CanvasNetworkMode.BOTH.ordinal)
         )
-        _autoFetchArtwork.value = prefs.getBoolean(AppSettings.KEY_AUTO_FETCH_ARTWORK, true)
+        librarySection._autoFetchArtwork.value = prefs.getBoolean(AppSettings.KEY_AUTO_FETCH_ARTWORK, true)
         _spotifyClientId.value = prefs.getString(AppSettings.KEY_SPOTIFY_CLIENT_ID, "") ?: ""
         _spotifyClientSecret.value = prefs.getString(AppSettings.KEY_SPOTIFY_CLIENT_SECRET, "") ?: ""
 
@@ -4872,8 +4326,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _updatesEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATES_ENABLED, true)
         _updateNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_NOTIFICATIONS_ENABLED, true)
         _updateStatusNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, false)
-        _mediaScanMode.value = MediaScanMode.fromValue(prefs.getString(AppSettings.KEY_MEDIA_SCAN_MODE, "blacklist") ?: "blacklist")
-        _includeHiddenWhitelistedMedia.value = prefs.getBoolean(AppSettings.KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA, true)
+        librarySection._mediaScanMode.value = MediaScanMode.fromValue(prefs.getString(AppSettings.KEY_MEDIA_SCAN_MODE, "blacklist") ?: "blacklist")
+        librarySection._includeHiddenWhitelistedMedia.value = prefs.getBoolean(AppSettings.KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA, true)
         _updateCheckIntervalHours.value = prefs.getInt(AppSettings.KEY_UPDATE_CHECK_INTERVAL_HOURS, 6)
         
         // Re-schedule update notification worker if settings changed
@@ -4902,10 +4356,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _rhythmPulseNotificationIntervalHours.value = prefs.getInt(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS, 24).coerceIn(6, 72)
         _forcePlayerCompactMode.value = prefs.getBoolean(AppSettings.KEY_FORCE_PLAYER_COMPACT_MODE, false)
         _useExperimentalPlayerUi.value = prefs.getBoolean(AppSettings.KEY_USE_EXPERIMENTAL_PLAYER_UI, false)
-        _enableAlbumEditing.value = prefs.getBoolean(AppSettings.KEY_ENABLE_ALBUM_EDITING, false)
+        librarySection._enableAlbumEditing.value = prefs.getBoolean(AppSettings.KEY_ENABLE_ALBUM_EDITING, false)
         _onboardingCompleted.value = prefs.getBoolean(AppSettings.KEY_ONBOARDING_COMPLETED, false)
-        _initialMediaScanCompleted.value = prefs.getBoolean(AppSettings.KEY_INITIAL_MEDIA_SCAN_COMPLETED, false)
-        _genreDetectionCompleted.value = prefs.getBoolean(AppSettings.KEY_GENRE_DETECTION_COMPLETED, false)
+        librarySection._initialMediaScanCompleted.value = prefs.getBoolean(AppSettings.KEY_INITIAL_MEDIA_SCAN_COMPLETED, false)
+        librarySection._genreDetectionCompleted.value = prefs.getBoolean(AppSettings.KEY_GENRE_DETECTION_COMPLETED, false)
 
         if (_rhythmPulseNotificationsEnabled.value) {
             jobScheduler.scheduleRhythmPulseNotificationWorker()
@@ -4914,12 +4368,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         }
         
         // Blacklisted items
-        _blacklistedSongs.value = try {
+        librarySection._blacklistedSongs.value = try {
             val json = prefs.getString(AppSettings.KEY_BLACKLISTED_SONGS, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<List<String>>() {}.type) else emptyList()
         } catch (e: Exception) { emptyList() }
         
-        _blacklistedFolders.value = try {
+        librarySection._blacklistedFolders.value = try {
             val json = prefs.getString(AppSettings.KEY_BLACKLISTED_FOLDERS, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<List<String>>() {}.type) else emptyList()
         } catch (e: Exception) { emptyList() }
@@ -4940,16 +4394,16 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _sleepTimerAction.value = prefs.getString(AppSettings.KEY_SLEEP_TIMER_ACTION, "FADE_OUT") ?: "FADE_OUT"
         
         // Media Scan Tracking
-        _lastScanTimestamp.value = safeLong(AppSettings.KEY_LAST_SCAN_TIMESTAMP, 0L)
-        _lastScanDuration.value = safeLong(AppSettings.KEY_LAST_SCAN_DURATION, 0L)
+        librarySection._lastScanTimestamp.value = safeLong(AppSettings.KEY_LAST_SCAN_TIMESTAMP, 0L)
+        librarySection._lastScanDuration.value = safeLong(AppSettings.KEY_LAST_SCAN_DURATION, 0L)
         
         // Media Scan Filtering
-        _allowedFormats.value = prefs.getStringSet(AppSettings.KEY_ALLOWED_FORMATS, defaultAllowedFormats())?.toSet() ?: defaultAllowedFormats()
+        librarySection._allowedFormats.value = prefs.getStringSet(AppSettings.KEY_ALLOWED_FORMATS, AppSettings.defaultAllowedFormats())?.toSet() ?: AppSettings.defaultAllowedFormats()
         _minimumBitrate.value = prefs.getInt(AppSettings.KEY_MINIMUM_BITRATE, 0)
-        _minimumDuration.value = safeLong(AppSettings.KEY_MINIMUM_DURATION, 0L)
+        librarySection._minimumDuration.value = safeLong(AppSettings.KEY_MINIMUM_DURATION, 0L)
 
         // Pinned Folders
-        _pinnedFolders.value = try {
+        librarySection._pinnedFolders.value = try {
             val json = prefs.getString(AppSettings.KEY_PINNED_FOLDERS, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<List<String>>() {}.type) else emptyList()
         } catch (e: Exception) { emptyList() }
@@ -5408,12 +4862,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val albumBottomSheetDiscFilter: StateFlow<Int> get() = customizationSection.albumBottomSheetDiscFilter
     fun setAlbumBottomSheetDiscFilter(value: Int) = customizationSection.setAlbumBottomSheetDiscFilter(value)
 
-    private val _albumHideAbout = MutableStateFlow(prefs.getBoolean(KEY_ALBUM_HIDE_ABOUT, false))
-    val albumHideAbout: StateFlow<Boolean> = _albumHideAbout.asStateFlow()
-    fun setAlbumHideAbout(value: Boolean) {
-        _albumHideAbout.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_ALBUM_HIDE_ABOUT, value) }
-    }
+    val albumHideAbout: StateFlow<Boolean> get() = librarySection.albumHideAbout
+    fun setAlbumHideAbout(value: Boolean) = librarySection.setAlbumHideAbout(value)
     
     // ==================== Expressive MaterialShapes Settings ====================
     
