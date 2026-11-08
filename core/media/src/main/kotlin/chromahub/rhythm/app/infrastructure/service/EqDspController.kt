@@ -74,9 +74,9 @@ class EqDspController(
     private val _isSpatializationAvailable = MutableStateFlow(false)
     override val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
 
-    // Bass boost availability (based on device support)
-    private val _isBassBoostAvailable = MutableStateFlow(appSettings.isBassBoostAvailable())
-    override val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
+    // Bass boost availability: direct pass-through — the service writes this
+    // key directly (P3-3 divergence fix), so the flow must live in AppSettings.
+    override val isBassBoostAvailable: StateFlow<Boolean> get() = appSettings.isBassBoostAvailableFlow
 
     init {
         autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
@@ -195,15 +195,10 @@ class EqDspController(
     }
 
     fun isBassBoostSupported(): Boolean {
-        return _isBassBoostAvailable.value
-    }
-
-    override fun updateBassBoostAvailability() {
-        _isBassBoostAvailable.value = appSettings.isBassBoostAvailable()
+        return isBassBoostAvailable.value
     }
 
     fun setBassBoostAvailable(available: Boolean) {
-        _isBassBoostAvailable.value = available
         appSettings.setBassBoostAvailable(available)
     }
 

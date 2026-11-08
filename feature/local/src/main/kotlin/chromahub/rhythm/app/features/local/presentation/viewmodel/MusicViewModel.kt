@@ -10189,10 +10189,6 @@ class MusicViewModel @Inject constructor(
         return eqDsp.isBassBoostSupported()
     }
     
-    fun updateBassBoostAvailability() {
-        eqDsp.updateBassBoostAvailability()
-    }
-    
     fun setBassBoostAvailable(available: Boolean) {
         eqDsp.setBassBoostAvailable(available)
     }

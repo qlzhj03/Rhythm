@@ -339,7 +339,6 @@ fun EqualizerScreen(
     // Update spatialization and bass boost availability when screen is shown
     LaunchedEffect(Unit) {
         audioEffects.updateSpatializationStatus()
-        audioEffects.updateBassBoostAvailability()
     }
 
     // Local mutable states for UI

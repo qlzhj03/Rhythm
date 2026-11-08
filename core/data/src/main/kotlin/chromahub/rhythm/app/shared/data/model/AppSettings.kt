@@ -1981,6 +1981,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun setBassBoostAvailable(available: Boolean) = audioEqSection.setBassBoostAvailable(available)
     
     fun isBassBoostAvailable() = audioEqSection.isBassBoostAvailable()
+    val isBassBoostAvailableFlow: StateFlow<Boolean> get() = audioEqSection.isBassBoostAvailable
     
     
     

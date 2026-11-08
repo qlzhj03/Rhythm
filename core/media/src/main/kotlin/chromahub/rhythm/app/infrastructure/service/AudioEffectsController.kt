@@ -44,7 +44,6 @@ interface AudioEffectsController {
     fun setBassBoost(enabled: Boolean, strength: Short = 500)
     fun openSystemEqualizer(activity: Activity? = null, requestCode: Int = 0)
     fun updateSpatializationStatus()
-    fun updateBassBoostAvailability()
     fun setEqualizerPresetOrder(order: List<String>)
     fun resetEqualizerPresetOrder()
     fun deleteAutoEQProfile(name: String)
