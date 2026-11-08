@@ -74,6 +74,10 @@
 
 ### 4.3 B2-3 分域文件拆分（API 不变）
 
+**§4.3 实施方式裁定补记（2026-11-08）**：§4.2 裁定 restoreFromBackup 留守后，原定的「internal section 委托类」形态代价剧增——restore 直写 390 个私有 backing，委托类要求这些写点全部改写为跨对象访问（390 处机械改写 + 回归面）。改用**同包扩展拆分**：backing（改 internal）与 prefs/KEY 留守 AppSettings，域内 setter/域 fun/StateFlow 暴露以 **扩展属性（`val AppSettings.x get() = _x.asStateFlow()`）与扩展函数**形式迁入 `settings/` 目录的域文件——调用方语法零变化、restore 零改写、公共 API 不变。接口 override 成员（NetworkSettingsProvider）与嵌套类型留守类内。逐域分批提交。原「section 委托类 + 状态封装」推迟到 B3（DataStore 迁移时状态本就要重构）。
+
+
+
 - 新目录 `core/data/.../shared/data/model/settings/`（包名随目录，C 阶段规则）；每域一个 `internal class XxxSettingsSection(ctx: SectionContext)`，`SectionContext` 持 prefs/Gson/appContext/scope 与跨域只读引用。
 - AppSettings 构造全部 section 并委托——386 个 vals 的 getter/setter 逐个转委托调用（机械改写，编译驱动）；`updateDerivedSettings`、`commit()`、5 处迁移、`NetworkSettingsProvider` 留 facade。
 - 域清单（按勘测聚类，~10 文件）：**CustomizationSections**（home/player/miniplayer/gesture/expressive，~89 props，可拆 2 文件）、**AudioEqSection**（~45）、**LibrarySection**（~42，含 view types/folders）、**GuardStatsSection**（~39，含 listening stats 与 guard 策略常量）、**PlaybackQueueSection**（~28）、**LyricsSection**（~27）、**ThemeSection**（~24）、**StreamingModeSection**（~17，含 appMode/offline）、**CollectionsSection**（playlists/默认列表 ~16）、**PlatformSection**（notifications/updates/backup 键/onboarding/cache/widget/misc ~35，widget 11 成员虽近单消费者但体量小不单列）。
@@ -114,6 +118,34 @@
 分支：`refactor/b2-pr1-deadweight` → `b2-pr2-behavior-extraction` → `b2-pr3-domain-split` → `b2-pr4-startup-warmup`（stacked）。文档随 PR-B2-1 入库。
 
 预期效果：AppSettings.kt 6,973 → ~1,500 行以内（facade），总公共成员 854 → ~817；职责从 4 重收敛为 1 重；启动主线程 I/O 消除。
+
+## 7a. B2-3 实施裁定与状态（2026-11-08）
+
+**域交付进度**（全部完成后见下方「10/10 域交付」清单；前三域率先落地时曾记录：6,973 → 5,603 行，-19.7%）：
+
+**实施形态修正（§4.3 二次裁定）**：采用**同包扩展不可行**（扩展 fun 需全仓调用点 import churn），实际采用 **section 委托类**：section 持有 backing+val+setter，facade 保留同名委托成员——调用方零改动。跨域符号处置：companion 常量翻 internal + `AppSettings.X` 限定；类私有默认值/helper 随域迁移；跨域派生（updateDerivedSettings）经构造回调注入。
+
+**Library 域 92% 完成后暂停（当轮已修复并在后续会话完成收尾）**：section 文件已生成（68 组：29 setter + 黑白名单/pinned/scan funs 族），残留 5 类闭包已逐一定位——① safeLong 需 facade/section 双副本（backup 仍用）② media-scan 标志族（audioMetadataExtractionCompleted 等）跨 audio/library 两域需归位 ③ defaultTabOrder/defaultHomeSectionOrder 需移至 section 顶部（初始化顺序）④ KEY_GENRE_DETECTION_COMPLETED 翻 internal ⑤ requestFullMediaRescanOnNextLaunch 的跨 section 引用。方法学已固化（结构解析 + 错误驱动收敛 + 分域断言脚本）。
+
+**GuardStats 域试运行回滚（2026-11-08）**：批次运行后发现三类脚本缺陷需先修复——① **别名/真 backing 命名错位**：guard 族 val 名（rhythmGuardMode）与真 backing 名（_rhythmAuraMode）不一致，脚本的「val m ↔ backing _m」假设失效，需显式 backing 名映射；② **多行签名 fun 的委托生成**：跨行参数含默认值表达式时委托模板产出语法垃圾，需从 section 副本提取参数名并保留 facade 侧默认值；③ **backing 初始化器污染**：qualify pass 把 backing 初始化器内的私有 fun 调用改写为带 `_` 前缀的跨域引用，需在迁移时对 backing 体做去限定。三者均已定位并给出修法，GuardStats 回滚保绿，待脚本修复后作为下一个域推进。
+
+**GuardStats 二次试运行（2026-11-08，脚本三缺陷修复后）**：别名映射与多行签名修复生效（39 组成功迁移、facade 4,744 行），但暴露**第四类缺陷**——生成的 section 内全部 guard val 的 backing 引用统一错误指向 `_sanitizeRhythmAuraMode`（应为各自真 backing，如 `_listeningTime`），根因未定位（疑似生成循环中 bn 变量被污染或 sec_body 复用陈旧组状态），已回滚保绿。
+
+**第四类缺陷根因定位与修复（2026-11-08 第三轮）**：经最小复现（3 成员批次、隔离副本）定位——`bn`（backing 名）只在成员扫描循环赋值，生成循环沿用**最后一个成员**的值（`sanitizeRhythmAuraMode` 恰为批次末位 → 全部 val 指向它）。同轮顺带修复脚本七类问题：⑤ 单行表达式体 fun 的参数提取（`rindex(")")` 抓到函数体括号 → 改首个平衡括号组）；⑥ 无 setter 的 val 不生成委托（setter-less val 会被静默删除 → val 委托独立生成）；⑦ 孤儿 @Deprecated 级联（前域改名遗留的注解随成员删除后重挂到无关声明 → 按所有权判定删除/随委托携带）；⑧ private fun 迁移（section 副本翻 internal + facade 委托保留 private）；⑨ qualify pass 对 8 空格 `val` 语句的跳过过宽（局部 val 无法带修饰符 → 只跳修饰符声明，裸 val 仅重写 RHS）；⑩ 命名实参名被改写（`x = x` 恒等命名实参原样保留，其余仅重写 RHS）；⑪ 重写行丢失行尾换行（`(.*)$` 不含 `\n` → 补回）。
+
+**B2-3 全部完成（2026-11-08）：10/10 域交付**（均单域提交、全量门禁绿 = assembleDebug + 8 模块 JVM 单测 0 失败）：
+1. `WidgetSettingsSection`（11 成员，86 行）
+2. `AudioEqSettingsSection`（56 组，519 行，updateDerived 回调）
+3. `CustomizationSettingsSection`（77 组 + expressiveBottomButtons 全家族，749 行）
+4. `LibrarySettingsSection`（68 组，含黑白名单/pinned/scan funs 族）
+5. `GuardStatsSettingsSection`（33 组，352 行；guard 族别名 backing 映射、sanitize fun 翻 internal、跨域编排 setter 留守 facade）
+6. `PlaybackQueueSettingsSection`（36 组，含 sleep timer/speed&pitch/queue persistence；`initialHidePlayedQueueValue` helper 随迁、recentlyPlayedSongCache 快照簇留守）
+7. `ThemeSettingsSection`（17 组，dark/AMOLED/dynamic colors/fonts/festive）
+8. `StreamingModeSettingsSection`（6 组，appMode/offline/quality）
+9. `LyricsSettingsSection`（19 组，updateDerived 回调；per-song 偏好 map 迁入、LyricsPreferenceIo CSV 编解码留守 facade）
+10. `PlatformSettingsSection`（41 组，notifications/updates/onboarding/backup/crash/batterySaver/cache/misc；8 个 jobScheduler/跨域 setter 留守）
+
+AppSettings.kt：6,973 → 4,215 行（-39.5%），公共 API 零变化、零行为变化。facade 残留：Collections 域（playlists/smart playlists/favorites，原十域清单内、按 §7a 范围顺延 B3）、接口 override 成员（integrations/*ApiEnabled，含 lyricallyApiEnabled）、跨 section 派生 is* 状态、streamingHome* 家族、festive 尺寸/灯饰附加成员、recentlyPlayedSongCache 快照簇、backup/restore 编排。
 
 ## 8. B3 预告（DataStore 迁移前置问题清单）
 
