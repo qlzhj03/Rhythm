@@ -2410,36 +2410,6 @@ private fun LocalNavigationContent(
                 }
 
                 composable(
-                    route = Screen.Equalizer.route,
-                    enterTransition = {
-                        fadeIn(animationSpec = tween(300)) +
-                                slideInVertically(
-                                    initialOffsetY = { it / 4 },
-                                    animationSpec = tween(350, easing = EaseInOutQuart)
-                                )
-                    },
-                    exitTransition = {
-                        fadeOut(animationSpec = tween(300))
-                    },
-                    popExitTransition = {
-                        fadeOut(animationSpec = tween(300)) +
-                                slideOutVertically(
-                                    targetOffsetY = { it / 4 },
-                                    animationSpec = tween(350, easing = EaseInOutQuart)
-                                )
-                    }
-                ) {
-                    SlideUpCornerWrapper {
-                        EqualizerScreen(
-                            navController = navController,
-                            audioEffects = viewModel,
-                            audioDevices = viewModel,
-                            appSettings = appSettings
-                        )
-                    }
-                }
-
-                composable(
                     route = StreamingRoutes.AlbumDetail,
                     arguments = listOf(
                         navArgument("albumId") { type = NavType.StringType },
