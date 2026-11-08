@@ -186,8 +186,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_CUSTOM_FONT_FAMILY = "custom_font_family" // Display name of custom font
         
         // Player Theme Settings
-        private const val KEY_PLAYER_THEME_ID = "player_theme_id" // ID of the selected player theme (default, compact, large, minimal)
-        private const val KEY_MINI_PLAYER_THEME_ID = "miniplayer_theme_id"
+        internal const val KEY_PLAYER_THEME_ID = "player_theme_id" // ID of the selected player theme (default, compact, large, minimal)
+        internal const val KEY_MINI_PLAYER_THEME_ID = "miniplayer_theme_id"
         private const val KEY_USE_EXPERIMENTAL_PLAYER_UI = "use_experimental_player_ui"
         private const val KEY_ENABLE_ALBUM_EDITING = "enable_album_editing"
         
@@ -200,13 +200,13 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_PLAYLIST_DETAIL_SORT_ORDER = "playlist_detail_sort_order"
         private const val KEY_LIBRARY_TAB_ORDER = "library_tab_order"
         private const val KEY_LIBRARY_COMBINE_DISCS = "library_combine_discs"
-        private const val KEY_PLAYER_CHIP_ORDER = "player_chip_order"
+        internal const val KEY_PLAYER_CHIP_ORDER = "player_chip_order"
         private const val KEY_HIDDEN_LIBRARY_TABS = "hidden_library_tabs"
-        private const val KEY_HIDDEN_PLAYER_CHIPS = "hidden_player_chips"
-        private const val KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL = "expressive_bottom_buttons_normal"
-        private const val KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL = "expressive_hidden_bottom_buttons_normal"
-        private const val KEY_EXPRESSIVE_BOTTOM_BUTTONS_MERGE = "expressive_bottom_buttons_merge"
-        private const val KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_MERGE = "expressive_hidden_bottom_buttons_merge"
+        internal const val KEY_HIDDEN_PLAYER_CHIPS = "hidden_player_chips"
+        internal const val KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL = "expressive_bottom_buttons_normal"
+        internal const val KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL = "expressive_hidden_bottom_buttons_normal"
+        internal const val KEY_EXPRESSIVE_BOTTOM_BUTTONS_MERGE = "expressive_bottom_buttons_merge"
+        internal const val KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_MERGE = "expressive_hidden_bottom_buttons_merge"
         const val MAX_EXPRESSIVE_BOTTOM_PINS_NORMAL = 2
         const val MAX_EXPRESSIVE_BOTTOM_BUTTONS_MERGE = 5
         val fixedBottomButtonsNormal = listOf("LYRICS", "FAVORITE")
@@ -286,7 +286,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_RHYTHM_GUARD_TIMEOUT_COOLDOWN_UNTIL_MS = "rhythm_guard_timeout_cooldown_until_ms"
         private const val KEY_RHYTHM_GUARD_NEXT_ALLOWED_LIMIT_MINUTES = "rhythm_guard_next_allowed_limit_minutes"
         private const val KEY_RHYTHM_GUARD_FIRST_BREAK_SEEN = "rhythm_guard_first_break_seen"
-        private const val KEY_HOME_SHOW_RHYTHM_GUARD = "home_show_rhythm_guard"
+        internal const val KEY_HOME_SHOW_RHYTHM_GUARD = "home_show_rhythm_guard"
 
         // Legacy keys kept for migration compatibility.
         private const val KEY_RHYTHM_AURA_MODE = "rhythm_aura_mode"
@@ -512,38 +512,38 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_HEADER_COLLAPSE_BEHAVIOR = "header_collapse_behavior" // 0=Normal, 1=Always Collapsed (applies to all screens)
         
         // Home Screen Customization Settings - Header
-        private const val KEY_HOME_HEADER_DISPLAY_MODE = "home_header_display_mode" // 0=Icon Only, 1=Name Only, 2=Both
-        private const val KEY_HOME_SHOW_APP_ICON = "home_show_app_icon" // Deprecated - kept for migration
-        private const val KEY_HOME_APP_ICON_VISIBILITY = "home_app_icon_visibility" // 0=Both, 1=Expanded, 2=Collapsed
+        internal const val KEY_HOME_HEADER_DISPLAY_MODE = "home_header_display_mode" // 0=Icon Only, 1=Name Only, 2=Both
+        internal const val KEY_HOME_SHOW_APP_ICON = "home_show_app_icon" // Deprecated - kept for migration
+        internal const val KEY_HOME_APP_ICON_VISIBILITY = "home_app_icon_visibility" // 0=Both, 1=Expanded, 2=Collapsed
         
         // Home Screen Customization Settings - Section Visibility
-        private const val KEY_HOME_SHOW_RECENTLY_PLAYED = "home_show_recently_played"
-        private const val KEY_HOME_SHOW_DISCOVER_CAROUSEL = "home_show_discover_carousel"
-        private const val KEY_HOME_SHOW_ARTISTS = "home_show_artists"
-        private const val KEY_HOME_SHOW_NEW_RELEASES = "home_show_new_releases"
-        private const val KEY_HOME_SHOW_RECENTLY_ADDED = "home_show_recently_added"
-        private const val KEY_HOME_SHOW_RECOMMENDED = "home_show_recommended"
-        private const val KEY_HOME_SHOW_LISTENING_STATS = "home_show_listening_stats"
+        internal const val KEY_HOME_SHOW_RECENTLY_PLAYED = "home_show_recently_played"
+        internal const val KEY_HOME_SHOW_DISCOVER_CAROUSEL = "home_show_discover_carousel"
+        internal const val KEY_HOME_SHOW_ARTISTS = "home_show_artists"
+        internal const val KEY_HOME_SHOW_NEW_RELEASES = "home_show_new_releases"
+        internal const val KEY_HOME_SHOW_RECENTLY_ADDED = "home_show_recently_added"
+        internal const val KEY_HOME_SHOW_RECOMMENDED = "home_show_recommended"
+        internal const val KEY_HOME_SHOW_LISTENING_STATS = "home_show_listening_stats"
         
         // Home Screen Customization Settings - Discover Widget
-        private const val KEY_HOME_DISCOVER_AUTO_SCROLL = "home_discover_auto_scroll"
-        private const val KEY_HOME_DISCOVER_AUTO_SCROLL_INTERVAL = "home_discover_auto_scroll_interval"
-        private const val KEY_HOME_DISCOVER_ITEM_COUNT = "home_discover_item_count"
-        private const val KEY_HOME_DISCOVER_SHOW_ALBUM_NAME = "home_discover_show_album_name"
-        private const val KEY_HOME_DISCOVER_SHOW_ARTIST_NAME = "home_discover_show_artist_name"
-        private const val KEY_HOME_DISCOVER_SHOW_YEAR = "home_discover_show_year"
-        private const val KEY_HOME_DISCOVER_SHOW_PLAY_BUTTON = "home_discover_show_play_button"
-        private const val KEY_HOME_DISCOVER_SHOW_GRADIENT = "home_discover_show_gradient"
+        internal const val KEY_HOME_DISCOVER_AUTO_SCROLL = "home_discover_auto_scroll"
+        internal const val KEY_HOME_DISCOVER_AUTO_SCROLL_INTERVAL = "home_discover_auto_scroll_interval"
+        internal const val KEY_HOME_DISCOVER_ITEM_COUNT = "home_discover_item_count"
+        internal const val KEY_HOME_DISCOVER_SHOW_ALBUM_NAME = "home_discover_show_album_name"
+        internal const val KEY_HOME_DISCOVER_SHOW_ARTIST_NAME = "home_discover_show_artist_name"
+        internal const val KEY_HOME_DISCOVER_SHOW_YEAR = "home_discover_show_year"
+        internal const val KEY_HOME_DISCOVER_SHOW_PLAY_BUTTON = "home_discover_show_play_button"
+        internal const val KEY_HOME_DISCOVER_SHOW_GRADIENT = "home_discover_show_gradient"
         
         // Home Screen Customization Settings - Section Item Counts
-        private const val KEY_HOME_RECENTLY_PLAYED_COUNT = "home_recently_played_count"
-        private const val KEY_HOME_ARTISTS_COUNT = "home_artists_count"
-        private const val KEY_HOME_NEW_RELEASES_COUNT = "home_new_releases_count"
-        private const val KEY_HOME_RECENTLY_ADDED_COUNT = "home_recently_added_count"
-        private const val KEY_HOME_RECOMMENDED_COUNT = "home_recommended_count"
+        internal const val KEY_HOME_RECENTLY_PLAYED_COUNT = "home_recently_played_count"
+        internal const val KEY_HOME_ARTISTS_COUNT = "home_artists_count"
+        internal const val KEY_HOME_NEW_RELEASES_COUNT = "home_new_releases_count"
+        internal const val KEY_HOME_RECENTLY_ADDED_COUNT = "home_recently_added_count"
+        internal const val KEY_HOME_RECOMMENDED_COUNT = "home_recommended_count"
         
         // Home Screen Customization Settings - Card Appearance
-        private const val KEY_HOME_SECTION_ORDER = "home_section_order"
+        internal const val KEY_HOME_SECTION_ORDER = "home_section_order"
 
         // Streaming Home Screen Customization
         private const val KEY_STREAMING_HOME_SHOW_RHYTHM_GUARD = "streaming_home_show_rhythm_guard"
@@ -555,8 +555,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_STREAMING_HOME_SHOW_PLAYLISTS = "streaming_home_show_playlists"
         private const val KEY_STREAMING_HOME_SECTION_ORDER = "streaming_home_section_order"
 
-        private const val KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR = "album_bottom_sheet_gradient_blur"
-        private const val KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER = "album_bottom_sheet_disc_filter"
+        internal const val KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR = "album_bottom_sheet_gradient_blur"
+        internal const val KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER = "album_bottom_sheet_disc_filter"
         private const val KEY_ALBUM_HIDE_ABOUT = "album_hide_about"
         
         // Artist Separator Settings
@@ -567,58 +567,58 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_ARTIST_SEPARATOR_CACHE_SIGNATURE = "artist_separator_cache_signature"
         
         // Player Screen Customization Settings
-        private const val KEY_PLAYER_SHOW_GRADIENT_OVERLAY = "player_show_gradient_overlay"
-        private const val KEY_PLAYER_AMBIENT_BACKDROP_ENABLED = "player_ambient_backdrop_enabled" // Ambient backdrop from artwork
-        private const val KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY = "player_ambient_backdrop_intensity" // Float 0.0-1.0, controls container transparency
-        private const val KEY_PLAYER_AMBIENT_INFINITE_ZOOM = "player_ambient_infinite_zoom" // Boolean, continuous slow zoom on ambient backdrop
-        private const val KEY_PLAYER_ACCENT_BACKGROUND_ENABLED = "player_accent_background_enabled" // Use accent color as player bg (normal mode)
-        private const val KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM = "player_merge_controls_to_bottom" // Merge lyrics/favorite into centered bottom icon controls
-        private const val KEY_PLAYER_GLASS_INTENSITY = "player_glass_intensity" // Float 0.0-2.0, glass effect opacity multiplier
-        private const val KEY_PLAYER_LYRICS_TRANSITION = "player_lyrics_transition" // 0=SlideVertical, 1=Fade, 2=Scale, 3=SlideHorizontal
-        private const val KEY_PLAYER_LYRICS_TEXT_SIZE = "player_lyrics_text_size" // Float sp multiplier, default 1.0
-        private const val KEY_PLAYER_LYRICS_ALIGNMENT = "player_lyrics_alignment" // "CENTER", "START", "END"
-        private const val KEY_PLAYER_SHOW_ART_BELOW_LYRICS = "player_show_art_below_lyrics" // Boolean
-        private const val KEY_PLAYER_SHOW_SEEK_BUTTONS = "player_show_seek_buttons"
-        private const val KEY_PLAYER_TEXT_ALIGNMENT = "player_text_alignment" // "START", "CENTER", "END"
-        private const val KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK = "player_show_song_info_on_artwork"
-        private const val KEY_PLAYER_ARTWORK_CORNER_RADIUS = "player_artwork_corner_radius" // 0-40 dp
-        private const val KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES = "player_show_audio_quality_badges"
+        internal const val KEY_PLAYER_SHOW_GRADIENT_OVERLAY = "player_show_gradient_overlay"
+        internal const val KEY_PLAYER_AMBIENT_BACKDROP_ENABLED = "player_ambient_backdrop_enabled" // Ambient backdrop from artwork
+        internal const val KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY = "player_ambient_backdrop_intensity" // Float 0.0-1.0, controls container transparency
+        internal const val KEY_PLAYER_AMBIENT_INFINITE_ZOOM = "player_ambient_infinite_zoom" // Boolean, continuous slow zoom on ambient backdrop
+        internal const val KEY_PLAYER_ACCENT_BACKGROUND_ENABLED = "player_accent_background_enabled" // Use accent color as player bg (normal mode)
+        internal const val KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM = "player_merge_controls_to_bottom" // Merge lyrics/favorite into centered bottom icon controls
+        internal const val KEY_PLAYER_GLASS_INTENSITY = "player_glass_intensity" // Float 0.0-2.0, glass effect opacity multiplier
+        internal const val KEY_PLAYER_LYRICS_TRANSITION = "player_lyrics_transition" // 0=SlideVertical, 1=Fade, 2=Scale, 3=SlideHorizontal
+        internal const val KEY_PLAYER_LYRICS_TEXT_SIZE = "player_lyrics_text_size" // Float sp multiplier, default 1.0
+        internal const val KEY_PLAYER_LYRICS_ALIGNMENT = "player_lyrics_alignment" // "CENTER", "START", "END"
+        internal const val KEY_PLAYER_SHOW_ART_BELOW_LYRICS = "player_show_art_below_lyrics" // Boolean
+        internal const val KEY_PLAYER_SHOW_SEEK_BUTTONS = "player_show_seek_buttons"
+        internal const val KEY_PLAYER_TEXT_ALIGNMENT = "player_text_alignment" // "START", "CENTER", "END"
+        internal const val KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK = "player_show_song_info_on_artwork"
+        internal const val KEY_PLAYER_ARTWORK_CORNER_RADIUS = "player_artwork_corner_radius" // 0-40 dp
+        internal const val KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES = "player_show_audio_quality_badges"
         private const val KEY_EXPRESSIVE_QUALITY_BADGE_ALWAYS_VISIBLE = "expressive_quality_badge_always_visible"
-        private const val KEY_PLAYER_PROGRESS_STYLE = "player_progress_style" // "NORMAL", "WAVY", "ROUNDED", "THIN", "THICK"
-        private const val KEY_PLAYER_PROGRESS_THUMB_STYLE = "player_progress_thumb_style" // "NONE", "DEFAULT", "CIRCLE", "SQUARE", "PILL", "DIAMOND", "FLOWER", "HEART", "COOKIE", "PUFFY"
-        private const val KEY_PLAYER_PROGRESS_THUMB_ROTATE = "player_progress_thumb_rotate" // Boolean
+        internal const val KEY_PLAYER_PROGRESS_STYLE = "player_progress_style" // "NORMAL", "WAVY", "ROUNDED", "THIN", "THICK"
+        internal const val KEY_PLAYER_PROGRESS_THUMB_STYLE = "player_progress_thumb_style" // "NONE", "DEFAULT", "CIRCLE", "SQUARE", "PILL", "DIAMOND", "FLOWER", "HEART", "COOKIE", "PUFFY"
+        internal const val KEY_PLAYER_PROGRESS_THUMB_ROTATE = "player_progress_thumb_rotate" // Boolean
         
         // MiniPlayer Customization Settings
-        private const val KEY_MINIPLAYER_PROGRESS_STYLE = "miniplayer_progress_style" // "NORMAL", "WAVY", "ROUNDED", "THIN", "GRADIENT"
-        private const val KEY_MINIPLAYER_SHOW_PROGRESS = "miniplayer_show_progress"
-        private const val KEY_MINIPLAYER_SHOW_ARTWORK = "miniplayer_show_artwork"
-        private const val KEY_MINIPLAYER_ARTWORK_SIZE = "miniplayer_artwork_size" // 40-72 dp
-        private const val KEY_MINIPLAYER_CORNER_RADIUS = "miniplayer_corner_radius" // 0-28 dp
-        private const val KEY_MINIPLAYER_SHOW_TIME = "miniplayer_show_time"
-        private const val KEY_MINIPLAYER_SWIPE_GESTURES = "miniplayer_swipe_gestures"
-        private const val KEY_MINIPLAYER_ALWAYS_SHOW_TABLET = "miniplayer_always_show_tablet"
+        internal const val KEY_MINIPLAYER_PROGRESS_STYLE = "miniplayer_progress_style" // "NORMAL", "WAVY", "ROUNDED", "THIN", "GRADIENT"
+        internal const val KEY_MINIPLAYER_SHOW_PROGRESS = "miniplayer_show_progress"
+        internal const val KEY_MINIPLAYER_SHOW_ARTWORK = "miniplayer_show_artwork"
+        internal const val KEY_MINIPLAYER_ARTWORK_SIZE = "miniplayer_artwork_size" // 40-72 dp
+        internal const val KEY_MINIPLAYER_CORNER_RADIUS = "miniplayer_corner_radius" // 0-28 dp
+        internal const val KEY_MINIPLAYER_SHOW_TIME = "miniplayer_show_time"
+        internal const val KEY_MINIPLAYER_SWIPE_GESTURES = "miniplayer_swipe_gestures"
+        internal const val KEY_MINIPLAYER_ALWAYS_SHOW_TABLET = "miniplayer_always_show_tablet"
         
         // Gesture Settings
-        private const val KEY_GESTURE_PLAYER_SWIPE_DISMISS = "gesture_player_swipe_dismiss" // Swipe down to dismiss full player
-        private const val KEY_GESTURE_PLAYER_SWIPE_TRACKS = "gesture_player_swipe_tracks" // Swipe left/right to change tracks in full player
-        private const val KEY_GESTURE_ARTWORK_DOUBLE_TAP = "gesture_artwork_double_tap" // Double tap on artwork to play/pause
-        private const val KEY_GESTURE_ARTWORK_SINGLE_TAP = "gesture_artwork_single_tap" // Tap artwork to toggle lyrics
-        private const val KEY_GESTURE_QUEUE_SWIPE_TO_REMOVE = "gesture_queue_swipe_to_remove" // Swipe to remove from queue
-        private const val KEY_GESTURE_LIBRARY_SWIPE_TABS = "gesture_library_swipe_tabs" // Swipe between library tabs
-        private const val KEY_MINIPLAYER_SWIPE_TRACKS = "miniplayer_swipe_tracks" // Swipe horizontally on miniplayer to change tracks
-        private const val KEY_MINIPLAYER_SWIPE_DISMISS = "miniplayer_swipe_dismiss" // Swipe vertically on miniplayer to open/dismiss
+        internal const val KEY_GESTURE_PLAYER_SWIPE_DISMISS = "gesture_player_swipe_dismiss" // Swipe down to dismiss full player
+        internal const val KEY_GESTURE_PLAYER_SWIPE_TRACKS = "gesture_player_swipe_tracks" // Swipe left/right to change tracks in full player
+        internal const val KEY_GESTURE_ARTWORK_DOUBLE_TAP = "gesture_artwork_double_tap" // Double tap on artwork to play/pause
+        internal const val KEY_GESTURE_ARTWORK_SINGLE_TAP = "gesture_artwork_single_tap" // Tap artwork to toggle lyrics
+        internal const val KEY_GESTURE_QUEUE_SWIPE_TO_REMOVE = "gesture_queue_swipe_to_remove" // Swipe to remove from queue
+        internal const val KEY_GESTURE_LIBRARY_SWIPE_TABS = "gesture_library_swipe_tabs" // Swipe between library tabs
+        internal const val KEY_MINIPLAYER_SWIPE_TRACKS = "miniplayer_swipe_tracks" // Swipe horizontally on miniplayer to change tracks
+        internal const val KEY_MINIPLAYER_SWIPE_DISMISS = "miniplayer_swipe_dismiss" // Swipe vertically on miniplayer to open/dismiss
         private const val KEY_TAP_LYRICS_TO_SEEK = "tap_lyrics_to_seek" // Tap lyric line to seek playback
         
         // Expressive MaterialShapes Settings (M3 Expressive API)
-        private const val KEY_EXPRESSIVE_SHAPES_ENABLED = "expressive_shapes_enabled" // Master toggle for expressive shapes
-        private const val KEY_EXPRESSIVE_SHAPE_PRESET = "expressive_shape_preset" // Preset: DEFAULT, PLAYFUL, ORGANIC, GEOMETRIC, RETRO, CUSTOM
-        private const val KEY_EXPRESSIVE_SHAPE_ALBUM_ART = "expressive_shape_album_art" // Shape for album artwork
-        private const val KEY_EXPRESSIVE_SHAPE_PLAYER_ART = "expressive_shape_player_art" // Shape for player artwork
-        private const val KEY_EXPRESSIVE_SHAPE_SONG_ART = "expressive_shape_song_art" // Shape for song artwork
-        private const val KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART = "expressive_shape_playlist_art" // Shape for playlist artwork
-        private const val KEY_EXPRESSIVE_SHAPE_ARTIST_ART = "expressive_shape_artist_art" // Shape for artist artwork
-        private const val KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS = "expressive_shape_player_controls" // Shape for player controls
-        private const val KEY_EXPRESSIVE_SHAPE_MINI_PLAYER = "expressive_shape_mini_player" // Shape for mini player
+        internal const val KEY_EXPRESSIVE_SHAPES_ENABLED = "expressive_shapes_enabled" // Master toggle for expressive shapes
+        internal const val KEY_EXPRESSIVE_SHAPE_PRESET = "expressive_shape_preset" // Preset: DEFAULT, PLAYFUL, ORGANIC, GEOMETRIC, RETRO, CUSTOM
+        internal const val KEY_EXPRESSIVE_SHAPE_ALBUM_ART = "expressive_shape_album_art" // Shape for album artwork
+        internal const val KEY_EXPRESSIVE_SHAPE_PLAYER_ART = "expressive_shape_player_art" // Shape for player artwork
+        internal const val KEY_EXPRESSIVE_SHAPE_SONG_ART = "expressive_shape_song_art" // Shape for song artwork
+        internal const val KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART = "expressive_shape_playlist_art" // Shape for playlist artwork
+        internal const val KEY_EXPRESSIVE_SHAPE_ARTIST_ART = "expressive_shape_artist_art" // Shape for artist artwork
+        internal const val KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS = "expressive_shape_player_controls" // Shape for player controls
+        internal const val KEY_EXPRESSIVE_SHAPE_MINI_PLAYER = "expressive_shape_mini_player" // Shape for mini player
         private const val KEY_SHOW_SETTINGS_SUGGESTIONS = "show_settings_suggestions"
         private const val KEY_INITIAL_SETTINGS_SUBROUTE = "initial_settings_subroute"
         private const val KEY_INITIAL_STREAMING_ROUTE = "initial_streaming_route"
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val customizationSection = chromahub.rhythm.app.shared.data.model.settings.CustomizationSettingsSection(prefs, { updateDerivedSettings() })
     val defaultEqualizerPresetOrder get() = audioEqSection.defaultEqualizerPresetOrder
     val pinnedAutoEQProfiles: StateFlow<List<String>> get() = audioEqSection.pinnedAutoEQProfiles
     val customAutoEQProfiles: StateFlow<List<AutoEQProfile>> get() = audioEqSection.customAutoEQProfiles
@@ -869,11 +870,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val customFontFamily: StateFlow<String> = _customFontFamily.asStateFlow()
     
     // Player Theme Settings
-    private val _playerThemeId = MutableStateFlow(prefs.getString(KEY_PLAYER_THEME_ID, "EXPRESSIVE") ?: "EXPRESSIVE")
-    val playerThemeId: StateFlow<String> = _playerThemeId.asStateFlow()
+    val playerThemeId: StateFlow<String> get() = customizationSection.playerThemeId
+    fun setPlayerThemeId(themeId: String) = customizationSection.setPlayerThemeId(themeId)
     
-    private val _miniPlayerThemeId = MutableStateFlow(prefs.getString(KEY_MINI_PLAYER_THEME_ID, "EXPRESSIVE") ?: "EXPRESSIVE")
-    val miniPlayerThemeId: StateFlow<String> = _miniPlayerThemeId.asStateFlow()
+    val miniPlayerThemeId: StateFlow<String> get() = customizationSection.miniPlayerThemeId
+    fun setMiniPlayerThemeId(themeId: String) = customizationSection.setMiniPlayerThemeId(themeId)
     
     // Library Settings
     private val _albumViewType = MutableStateFlow(
@@ -933,26 +934,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _libraryCombineDiscs = MutableStateFlow(prefs.getBoolean(KEY_LIBRARY_COMBINE_DISCS, false))
     val libraryCombineDiscs: StateFlow<Boolean> = _libraryCombineDiscs.asStateFlow()
     
-    // Player Chip Order (Add to Playlist and Edit chips are not reorderable - they stay fixed)
-    private val defaultChipOrder = listOf("FAVORITE", "SPEED", "EQUALIZER", "SLEEP_TIMER", "LYRICS", "ALBUM", "ARTIST", "SHARE")
-    private val _playerChipOrder = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_PLAYER_CHIP_ORDER, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.map { if (it == "PITCH" || it == "SPEED_PITCH") "SPEED" else it }
-            ?.distinct()
-            ?.filter { it in defaultChipOrder }
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { existingChips ->
-                var updated = existingChips
-                if (!updated.contains("SHARE")) {
-                    updated = updated + "SHARE"
-                }
-                updated
-            }
-            ?: defaultChipOrder
-    )
-    val playerChipOrder: StateFlow<List<String>> = _playerChipOrder.asStateFlow()
+    val playerChipOrder: StateFlow<List<String>> get() = customizationSection.playerChipOrder
+    fun setPlayerChipOrder(chipOrder: List<String>) = customizationSection.setPlayerChipOrder(chipOrder)
     
     // Default Landing Screen
     private val _defaultScreen = MutableStateFlow(prefs.getString(KEY_DEFAULT_SCREEN, "home") ?: "home")
@@ -975,88 +958,26 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val hiddenLibraryTabs: StateFlow<Set<String>> = _hiddenLibraryTabs.asStateFlow()
     
     // Hidden Player Chips
-    private val _hiddenPlayerChips = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_HIDDEN_PLAYER_CHIPS, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.toSet()
-            ?: emptySet()
-    )
-    val hiddenPlayerChips: StateFlow<Set<String>> = _hiddenPlayerChips.asStateFlow()
+    val hiddenPlayerChips: StateFlow<Set<String>> get() = customizationSection.hiddenPlayerChips
+    fun setHiddenPlayerChips(hiddenChips: Set<String>) = customizationSection.setHiddenPlayerChips(hiddenChips)
 
     // Expressive Player Bottom Buttons
-    val defaultExpressiveBottomButtonsNormal = listOf("DEVICE", "QUEUE", "MORE")
-    val defaultExpressiveBottomButtonsMerge = listOf("LYRICS", "FAVORITE", "DEVICE", "QUEUE", "MORE")
-    val allExpressiveBottomButtons = listOf(
-        "LYRICS", "FAVORITE", "DEVICE", "QUEUE", "MORE",
-        "SHUFFLE", "REPEAT", "EQUALIZER", "SPEED", "SLEEP_TIMER",
-        "ADD_TO_PLAYLIST", "ALBUM", "ARTIST", "SONG_INFO", "SHARE"
-    )
 
-    val allExpressiveBottomButtonsNormal = allExpressiveBottomButtons.filterNot { it in fixedBottomButtonsNormal }
 
-    private val _expressiveBottomButtonsNormal = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.distinct()
-            ?.filter { it in allExpressiveBottomButtons && it !in fixedBottomButtonsNormal }
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { savedList ->
-                val result = savedList.toMutableList()
-                defaultExpressiveBottomButtonsNormal.forEachIndexed { defaultIndex, button ->
-                    if (!result.contains(button)) {
-                        result.add(defaultIndex.coerceAtMost(result.size), button)
-                    }
-                }
-                if (!result.contains("MORE")) {
-                    result.add("MORE")
-                }
-                result
-            }
-            ?: defaultExpressiveBottomButtonsNormal
-    )
-    val expressiveBottomButtonsNormal: StateFlow<List<String>> = _expressiveBottomButtonsNormal.asStateFlow()
+    val expressiveBottomButtonsNormal: StateFlow<List<String>> get() = customizationSection.expressiveBottomButtonsNormal
+    fun setExpressiveBottomButtonsNormal(order: List<String>) = customizationSection.setExpressiveBottomButtonsNormal(order)
 
-    private val _expressiveHiddenBottomButtonsNormal = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.filter { it in allExpressiveBottomButtons && it !in fixedBottomButtonsNormal && it != "MORE" }
-            ?.toSet()
-            ?: emptySet()
-    )
-    val expressiveHiddenBottomButtonsNormal: StateFlow<Set<String>> = _expressiveHiddenBottomButtonsNormal.asStateFlow()
 
-    private val _expressiveBottomButtonsMerge = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_MERGE, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.distinct()
-            ?.filter { it in allExpressiveBottomButtons }
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { savedList ->
-                val result = savedList.toMutableList()
-                defaultExpressiveBottomButtonsMerge.forEachIndexed { defaultIndex, button ->
-                    if (!result.contains(button)) {
-                        result.add(defaultIndex.coerceAtMost(result.size), button)
-                    }
-                }
-                result
-            }
-            ?: defaultExpressiveBottomButtonsMerge
-    )
-    val expressiveBottomButtonsMerge: StateFlow<List<String>> = _expressiveBottomButtonsMerge.asStateFlow()
+    val expressiveBottomButtonsMerge: StateFlow<List<String>> get() = customizationSection.expressiveBottomButtonsMerge
+    fun setExpressiveBottomButtonsMerge(order: List<String>) = customizationSection.setExpressiveBottomButtonsMerge(order)
+    val expressiveHiddenBottomButtonsNormal: StateFlow<Set<String>> get() = customizationSection.expressiveHiddenBottomButtonsNormal
+    val allExpressiveBottomButtons get() = customizationSection.allExpressiveBottomButtons
+    val defaultExpressiveBottomButtonsNormal get() = customizationSection.defaultExpressiveBottomButtonsNormal
+    val defaultExpressiveBottomButtonsMerge get() = customizationSection.defaultExpressiveBottomButtonsMerge
+    fun setExpressiveHiddenBottomButtonsNormal(hidden: Set<String>) = customizationSection.setExpressiveHiddenBottomButtonsNormal(hidden)
+    fun setExpressiveHiddenBottomButtonsMerge(hidden: Set<String>) = customizationSection.setExpressiveHiddenBottomButtonsMerge(hidden)
+    val expressiveHiddenBottomButtonsMerge: StateFlow<Set<String>> get() = customizationSection.expressiveHiddenBottomButtonsMerge
 
-    private val _expressiveHiddenBottomButtonsMerge = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_MERGE, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.filter { it in allExpressiveBottomButtons }
-            ?.toSet()
-            ?: emptySet()
-    )
-    val expressiveHiddenBottomButtonsMerge: StateFlow<Set<String>> = _expressiveHiddenBottomButtonsMerge.asStateFlow()
     
     
     // Group By Album Artist
@@ -1499,14 +1420,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         prefs.edit { putBoolean(AppSettings.KEY_RHYTHM_GUARD_FIRST_BREAK_SEEN, seen) }
     }
 
-    private val _homeShowRhythmGuard = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_HOME_SHOW_RHYTHM_GUARD, true)
-    )
-    val homeShowRhythmGuard: StateFlow<Boolean> = _homeShowRhythmGuard.asStateFlow()
-    fun setHomeShowRhythmGuard(value: Boolean) {
-        _homeShowRhythmGuard.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_RHYTHM_GUARD, value) }
-    }
+    val homeShowRhythmGuard: StateFlow<Boolean> get() = customizationSection.homeShowRhythmGuard
+    fun setHomeShowRhythmGuard(value: Boolean) = customizationSection.setHomeShowRhythmGuard(value)
     
     private val _uniqueArtists = MutableStateFlow(prefs.getInt(KEY_UNIQUE_ARTISTS, 0))
     val uniqueArtists: StateFlow<Int> = _uniqueArtists.asStateFlow()
@@ -2470,15 +2385,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Player Theme Settings Methods
-    fun setPlayerThemeId(themeId: String) {
-        prefs.edit { putString(AppSettings.KEY_PLAYER_THEME_ID, themeId) }
-        _playerThemeId.value = themeId
-    }
     
-    fun setMiniPlayerThemeId(themeId: String) {
-        prefs.edit { putString(AppSettings.KEY_MINI_PLAYER_THEME_ID, themeId) }
-        _miniPlayerThemeId.value = themeId
-    }
     
     // Library Settings Methods
     fun setAlbumViewType(viewType: AlbumViewType) {
@@ -2528,16 +2435,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _libraryCombineDiscs.value = enabled
     }
     
-    fun setPlayerChipOrder(chipOrder: List<String>) {
-        val sanitizedOrder = chipOrder.filter { it in defaultChipOrder }
-        val orderString = sanitizedOrder.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_PLAYER_CHIP_ORDER, orderString) }
-        _playerChipOrder.value = sanitizedOrder
-    }
     
     fun resetPlayerChipOrder() {
         prefs.edit { remove(AppSettings.KEY_PLAYER_CHIP_ORDER) }
-        _playerChipOrder.value = defaultChipOrder
+        customizationSection._playerChipOrder.value = customizationSection.defaultChipOrder
     }
     
     fun setDefaultScreen(screen: String) {
@@ -2551,60 +2452,27 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _hiddenLibraryTabs.value = hiddenTabs
     }
     
-    fun setHiddenPlayerChips(hiddenChips: Set<String>) {
-        val sanitizedHiddenChips = hiddenChips.filter { it in defaultChipOrder }.toSet()
-        val hiddenString = sanitizedHiddenChips.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_HIDDEN_PLAYER_CHIPS, hiddenString) }
-        _hiddenPlayerChips.value = sanitizedHiddenChips
-    }
 
-    fun setExpressiveBottomButtonsNormal(order: List<String>) {
-        val sanitized = order.filter { it in allExpressiveBottomButtons && it !in fixedBottomButtonsNormal }.toMutableList()
-        if (!sanitized.contains("MORE")) {
-            sanitized.add("MORE")
-        }
-        val orderString = sanitized.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL, orderString) }
-        _expressiveBottomButtonsNormal.value = sanitized
-    }
 
-    fun setExpressiveHiddenBottomButtonsNormal(hidden: Set<String>) {
-        val sanitized = hidden.filter { it in allExpressiveBottomButtons && it !in fixedBottomButtonsNormal && it != "MORE" }.toSet()
-        val hiddenString = sanitized.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL, hiddenString) }
-        _expressiveHiddenBottomButtonsNormal.value = sanitized
-    }
 
     fun resetExpressiveBottomButtonsNormal() {
         prefs.edit {
             remove(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_NORMAL)
             remove(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_NORMAL)
         }
-        _expressiveBottomButtonsNormal.value = defaultExpressiveBottomButtonsNormal
-        _expressiveHiddenBottomButtonsNormal.value = emptySet()
+        customizationSection._expressiveBottomButtonsNormal.value = customizationSection.defaultExpressiveBottomButtonsNormal
+        customizationSection._expressiveHiddenBottomButtonsNormal.value = emptySet()
     }
 
-    fun setExpressiveBottomButtonsMerge(order: List<String>) {
-        val sanitized = order.filter { it in allExpressiveBottomButtons }
-        val orderString = sanitized.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_MERGE, orderString) }
-        _expressiveBottomButtonsMerge.value = sanitized
-    }
 
-    fun setExpressiveHiddenBottomButtonsMerge(hidden: Set<String>) {
-        val sanitized = hidden.filter { it in allExpressiveBottomButtons }.toSet()
-        val hiddenString = sanitized.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_MERGE, hiddenString) }
-        _expressiveHiddenBottomButtonsMerge.value = sanitized
-    }
 
     fun resetExpressiveBottomButtonsMerge() {
         prefs.edit {
             remove(AppSettings.KEY_EXPRESSIVE_BOTTOM_BUTTONS_MERGE)
             remove(AppSettings.KEY_EXPRESSIVE_HIDDEN_BOTTOM_BUTTONS_MERGE)
         }
-        _expressiveBottomButtonsMerge.value = defaultExpressiveBottomButtonsMerge
-        _expressiveHiddenBottomButtonsMerge.value = emptySet()
+        customizationSection._expressiveBottomButtonsMerge.value = customizationSection.defaultExpressiveBottomButtonsMerge
+        customizationSection._expressiveHiddenBottomButtonsMerge.value = emptySet()
     }
 
 
@@ -4874,8 +4742,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         } else {
             prefs.getBoolean(AppSettings.KEY_IGNORE_MEDIASTORE_COVERS, true)
         }
-        _albumBottomSheetDiscFilter.value = prefs.getInt(AppSettings.KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, 0).coerceAtLeast(0)
-        _albumBottomSheetGradientBlur.value = prefs.getBoolean(AppSettings.KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, true)
+        customizationSection._albumBottomSheetDiscFilter.value = prefs.getInt(AppSettings.KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, 0).coerceAtLeast(0)
+        customizationSection._albumBottomSheetGradientBlur.value = prefs.getBoolean(AppSettings.KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, true)
         _showLibraryBottomBarAlways.value = prefs.getBoolean(AppSettings.KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false)
         
         // Audio Device Settings
@@ -4939,7 +4807,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _rhythmGuardTimeoutCooldownUntilMs.value = safeLong(AppSettings.KEY_RHYTHM_GUARD_TIMEOUT_COOLDOWN_UNTIL_MS, 0L).coerceAtLeast(0L)
         _rhythmGuardNextAllowedLimitMinutes.value = prefs.getInt(AppSettings.KEY_RHYTHM_GUARD_NEXT_ALLOWED_LIMIT_MINUTES, 0)
         _rhythmGuardFirstBreakSeen.value = prefs.getBoolean(AppSettings.KEY_RHYTHM_GUARD_FIRST_BREAK_SEEN, false)
-        _homeShowRhythmGuard.value = prefs.getBoolean(AppSettings.KEY_HOME_SHOW_RHYTHM_GUARD, true)
+        customizationSection._homeShowRhythmGuard.value = prefs.getBoolean(AppSettings.KEY_HOME_SHOW_RHYTHM_GUARD, true)
         
         // Enhanced User Preferences
         _favoriteGenres.value = try {
@@ -5100,27 +4968,27 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         widgetSection._widgetStatsGem.value = prefs.getInt(AppSettings.KEY_WIDGET_STATS_GEM, 0)
         
         // Player Screen Customization Settings
-        _playerShowGradientOverlay.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_GRADIENT_OVERLAY, true)
-        _playerLyricsTransition.value = prefs.getInt(AppSettings.KEY_PLAYER_LYRICS_TRANSITION, 2) // 2 = Scale
-        _playerAmbientBackdropEnabled.value = prefs.getBoolean(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, false)
-        _playerAmbientBackdropIntensity.value = prefs.getFloat(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY, 0.85f)
-        _playerAmbientInfiniteZoom.value = prefs.getBoolean(AppSettings.KEY_PLAYER_AMBIENT_INFINITE_ZOOM, true)
-        _playerAccentBackgroundEnabled.value = prefs.getBoolean(AppSettings.KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, true)
+        customizationSection._playerShowGradientOverlay.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_GRADIENT_OVERLAY, true)
+        customizationSection._playerLyricsTransition.value = prefs.getInt(AppSettings.KEY_PLAYER_LYRICS_TRANSITION, 2) // 2 = Scale
+        customizationSection._playerAmbientBackdropEnabled.value = prefs.getBoolean(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, false)
+        customizationSection._playerAmbientBackdropIntensity.value = prefs.getFloat(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY, 0.85f)
+        customizationSection._playerAmbientInfiniteZoom.value = prefs.getBoolean(AppSettings.KEY_PLAYER_AMBIENT_INFINITE_ZOOM, true)
+        customizationSection._playerAccentBackgroundEnabled.value = prefs.getBoolean(AppSettings.KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, true)
         // Normalize legacy state: ambient and accent cannot both be on — ambient wins.
-        if (_playerAmbientBackdropEnabled.value && _playerAccentBackgroundEnabled.value) {
-            _playerAccentBackgroundEnabled.value = false
+        if (customizationSection._playerAmbientBackdropEnabled.value && customizationSection._playerAccentBackgroundEnabled.value) {
+            customizationSection._playerAccentBackgroundEnabled.value = false
             prefs.edit { putBoolean(AppSettings.KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, false) }
         }
-        _playerMergeControlsToBottom.value = prefs.getBoolean(AppSettings.KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM, true)
-        _playerGlassIntensity.value = prefs.getFloat(AppSettings.KEY_PLAYER_GLASS_INTENSITY, 1.0f)
-        _playerLyricsTextSize.value = prefs.getFloat(AppSettings.KEY_PLAYER_LYRICS_TEXT_SIZE, 1.0f)
-        _playerLyricsAlignment.value = prefs.getString(AppSettings.KEY_PLAYER_LYRICS_ALIGNMENT, "CENTER") ?: "CENTER"
-        _playerShowArtBelowLyrics.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_ART_BELOW_LYRICS, true)
-        _playerShowSeekButtons.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_SEEK_BUTTONS, true)
-        _playerTextAlignment.value = prefs.getString(AppSettings.KEY_PLAYER_TEXT_ALIGNMENT, "CENTER") ?: "CENTER"
-        _playerShowSongInfoOnArtwork.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK, true)
-        _playerArtworkCornerRadius.value = prefs.getInt(AppSettings.KEY_PLAYER_ARTWORK_CORNER_RADIUS, 28)
-        _playerShowAudioQualityBadges.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES, true)
+        customizationSection._playerMergeControlsToBottom.value = prefs.getBoolean(AppSettings.KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM, true)
+        customizationSection._playerGlassIntensity.value = prefs.getFloat(AppSettings.KEY_PLAYER_GLASS_INTENSITY, 1.0f)
+        customizationSection._playerLyricsTextSize.value = prefs.getFloat(AppSettings.KEY_PLAYER_LYRICS_TEXT_SIZE, 1.0f)
+        customizationSection._playerLyricsAlignment.value = prefs.getString(AppSettings.KEY_PLAYER_LYRICS_ALIGNMENT, "CENTER") ?: "CENTER"
+        customizationSection._playerShowArtBelowLyrics.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_ART_BELOW_LYRICS, true)
+        customizationSection._playerShowSeekButtons.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_SEEK_BUTTONS, true)
+        customizationSection._playerTextAlignment.value = prefs.getString(AppSettings.KEY_PLAYER_TEXT_ALIGNMENT, "CENTER") ?: "CENTER"
+        customizationSection._playerShowSongInfoOnArtwork.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK, true)
+        customizationSection._playerArtworkCornerRadius.value = prefs.getInt(AppSettings.KEY_PLAYER_ARTWORK_CORNER_RADIUS, 28)
+        customizationSection._playerShowAudioQualityBadges.value = prefs.getBoolean(AppSettings.KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES, true)
         _expressiveQualityBadgeAlwaysVisible.value = prefs.getBoolean(AppSettings.KEY_EXPRESSIVE_QUALITY_BADGE_ALWAYS_VISIBLE, false)
         
         // Lyrics song preferences and renaming behavior
@@ -5234,76 +5102,36 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     // ==================== Home Screen Customization Settings ====================
     
-    private val _homeHeaderDisplayMode = MutableStateFlow(prefs.getInt(KEY_HOME_HEADER_DISPLAY_MODE, 1))
-    val homeHeaderDisplayMode: StateFlow<Int> = _homeHeaderDisplayMode.asStateFlow()
-    fun setHomeHeaderDisplayMode(value: Int) {
-        _homeHeaderDisplayMode.value = value
-        prefs.edit { putInt(AppSettings.KEY_HOME_HEADER_DISPLAY_MODE, value) }
-    }
+    val homeHeaderDisplayMode: StateFlow<Int> get() = customizationSection.homeHeaderDisplayMode
+    fun setHomeHeaderDisplayMode(value: Int) = customizationSection.setHomeHeaderDisplayMode(value)
     
-    private val _homeShowAppIcon = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_APP_ICON, false))
-    val homeShowAppIcon: StateFlow<Boolean> = _homeShowAppIcon.asStateFlow()
-    fun setHomeShowAppIcon(value: Boolean) {
-        _homeShowAppIcon.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_APP_ICON, value) }
-    }
+    val homeShowAppIcon: StateFlow<Boolean> get() = customizationSection.homeShowAppIcon
+    fun setHomeShowAppIcon(value: Boolean) = customizationSection.setHomeShowAppIcon(value)
     
-    private val _homeAppIconVisibility = MutableStateFlow(prefs.getInt(KEY_HOME_APP_ICON_VISIBILITY, 1))
-    val homeAppIconVisibility: StateFlow<Int> = _homeAppIconVisibility.asStateFlow()
-    fun setHomeAppIconVisibility(value: Int) {
-        _homeAppIconVisibility.value = value
-        prefs.edit { putInt(AppSettings.KEY_HOME_APP_ICON_VISIBILITY, value) }
-    }
+    val homeAppIconVisibility: StateFlow<Int> get() = customizationSection.homeAppIconVisibility
+    fun setHomeAppIconVisibility(value: Int) = customizationSection.setHomeAppIconVisibility(value)
     
     
-    private val _homeShowRecentlyPlayed = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_RECENTLY_PLAYED, true))
-    val homeShowRecentlyPlayed: StateFlow<Boolean> = _homeShowRecentlyPlayed.asStateFlow()
-    fun setHomeShowRecentlyPlayed(value: Boolean) {
-        _homeShowRecentlyPlayed.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_RECENTLY_PLAYED, value) }
-    }
+    val homeShowRecentlyPlayed: StateFlow<Boolean> get() = customizationSection.homeShowRecentlyPlayed
+    fun setHomeShowRecentlyPlayed(value: Boolean) = customizationSection.setHomeShowRecentlyPlayed(value)
     
-    private val _homeShowDiscoverCarousel = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_DISCOVER_CAROUSEL, true))
-    val homeShowDiscoverCarousel: StateFlow<Boolean> = _homeShowDiscoverCarousel.asStateFlow()
-    fun setHomeShowDiscoverCarousel(value: Boolean) {
-        _homeShowDiscoverCarousel.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_DISCOVER_CAROUSEL, value) }
-    }
+    val homeShowDiscoverCarousel: StateFlow<Boolean> get() = customizationSection.homeShowDiscoverCarousel
+    fun setHomeShowDiscoverCarousel(value: Boolean) = customizationSection.setHomeShowDiscoverCarousel(value)
     
-    private val _homeShowArtists = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_ARTISTS, true))
-    val homeShowArtists: StateFlow<Boolean> = _homeShowArtists.asStateFlow()
-    fun setHomeShowArtists(value: Boolean) {
-        _homeShowArtists.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_ARTISTS, value) }
-    }
+    val homeShowArtists: StateFlow<Boolean> get() = customizationSection.homeShowArtists
+    fun setHomeShowArtists(value: Boolean) = customizationSection.setHomeShowArtists(value)
     
-    private val _homeShowNewReleases = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_NEW_RELEASES, true))
-    val homeShowNewReleases: StateFlow<Boolean> = _homeShowNewReleases.asStateFlow()
-    fun setHomeShowNewReleases(value: Boolean) {
-        _homeShowNewReleases.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_NEW_RELEASES, value) }
-    }
+    val homeShowNewReleases: StateFlow<Boolean> get() = customizationSection.homeShowNewReleases
+    fun setHomeShowNewReleases(value: Boolean) = customizationSection.setHomeShowNewReleases(value)
     
-    private val _homeShowRecentlyAdded = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_RECENTLY_ADDED, true))
-    val homeShowRecentlyAdded: StateFlow<Boolean> = _homeShowRecentlyAdded.asStateFlow()
-    fun setHomeShowRecentlyAdded(value: Boolean) {
-        _homeShowRecentlyAdded.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_RECENTLY_ADDED, value) }
-    }
+    val homeShowRecentlyAdded: StateFlow<Boolean> get() = customizationSection.homeShowRecentlyAdded
+    fun setHomeShowRecentlyAdded(value: Boolean) = customizationSection.setHomeShowRecentlyAdded(value)
     
-    private val _homeShowRecommended = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_RECOMMENDED, true))
-    val homeShowRecommended: StateFlow<Boolean> = _homeShowRecommended.asStateFlow()
-    fun setHomeShowRecommended(value: Boolean) {
-        _homeShowRecommended.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_RECOMMENDED, value) }
-    }
+    val homeShowRecommended: StateFlow<Boolean> get() = customizationSection.homeShowRecommended
+    fun setHomeShowRecommended(value: Boolean) = customizationSection.setHomeShowRecommended(value)
     
-    private val _homeShowListeningStats = MutableStateFlow(prefs.getBoolean(KEY_HOME_SHOW_LISTENING_STATS, true))
-    val homeShowListeningStats: StateFlow<Boolean> = _homeShowListeningStats.asStateFlow()
-    fun setHomeShowListeningStats(value: Boolean) {
-        _homeShowListeningStats.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_SHOW_LISTENING_STATS, value) }
-    }
+    val homeShowListeningStats: StateFlow<Boolean> get() = customizationSection.homeShowListeningStats
+    fun setHomeShowListeningStats(value: Boolean) = customizationSection.setHomeShowListeningStats(value)
 
 
     private val _streamingHomeShowRhythmGuard = MutableStateFlow(prefs.getBoolean(KEY_STREAMING_HOME_SHOW_RHYTHM_GUARD, true))
@@ -5359,133 +5187,57 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     // ==================== Player Screen Customization Settings ====================
     
-    private val _playerShowGradientOverlay = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_SHOW_GRADIENT_OVERLAY, true))
-    val playerShowGradientOverlay: StateFlow<Boolean> = _playerShowGradientOverlay.asStateFlow()
-    fun setPlayerShowGradientOverlay(value: Boolean) {
-        _playerShowGradientOverlay.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_SHOW_GRADIENT_OVERLAY, value) }
-    }
+    val playerShowGradientOverlay: StateFlow<Boolean> get() = customizationSection.playerShowGradientOverlay
+    fun setPlayerShowGradientOverlay(value: Boolean) = customizationSection.setPlayerShowGradientOverlay(value)
 
-    private val _playerAmbientBackdropEnabled = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, false))
-    val playerAmbientBackdropEnabled: StateFlow<Boolean> = _playerAmbientBackdropEnabled.asStateFlow()
-    fun setPlayerAmbientBackdropEnabled(enabled: Boolean) {
-        val disableAccent = enabled && _playerAccentBackgroundEnabled.value
-        prefs.edit {
-            putBoolean(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, enabled)
-            if (disableAccent) putBoolean(AppSettings.KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, false)
-        }
-        _playerAmbientBackdropEnabled.value = enabled
-        // Ambient and accent backgrounds are mutually exclusive — enabling one disables the other.
-        if (disableAccent) _playerAccentBackgroundEnabled.value = false
-    }
+    val playerAmbientBackdropEnabled: StateFlow<Boolean> get() = customizationSection.playerAmbientBackdropEnabled
+    fun setPlayerAmbientBackdropEnabled(enabled: Boolean) = customizationSection.setPlayerAmbientBackdropEnabled(enabled)
 
-    private val _playerAccentBackgroundEnabled = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, true))
-    val playerAccentBackgroundEnabled: StateFlow<Boolean> = _playerAccentBackgroundEnabled.asStateFlow()
-    fun setPlayerAccentBackgroundEnabled(enabled: Boolean) {
-        val disableAmbient = enabled && _playerAmbientBackdropEnabled.value
-        prefs.edit {
-            putBoolean(AppSettings.KEY_PLAYER_ACCENT_BACKGROUND_ENABLED, enabled)
-            if (disableAmbient) putBoolean(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_ENABLED, false)
-        }
-        _playerAccentBackgroundEnabled.value = enabled
-        // Ambient and accent backgrounds are mutually exclusive — enabling one disables the other.
-        if (disableAmbient) _playerAmbientBackdropEnabled.value = false
-    }
+    val playerAccentBackgroundEnabled: StateFlow<Boolean> get() = customizationSection.playerAccentBackgroundEnabled
+    fun setPlayerAccentBackgroundEnabled(enabled: Boolean) = customizationSection.setPlayerAccentBackgroundEnabled(enabled)
 
-    private val _playerMergeControlsToBottom = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM, true))
-    val playerMergeControlsToBottom: StateFlow<Boolean> = _playerMergeControlsToBottom.asStateFlow()
-    fun setPlayerMergeControlsToBottom(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_MERGE_CONTROLS_TO_BOTTOM, enabled) }
-        _playerMergeControlsToBottom.value = enabled
-    }
+    val playerMergeControlsToBottom: StateFlow<Boolean> get() = customizationSection.playerMergeControlsToBottom
+    fun setPlayerMergeControlsToBottom(enabled: Boolean) = customizationSection.setPlayerMergeControlsToBottom(enabled)
 
-    private val _playerAmbientBackdropIntensity = MutableStateFlow(prefs.getFloat(KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY, 0.85f))
-    val playerAmbientBackdropIntensity: StateFlow<Float> = _playerAmbientBackdropIntensity.asStateFlow()
-    fun setPlayerAmbientBackdropIntensity(value: Float) {
-        _playerAmbientBackdropIntensity.value = value.coerceIn(0f, 1f)
-        prefs.edit { putFloat(AppSettings.KEY_PLAYER_AMBIENT_BACKDROP_INTENSITY, _playerAmbientBackdropIntensity.value) }
-    }
+    val playerAmbientBackdropIntensity: StateFlow<Float> get() = customizationSection.playerAmbientBackdropIntensity
+    fun setPlayerAmbientBackdropIntensity(value: Float) = customizationSection.setPlayerAmbientBackdropIntensity(value)
 
-    private val _playerAmbientInfiniteZoom = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_AMBIENT_INFINITE_ZOOM, true))
-    val playerAmbientInfiniteZoom: StateFlow<Boolean> = _playerAmbientInfiniteZoom.asStateFlow()
-    fun setPlayerAmbientInfiniteZoom(enabled: Boolean) {
-        _playerAmbientInfiniteZoom.value = enabled
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_AMBIENT_INFINITE_ZOOM, enabled) }
-    }
+    val playerAmbientInfiniteZoom: StateFlow<Boolean> get() = customizationSection.playerAmbientInfiniteZoom
+    fun setPlayerAmbientInfiniteZoom(enabled: Boolean) = customizationSection.setPlayerAmbientInfiniteZoom(enabled)
 
-    private val _playerGlassIntensity = MutableStateFlow(prefs.getFloat(KEY_PLAYER_GLASS_INTENSITY, 1.0f))
-    val playerGlassIntensity: StateFlow<Float> = _playerGlassIntensity.asStateFlow()
-    fun setPlayerGlassIntensity(value: Float) {
-        _playerGlassIntensity.value = value
-        prefs.edit { putFloat(AppSettings.KEY_PLAYER_GLASS_INTENSITY, value) }
-    }
+    val playerGlassIntensity: StateFlow<Float> get() = customizationSection.playerGlassIntensity
+    fun setPlayerGlassIntensity(value: Float) = customizationSection.setPlayerGlassIntensity(value)
     
 
 
 
 
-    private val _playerLyricsTransition = MutableStateFlow(prefs.getInt(KEY_PLAYER_LYRICS_TRANSITION, 2)) // 2 = Scale
-    val playerLyricsTransition: StateFlow<Int> = _playerLyricsTransition.asStateFlow()
-    fun setPlayerLyricsTransition(value: Int) {
-        _playerLyricsTransition.value = value
-        prefs.edit { putInt(AppSettings.KEY_PLAYER_LYRICS_TRANSITION, value) }
-    }
+    val playerLyricsTransition: StateFlow<Int> get() = customizationSection.playerLyricsTransition
+    fun setPlayerLyricsTransition(value: Int) = customizationSection.setPlayerLyricsTransition(value)
 
-    private val _playerLyricsTextSize = MutableStateFlow(prefs.getFloat(KEY_PLAYER_LYRICS_TEXT_SIZE, 1.0f))
-    val playerLyricsTextSize: StateFlow<Float> = _playerLyricsTextSize.asStateFlow()
-    fun setPlayerLyricsTextSize(value: Float) {
-        _playerLyricsTextSize.value = value.coerceIn(0.5f, 2.0f)
-        prefs.edit { putFloat(AppSettings.KEY_PLAYER_LYRICS_TEXT_SIZE, _playerLyricsTextSize.value) }
-    }
+    val playerLyricsTextSize: StateFlow<Float> get() = customizationSection.playerLyricsTextSize
+    fun setPlayerLyricsTextSize(value: Float) = customizationSection.setPlayerLyricsTextSize(value)
 
-    private val _playerLyricsAlignment = MutableStateFlow(prefs.getString(KEY_PLAYER_LYRICS_ALIGNMENT, "CENTER") ?: "CENTER")
-    val playerLyricsAlignment: StateFlow<String> = _playerLyricsAlignment.asStateFlow()
-    fun setPlayerLyricsAlignment(value: String) {
-        _playerLyricsAlignment.value = value
-        prefs.edit { putString(AppSettings.KEY_PLAYER_LYRICS_ALIGNMENT, value) }
-    }
+    val playerLyricsAlignment: StateFlow<String> get() = customizationSection.playerLyricsAlignment
+    fun setPlayerLyricsAlignment(value: String) = customizationSection.setPlayerLyricsAlignment(value)
 
-    private val _playerShowArtBelowLyrics = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_SHOW_ART_BELOW_LYRICS, true))
-    val playerShowArtBelowLyrics: StateFlow<Boolean> = _playerShowArtBelowLyrics.asStateFlow()
-    fun setPlayerShowArtBelowLyrics(value: Boolean) {
-        _playerShowArtBelowLyrics.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_SHOW_ART_BELOW_LYRICS, value) }
-    }
+    val playerShowArtBelowLyrics: StateFlow<Boolean> get() = customizationSection.playerShowArtBelowLyrics
+    fun setPlayerShowArtBelowLyrics(value: Boolean) = customizationSection.setPlayerShowArtBelowLyrics(value)
     
-    private val _playerShowSeekButtons = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_SHOW_SEEK_BUTTONS, true))
-    val playerShowSeekButtons: StateFlow<Boolean> = _playerShowSeekButtons.asStateFlow()
-    fun setPlayerShowSeekButtons(value: Boolean) {
-        _playerShowSeekButtons.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_SHOW_SEEK_BUTTONS, value) }
-    }
+    val playerShowSeekButtons: StateFlow<Boolean> get() = customizationSection.playerShowSeekButtons
+    fun setPlayerShowSeekButtons(value: Boolean) = customizationSection.setPlayerShowSeekButtons(value)
     
-    private val _playerTextAlignment = MutableStateFlow(prefs.getString(KEY_PLAYER_TEXT_ALIGNMENT, "CENTER") ?: "CENTER")
-    val playerTextAlignment: StateFlow<String> = _playerTextAlignment.asStateFlow()
-    fun setPlayerTextAlignment(value: String) {
-        _playerTextAlignment.value = value
-        prefs.edit { putString(AppSettings.KEY_PLAYER_TEXT_ALIGNMENT, value) }
-    }
+    val playerTextAlignment: StateFlow<String> get() = customizationSection.playerTextAlignment
+    fun setPlayerTextAlignment(value: String) = customizationSection.setPlayerTextAlignment(value)
     
-    private val _playerShowSongInfoOnArtwork = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK, true))
-    val playerShowSongInfoOnArtwork: StateFlow<Boolean> = _playerShowSongInfoOnArtwork.asStateFlow()
-    fun setPlayerShowSongInfoOnArtwork(value: Boolean) {
-        _playerShowSongInfoOnArtwork.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_SHOW_SONG_INFO_ON_ARTWORK, value) }
-    }
+    val playerShowSongInfoOnArtwork: StateFlow<Boolean> get() = customizationSection.playerShowSongInfoOnArtwork
+    fun setPlayerShowSongInfoOnArtwork(value: Boolean) = customizationSection.setPlayerShowSongInfoOnArtwork(value)
     
-    private val _playerArtworkCornerRadius = MutableStateFlow(prefs.getInt(KEY_PLAYER_ARTWORK_CORNER_RADIUS, 28))
-    val playerArtworkCornerRadius: StateFlow<Int> = _playerArtworkCornerRadius.asStateFlow()
-    fun setPlayerArtworkCornerRadius(value: Int) {
-        _playerArtworkCornerRadius.value = value.coerceIn(0, 40)
-        prefs.edit { putInt(AppSettings.KEY_PLAYER_ARTWORK_CORNER_RADIUS, _playerArtworkCornerRadius.value) }
-    }
+    val playerArtworkCornerRadius: StateFlow<Int> get() = customizationSection.playerArtworkCornerRadius
+    fun setPlayerArtworkCornerRadius(value: Int) = customizationSection.setPlayerArtworkCornerRadius(value)
     
-    private val _playerShowAudioQualityBadges = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES, true))
-    val playerShowAudioQualityBadges: StateFlow<Boolean> = _playerShowAudioQualityBadges.asStateFlow()
-    fun setPlayerShowAudioQualityBadges(value: Boolean) {
-        _playerShowAudioQualityBadges.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_SHOW_AUDIO_QUALITY_BADGES, value) }
-    }
+    val playerShowAudioQualityBadges: StateFlow<Boolean> get() = customizationSection.playerShowAudioQualityBadges
+    fun setPlayerShowAudioQualityBadges(value: Boolean) = customizationSection.setPlayerShowAudioQualityBadges(value)
 
     private val _expressiveQualityBadgeAlwaysVisible = MutableStateFlow(prefs.getBoolean(KEY_EXPRESSIVE_QUALITY_BADGE_ALWAYS_VISIBLE, false))
     val expressiveQualityBadgeAlwaysVisible: StateFlow<Boolean> = _expressiveQualityBadgeAlwaysVisible.asStateFlow()
@@ -5495,168 +5247,69 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Player Progress Bar Style
-    private val _playerProgressStyle = MutableStateFlow(prefs.getString(KEY_PLAYER_PROGRESS_STYLE, "WAVY") ?: "WAVY")
-    val playerProgressStyle: StateFlow<String> = _playerProgressStyle.asStateFlow()
-    fun setPlayerProgressStyle(value: String) {
-        _playerProgressStyle.value = value
-        prefs.edit { putString(AppSettings.KEY_PLAYER_PROGRESS_STYLE, value) }
-    }
+    val playerProgressStyle: StateFlow<String> get() = customizationSection.playerProgressStyle
+    fun setPlayerProgressStyle(value: String) = customizationSection.setPlayerProgressStyle(value)
     
-    // Player Progress Thumb Style (migrates legacy names to the M3-native set)
-    private fun migrateThumbStyle(value: String): String = when (value) {
-        "GLOW", "ARROW" -> "DEFAULT"
-        "LINE" -> "PILL"
-        "OUTLINE", "DOT", "RING" -> "CIRCLE"
-        else -> value
-    }
-    private val _playerProgressThumbStyle = MutableStateFlow(
-        migrateThumbStyle(prefs.getString(AppSettings.KEY_PLAYER_PROGRESS_THUMB_STYLE, "DEFAULT") ?: "DEFAULT")
-    )
-    val playerProgressThumbStyle: StateFlow<String> = _playerProgressThumbStyle.asStateFlow()
-    fun setPlayerProgressThumbStyle(value: String) {
-        _playerProgressThumbStyle.value = value
-        prefs.edit { putString(AppSettings.KEY_PLAYER_PROGRESS_THUMB_STYLE, value) }
-    }
+    val playerProgressThumbStyle: StateFlow<String> get() = customizationSection.playerProgressThumbStyle
+    fun setPlayerProgressThumbStyle(value: String) = customizationSection.setPlayerProgressThumbStyle(value)
     
     // Player Progress Thumb Rotate While Playing
-    private val _playerProgressThumbRotate = MutableStateFlow(prefs.getBoolean(KEY_PLAYER_PROGRESS_THUMB_ROTATE, false))
-    val playerProgressThumbRotate: StateFlow<Boolean> = _playerProgressThumbRotate.asStateFlow()
-    fun setPlayerProgressThumbRotate(value: Boolean) {
-        _playerProgressThumbRotate.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_PLAYER_PROGRESS_THUMB_ROTATE, value) }
-    }
+    val playerProgressThumbRotate: StateFlow<Boolean> get() = customizationSection.playerProgressThumbRotate
+    fun setPlayerProgressThumbRotate(value: Boolean) = customizationSection.setPlayerProgressThumbRotate(value)
     
     // ==================== MiniPlayer Customization Settings ====================
     
-    private val _miniPlayerProgressStyle = MutableStateFlow(prefs.getString(KEY_MINIPLAYER_PROGRESS_STYLE, "NORMAL") ?: "NORMAL")
-    val miniPlayerProgressStyle: StateFlow<String> = _miniPlayerProgressStyle.asStateFlow()
-    fun setMiniPlayerProgressStyle(value: String) {
-        _miniPlayerProgressStyle.value = value
-        prefs.edit { putString(AppSettings.KEY_MINIPLAYER_PROGRESS_STYLE, value) }
-    }
+    val miniPlayerProgressStyle: StateFlow<String> get() = customizationSection.miniPlayerProgressStyle
+    fun setMiniPlayerProgressStyle(value: String) = customizationSection.setMiniPlayerProgressStyle(value)
     
-    private val _miniPlayerShowProgress = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SHOW_PROGRESS, true))
-    val miniPlayerShowProgress: StateFlow<Boolean> = _miniPlayerShowProgress.asStateFlow()
-    fun setMiniPlayerShowProgress(value: Boolean) {
-        _miniPlayerShowProgress.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SHOW_PROGRESS, value) }
-    }
+    val miniPlayerShowProgress: StateFlow<Boolean> get() = customizationSection.miniPlayerShowProgress
+    fun setMiniPlayerShowProgress(value: Boolean) = customizationSection.setMiniPlayerShowProgress(value)
     
-    private val _miniPlayerShowArtwork = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SHOW_ARTWORK, true))
-    val miniPlayerShowArtwork: StateFlow<Boolean> = _miniPlayerShowArtwork.asStateFlow()
-    fun setMiniPlayerShowArtwork(value: Boolean) {
-        _miniPlayerShowArtwork.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SHOW_ARTWORK, value) }
-    }
+    val miniPlayerShowArtwork: StateFlow<Boolean> get() = customizationSection.miniPlayerShowArtwork
+    fun setMiniPlayerShowArtwork(value: Boolean) = customizationSection.setMiniPlayerShowArtwork(value)
     
-    private val _miniPlayerArtworkSize = MutableStateFlow(prefs.getInt(KEY_MINIPLAYER_ARTWORK_SIZE, 56))
-    val miniPlayerArtworkSize: StateFlow<Int> = _miniPlayerArtworkSize.asStateFlow()
-    fun setMiniPlayerArtworkSize(value: Int) {
-        _miniPlayerArtworkSize.value = value
-        prefs.edit { putInt(AppSettings.KEY_MINIPLAYER_ARTWORK_SIZE, value) }
-    }
+    val miniPlayerArtworkSize: StateFlow<Int> get() = customizationSection.miniPlayerArtworkSize
+    fun setMiniPlayerArtworkSize(value: Int) = customizationSection.setMiniPlayerArtworkSize(value)
     
-    private val _miniPlayerCornerRadius = MutableStateFlow(prefs.getInt(KEY_MINIPLAYER_CORNER_RADIUS, 14))
-    val miniPlayerCornerRadius: StateFlow<Int> = _miniPlayerCornerRadius.asStateFlow()
-    fun setMiniPlayerCornerRadius(value: Int) {
-        _miniPlayerCornerRadius.value = value
-        prefs.edit { putInt(AppSettings.KEY_MINIPLAYER_CORNER_RADIUS, value) }
-    }
+    val miniPlayerCornerRadius: StateFlow<Int> get() = customizationSection.miniPlayerCornerRadius
+    fun setMiniPlayerCornerRadius(value: Int) = customizationSection.setMiniPlayerCornerRadius(value)
     
-    private val _miniPlayerShowTime = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SHOW_TIME, true))
-    val miniPlayerShowTime: StateFlow<Boolean> = _miniPlayerShowTime.asStateFlow()
-    fun setMiniPlayerShowTime(value: Boolean) {
-        _miniPlayerShowTime.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SHOW_TIME, value) }
-    }
+    val miniPlayerShowTime: StateFlow<Boolean> get() = customizationSection.miniPlayerShowTime
+    fun setMiniPlayerShowTime(value: Boolean) = customizationSection.setMiniPlayerShowTime(value)
     
     
     
     
-    private val _miniPlayerSwipeGestures = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SWIPE_GESTURES, true))
-    val miniPlayerSwipeGestures: StateFlow<Boolean> = _miniPlayerSwipeGestures.asStateFlow()
-    fun setMiniPlayerSwipeGestures(value: Boolean) {
-        _miniPlayerSwipeGestures.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SWIPE_GESTURES, value) }
-    }
+    val miniPlayerSwipeGestures: StateFlow<Boolean> get() = customizationSection.miniPlayerSwipeGestures
+    fun setMiniPlayerSwipeGestures(value: Boolean) = customizationSection.setMiniPlayerSwipeGestures(value)
     
     
-    private val _miniPlayerAlwaysShowTablet = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_ALWAYS_SHOW_TABLET, false))
-    val miniPlayerAlwaysShowTablet: StateFlow<Boolean> = _miniPlayerAlwaysShowTablet.asStateFlow()
-    fun setMiniPlayerAlwaysShowTablet(value: Boolean) {
-        _miniPlayerAlwaysShowTablet.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_ALWAYS_SHOW_TABLET, value) }
-    }
+    val miniPlayerAlwaysShowTablet: StateFlow<Boolean> get() = customizationSection.miniPlayerAlwaysShowTablet
+    fun setMiniPlayerAlwaysShowTablet(value: Boolean) = customizationSection.setMiniPlayerAlwaysShowTablet(value)
     
-    private val _homeDiscoverAutoScroll = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_AUTO_SCROLL, true))
-    val homeDiscoverAutoScroll: StateFlow<Boolean> = _homeDiscoverAutoScroll.asStateFlow()
-    fun setHomeDiscoverAutoScroll(value: Boolean) {
-        _homeDiscoverAutoScroll.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_AUTO_SCROLL, value) }
-    }
+    val homeDiscoverAutoScroll: StateFlow<Boolean> get() = customizationSection.homeDiscoverAutoScroll
+    fun setHomeDiscoverAutoScroll(value: Boolean) = customizationSection.setHomeDiscoverAutoScroll(value)
     
-    private val _homeDiscoverAutoScrollInterval = MutableStateFlow(prefs.getInt(KEY_HOME_DISCOVER_AUTO_SCROLL_INTERVAL, 5))
-    val homeDiscoverAutoScrollInterval: StateFlow<Int> = _homeDiscoverAutoScrollInterval.asStateFlow()
-    fun setHomeDiscoverAutoScrollInterval(value: Int) {
-        if (value in 2..15) {
-            _homeDiscoverAutoScrollInterval.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_DISCOVER_AUTO_SCROLL_INTERVAL, value) }
-        }
-    }
+    val homeDiscoverAutoScrollInterval: StateFlow<Int> get() = customizationSection.homeDiscoverAutoScrollInterval
+    fun setHomeDiscoverAutoScrollInterval(value: Int) = customizationSection.setHomeDiscoverAutoScrollInterval(value)
     
-    private val _homeDiscoverItemCount = MutableStateFlow(prefs.getInt(KEY_HOME_DISCOVER_ITEM_COUNT, 6))
-    val homeDiscoverItemCount: StateFlow<Int> = _homeDiscoverItemCount.asStateFlow()
-    fun setHomeDiscoverItemCount(value: Int) {
-        if (value in 3..12) {
-            _homeDiscoverItemCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_DISCOVER_ITEM_COUNT, value) }
-        }
-    }
+    val homeDiscoverItemCount: StateFlow<Int> get() = customizationSection.homeDiscoverItemCount
+    fun setHomeDiscoverItemCount(value: Int) = customizationSection.setHomeDiscoverItemCount(value)
     
-    private val _homeRecentlyPlayedCount = MutableStateFlow(prefs.getInt(KEY_HOME_RECENTLY_PLAYED_COUNT, 6))
-    val homeRecentlyPlayedCount: StateFlow<Int> = _homeRecentlyPlayedCount.asStateFlow()
-    fun setHomeRecentlyPlayedCount(value: Int) {
-        if (value in 3..12) {
-            _homeRecentlyPlayedCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_RECENTLY_PLAYED_COUNT, value) }
-        }
-    }
+    val homeRecentlyPlayedCount: StateFlow<Int> get() = customizationSection.homeRecentlyPlayedCount
+    fun setHomeRecentlyPlayedCount(value: Int) = customizationSection.setHomeRecentlyPlayedCount(value)
     
-    private val _homeArtistsCount = MutableStateFlow(prefs.getInt(KEY_HOME_ARTISTS_COUNT, 10))
-    val homeArtistsCount: StateFlow<Int> = _homeArtistsCount.asStateFlow()
-    fun setHomeArtistsCount(value: Int) {
-        if (value in 4..20) {
-            _homeArtistsCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_ARTISTS_COUNT, value) }
-        }
-    }
+    val homeArtistsCount: StateFlow<Int> get() = customizationSection.homeArtistsCount
+    fun setHomeArtistsCount(value: Int) = customizationSection.setHomeArtistsCount(value)
     
-    private val _homeNewReleasesCount = MutableStateFlow(prefs.getInt(KEY_HOME_NEW_RELEASES_COUNT, 10))
-    val homeNewReleasesCount: StateFlow<Int> = _homeNewReleasesCount.asStateFlow()
-    fun setHomeNewReleasesCount(value: Int) {
-        if (value in 4..20) {
-            _homeNewReleasesCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_NEW_RELEASES_COUNT, value) }
-        }
-    }
+    val homeNewReleasesCount: StateFlow<Int> get() = customizationSection.homeNewReleasesCount
+    fun setHomeNewReleasesCount(value: Int) = customizationSection.setHomeNewReleasesCount(value)
     
-    private val _homeRecentlyAddedCount = MutableStateFlow(prefs.getInt(KEY_HOME_RECENTLY_ADDED_COUNT, 10))
-    val homeRecentlyAddedCount: StateFlow<Int> = _homeRecentlyAddedCount.asStateFlow()
-    fun setHomeRecentlyAddedCount(value: Int) {
-        if (value in 4..20) {
-            _homeRecentlyAddedCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_RECENTLY_ADDED_COUNT, value) }
-        }
-    }
+    val homeRecentlyAddedCount: StateFlow<Int> get() = customizationSection.homeRecentlyAddedCount
+    fun setHomeRecentlyAddedCount(value: Int) = customizationSection.setHomeRecentlyAddedCount(value)
     
-    private val _homeRecommendedCount = MutableStateFlow(prefs.getInt(KEY_HOME_RECOMMENDED_COUNT, 4))
-    val homeRecommendedCount: StateFlow<Int> = _homeRecommendedCount.asStateFlow()
-    fun setHomeRecommendedCount(value: Int) {
-        if (value in 2..8) {
-            _homeRecommendedCount.value = value
-            prefs.edit { putInt(AppSettings.KEY_HOME_RECOMMENDED_COUNT, value) }
-        }
-    }
+    val homeRecommendedCount: StateFlow<Int> get() = customizationSection.homeRecommendedCount
+    fun setHomeRecommendedCount(value: Int) = customizationSection.setHomeRecommendedCount(value)
     
     
     
@@ -5664,97 +5317,45 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     
     // Discover Widget - Content Visibility Settings
-    private val _homeDiscoverShowAlbumName = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_ALBUM_NAME, true))
-    val homeDiscoverShowAlbumName: StateFlow<Boolean> = _homeDiscoverShowAlbumName.asStateFlow()
-    fun setHomeDiscoverShowAlbumName(value: Boolean) {
-        _homeDiscoverShowAlbumName.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_SHOW_ALBUM_NAME, value) }
-    }
+    val homeDiscoverShowAlbumName: StateFlow<Boolean> get() = customizationSection.homeDiscoverShowAlbumName
+    fun setHomeDiscoverShowAlbumName(value: Boolean) = customizationSection.setHomeDiscoverShowAlbumName(value)
     
-    private val _homeDiscoverShowArtistName = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_ARTIST_NAME, true))
-    val homeDiscoverShowArtistName: StateFlow<Boolean> = _homeDiscoverShowArtistName.asStateFlow()
-    fun setHomeDiscoverShowArtistName(value: Boolean) {
-        _homeDiscoverShowArtistName.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_SHOW_ARTIST_NAME, value) }
-    }
+    val homeDiscoverShowArtistName: StateFlow<Boolean> get() = customizationSection.homeDiscoverShowArtistName
+    fun setHomeDiscoverShowArtistName(value: Boolean) = customizationSection.setHomeDiscoverShowArtistName(value)
     
-    private val _homeDiscoverShowYear = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_YEAR, true))
-    val homeDiscoverShowYear: StateFlow<Boolean> = _homeDiscoverShowYear.asStateFlow()
-    fun setHomeDiscoverShowYear(value: Boolean) {
-        _homeDiscoverShowYear.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_SHOW_YEAR, value) }
-    }
+    val homeDiscoverShowYear: StateFlow<Boolean> get() = customizationSection.homeDiscoverShowYear
+    fun setHomeDiscoverShowYear(value: Boolean) = customizationSection.setHomeDiscoverShowYear(value)
     
-    private val _homeDiscoverShowPlayButton = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_PLAY_BUTTON, true))
-    val homeDiscoverShowPlayButton: StateFlow<Boolean> = _homeDiscoverShowPlayButton.asStateFlow()
-    fun setHomeDiscoverShowPlayButton(value: Boolean) {
-        _homeDiscoverShowPlayButton.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_SHOW_PLAY_BUTTON, value) }
-    }
+    val homeDiscoverShowPlayButton: StateFlow<Boolean> get() = customizationSection.homeDiscoverShowPlayButton
+    fun setHomeDiscoverShowPlayButton(value: Boolean) = customizationSection.setHomeDiscoverShowPlayButton(value)
     
-    private val _homeDiscoverShowGradient = MutableStateFlow(prefs.getBoolean(KEY_HOME_DISCOVER_SHOW_GRADIENT, true))
-    val homeDiscoverShowGradient: StateFlow<Boolean> = _homeDiscoverShowGradient.asStateFlow()
-    fun setHomeDiscoverShowGradient(value: Boolean) {
-        _homeDiscoverShowGradient.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_HOME_DISCOVER_SHOW_GRADIENT, value) }
-    }
+    val homeDiscoverShowGradient: StateFlow<Boolean> get() = customizationSection.homeDiscoverShowGradient
+    fun setHomeDiscoverShowGradient(value: Boolean) = customizationSection.setHomeDiscoverShowGradient(value)
     
     // Gesture Settings
-    private val _gesturePlayerSwipeDismiss = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_PLAYER_SWIPE_DISMISS, true))
-    val gesturePlayerSwipeDismiss: StateFlow<Boolean> = _gesturePlayerSwipeDismiss.asStateFlow()
-    fun setGesturePlayerSwipeDismiss(value: Boolean) {
-        _gesturePlayerSwipeDismiss.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_PLAYER_SWIPE_DISMISS, value) }
-    }
+    val gesturePlayerSwipeDismiss: StateFlow<Boolean> get() = customizationSection.gesturePlayerSwipeDismiss
+    fun setGesturePlayerSwipeDismiss(value: Boolean) = customizationSection.setGesturePlayerSwipeDismiss(value)
     
-    private val _gesturePlayerSwipeTracks = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_PLAYER_SWIPE_TRACKS, true))
-    val gesturePlayerSwipeTracks: StateFlow<Boolean> = _gesturePlayerSwipeTracks.asStateFlow()
-    fun setGesturePlayerSwipeTracks(value: Boolean) {
-        _gesturePlayerSwipeTracks.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_PLAYER_SWIPE_TRACKS, value) }
-    }
+    val gesturePlayerSwipeTracks: StateFlow<Boolean> get() = customizationSection.gesturePlayerSwipeTracks
+    fun setGesturePlayerSwipeTracks(value: Boolean) = customizationSection.setGesturePlayerSwipeTracks(value)
     
-    private val _gestureArtworkDoubleTap = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_ARTWORK_DOUBLE_TAP, true))
-    val gestureArtworkDoubleTap: StateFlow<Boolean> = _gestureArtworkDoubleTap.asStateFlow()
-    fun setGestureArtworkDoubleTap(value: Boolean) {
-        _gestureArtworkDoubleTap.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_ARTWORK_DOUBLE_TAP, value) }
-    }
+    val gestureArtworkDoubleTap: StateFlow<Boolean> get() = customizationSection.gestureArtworkDoubleTap
+    fun setGestureArtworkDoubleTap(value: Boolean) = customizationSection.setGestureArtworkDoubleTap(value)
     
-    private val _gestureArtworkSingleTap = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_ARTWORK_SINGLE_TAP, true))
-    val gestureArtworkSingleTap: StateFlow<Boolean> = _gestureArtworkSingleTap.asStateFlow()
-    fun setGestureArtworkSingleTap(value: Boolean) {
-        _gestureArtworkSingleTap.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_ARTWORK_SINGLE_TAP, value) }
-    }
+    val gestureArtworkSingleTap: StateFlow<Boolean> get() = customizationSection.gestureArtworkSingleTap
+    fun setGestureArtworkSingleTap(value: Boolean) = customizationSection.setGestureArtworkSingleTap(value)
 
-    private val _gestureQueueSwipeToRemove = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_QUEUE_SWIPE_TO_REMOVE, true))
-    val gestureQueueSwipeToRemove: StateFlow<Boolean> = _gestureQueueSwipeToRemove.asStateFlow()
-    fun setGestureQueueSwipeToRemove(value: Boolean) {
-        _gestureQueueSwipeToRemove.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_QUEUE_SWIPE_TO_REMOVE, value) }
-    }
+    val gestureQueueSwipeToRemove: StateFlow<Boolean> get() = customizationSection.gestureQueueSwipeToRemove
+    fun setGestureQueueSwipeToRemove(value: Boolean) = customizationSection.setGestureQueueSwipeToRemove(value)
 
-    private val _gestureLibrarySwipeTabs = MutableStateFlow(prefs.getBoolean(KEY_GESTURE_LIBRARY_SWIPE_TABS, true))
-    val gestureLibrarySwipeTabs: StateFlow<Boolean> = _gestureLibrarySwipeTabs.asStateFlow()
-    fun setGestureLibrarySwipeTabs(value: Boolean) {
-        _gestureLibrarySwipeTabs.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_GESTURE_LIBRARY_SWIPE_TABS, value) }
-    }
+    val gestureLibrarySwipeTabs: StateFlow<Boolean> get() = customizationSection.gestureLibrarySwipeTabs
+    fun setGestureLibrarySwipeTabs(value: Boolean) = customizationSection.setGestureLibrarySwipeTabs(value)
 
-    private val _miniPlayerSwipeTracks = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SWIPE_TRACKS, true))
-    val miniPlayerSwipeTracks: StateFlow<Boolean> = _miniPlayerSwipeTracks.asStateFlow()
-    fun setMiniPlayerSwipeTracks(value: Boolean) {
-        _miniPlayerSwipeTracks.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SWIPE_TRACKS, value) }
-    }
+    val miniPlayerSwipeTracks: StateFlow<Boolean> get() = customizationSection.miniPlayerSwipeTracks
+    fun setMiniPlayerSwipeTracks(value: Boolean) = customizationSection.setMiniPlayerSwipeTracks(value)
 
-    private val _miniPlayerSwipeDismiss = MutableStateFlow(prefs.getBoolean(KEY_MINIPLAYER_SWIPE_DISMISS, true))
-    val miniPlayerSwipeDismiss: StateFlow<Boolean> = _miniPlayerSwipeDismiss.asStateFlow()
-    fun setMiniPlayerSwipeDismiss(value: Boolean) {
-        _miniPlayerSwipeDismiss.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_MINIPLAYER_SWIPE_DISMISS, value) }
-    }
+    val miniPlayerSwipeDismiss: StateFlow<Boolean> get() = customizationSection.miniPlayerSwipeDismiss
+    fun setMiniPlayerSwipeDismiss(value: Boolean) = customizationSection.setMiniPlayerSwipeDismiss(value)
 
     private val _tapLyricsToSeek = MutableStateFlow(prefs.getBoolean(KEY_TAP_LYRICS_TO_SEEK, true))
     val tapLyricsToSeek: StateFlow<Boolean> = _tapLyricsToSeek.asStateFlow()
@@ -5763,24 +5364,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         prefs.edit { putBoolean(AppSettings.KEY_TAP_LYRICS_TO_SEEK, value) }
     }
     
-    // Default section order for home screen
-    private val defaultHomeSectionOrder = listOf(
-        "DISCOVER", "RECENTLY_PLAYED", "ARTISTS", "RHYTHM_GUARD",
-        "NEW_RELEASES", "RECENTLY_ADDED", "RECOMMENDED", "STATS", "MOOD"
-    )
-    private val _homeSectionOrder = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_HOME_SECTION_ORDER, null)
-            ?.split(",")
-            ?.map(String::trim)
-            ?.filter { it.isNotBlank() && it != "GREETING" }
-            ?.takeIf { it.isNotEmpty() }
-            ?: defaultHomeSectionOrder
-    )
-    val homeSectionOrder: StateFlow<List<String>> = _homeSectionOrder.asStateFlow()
-    fun setHomeSectionOrder(value: List<String>) {
-        _homeSectionOrder.value = value
-        prefs.edit { putString(AppSettings.KEY_HOME_SECTION_ORDER, value.joinToString(",")) }
-    }
+    val homeSectionOrder: StateFlow<List<String>> get() = customizationSection.homeSectionOrder
+    fun setHomeSectionOrder(value: List<String>) = customizationSection.setHomeSectionOrder(value)
 
     private val defaultStreamingHomeSectionOrder = listOf(
         "DISCOVER", "RECENTLY_PLAYED", "ARTISTS", "RHYTHM_GUARD", "RHYTHM_STATS", "NEW_RELEASES"
@@ -5817,20 +5402,11 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Album Bottom Sheet Appearance Settings
-    private val _albumBottomSheetGradientBlur = MutableStateFlow(prefs.getBoolean(KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, true))
-    val albumBottomSheetGradientBlur: StateFlow<Boolean> = _albumBottomSheetGradientBlur.asStateFlow()
-    fun setAlbumBottomSheetGradientBlur(value: Boolean) {
-        _albumBottomSheetGradientBlur.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_ALBUM_BOTTOM_SHEET_GRADIENT_BLUR, value) }
-    }
+    val albumBottomSheetGradientBlur: StateFlow<Boolean> get() = customizationSection.albumBottomSheetGradientBlur
+    fun setAlbumBottomSheetGradientBlur(value: Boolean) = customizationSection.setAlbumBottomSheetGradientBlur(value)
 
-    private val _albumBottomSheetDiscFilter = MutableStateFlow(prefs.getInt(KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, 0).coerceAtLeast(0))
-    val albumBottomSheetDiscFilter: StateFlow<Int> = _albumBottomSheetDiscFilter.asStateFlow()
-    fun setAlbumBottomSheetDiscFilter(value: Int) {
-        val normalizedValue = value.coerceAtLeast(0)
-        _albumBottomSheetDiscFilter.value = normalizedValue
-        prefs.edit { putInt(AppSettings.KEY_ALBUM_BOTTOM_SHEET_DISC_FILTER, normalizedValue) }
-    }
+    val albumBottomSheetDiscFilter: StateFlow<Int> get() = customizationSection.albumBottomSheetDiscFilter
+    fun setAlbumBottomSheetDiscFilter(value: Int) = customizationSection.setAlbumBottomSheetDiscFilter(value)
 
     private val _albumHideAbout = MutableStateFlow(prefs.getBoolean(KEY_ALBUM_HIDE_ABOUT, false))
     val albumHideAbout: StateFlow<Boolean> = _albumHideAbout.asStateFlow()
@@ -5842,16 +5418,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     // ==================== Expressive MaterialShapes Settings ====================
     
     // Master toggle for expressive shapes feature
-    private val _expressiveShapesEnabled = MutableStateFlow(prefs.getBoolean(KEY_EXPRESSIVE_SHAPES_ENABLED, true))
-    val expressiveShapesEnabled: StateFlow<Boolean> = _expressiveShapesEnabled.asStateFlow()
-    fun setExpressiveShapesEnabled(value: Boolean) {
-        _expressiveShapesEnabled.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_EXPRESSIVE_SHAPES_ENABLED, value) }
-    }
+    val expressiveShapesEnabled: StateFlow<Boolean> get() = customizationSection.expressiveShapesEnabled
+    fun setExpressiveShapesEnabled(value: Boolean) = customizationSection.setExpressiveShapesEnabled(value)
     
     // Shape preset selection
-    private val _expressiveShapePreset = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_PRESET, "DEFAULT") ?: "DEFAULT")
-    val expressiveShapePreset: StateFlow<String> = _expressiveShapePreset.asStateFlow()
+    val expressiveShapePreset: StateFlow<String> get() = customizationSection.expressiveShapePreset
+    fun setExpressiveShapePreset(value: String) = customizationSection.setExpressiveShapePreset(value)
 
 
 
@@ -5863,82 +5435,28 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _showSettingsSuggestions.value = show
     }
 
-    fun setExpressiveShapePreset(value: String) {
-        _expressiveShapePreset.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PRESET, value) }
-    }
     
     // Individual shape settings for each artwork target
-    private val _expressiveShapeAlbumArt = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_ALBUM_ART, "GHOSTISH") ?: "GHOSTISH")
-    val expressiveShapeAlbumArt: StateFlow<String> = _expressiveShapeAlbumArt.asStateFlow()
-    fun setExpressiveShapeAlbumArt(value: String) {
-        _expressiveShapeAlbumArt.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ALBUM_ART, value) }
-        // Auto-switch to custom preset when individual shape is changed
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapeAlbumArt: StateFlow<String> get() = customizationSection.expressiveShapeAlbumArt
+    fun setExpressiveShapeAlbumArt(value: String) = customizationSection.setExpressiveShapeAlbumArt(value)
     
-    private val _expressiveShapePlayerArt = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_PLAYER_ART, "BUN") ?: "BUN")
-    val expressiveShapePlayerArt: StateFlow<String> = _expressiveShapePlayerArt.asStateFlow()
-    fun setExpressiveShapePlayerArt(value: String) {
-        _expressiveShapePlayerArt.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_ART, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapePlayerArt: StateFlow<String> get() = customizationSection.expressiveShapePlayerArt
+    fun setExpressiveShapePlayerArt(value: String) = customizationSection.setExpressiveShapePlayerArt(value)
     
-    private val _expressiveShapeSongArt = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_SONG_ART, "CLOVER_8_LEAF") ?: "CLOVER_8_LEAF")
-    val expressiveShapeSongArt: StateFlow<String> = _expressiveShapeSongArt.asStateFlow()
-    fun setExpressiveShapeSongArt(value: String) {
-        _expressiveShapeSongArt.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_SONG_ART, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapeSongArt: StateFlow<String> get() = customizationSection.expressiveShapeSongArt
+    fun setExpressiveShapeSongArt(value: String) = customizationSection.setExpressiveShapeSongArt(value)
     
-    private val _expressiveShapePlaylistArt = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, "CLOVER_4_LEAF") ?: "CLOVER_4_LEAF")
-    val expressiveShapePlaylistArt: StateFlow<String> = _expressiveShapePlaylistArt.asStateFlow()
-    fun setExpressiveShapePlaylistArt(value: String) {
-        _expressiveShapePlaylistArt.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapePlaylistArt: StateFlow<String> get() = customizationSection.expressiveShapePlaylistArt
+    fun setExpressiveShapePlaylistArt(value: String) = customizationSection.setExpressiveShapePlaylistArt(value)
     
-    private val _expressiveShapeArtistArt = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_ARTIST_ART, "PIXEL_CIRCLE") ?: "PIXEL_CIRCLE")
-    val expressiveShapeArtistArt: StateFlow<String> = _expressiveShapeArtistArt.asStateFlow()
-    fun setExpressiveShapeArtistArt(value: String) {
-        _expressiveShapeArtistArt.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ARTIST_ART, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapeArtistArt: StateFlow<String> get() = customizationSection.expressiveShapeArtistArt
+    fun setExpressiveShapeArtistArt(value: String) = customizationSection.setExpressiveShapeArtistArt(value)
     
-    private val _expressiveShapePlayerControls = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, "SUNNY") ?: "SUNNY")
-    val expressiveShapePlayerControls: StateFlow<String> = _expressiveShapePlayerControls.asStateFlow()
-    fun setExpressiveShapePlayerControls(value: String) {
-        _expressiveShapePlayerControls.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapePlayerControls: StateFlow<String> get() = customizationSection.expressiveShapePlayerControls
+    fun setExpressiveShapePlayerControls(value: String) = customizationSection.setExpressiveShapePlayerControls(value)
     
-    private val _expressiveShapeMiniPlayer = MutableStateFlow(prefs.getString(KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, "COOKIE_4") ?: "COOKIE_4")
-    val expressiveShapeMiniPlayer: StateFlow<String> = _expressiveShapeMiniPlayer.asStateFlow()
-    fun setExpressiveShapeMiniPlayer(value: String) {
-        _expressiveShapeMiniPlayer.value = value
-        prefs.edit { putString(AppSettings.KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, value) }
-        if (_expressiveShapePreset.value != "CUSTOM") {
-            setExpressiveShapePreset("CUSTOM")
-        }
-    }
+    val expressiveShapeMiniPlayer: StateFlow<String> get() = customizationSection.expressiveShapeMiniPlayer
+    fun setExpressiveShapeMiniPlayer(value: String) = customizationSection.setExpressiveShapeMiniPlayer(value)
     
     /**
      * Apply a preset to all artwork and player shape targets
@@ -5946,91 +5464,91 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun applyExpressiveShapePreset(preset: String) {
         when (preset) {
             "DEFAULT" -> {
-                _expressiveShapeAlbumArt.value = "GHOSTISH"
-                _expressiveShapePlayerArt.value = "BUN"
-                _expressiveShapeSongArt.value = "CLOVER_8_LEAF"
-                _expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
-                _expressiveShapeArtistArt.value = "PIXEL_CIRCLE"
-                _expressiveShapePlayerControls.value = "SUNNY"
-                _expressiveShapeMiniPlayer.value = "COOKIE_4"
+                customizationSection._expressiveShapeAlbumArt.value = "GHOSTISH"
+                customizationSection._expressiveShapePlayerArt.value = "BUN"
+                customizationSection._expressiveShapeSongArt.value = "CLOVER_8_LEAF"
+                customizationSection._expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
+                customizationSection._expressiveShapeArtistArt.value = "PIXEL_CIRCLE"
+                customizationSection._expressiveShapePlayerControls.value = "SUNNY"
+                customizationSection._expressiveShapeMiniPlayer.value = "COOKIE_4"
             }
             "FRIENDLY" -> {
-                _expressiveShapeAlbumArt.value = "CLOVER_8_LEAF"
-                _expressiveShapePlayerArt.value = "CLOVER_8_LEAF"
-                _expressiveShapeSongArt.value = "COOKIE_6"
-                _expressiveShapePlaylistArt.value = "OVAL"
-                _expressiveShapeArtistArt.value = "HEART"
-                _expressiveShapePlayerControls.value = "CIRCLE"
-                _expressiveShapeMiniPlayer.value = "OVAL"
+                customizationSection._expressiveShapeAlbumArt.value = "CLOVER_8_LEAF"
+                customizationSection._expressiveShapePlayerArt.value = "CLOVER_8_LEAF"
+                customizationSection._expressiveShapeSongArt.value = "COOKIE_6"
+                customizationSection._expressiveShapePlaylistArt.value = "OVAL"
+                customizationSection._expressiveShapeArtistArt.value = "HEART"
+                customizationSection._expressiveShapePlayerControls.value = "CIRCLE"
+                customizationSection._expressiveShapeMiniPlayer.value = "OVAL"
             }
             "MODERN" -> {
-                _expressiveShapeAlbumArt.value = "SLANTED"
-                _expressiveShapePlayerArt.value = "SLANTED"
-                _expressiveShapeSongArt.value = "COOKIE_7"
-                _expressiveShapePlaylistArt.value = "DIAMOND"
-                _expressiveShapeArtistArt.value = "CIRCLE"
-                _expressiveShapePlayerControls.value = "PENTAGON"
-                _expressiveShapeMiniPlayer.value = "SLANTED"
+                customizationSection._expressiveShapeAlbumArt.value = "SLANTED"
+                customizationSection._expressiveShapePlayerArt.value = "SLANTED"
+                customizationSection._expressiveShapeSongArt.value = "COOKIE_7"
+                customizationSection._expressiveShapePlaylistArt.value = "DIAMOND"
+                customizationSection._expressiveShapeArtistArt.value = "CIRCLE"
+                customizationSection._expressiveShapePlayerControls.value = "PENTAGON"
+                customizationSection._expressiveShapeMiniPlayer.value = "SLANTED"
             }
             "PLAYFUL" -> {
-                _expressiveShapeAlbumArt.value = "FLOWER"
-                _expressiveShapePlayerArt.value = "SOFT_BURST"
-                _expressiveShapeSongArt.value = "COOKIE_6"
-                _expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
-                _expressiveShapeArtistArt.value = "HEART"
-                _expressiveShapePlayerControls.value = "SUNNY"
-                _expressiveShapeMiniPlayer.value = "CLOVER_8_LEAF"
+                customizationSection._expressiveShapeAlbumArt.value = "FLOWER"
+                customizationSection._expressiveShapePlayerArt.value = "SOFT_BURST"
+                customizationSection._expressiveShapeSongArt.value = "COOKIE_6"
+                customizationSection._expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
+                customizationSection._expressiveShapeArtistArt.value = "HEART"
+                customizationSection._expressiveShapePlayerControls.value = "SUNNY"
+                customizationSection._expressiveShapeMiniPlayer.value = "CLOVER_8_LEAF"
             }
             "ORGANIC" -> {
-                _expressiveShapeAlbumArt.value = "CLOVER_4_LEAF"
-                _expressiveShapePlayerArt.value = "FLOWER"
-                _expressiveShapeSongArt.value = "CLOVER_8_LEAF"
-                _expressiveShapePlaylistArt.value = "COOKIE_4"
-                _expressiveShapeArtistArt.value = "OVAL"
-                _expressiveShapePlayerControls.value = "CIRCLE"
-                _expressiveShapeMiniPlayer.value = "OVAL"
+                customizationSection._expressiveShapeAlbumArt.value = "CLOVER_4_LEAF"
+                customizationSection._expressiveShapePlayerArt.value = "FLOWER"
+                customizationSection._expressiveShapeSongArt.value = "CLOVER_8_LEAF"
+                customizationSection._expressiveShapePlaylistArt.value = "COOKIE_4"
+                customizationSection._expressiveShapeArtistArt.value = "OVAL"
+                customizationSection._expressiveShapePlayerControls.value = "CIRCLE"
+                customizationSection._expressiveShapeMiniPlayer.value = "OVAL"
             }
             "GEOMETRIC" -> {
-                _expressiveShapeAlbumArt.value = "SQUARE"
-                _expressiveShapePlayerArt.value = "DIAMOND"
-                _expressiveShapeSongArt.value = "PENTAGON"
-                _expressiveShapePlaylistArt.value = "SQUARE"
-                _expressiveShapeArtistArt.value = "CIRCLE"
-                _expressiveShapePlayerControls.value = "PENTAGON"
-                _expressiveShapeMiniPlayer.value = "SQUARE"
+                customizationSection._expressiveShapeAlbumArt.value = "SQUARE"
+                customizationSection._expressiveShapePlayerArt.value = "DIAMOND"
+                customizationSection._expressiveShapeSongArt.value = "PENTAGON"
+                customizationSection._expressiveShapePlaylistArt.value = "SQUARE"
+                customizationSection._expressiveShapeArtistArt.value = "CIRCLE"
+                customizationSection._expressiveShapePlayerControls.value = "PENTAGON"
+                customizationSection._expressiveShapeMiniPlayer.value = "SQUARE"
             }
             "RETRO" -> {
-                _expressiveShapeAlbumArt.value = "PIXEL_CIRCLE"
-                _expressiveShapePlayerArt.value = "PIXEL_CIRCLE"
-                _expressiveShapeSongArt.value = "SQUARE"
-                _expressiveShapePlaylistArt.value = "PIXEL_TRIANGLE"
-                _expressiveShapeArtistArt.value = "PIXEL_CIRCLE"
-                _expressiveShapePlayerControls.value = "PIXEL_CIRCLE"
-                _expressiveShapeMiniPlayer.value = "SQUARE"
+                customizationSection._expressiveShapeAlbumArt.value = "PIXEL_CIRCLE"
+                customizationSection._expressiveShapePlayerArt.value = "PIXEL_CIRCLE"
+                customizationSection._expressiveShapeSongArt.value = "SQUARE"
+                customizationSection._expressiveShapePlaylistArt.value = "PIXEL_TRIANGLE"
+                customizationSection._expressiveShapeArtistArt.value = "PIXEL_CIRCLE"
+                customizationSection._expressiveShapePlayerControls.value = "PIXEL_CIRCLE"
+                customizationSection._expressiveShapeMiniPlayer.value = "SQUARE"
             }
             "CHEERFUL" -> {
-                _expressiveShapeAlbumArt.value = "FLOWER"
-                _expressiveShapePlayerArt.value = "SUNNY"
-                _expressiveShapeSongArt.value = "PUFFY"
-                _expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
-                _expressiveShapeArtistArt.value = "HEART"
-                _expressiveShapePlayerControls.value = "CIRCLE"
-                _expressiveShapeMiniPlayer.value = "PUFFY"
+                customizationSection._expressiveShapeAlbumArt.value = "FLOWER"
+                customizationSection._expressiveShapePlayerArt.value = "SUNNY"
+                customizationSection._expressiveShapeSongArt.value = "PUFFY"
+                customizationSection._expressiveShapePlaylistArt.value = "CLOVER_4_LEAF"
+                customizationSection._expressiveShapeArtistArt.value = "HEART"
+                customizationSection._expressiveShapePlayerControls.value = "CIRCLE"
+                customizationSection._expressiveShapeMiniPlayer.value = "PUFFY"
             }
             // CUSTOM - don't change individual shapes
         }
         // Save all shape values to preferences
         prefs.edit {
             putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PRESET, preset)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ALBUM_ART, _expressiveShapeAlbumArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_ART, _expressiveShapePlayerArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_SONG_ART, _expressiveShapeSongArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, _expressiveShapePlaylistArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ARTIST_ART, _expressiveShapeArtistArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, _expressiveShapePlayerControls.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, _expressiveShapeMiniPlayer.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ALBUM_ART, customizationSection._expressiveShapeAlbumArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_ART, customizationSection._expressiveShapePlayerArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_SONG_ART, customizationSection._expressiveShapeSongArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, customizationSection._expressiveShapePlaylistArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ARTIST_ART, customizationSection._expressiveShapeArtistArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, customizationSection._expressiveShapePlayerControls.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, customizationSection._expressiveShapeMiniPlayer.value)
         }
-        _expressiveShapePreset.value = preset
+        customizationSection._expressiveShapePreset.value = preset
     }
     
     /**
@@ -6061,25 +5579,25 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
             "ARCH", "CLAM_SHELL", "GEM", "SLANTED", "PIXEL_CIRCLE", "PIXEL_TRIANGLE"
         )
         
-        _expressiveShapeAlbumArt.value = allShapes.random()
-        _expressiveShapePlayerArt.value = allShapes.random()
-        _expressiveShapeSongArt.value = allShapes.random()
-        _expressiveShapePlaylistArt.value = allShapes.random()
-        _expressiveShapeArtistArt.value = allShapes.random()
-        _expressiveShapePlayerControls.value = allShapes.random()
-        _expressiveShapeMiniPlayer.value = allShapes.random()
+        customizationSection._expressiveShapeAlbumArt.value = allShapes.random()
+        customizationSection._expressiveShapePlayerArt.value = allShapes.random()
+        customizationSection._expressiveShapeSongArt.value = allShapes.random()
+        customizationSection._expressiveShapePlaylistArt.value = allShapes.random()
+        customizationSection._expressiveShapeArtistArt.value = allShapes.random()
+        customizationSection._expressiveShapePlayerControls.value = allShapes.random()
+        customizationSection._expressiveShapeMiniPlayer.value = allShapes.random()
         
         // Save as CUSTOM preset
         prefs.edit {
             putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PRESET, "CUSTOM")
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ALBUM_ART, _expressiveShapeAlbumArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_ART, _expressiveShapePlayerArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_SONG_ART, _expressiveShapeSongArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, _expressiveShapePlaylistArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ARTIST_ART, _expressiveShapeArtistArt.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, _expressiveShapePlayerControls.value)
-            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, _expressiveShapeMiniPlayer.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ALBUM_ART, customizationSection._expressiveShapeAlbumArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_ART, customizationSection._expressiveShapePlayerArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_SONG_ART, customizationSection._expressiveShapeSongArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYLIST_ART, customizationSection._expressiveShapePlaylistArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_ARTIST_ART, customizationSection._expressiveShapeArtistArt.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_PLAYER_CONTROLS, customizationSection._expressiveShapePlayerControls.value)
+            putString(AppSettings.KEY_EXPRESSIVE_SHAPE_MINI_PLAYER, customizationSection._expressiveShapeMiniPlayer.value)
         }
-        _expressiveShapePreset.value = "CUSTOM"
+        customizationSection._expressiveShapePreset.value = "CUSTOM"
     }
 }
