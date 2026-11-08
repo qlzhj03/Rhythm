@@ -4,11 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequest
 import chromahub.rhythm.app.R
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,12 +13,9 @@ import com.google.gson.reflect.TypeToken
 import chromahub.rhythm.app.core.common.GsonUtils
 import chromahub.rhythm.app.core.common.ArtistSeparator
 import chromahub.rhythm.app.core.common.StoragePathUtils
-import androidx.work.ListenableWorker
 import chromahub.rhythm.app.core.common.AppStrings
-import chromahub.rhythm.app.network.AppWorkerRegistry
 import java.io.File
 import java.util.Date // Import Date for timestamp
-import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import chromahub.rhythm.app.core.model.AutoEQProfile
@@ -652,6 +645,20 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+    // Settings-driven background jobs (auto-backup / update / rhythm pulse),
+    // carved out to SettingsJobScheduler in B-phase B2 (lazy: flows above must exist).
+    private val jobScheduler by lazy {
+        chromahub.rhythm.app.core.domain.settings.SettingsJobScheduler(
+            context = context,
+            updatesEnabled = updatesEnabled,
+            autoCheckForUpdates = autoCheckForUpdates,
+            updateNotificationsEnabled = updateNotificationsEnabled,
+            updateStatusNotificationsEnabled = updateStatusNotificationsEnabled,
+            updateCheckIntervalHours = updateCheckIntervalHours,
+            rhythmPulseNotificationIntervalHours = rhythmPulseNotificationIntervalHours,
+        )
+    }
 
     fun setInitialSettingsSubroute(route: String?) {
         prefs.edit { putString(KEY_INITIAL_SETTINGS_SUBROUTE, route) }
@@ -2185,7 +2192,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         Thread {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
             if (prefs.getBoolean(KEY_AUTO_BACKUP_ENABLED, false)) {
-                scheduleAutoBackup()
+                jobScheduler.scheduleAutoBackup()
             }
             if (prefs.getBoolean(KEY_UPDATES_ENABLED, false) &&
                 prefs.getBoolean(KEY_AUTO_CHECK_FOR_UPDATES, false) &&
@@ -2193,10 +2200,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
                     prefs.getBoolean(KEY_UPDATE_NOTIFICATIONS_ENABLED, false) ||
                         prefs.getBoolean(KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, false)
                     )) {
-                scheduleUpdateNotificationWorker()
+                jobScheduler.scheduleUpdateNotificationWorker()
             }
             if (prefs.getBoolean(KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED, false)) {
-                scheduleRhythmPulseNotificationWorker()
+                jobScheduler.scheduleRhythmPulseNotificationWorker()
             }
         }.apply { isDaemon = true }.start()
     }
@@ -3852,10 +3859,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_AUTO_CHECK_FOR_UPDATES, enable) }
         _autoCheckForUpdates.value = enable
 
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         } else {
-            cancelUpdateNotificationWorker()
+            jobScheduler.cancelUpdateNotificationWorker()
         }
     }
 
@@ -3874,10 +3881,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _updatesEnabled.value = enable
         
         // Update WorkManager scheduling based on new state
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         } else {
-            cancelUpdateNotificationWorker()
+            jobScheduler.cancelUpdateNotificationWorker()
         }
     }
 
@@ -3886,10 +3893,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _updateNotificationsEnabled.value = enable
         
         // Update WorkManager scheduling
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         } else {
-            cancelUpdateNotificationWorker()
+            jobScheduler.cancelUpdateNotificationWorker()
         }
     }
 
@@ -3897,10 +3904,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putBoolean(KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, enable) }
         _updateStatusNotificationsEnabled.value = enable
 
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         } else {
-            cancelUpdateNotificationWorker()
+            jobScheduler.cancelUpdateNotificationWorker()
         }
     }
 
@@ -3926,8 +3933,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         prefs.edit { putInt(KEY_UPDATE_CHECK_INTERVAL_HOURS, hours) }
         _updateCheckIntervalHours.value = hours
 
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         }
     }
 
@@ -4015,9 +4022,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _rhythmPulseNotificationsEnabled.value = enabled
 
         if (enabled) {
-            scheduleRhythmPulseNotificationWorker()
+            jobScheduler.scheduleRhythmPulseNotificationWorker()
         } else {
-            cancelRhythmPulseNotificationWorker()
+            jobScheduler.cancelRhythmPulseNotificationWorker()
         }
     }
 
@@ -4027,7 +4034,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _rhythmPulseNotificationIntervalHours.value = safeHours
 
         if (_rhythmPulseNotificationsEnabled.value) {
-            scheduleRhythmPulseNotificationWorker()
+            jobScheduler.scheduleRhythmPulseNotificationWorker()
         }
     }
     
@@ -4392,12 +4399,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         
         // Schedule or cancel auto-backup worker
         if (enabled) {
-            scheduleAutoBackup()
+            jobScheduler.scheduleAutoBackup()
             // Trigger an immediate backup when enabling auto-backup
             triggerImmediateBackup()
             Log.d("AppSettings", "Auto-backup enabled: triggering immediate backup")
         } else {
-            cancelAutoBackup()
+            jobScheduler.cancelAutoBackup()
         }
     }
     
@@ -4442,146 +4449,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         }
     }
     
-    /**
-     * Schedule weekly automatic backups using WorkManager
-     */
-    private fun scheduleAutoBackup() {
-        try {
-            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.backupWorkerClass) { "worker classes not installed" },
-                7, TimeUnit.DAYS, // Repeat every 7 days
-                1, TimeUnit.HOURS  // Flex interval of 1 hour
-            ).build()
-            
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                AppWorkerRegistry.backupWorkName,
-                ExistingPeriodicWorkPolicy.KEEP, // Keep existing schedule if already running
-                workRequest
-            )
-            
-            Log.d("AppSettings", "Auto-backup scheduled: weekly backups enabled")
-            Log.d("AppSettings", "Next backup will occur within the next 7 days")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to schedule auto-backup", e)
-        }
-    }
-    
-    /**
-     * Trigger an immediate one-time backup (useful for testing)
-     */
-    fun triggerImmediateBackup() {
-        try {
-            val workRequest = OneTimeWorkRequest.Builder(requireNotNull(AppWorkerRegistry.backupWorkerClass) { "worker classes not installed" })
-                .build()
-            
-            WorkManager.getInstance(context).enqueue(workRequest)
-            Log.d("AppSettings", "Immediate backup triggered")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to trigger immediate backup", e)
-        }
-    }
-    
-    /**
-     * Cancel automatic backups
-     */
-    private fun cancelAutoBackup() {
-        try {
-            WorkManager.getInstance(context).cancelUniqueWork(AppWorkerRegistry.backupWorkName)
-            Log.d("AppSettings", "Auto-backup cancelled")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to cancel auto-backup", e)
-        }
-    }
-    
-    /**
-     * Schedule periodic update notification checks using WorkManager
-     * This implements a webhook-style system using smart polling
-     */
-    private fun shouldRunUpdateNotificationWorker(): Boolean {
-        return _updatesEnabled.value &&
-            _autoCheckForUpdates.value &&
-            (_updateNotificationsEnabled.value || _updateStatusNotificationsEnabled.value)
-    }
-
-    private fun scheduleUpdateNotificationWorker() {
-        try {
-            // Get the check interval from settings (default 6 hours)
-            val intervalHours = _updateCheckIntervalHours.value.toLong()
-            
-            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.updateNotificationWorkerClass) { "worker classes not installed" },
-                intervalHours, TimeUnit.HOURS,
-                30, TimeUnit.MINUTES // Flex interval
-            ).build()
-            
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                AppWorkerRegistry.updateNotificationWorkName,
-                ExistingPeriodicWorkPolicy.UPDATE, // Update if interval changes
-                workRequest
-            )
-            
-            Log.d("AppSettings", "Update notification worker scheduled: checks every $intervalHours hours")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to schedule update notification worker", e)
-        }
-    }
-
-    private fun scheduleRhythmPulseNotificationWorker() {
-        try {
-            val intervalHours = _rhythmPulseNotificationIntervalHours.value.toLong().coerceIn(6L, 72L)
-
-            val workRequest = PeriodicWorkRequest.Builder(requireNotNull(AppWorkerRegistry.rhythmPulseWorkerClass) { "worker classes not installed" },
-                intervalHours, TimeUnit.HOURS,
-                1, TimeUnit.HOURS
-            ).build()
-
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                AppWorkerRegistry.rhythmPulseWorkName,
-                ExistingPeriodicWorkPolicy.UPDATE,
-                workRequest
-            )
-
-            Log.d("AppSettings", "Rhythm tips worker scheduled: every $intervalHours hours")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to schedule Rhythm tips worker", e)
-        }
-    }
-
-    private fun cancelRhythmPulseNotificationWorker() {
-        try {
-            WorkManager.getInstance(context).cancelUniqueWork(AppWorkerRegistry.rhythmPulseWorkName)
-            Log.d("AppSettings", "Rhythm tips worker cancelled")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to cancel Rhythm tips worker", e)
-        }
-    }
-    
-    /**
-     * Cancel update notification checks
-     */
-    private fun cancelUpdateNotificationWorker() {
-        try {
-            WorkManager.getInstance(context).cancelUniqueWork(
-                AppWorkerRegistry.updateNotificationWorkName
-            )
-            Log.d("AppSettings", "Update notification worker cancelled")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to cancel update notification worker", e)
-        }
-    }
-    
-    /**
-     * Trigger an immediate update check (useful for testing)
-     */
-    fun triggerImmediateUpdateCheck() {
-        try {
-            val workRequest = OneTimeWorkRequest.Builder(requireNotNull(AppWorkerRegistry.updateNotificationWorkerClass) { "worker classes not installed" })
-                .build()
-            
-            WorkManager.getInstance(context).enqueue(workRequest)
-            Log.d("AppSettings", "Immediate update check triggered")
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to trigger immediate update check", e)
-        }
-    }
+    /** Trigger an immediate one-time backup (useful for testing) */
+    fun triggerImmediateBackup() = jobScheduler.triggerImmediateBackup()
     
     fun setBackupLocation(location: String?) {
         if (location == null) {
@@ -5494,10 +5363,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _updateCheckIntervalHours.value = prefs.getInt(KEY_UPDATE_CHECK_INTERVAL_HOURS, 6)
         
         // Re-schedule update notification worker if settings changed
-        if (shouldRunUpdateNotificationWorker()) {
-            scheduleUpdateNotificationWorker()
+        if (jobScheduler.shouldRunUpdateNotificationWorker()) {
+            jobScheduler.scheduleUpdateNotificationWorker()
         } else {
-            cancelUpdateNotificationWorker()
+            jobScheduler.cancelUpdateNotificationWorker()
         }
         
         // Beta Program
@@ -5525,9 +5394,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _genreDetectionCompleted.value = prefs.getBoolean(KEY_GENRE_DETECTION_COMPLETED, false)
 
         if (_rhythmPulseNotificationsEnabled.value) {
-            scheduleRhythmPulseNotificationWorker()
+            jobScheduler.scheduleRhythmPulseNotificationWorker()
         } else {
-            cancelRhythmPulseNotificationWorker()
+            jobScheduler.cancelRhythmPulseNotificationWorker()
         }
         
         // Blacklisted items
@@ -5548,7 +5417,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         
         // Ensure auto-backup is scheduled if enabled
         if (_autoBackupEnabled.value) {
-            scheduleAutoBackup()
+            jobScheduler.scheduleAutoBackup()
         }
         
         // Sleep Timer settings
@@ -5654,135 +5523,24 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _lrcRenameBehavior.value = value
         prefs.edit { putString(KEY_LRC_RENAME_BEHAVIOR, value) }
     }
-
-    fun exportLyricsPreferencesToCsv(context: Context, uri: Uri): Boolean {
-        return try {
-            val contentResolver = context.contentResolver
-            contentResolver.openOutputStream(uri)?.use { outputStream ->
-                val writer = java.io.BufferedWriter(java.io.OutputStreamWriter(outputStream))
-                writer.write("Song ID,Title,Artist,Source Preference,Custom LRC Filename\n")
-                
-                val currentPrefs = _songLyricsPreferences.value
-                val customFiles = _songCustomLrcFiles.value
-                val allSongIds = currentPrefs.keys + customFiles.keys
-                
-                val songMeta = mutableMapOf<String, Pair<String, String>>()
-                try {
-                    val projection = arrayOf(android.provider.MediaStore.Audio.Media._ID, android.provider.MediaStore.Audio.Media.TITLE, android.provider.MediaStore.Audio.Media.ARTIST)
-                    context.contentResolver.query(
-                        android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null
-                    )?.use { cursor ->
-                        val idCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
-                        val titleCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
-                        val artistCol = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST)
-                        while (cursor.moveToNext()) {
-                            val id = cursor.getString(idCol)
-                            val title = cursor.getString(titleCol).orEmpty()
-                            val artist = cursor.getString(artistCol).orEmpty()
-                            songMeta[id] = Pair(title, artist)
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("AppSettings", "Error querying song metadata for CSV export", e)
-                }
-
-                for (id in allSongIds) {
-                    val meta = songMeta[id]
-                    val title = meta?.first?.replace("\"", "\"\"") ?: ""
-                    val artist = meta?.second?.replace("\"", "\"\"") ?: ""
-                    val pref = currentPrefs[id] ?: ""
-                    val file = customFiles[id] ?: ""
-                    
-                    writer.write("\"$id\",\"$title\",\"$artist\",\"$pref\",\"$file\"\n")
-                }
-                writer.flush()
-            }
-            true
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to export lyrics preferences to CSV", e)
-            false
-        }
-    }
+    fun exportLyricsPreferencesToCsv(context: Context, uri: Uri): Boolean =
+        chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.export(
+            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+        )
 
     fun importLyricsPreferencesFromCsv(context: Context, uri: Uri): Boolean {
-        return try {
-            val contentResolver = context.contentResolver
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                val reader = java.io.BufferedReader(java.io.InputStreamReader(inputStream))
-                val header = reader.readLine() // Read header
-                
-                val currentPrefs = _songLyricsPreferences.value.toMutableMap()
-                val currentFiles = _songCustomLrcFiles.value.toMutableMap()
-                
-                var line = reader.readLine()
-                while (line != null) {
-                    val tokens = parseCsvLine(line)
-                    if (tokens.size >= 5) {
-                        val id = tokens[0].trim()
-                        val pref = tokens[3].trim()
-                        val file = tokens[4].trim()
-                        
-                        if (id.isNotEmpty()) {
-                            if (pref.isNotEmpty()) {
-                                currentPrefs[id] = pref
-                            } else {
-                                currentPrefs.remove(id)
-                            }
-                            
-                            if (file.isNotEmpty()) {
-                                currentFiles[id] = file
-                            } else {
-                                currentFiles.remove(id)
-                            }
-                        }
-                    }
-                    line = reader.readLine()
-                }
-                
-                _songLyricsPreferences.value = currentPrefs
-            prefs.edit {
-                putString(KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(currentPrefs))
-            }
-                
-                _songCustomLrcFiles.value = currentFiles
-                prefs.edit { putString(KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(currentFiles)) }
-            }
-            true
-        } catch (e: Exception) {
-            Log.e("AppSettings", "Failed to import lyrics preferences from CSV", e)
-            false
-        }
+        val imported = chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.import(
+            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+        ) ?: return false
+        _songLyricsPreferences.value = imported.first
+        prefs.edit { putString(KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(imported.first)) }
+        _songCustomLrcFiles.value = imported.second
+        prefs.edit { putString(KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(imported.second)) }
+        return true
     }
 
-    private fun parseCsvLine(line: String): List<String> {
-        val result = mutableListOf<String>()
-        var inQuotes = false
-        var currentToken = StringBuilder()
-        var i = 0
-        while (i < line.length) {
-            val c = line[i]
-            if (c == '"') {
-                if (inQuotes && i + 1 < line.length && line[i + 1] == '"') {
-                    currentToken.append('"')
-                    i++ // Skip next quote
-                } else {
-                    inQuotes = !inQuotes
-                }
-            } else if (c == ',' && !inQuotes) {
-                result.add(currentToken.toString())
-                currentToken = StringBuilder()
-            } else {
-                currentToken.append(c)
-            }
-            i++
-        }
-        result.add(currentToken.toString())
-        return result
-    }
+
+
     
     // ==================== Widget Settings ====================
     
