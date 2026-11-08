@@ -134,6 +134,8 @@ AppSettings.kt：6,973 → 5,603 行（-19.7%），公共 API 零变化、零行
 
 **GuardStats 域试运行回滚（2026-11-08）**：批次运行后发现三类脚本缺陷需先修复——① **别名/真 backing 命名错位**：guard 族 val 名（rhythmGuardMode）与真 backing 名（_rhythmAuraMode）不一致，脚本的「val m ↔ backing _m」假设失效，需显式 backing 名映射；② **多行签名 fun 的委托生成**：跨行参数含默认值表达式时委托模板产出语法垃圾，需从 section 副本提取参数名并保留 facade 侧默认值；③ **backing 初始化器污染**：qualify pass 把 backing 初始化器内的私有 fun 调用改写为带 `_` 前缀的跨域引用，需在迁移时对 backing 体做去限定。三者均已定位并给出修法，GuardStats 回滚保绿，待脚本修复后作为下一个域推进。
 
+**GuardStats 二次试运行（2026-11-08，脚本三缺陷修复后）**：别名映射与多行签名修复生效（39 组成功迁移、facade 4,744 行），但暴露**第四类缺陷**——生成的 section 内全部 guard val 的 backing 引用统一错误指向 `_sanitizeRhythmAuraMode`（应为各自真 backing，如 `_listeningTime`），根因未定位（疑似生成循环中 bn 变量被污染或 sec_body 复用陈旧组状态），已回滚保绿。下一会话先以最小复现（2-3 个成员的批次）调试生成循环的 sec_body 组装逻辑，定位后再全量推进。
+
 **剩余 6 域**（Library 收尾、GuardStats、PlaybackQueue、Lyrics、Theme、StreamingMode、Platform）沿用同一方法推进；Platform 域注意 lyricallyApiEnabled 为接口 override 成员必须留守。
 
 ## 8. B3 预告（DataStore 迁移前置问题清单）
