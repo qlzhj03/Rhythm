@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.features.streaming.domain.repository
+package chromahub.rhythm.app.core.domain.repository
 
 import chromahub.rhythm.app.core.model.SourceType
 import chromahub.rhythm.app.core.domain.repository.MusicRepository
