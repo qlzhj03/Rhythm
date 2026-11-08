@@ -56,6 +56,7 @@ import chromahub.rhythm.app.core.model.Queue
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.core.model.FolderNode
 import chromahub.rhythm.app.core.model.PlaybackQualityInfo
+import chromahub.rhythm.app.infrastructure.service.EqDspController
 import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
 import chromahub.rhythm.app.core.common.StoragePathUtils
@@ -238,20 +239,28 @@ class MusicViewModel @Inject constructor(
     // Playback stats repository for enhanced tracking
     private val playbackStatsRepository = PlaybackStatsRepository.getInstance(application)
     
-    // Audio device manager (exposed for UI components that need device detection)
-    override val audioDeviceManager = AudioDeviceManager(application)
-    
     // Settings manager
     val appSettings = AppSettings.getInstance(application)
 
+    // EQ/DSP domain store (P3-phase): owns equalizer/AutoEQ/device state and logic.
+    private val eqDsp = EqDspController(
+        context = application,
+        appSettings = appSettings,
+        scope = viewModelScope,
+        audioSessionId = { mediaController?.audioSessionId ?: AudioEffect.ERROR_BAD_VALUE },
+        openSystemEqualizerImpl = { ctx, sessionId, activity, requestCode ->
+            EqualizerUtils.openSystemEqualizer(ctx, sessionId, activity, requestCode)
+        },
+    )
+
+    // Audio device manager (exposed for UI components that need device detection)
+    override val audioDeviceManager = eqDsp.audioDeviceManager
     private val statusBroadcaster = StatusBroadcaster(application)
     
-    // AutoEQ manager
-    private val autoEQManager = AutoEQManager(application)
-    private val _autoEQProfiles = MutableStateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>>(emptyList())
-    override val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> = _autoEQProfiles.asStateFlow()
-    private val _autoEQLoading = MutableStateFlow(false)
-    val autoEQLoading: StateFlow<Boolean> = _autoEQLoading.asStateFlow()
+    // AutoEQ state now owned by EqDspController
+    override val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
+    val autoEQLoading: StateFlow<Boolean> get() = eqDsp.autoEQLoading
+    
     
     // Queue state manager
     private val queueStateHolder = QueueStateHolder(appSettings)
@@ -303,18 +312,11 @@ class MusicViewModel @Inject constructor(
     override val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
     override val customAutoEQProfiles = appSettings.customAutoEQProfiles
     val speakerAutoEQBypass = appSettings.speakerAutoEQBypass
-    private var lastHeadphoneAutoEQProfile: String? = null
     
-    // Spatialization status
-    private val _spatializationStatus = MutableStateFlow("Unknown")
-    override val spatializationStatus: StateFlow<String> = _spatializationStatus.asStateFlow()
-    
-    private val _isSpatializationAvailable = MutableStateFlow(false)
-    override val isSpatializationAvailable: StateFlow<Boolean> = _isSpatializationAvailable.asStateFlow()
-    
-    // Bass boost availability (based on device support)
-    private val _isBassBoostAvailable = MutableStateFlow(appSettings.isBassBoostAvailable())
-    override val isBassBoostAvailable: StateFlow<Boolean> = _isBassBoostAvailable.asStateFlow()
+    // Spatialization / availability state now owned by EqDspController
+    override val spatializationStatus: StateFlow<String> get() = eqDsp.spatializationStatus
+    override val isSpatializationAvailable: StateFlow<Boolean> get() = eqDsp.isSpatializationAvailable
+    override val isBassBoostAvailable: StateFlow<Boolean> get() = eqDsp.isBassBoostAvailable
     
     // Media scanning progress
     val scanProgress = repository.scanProgress
@@ -1447,54 +1449,6 @@ class MusicViewModel @Inject constructor(
                         startProgressUpdates()
                     }
                 }
-            }
-        }
-
-        autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
-        viewModelScope.launch {
-            appSettings.customAutoEQProfiles.collect { profiles ->
-                autoEQManager.setCustomProfiles(profiles)
-                if (_autoEQProfiles.value.isNotEmpty()) {
-                    _autoEQProfiles.value = autoEQManager.getAllProfiles()
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            var previousDevice: PlaybackLocation? = null
-            audioDeviceManager.currentDevice.collect { device ->
-                if (device == null) return@collect
-                val isSpeaker = device.id == AudioDeviceManager.DEVICE_SPEAKER
-                val wasExternal = previousDevice != null && previousDevice?.id != AudioDeviceManager.DEVICE_SPEAKER
-
-                if (isSpeaker && wasExternal && appSettings.speakerAutoEQBypass.value) {
-                    val activeAutoEQ = appSettings.autoEQProfile.value
-                    if (activeAutoEQ.isNotBlank()) {
-                        Log.d(TAG, "Audio routed to speaker: bypassing AutoEQ profile ($activeAutoEQ)")
-                        lastHeadphoneAutoEQProfile = activeAutoEQ
-                        applyEqualizerPreset("Flat", List(10) { 0f })
-                        appSettings.setAutoEQProfile("")
-                    }
-                } else if (!isSpeaker && previousDevice?.id == AudioDeviceManager.DEVICE_SPEAKER) {
-                    val matchedDevice = findMatchingUserDevice(device.name)
-                    val profileName = matchedDevice?.autoEQProfileName
-                    if (profileName != null) {
-                        val profile = autoEQManager.findProfileByName(profileName)
-                        if (profile != null) {
-                            Log.d(TAG, "Reconnected to configured device: applying ${profile.name}")
-                            applyAutoEQProfile(profile)
-                            lastHeadphoneAutoEQProfile = null
-                        }
-                    } else if (lastHeadphoneAutoEQProfile != null) {
-                        val profile = autoEQManager.findProfileByName(lastHeadphoneAutoEQProfile!!)
-                        if (profile != null) {
-                            Log.d(TAG, "Restoring previous headphone AutoEQ profile: ${profile.name}")
-                            applyAutoEQProfile(profile)
-                        }
-                        lastHeadphoneAutoEQProfile = null
-                    }
-                }
-                previousDevice = device
             }
         }
 
@@ -8750,9 +8704,7 @@ class MusicViewModel @Inject constructor(
      * Opens the system equalizer for the current audio session
      */
     override fun openSystemEqualizer(activity: Activity?, requestCode: Int) {
-        val context = getApplication<Application>()
-        // Simply use EqualizerUtils which handles the system equalizer opening properly
-        EqualizerUtils.openSystemEqualizer(context, audioSessionId, activity, requestCode)
+        eqDsp.openSystemEqualizer(activity, requestCode)
     }
 
     // Playback settings functions
@@ -10203,25 +10155,7 @@ class MusicViewModel @Inject constructor(
     }
     
     override fun setEqualizerEnabled(enabled: Boolean) {
-        val context = getApplication<Application>()
-        
-        // Save to settings
-        appSettings.setEqualizerEnabled(enabled)
-        
-        // Send to service
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_SET_EQUALIZER_ENABLED
-            putExtra("enabled", enabled)
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "set_equalizer_enabled"
-        )
-        if (sent) {
-            Log.d(TAG, "Set equalizer enabled: $enabled")
-        }
+        eqDsp.setEqualizerEnabled(enabled)
     }
     
     /**
@@ -10244,301 +10178,74 @@ class MusicViewModel @Inject constructor(
     }
     
     override fun setEqualizerBandLevel(band: Short, level: Short) {
-        val context = getApplication<Application>()
-        
-        // Clear AutoEQ profile and set preset to Custom when user manually adjusts bands
-        val currentPreset = appSettings.equalizerPreset.value
-        if (currentPreset.startsWith("AutoEQ:") || currentPreset != "Custom") {
-            appSettings.setEqualizerPreset("Custom")
-            appSettings.setAutoEQProfile("")
-            Log.d(TAG, "Switched to Custom preset as user manually adjusted EQ band")
-        }
-        
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_SET_EQUALIZER_BAND
-            putExtra("band", band)
-            putExtra("level", level)
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "set_equalizer_band"
-        )
-        if (sent) {
-            Log.d(TAG, "Set equalizer band $band to level $level")
-        }
+        eqDsp.setEqualizerBandLevel(band, level)
     }
     
     override fun setBassBoost(enabled: Boolean, strength: Short) {
-        val context = getApplication<Application>()
-        
-        // Save to settings
-        appSettings.setBassBoostEnabled(enabled)
-        appSettings.setBassBoostStrength(strength.toInt())
-        
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_SET_BASS_BOOST
-            putExtra("enabled", enabled)
-            putExtra("strength", strength)
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "set_bass_boost"
-        )
-        if (sent) {
-            Log.d(TAG, "Set bass boost enabled: $enabled, strength: $strength")
-        }
+        eqDsp.setBassBoost(enabled, strength)
     }
     
     fun isBassBoostSupported(): Boolean {
-        return _isBassBoostAvailable.value
+        return eqDsp.isBassBoostSupported()
     }
     
     override fun updateBassBoostAvailability() {
-        _isBassBoostAvailable.value = appSettings.isBassBoostAvailable()
+        eqDsp.updateBassBoostAvailability()
     }
     
     fun setBassBoostAvailable(available: Boolean) {
-        _isBassBoostAvailable.value = available
-        appSettings.setBassBoostAvailable(available)
+        eqDsp.setBassBoostAvailable(available)
     }
     
     override fun setVirtualizer(enabled: Boolean, strength: Short) {
-        val context = getApplication<Application>()
-        
-        // Save to settings
-        appSettings.setVirtualizerEnabled(enabled)
-        appSettings.setVirtualizerStrength(strength.toInt())
-        
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_SET_VIRTUALIZER
-            putExtra("enabled", enabled)
-            putExtra("strength", strength)
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "set_virtualizer"
-        )
-        if (sent) {
-            Log.d(TAG, "Set virtualizer enabled: $enabled, strength: $strength")
-        }
-        
-        // Update spatialization status after a short delay
-        viewModelScope.launch {
-            delay(200)
-            updateSpatializationStatus()
-        }
+        eqDsp.setVirtualizer(enabled, strength)
     }
 
     override fun setMonoAudioEnabled(enabled: Boolean) {
-        val context = getApplication<Application>()
-
-        appSettings.setMonoAudioEnabled(enabled)
-
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_SET_MONO_AUDIO
-            putExtra("enabled", enabled)
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "set_mono_audio"
-        )
-        if (sent) {
-            Log.d(TAG, "Set mono audio enabled: $enabled")
-        }
+        eqDsp.setMonoAudioEnabledInternal(enabled)
     }
     
     override fun updateSpatializationStatus() {
-        viewModelScope.launch {
-            try {
-                val context = getApplication<Application>()
-                // Rhythm's custom spatialization works on ALL Android versions
-                // It uses M/S stereo widening, so it's always available for stereo audio
-                _isSpatializationAvailable.value = true
-                _spatializationStatus.value = when {
-                    appSettings.virtualizerEnabled.value -> "Active (Rhythm Spatial Audio)"
-                    else -> "Available"
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error updating spatialization status", e)
-                _isSpatializationAvailable.value = true // Still available even if check fails
-                _spatializationStatus.value = "Available"
-            }
-        }
+        eqDsp.updateSpatializationStatus()
     }
     
     override fun applyEqualizerPreset(preset: String, levels: List<Float>) {
-        val context = getApplication<Application>()
-        
-        // Save to settings
-        appSettings.setEqualizerPreset(preset)
-        appSettings.setEqualizerBandLevels(levels.joinToString(","))
-        
-        // Clear AutoEQ profile when applying a different preset (unless it's an AutoEQ preset)
-        if (!preset.startsWith("AutoEQ:")) {
-            appSettings.setAutoEQProfile("")
-            Log.d(TAG, "Cleared AutoEQ profile as user selected preset: $preset")
-        }
-        
-        val intent = Intent(context, MediaPlaybackService::class.java).apply {
-            action = MediaPlaybackService.ACTION_APPLY_EQUALIZER_PRESET
-            putExtra("preset", preset)
-            putExtra("levels", levels.toFloatArray())
-        }
-        val sent = ServiceStartUtils.startServiceSafely(
-            context = context,
-            intent = intent,
-            logTag = TAG,
-            reason = "apply_equalizer_preset"
-        )
-        if (sent) {
-            Log.d(TAG, "Applied equalizer preset: $preset")
-        }
+        eqDsp.applyEqualizerPreset(preset, levels)
     }
     
     // AutoEQ functions
     
     override fun loadAutoEQProfiles() {
-        viewModelScope.launch {
-            _autoEQLoading.value = true
-            try {
-                val result: Result<AutoEQDatabase> = autoEQManager.loadProfiles()
-                if (result.isSuccess) {
-                    val database = result.getOrNull()!!
-                    _autoEQProfiles.value = autoEQManager.getAllProfiles()
-                    Log.d(TAG, "Loaded ${_autoEQProfiles.value.size} AutoEQ profiles (database + custom)")
-                } else {
-                    Log.e(TAG, "Failed to load AutoEQ profiles", result.exceptionOrNull())
-                }
-            } finally {
-                _autoEQLoading.value = false
-            }
-        }
+        eqDsp.loadAutoEQProfiles()
     }
     
     fun searchAutoEQProfiles(query: String): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
-        return autoEQManager.searchProfiles(query)
+        return eqDsp.searchAutoEQProfiles(query)
     }
     
     override fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
-        if (profile.name.isBlank() || profile.name.equals("None", ignoreCase = true)) {
-            Log.d(TAG, "Disabling AutoEQ profile")
-            appSettings.setAutoEQProfile("")
-            applyEqualizerPreset("Flat", List(10) { 0f })
-            return
-        }
-        
-        Log.d(TAG, "Applying AutoEQ profile: ${profile.name}")
-        
-        // Ensure we have 10 bands
-        val levels = when {
-            profile.bands.size == 10 -> profile.bands
-            profile.bands.size > 10 -> profile.bands.take(10)
-            else -> {
-                val padded = profile.bands.toMutableList()
-                while (padded.size < 10) {
-                    padded.add(0f)
-                }
-                padded
-            }
-        }
-        
-        // Save profile name to settings
-        appSettings.setAutoEQProfile(profile.name)
-        
-        // Enable equalizer first if it's not already enabled
-        val wasEnabled = appSettings.equalizerEnabled.value
-        if (!wasEnabled) {
-            Log.d(TAG, "Enabling equalizer to apply AutoEQ profile")
-            setEqualizerEnabled(true)
-            
-            // Wait for equalizer to initialize using coroutine
-            viewModelScope.launch {
-                // Increased delay to ensure service has time to initialize equalizer
-                // This is critical because the service needs to:
-                // 1. Process the enable intent
-                // 2. Check if equalizer object exists (may need to reinitialize)
-                // 3. Enable the equalizer
-                delay(300) // Increased from 150ms to 300ms for reliability
-                
-                // Apply the profile as a preset
-                applyEqualizerPreset("AutoEQ: ${profile.name}", levels)
-                Log.d(TAG, "AutoEQ profile applied successfully (equalizer was enabled automatically)")
-            }
-        } else {
-            // Equalizer already enabled, apply immediately
-            applyEqualizerPreset("AutoEQ: ${profile.name}", levels)
-            Log.d(TAG, "AutoEQ profile applied successfully (equalizer was already enabled)")
-        }
+        eqDsp.applyAutoEQProfile(profile)
     }
     
     fun getAutoEQRecommendedProfiles(): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
-        return autoEQManager.getRecommendedProfiles()
+        return eqDsp.getAutoEQRecommendedProfiles()
     }
     
     // User Audio Device Management
     override fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
-        val currentDevicesJson = appSettings.userAudioDevices.value
-        val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
-        
-        // Check if device already exists (update) or is new (add)
-        val existingIndex = currentDevices.indexOfFirst { it.id == device.id }
-        if (existingIndex >= 0) {
-            currentDevices[existingIndex] = device
-            Log.d(TAG, "Updated audio device: ${device.name}")
-        } else {
-            currentDevices.add(device)
-            Log.d(TAG, "Added new audio device: ${device.name}")
-        }
-        
-        appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
+        eqDsp.saveUserAudioDevice(device)
     }
     
     override fun deleteUserAudioDevice(deviceId: String) {
-        val currentDevicesJson = appSettings.userAudioDevices.value
-        val currentDevices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson).toMutableList()
-        
-        currentDevices.removeAll { it.id == deviceId }
-        appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(currentDevices))
-        
-        // If deleted device was active, clear active device
-        if (appSettings.activeAudioDeviceId.value == deviceId) {
-            appSettings.setActiveAudioDeviceId(null)
-        }
-        
-        Log.d(TAG, "Deleted audio device: $deviceId")
+        eqDsp.deleteUserAudioDevice(deviceId)
     }
     
     override fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
-        appSettings.setActiveAudioDeviceId(device.id)
-        Log.d(TAG, "Set active audio device: ${device.name}")
-        
-        // Apply AutoEQ profile if the device has one configured
-        val deviceProfileName = device.autoEQProfileName
-        if (deviceProfileName != null) {
-            val profile: AutoEQProfile? = autoEQManager.findProfileByName(deviceProfileName)
-            if (profile != null) {
-                applyAutoEQProfile(profile)
-                Log.d(TAG, "Applied AutoEQ profile for device: ${device.autoEQProfileName}")
-            }
-        }
-
-        // Apply device-specific mono audio preference
-        setMonoAudioEnabled(device.monoAudioEnabled)
-        Log.d(TAG, "Applied mono audio for device: ${device.monoAudioEnabled}")
+        eqDsp.setActiveAudioDevice(device)
     }
     
     fun getActiveAudioDevice(): chromahub.rhythm.app.core.model.UserAudioDevice? {
-        val activeId = appSettings.activeAudioDeviceId.value ?: return null
-        val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
-        return devices.find { it.id == activeId }
+        return eqDsp.getActiveAudioDevice()
     }
     
     /**
@@ -10546,29 +10253,7 @@ class MusicViewModel @Inject constructor(
      * Uses fuzzy matching to account for slight name variations
      */
     override fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
-        val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(appSettings.userAudioDevices.value)
-        if (devices.isEmpty()) return null
-        
-        val normalizedSearchName = deviceName.lowercase().trim()
-        
-        // First try exact match
-        devices.find { it.name.equals(deviceName, ignoreCase = true) }?.let { return it }
-        
-        // Try fuzzy matching - device name contains saved name or vice versa
-        devices.find { savedDevice ->
-            val normalizedSavedName = savedDevice.name.lowercase().trim()
-            normalizedSearchName.contains(normalizedSavedName) || 
-            normalizedSavedName.contains(normalizedSearchName)
-        }?.let { return it }
-        
-        // Try matching by brand if available
-        devices.find { savedDevice ->
-            if (savedDevice.brand.isNotEmpty()) {
-                normalizedSearchName.contains(savedDevice.brand.lowercase())
-            } else false
-        }?.let { return it }
-        
-        return null
+        return eqDsp.findMatchingUserDevice(deviceName)
     }
     
     /**
@@ -10576,171 +10261,59 @@ class MusicViewModel @Inject constructor(
      * Returns true if device hasn't been dismissed before
      */
     fun shouldShowAutoEQSuggestion(deviceId: String): Boolean {
-        val dismissedDevices = appSettings.dismissedAutoEQSuggestions.value?.split(",") ?: emptyList()
-        return !dismissedDevices.contains(deviceId)
+        return eqDsp.shouldShowAutoEQSuggestion(deviceId)
     }
     
     /**
      * Mark a device as "don't ask again" for AutoEQ suggestions
      */
     override fun dismissAutoEQSuggestion(deviceId: String) {
-        val current = appSettings.dismissedAutoEQSuggestions.value ?: ""
-        val dismissedList = if (current.isEmpty()) {
-            listOf(deviceId)
-        } else {
-            current.split(",").toMutableList().apply { add(deviceId) }
-        }
-        appSettings.setDismissedAutoEQSuggestions(dismissedList.joinToString(","))
-        Log.d(TAG, "Dismissed AutoEQ suggestion for device: $deviceId")
+        eqDsp.dismissAutoEQSuggestion(deviceId)
     }
 
     // Custom Equalizer Presets & Reordering
     override fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
-        val preset = chromahub.rhythm.app.core.model.CustomEqualizerPreset(
-            name = name,
-            bands = bands
-        )
-        appSettings.saveCustomEqualizerPreset(preset)
-        Log.d(TAG, "Saved custom equalizer preset: $name")
-        return preset
+        return eqDsp.saveCustomEqualizerPreset(name, bands)
     }
 
     override fun deleteCustomEqualizerPreset(id: String) {
-        val customPresets = appSettings.customEqualizerPresets.value
-        val preset = customPresets.find { it.id == id }
-        val currentPreset = appSettings.equalizerPreset.value
-        val isActive = preset != null && (currentPreset == preset.name || currentPreset == "Custom")
-
-        appSettings.deleteCustomEqualizerPreset(id)
-
-        if (isActive) {
-            val flatBands = List(10) { 0f }
-            appSettings.setEqualizerPreset("Flat")
-            appSettings.setEqualizerBandLevels(flatBands.joinToString(","))
-            applyEqualizerPreset("Flat", flatBands)
-        }
-        Log.d(TAG, "Deleted custom equalizer preset: $id")
+        eqDsp.deleteCustomEqualizerPreset(id)
     }
 
     fun saveCustomAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
-        val verifiedBands = when {
-            profile.bands.size == 10 -> profile.bands
-            profile.bands.size > 10 -> profile.bands.take(10)
-            else -> profile.bands + List(10 - profile.bands.size) { 0f }
-        }
-        val normalized = profile.copy(bands = verifiedBands)
-        appSettings.saveCustomAutoEQProfile(normalized)
-        autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
-        _autoEQProfiles.value = autoEQManager.getAllProfiles()
-        pinAutoEQProfile(normalized.name)
-        Log.d(TAG, "Saved custom AutoEQ profile with 10 bands: ${normalized.name}")
+        eqDsp.saveCustomAutoEQProfile(profile)
     }
 
     override fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
-        val normalizedList = profiles.map { profile ->
-            val verifiedBands = when {
-                profile.bands.size == 10 -> profile.bands
-                profile.bands.size > 10 -> profile.bands.take(10)
-                else -> profile.bands + List(10 - profile.bands.size) { 0f }
-            }
-            profile.copy(bands = verifiedBands)
-        }
-        appSettings.saveCustomAutoEQProfiles(normalizedList)
-        autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
-        _autoEQProfiles.value = autoEQManager.getAllProfiles()
-        normalizedList.firstOrNull()?.let { pinAutoEQProfile(it.name) }
-        Log.d(TAG, "Saved ${normalizedList.size} custom AutoEQ profiles (10 bands enforced)")
+        eqDsp.saveCustomAutoEQProfiles(profiles)
     }
 
     override fun deleteAutoEQProfile(name: String) {
-        // 1. Delete from custom profiles if present
-        appSettings.deleteCustomAutoEQProfile(name)
-        autoEQManager.setCustomProfiles(appSettings.customAutoEQProfiles.value)
-        _autoEQProfiles.value = autoEQManager.getAllProfiles()
-
-        // 2. Unpin from pinned profiles
-        appSettings.unpinAutoEQProfile(name)
-
-        // 3. Check if this profile was actively selected or applied
-        val currentAutoEQ = appSettings.autoEQProfile.value
-        val currentPreset = appSettings.equalizerPreset.value
-        val isCurrentAutoEQ = currentAutoEQ.equals(name, ignoreCase = true) ||
-                currentPreset == "AutoEQ: $name" ||
-                currentPreset.equals(name, ignoreCase = true)
-
-        if (isCurrentAutoEQ) {
-            appSettings.setAutoEQProfile("")
-            appSettings.setEqualizerPreset("Flat")
-            val flatBands = List(10) { 0f }
-            appSettings.setEqualizerBandLevels(flatBands.joinToString(","))
-            applyEqualizerPreset("Flat", flatBands)
-        }
-
-        // 4. Clear this AutoEQ profile from any saved user audio devices
-        val currentDevicesJson = appSettings.userAudioDevices.value
-        if (currentDevicesJson != null) {
-            val devices = chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(currentDevicesJson)
-            var modified = false
-            val updatedDevices = devices.map { device ->
-                if (device.autoEQProfileName.equals(name, ignoreCase = true)) {
-                    modified = true
-                    device.copy(autoEQProfileName = null)
-                } else {
-                    device
-                }
-            }
-            if (modified) {
-                appSettings.setUserAudioDevices(chromahub.rhythm.app.core.model.UserAudioDevice.toJson(updatedDevices))
-            }
-        }
-
-        // 5. Remove from preset order and hidden presets
-        val key = "AutoEQ: $name"
-        val order = appSettings.equalizerPresetOrder.value.toMutableList()
-        if (order.remove(key) || order.remove(name)) {
-            appSettings.setEqualizerPresetOrder(order)
-        }
-        val hidden = appSettings.hiddenEqualizerPresets.value.toMutableSet()
-        if (hidden.remove(key) || hidden.remove(name)) {
-            appSettings.setHiddenEqualizerPresets(hidden)
-        }
-        Log.d(TAG, "Deleted AutoEQ profile and cleaned references: $name")
+        eqDsp.deleteAutoEQProfile(name)
     }
 
     override fun setEqualizerPresetOrder(order: List<String>) {
-        appSettings.setEqualizerPresetOrder(order)
+        eqDsp.setEqualizerPresetOrder(order)
     }
 
     override fun resetEqualizerPresetOrder() {
-        appSettings.resetEqualizerPresetOrder()
+        eqDsp.resetEqualizerPresetOrder()
     }
 
     override fun setHiddenEqualizerPresets(hidden: Set<String>) {
-        appSettings.setHiddenEqualizerPresets(hidden)
+        eqDsp.setHiddenEqualizerPresets(hidden)
     }
 
     override fun pinAutoEQProfile(name: String) {
-        appSettings.pinAutoEQProfile(name)
-        Log.d(TAG, "Pinned AutoEQ profile: $name")
+        eqDsp.pinAutoEQProfile(name)
     }
 
     fun unpinAutoEQProfile(name: String) {
-        appSettings.unpinAutoEQProfile(name)
-        Log.d(TAG, "Unpinned AutoEQ profile: $name")
+        eqDsp.unpinAutoEQProfile(name)
     }
 
     fun assignAutoEQProfileToDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice, profileName: String?) {
-        val updated = device.copy(autoEQProfileName = profileName)
-        saveUserAudioDevice(updated)
-        if (profileName != null) {
-            val profile = autoEQManager.findProfileByName(profileName)
-            if (profile != null) {
-                applyAutoEQProfile(profile)
-            }
-            if (profileName.isNotBlank() && !profileName.equals("None", ignoreCase = true)) {
-                pinAutoEQProfile(profileName)
-            }
-        }
+        eqDsp.assignAutoEQProfileToDevice(device, profileName)
     }
     
     // Clean sleep timer implementation
