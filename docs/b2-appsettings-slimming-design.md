@@ -130,7 +130,9 @@ AppSettings.kt：6,973 → 5,603 行（-19.7%），公共 API 零变化、零行
 
 **实施形态修正（§4.3 二次裁定）**：采用**同包扩展不可行**（扩展 fun 需全仓调用点 import churn），实际采用 **section 委托类**：section 持有 backing+val+setter，facade 保留同名委托成员——调用方零改动。跨域符号处置：companion 常量翻 internal + `AppSettings.X` 限定；类私有默认值/helper 随域迁移；跨域派生（updateDerivedSettings）经构造回调注入。
 
-**Library 域 92% 完成后暂停**：section 文件已生成（68 组：29 setter + 黑白名单/pinned/scan funs 族），残留 5 类闭包已逐一定位——① safeLong 需 facade/section 双副本（backup 仍用）② media-scan 标志族（audioMetadataExtractionCompleted 等）跨 audio/library 两域需归位 ③ defaultTabOrder/defaultHomeSectionOrder 需移至 section 顶部（初始化顺序）④ KEY_GENRE_DETECTION_COMPLETED 翻 internal ⑤ requestFullMediaRescanOnNextLaunch 的跨 section 引用。方法学已固化（结构解析 + 错误驱动收敛 + 分域断言脚本）。
+**Library 域 92% 完成后暂停（当轮已修复并在后续会话完成收尾）**：section 文件已生成（68 组：29 setter + 黑白名单/pinned/scan funs 族），残留 5 类闭包已逐一定位——① safeLong 需 facade/section 双副本（backup 仍用）② media-scan 标志族（audioMetadataExtractionCompleted 等）跨 audio/library 两域需归位 ③ defaultTabOrder/defaultHomeSectionOrder 需移至 section 顶部（初始化顺序）④ KEY_GENRE_DETECTION_COMPLETED 翻 internal ⑤ requestFullMediaRescanOnNextLaunch 的跨 section 引用。方法学已固化（结构解析 + 错误驱动收敛 + 分域断言脚本）。
+
+**GuardStats 域试运行回滚（2026-11-08）**：批次运行后发现三类脚本缺陷需先修复——① **别名/真 backing 命名错位**：guard 族 val 名（rhythmGuardMode）与真 backing 名（_rhythmAuraMode）不一致，脚本的「val m ↔ backing _m」假设失效，需显式 backing 名映射；② **多行签名 fun 的委托生成**：跨行参数含默认值表达式时委托模板产出语法垃圾，需从 section 副本提取参数名并保留 facade 侧默认值；③ **backing 初始化器污染**：qualify pass 把 backing 初始化器内的私有 fun 调用改写为带 `_` 前缀的跨域引用，需在迁移时对 backing 体做去限定。三者均已定位并给出修法，GuardStats 回滚保绿，待脚本修复后作为下一个域推进。
 
 **剩余 6 域**（Library 收尾、GuardStats、PlaybackQueue、Lyrics、Theme、StreamingMode、Platform）沿用同一方法推进；Platform 域注意 lyricallyApiEnabled 为接口 override 成员必须留守。
 
