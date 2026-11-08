@@ -116,6 +116,21 @@ enum class LyricsApiPriority(val displayName: String) {
 class AppSettings private constructor(context: Context) : chromahub.rhythm.app.network.NetworkSettingsProvider {
     companion object {
         private const val PREFS_NAME = "rhythm_preferences"
+
+        /**
+         * Background warm-up of the settings SharedPreferences file so the first
+         * main-thread reads (AppSettings init) don't block on the async XML load
+         * (B-phase B2 startup preheat). Call as early as possible in Application.
+         */
+        fun preheat(context: Context) {
+            Thread {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
+                try {
+                    context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString("", null)
+                } catch (_: Exception) {
+                }
+            }.start()
+        }
         
         // Playback Settings
         internal const val KEY_GAPLESS_PLAYBACK = "gapless_playback"
