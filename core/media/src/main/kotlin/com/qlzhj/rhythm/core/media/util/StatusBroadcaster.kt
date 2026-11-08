@@ -48,7 +48,7 @@ class StatusBroadcaster(private val context: Context) {
 
         private const val DEFAULT_BLUETOOTH_LYRIC_LINE = "No lyrics"
         
-        private const val PACKAGE_NAME = "chromahub.rhythm.app"
+        private const val PACKAGE_NAME = "com.qlzhj.rhythm"
     }
     
     /**

@@ -18,12 +18,12 @@ plugins {
 }
 
 android {
-    namespace = "chromahub.rhythm.app"
+    namespace = "com.qlzhj.rhythm.app"
     // compileSdk / minSdk / targetSdk / desugaring / JVM 21 / testOptions /
     // lint-off all come from the rhythm.android.application convention plugin.
 
     defaultConfig {
-        applicationId = "chromahub.rhythm.app"
+        applicationId = "com.qlzhj.rhythm"
 
         val overrideVersionCode = project.findProperty("versionCodeOverride")?.toString()?.toIntOrNull()
         val overrideVersionName = project.findProperty("versionNameOverride")?.toString()

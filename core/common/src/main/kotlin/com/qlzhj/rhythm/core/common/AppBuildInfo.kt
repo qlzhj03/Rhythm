@@ -6,7 +6,7 @@ package com.qlzhj.rhythm.core.common
  * fields mirror the BuildConfig.ENABLE_* constants; do not repurpose them.
  */
 object AppBuildInfo {
-    var applicationId: String = "chromahub.rhythm.app"
+    var applicationId: String = "com.qlzhj.rhythm"
 
     /** Mirrors BuildConfig.VERSION_NAME (installed by :app at startup, PR-5). */
     var versionName: String = "0.0.0"
