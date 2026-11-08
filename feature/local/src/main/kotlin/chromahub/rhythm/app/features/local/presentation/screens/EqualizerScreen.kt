@@ -255,7 +255,6 @@ import chromahub.rhythm.app.features.local.presentation.components.dialogs.Queue
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Delete
 import chromahub.rhythm.app.core.designsystem.components.SmallTabAnimation
-import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import kotlinx.coroutines.flow.collect
