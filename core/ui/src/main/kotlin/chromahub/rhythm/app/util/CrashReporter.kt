@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import kotlin.system.exitProcess
 
 object CrashReporter {

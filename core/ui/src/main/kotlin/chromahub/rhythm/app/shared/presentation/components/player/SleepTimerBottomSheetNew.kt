@@ -68,7 +68,7 @@ fun SleepTimerBottomSheetNew(
     currentSong: Song?,
     isPlaying: Boolean,
     sleepTimer: chromahub.rhythm.app.infrastructure.service.SleepTimerController,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current

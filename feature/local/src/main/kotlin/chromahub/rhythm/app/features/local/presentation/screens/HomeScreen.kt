@@ -17,7 +17,7 @@ import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingServiceId
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.core.domain.repository.StreamingLibraryController
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingLibraryController
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import com.qlzhj.rhythm.core.model.toLibrarySong
@@ -145,8 +145,8 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGuardCard
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -154,7 +154,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.FixedHeaderScr
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
 import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveConfig
 import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveThemeEngine
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -3101,10 +3101,10 @@ private fun ModernListeningStatsSection(
     val viewModel = hiltViewModel<MusicViewModel>()
     val songs by viewModel.songs.collectAsState()
 
-    var statsSummary by remember { mutableStateOf<chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary?>(null) }
+    var statsSummary by remember { mutableStateOf<com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary?>(null) }
 
     LaunchedEffect(songs) {
-        statsSummary = viewModel.loadPlaybackStats(chromahub.rhythm.app.shared.data.repository.StatsTimeRange.ALL_TIME)
+        statsSummary = viewModel.loadPlaybackStats(com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange.ALL_TIME)
     }
 
     val listeningTimeHours = remember(statsSummary) {

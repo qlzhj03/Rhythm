@@ -86,7 +86,7 @@ import chromahub.rhythm.app.util.LyricsFileUtils
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import com.qlzhj.rhythm.core.model.LyricsData
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.runtime.collectAsState
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveAssistChip
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveStatusBadge

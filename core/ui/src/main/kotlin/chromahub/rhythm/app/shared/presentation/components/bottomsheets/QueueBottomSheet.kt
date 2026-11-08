@@ -102,7 +102,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.runtime.derivedStateOf
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.components.DragDropLazyColumn

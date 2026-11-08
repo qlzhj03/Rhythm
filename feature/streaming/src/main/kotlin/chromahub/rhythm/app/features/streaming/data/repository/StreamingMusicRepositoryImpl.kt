@@ -28,8 +28,8 @@ import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingServiceId
 import com.qlzhj.rhythm.core.model.StreamingSong
-import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.LyricsData
 import com.qlzhj.rhythm.core.network.network.NetworkClient
 import com.qlzhj.rhythm.core.network.network.DeezerApiService

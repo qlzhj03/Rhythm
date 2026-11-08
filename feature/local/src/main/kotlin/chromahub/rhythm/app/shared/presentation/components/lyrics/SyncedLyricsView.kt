@@ -27,7 +27,7 @@ import chromahub.rhythm.app.util.LyricLine
 import chromahub.rhythm.app.util.LyricsParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first

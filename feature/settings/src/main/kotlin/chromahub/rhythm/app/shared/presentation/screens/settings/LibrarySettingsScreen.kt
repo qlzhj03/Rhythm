@@ -29,7 +29,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
+import com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -88,11 +88,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import coil.compose.AsyncImage

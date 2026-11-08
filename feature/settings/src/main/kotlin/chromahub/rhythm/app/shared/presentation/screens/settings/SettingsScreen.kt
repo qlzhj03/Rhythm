@@ -75,7 +75,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.LaunchedEffect
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import androidx.compose.ui.draw.clip
@@ -127,7 +127,7 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import android.content.Context
 import androidx.compose.animation.animateColorAsState
@@ -936,7 +936,7 @@ fun SettingsTipsRow(
     var todayExposureMinutes by remember { mutableIntStateOf(0) }
     var currentRiskLevel by remember { mutableStateOf(RhythmGuardRiskLevel.LOW) }
     
-    val appSettings = remember { chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context) }
+    val appSettings = remember { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context) }
     val limitMinutes by appSettings.rhythmGuardAlertThresholdMinutes.collectAsState()
     val manualVolumeFloat by appSettings.rhythmGuardManualVolumeThreshold.collectAsState()
     val autoBackupEnabled by appSettings.autoBackupEnabled.collectAsState()
@@ -946,11 +946,11 @@ fun SettingsTipsRow(
     val gesturePlayerSwipeTracks by appSettings.gesturePlayerSwipeTracks.collectAsState()
 
     LaunchedEffect(limitMinutes, manualVolumeFloat) {
-        val statsRepo = chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.getInstance(context)
+        val statsRepo = com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.getInstance(context)
         val audioManager = context.getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
         
         while (true) {
-            val stats = statsRepo.loadSummary(chromahub.rhythm.app.shared.data.repository.StatsTimeRange.TODAY)
+            val stats = statsRepo.loadSummary(com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange.TODAY)
             todayExposureMinutes = (stats.totalDurationMs / 60000).toInt()
             
             val maxVol = audioManager.getStreamMaxVolume(android.media.AudioManager.STREAM_MUSIC)

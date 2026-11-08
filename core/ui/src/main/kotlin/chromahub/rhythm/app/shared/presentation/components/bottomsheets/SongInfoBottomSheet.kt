@@ -71,7 +71,7 @@ import androidx.compose.ui.window.DialogProperties
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.ExtendedSongInfo
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
 import com.qlzhj.rhythm.core.designsystem.components.ContentLoadingIndicator
@@ -210,7 +210,7 @@ fun SongInfoBottomSheet(
     val whitelistedFolders by appSettings.whitelistedFolders.collectAsState()
     var isLoadingWhitelist by remember { mutableStateOf(false) }
     
-    var songPlaybackStats by remember { mutableStateOf<chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary?>(null) }
+    var songPlaybackStats by remember { mutableStateOf<com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary?>(null) }
     
     val songArtShape = rememberExpressiveShapeFor(ExpressiveShapeTarget.SONG_ART)
     
@@ -289,9 +289,9 @@ fun SongInfoBottomSheet(
         isLoadingStats = true
         song.let { currentSong ->
             songPlaybackStats = withContext(Dispatchers.IO) {
-                chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.getInstance(context).getSongPlaybackStats(
+                com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.getInstance(context).getSongPlaybackStats(
                     currentSong.id,
-                    chromahub.rhythm.app.shared.data.repository.StatsTimeRange.ALL_TIME
+                    com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange.ALL_TIME
                 )
             }
         }
@@ -1222,7 +1222,7 @@ private fun SongInfoCard(
 
 @Composable
 private fun RhythmStatsCard(
-    songPlaybackStats: chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary?,
+    songPlaybackStats: com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary?,
     useHoursFormat: Boolean = false,
     isLoading: Boolean = false
 ) {

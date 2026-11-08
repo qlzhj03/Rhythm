@@ -2,7 +2,7 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
-import chromahub.rhythm.app.core.domain.backup.RestoreResult
+import com.qlzhj.rhythm.core.data.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
 
@@ -89,11 +89,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
@@ -189,9 +189,9 @@ fun BackupInfoItem(
 @Composable
 fun BackupRestoreSettingsScreen(
     onBackClick: () -> Unit,
-    libraryAdmin: chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
-    backupRestore: chromahub.rhythm.app.core.domain.repository.BackupRestoreController,
-    playlistAdmin: chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
+    libraryAdmin: com.qlzhj.rhythm.core.data.core.domain.repository.LibraryAdminController,
+    backupRestore: com.qlzhj.rhythm.core.data.core.domain.repository.BackupRestoreController,
+    playlistAdmin: com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController
 ) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)

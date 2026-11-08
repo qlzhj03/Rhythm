@@ -16,8 +16,8 @@ import chromahub.rhythm.app.infrastructure.widget.glance.GlanceShapeBitmaps
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmCookieWidget
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
 import chromahub.rhythm.app.di.NetworkClientInitializer
-import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import com.qlzhj.rhythm.core.common.ANRWatchdog

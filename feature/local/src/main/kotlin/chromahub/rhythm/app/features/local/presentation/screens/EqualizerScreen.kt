@@ -64,7 +64,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.common.GsonUtils
@@ -307,7 +307,7 @@ fun EqualizerScreen(
     navController: NavController,
     audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
     audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current

@@ -29,8 +29,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.rememberExpres
 import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.R
 import androidx.compose.runtime.collectAsState
-import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource
 
 /**
  * Modern Material 3 style utilities for image handling using Compose and Coil

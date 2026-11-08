@@ -31,7 +31,7 @@ import chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver
 import java.util.concurrent.TimeUnit
 import android.os.Build
 import androidx.media3.common.TrackSelectionParameters
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import android.net.Uri
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking

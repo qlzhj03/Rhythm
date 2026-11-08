@@ -88,7 +88,7 @@ fun CollapsibleHeaderScreen(
     content: @Composable (Modifier) -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val appSettings = remember { chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context) }
+    val appSettings = remember { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context) }
     val globalCollapseBehavior by appSettings.headerCollapseBehavior.collectAsState()
     
     val topAppBarState = rememberTopAppBarState()
@@ -342,7 +342,7 @@ fun ArtistCollapsibleHeaderScreen(
     content: @Composable (Modifier) -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val appSettings = remember { chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context) }
+    val appSettings = remember { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context) }
     val globalCollapseBehavior by appSettings.headerCollapseBehavior.collectAsState()
 
     val topAppBarState = rememberTopAppBarState()

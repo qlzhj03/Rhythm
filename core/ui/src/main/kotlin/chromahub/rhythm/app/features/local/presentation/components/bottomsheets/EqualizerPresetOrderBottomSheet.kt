@@ -82,7 +82,7 @@ private fun groupedBottomSheetItemShape(index: Int, totalCount: Int): RoundedCor
 fun EqualizerPresetOrderBottomSheet(
     onDismiss: () -> Unit,
     audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current

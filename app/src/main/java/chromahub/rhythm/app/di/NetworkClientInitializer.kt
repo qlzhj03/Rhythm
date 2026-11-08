@@ -5,7 +5,7 @@ import com.qlzhj.rhythm.core.common.AppBuildInfo
 import com.qlzhj.rhythm.core.network.network.NetworkClient
 import com.qlzhj.rhythm.core.network.network.NetworkFeatureFlags
 import com.qlzhj.rhythm.core.network.network.NetworkSettingsProvider
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import dagger.Module
 import dagger.Provides
 import javax.inject.Inject

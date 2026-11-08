@@ -111,7 +111,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.rememberOffMain
 import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
 import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
@@ -275,7 +275,7 @@ fun LocalNavigation(
     navController: NavHostController = rememberNavController(),
     viewModel: MusicViewModel = hiltViewModel(),
     themeViewModel: ThemeViewModel = hiltViewModel(),
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     streamingMusicViewModel: StreamingMusicViewModel = hiltViewModel()
 ) {
     val miniPlayerThemeId by appSettings.miniPlayerThemeId.collectAsState()
@@ -723,7 +723,7 @@ private fun LocalNavigationContent(
     navController: NavHostController,
     viewModel: MusicViewModel,
     themeViewModel: ThemeViewModel,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     snackbarHostState: SnackbarHostState,
     coroutineScope: kotlinx.coroutines.CoroutineScope,
     currentSong: com.qlzhj.rhythm.core.model.Song?,

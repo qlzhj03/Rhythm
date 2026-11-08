@@ -1,6 +1,6 @@
-// Data layer: AppSettings (package chromahub.rhythm.app.shared.data.model kept so
-// 110+ import sites stay untouched), Room database, repositories, MediaStore scan
-// and backup. Depends on :core:network for API-enabled gating types only.
+// Data layer: AppSettings, Room database, repositories, MediaStore scan and
+// backup. Unique package root com.qlzhj.rhythm.core.data (2026-11 rehome).
+// Depends on :core:network for API-enabled gating types only.
 
 plugins {
     id("rhythm.android.library")
@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "chromahub.rhythm.app"
+    namespace = "com.qlzhj.rhythm.core.data"
 }
 
 dependencies {

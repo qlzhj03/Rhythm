@@ -122,7 +122,7 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Standard
 fun DeviceConfigurationBottomSheet(
     audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
     audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     onDismiss: () -> Unit
 ) {
     val bottomSheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden, enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded))

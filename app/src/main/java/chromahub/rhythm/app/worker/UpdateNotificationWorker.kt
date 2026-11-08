@@ -13,7 +13,7 @@ import androidx.work.WorkerParameters
 import chromahub.rhythm.app.BuildConfig
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.network.network.NetworkManager
 import com.qlzhj.rhythm.core.common.VersionComparator
 import kotlinx.coroutines.Dispatchers
@@ -69,8 +69,8 @@ import androidx.core.content.edit
  * - Authenticated: 5000 requests/hour
  * - This worker typically uses <10 requests/day with smart polling
  * 
- * @see chromahub.rhythm.app.shared.data.model.AppSettings.updateNotificationsEnabled
- * @see chromahub.rhythm.app.shared.data.model.AppSettings.useSmartUpdatePolling
+ * @see com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.updateNotificationsEnabled
+ * @see com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.useSmartUpdatePolling
  */
 class UpdateNotificationWorker(
     context: Context,

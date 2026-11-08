@@ -138,7 +138,7 @@ class RhythmMusicWidget : GlanceAppWidget() {
     
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val appSettings = try {
-            chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context)
+            com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context)
         } catch (e: Exception) {
             null
         }
@@ -1283,7 +1283,7 @@ class RhythmMusicWidget : GlanceAppWidget() {
         }
     }
     
-    private fun getWidgetData(prefs: Preferences, appSettings: chromahub.rhythm.app.shared.data.model.AppSettings?): WidgetData {
+    private fun getWidgetData(prefs: Preferences, appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings?): WidgetData {
         return try {
             WidgetData(
                 songTitle = prefs[stringPreferencesKey(KEY_SONG_TITLE)] ?: "Rhythm",

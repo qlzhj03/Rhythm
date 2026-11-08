@@ -35,7 +35,7 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionError
 import androidx.media3.session.SessionResult
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.infrastructure.service.player.RhythmPlayerEngine
 import chromahub.rhythm.app.infrastructure.service.player.TransitionController
@@ -62,8 +62,8 @@ import com.qlzhj.rhythm.core.common.GsonUtils
 import com.qlzhj.rhythm.core.model.Playlist
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.rhythmGuardFormatDurationFromMinutes
 import androidx.core.net.toUri
 import com.qlzhj.rhythm.core.model.PlaybackQualityInfo
@@ -3343,7 +3343,7 @@ notificationManager.createNotificationChannel(sleepTimerChannel)
             .setContentIntent(pendingIntent)
             .build()
 
-        val appSettings = chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(this)
+        val appSettings = com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(this)
         if (!appSettings.sleepTimerNotificationsEnabled.value) {
             return
         }

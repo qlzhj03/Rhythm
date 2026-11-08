@@ -16,7 +16,7 @@ import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowfallEffect
 import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowfallWithSparkle
 import com.qlzhj.rhythm.core.designsystem.theme.festive.Snowflake
 import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowflakeArea
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 
 /**
  * Festive Overlay - Wraps content with festive decorations

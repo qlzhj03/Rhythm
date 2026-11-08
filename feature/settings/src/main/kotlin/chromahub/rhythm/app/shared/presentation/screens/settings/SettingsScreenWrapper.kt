@@ -128,16 +128,16 @@ import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
 import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.domain.repository.BackupRestoreController
-import chromahub.rhythm.app.core.domain.repository.LibraryAdminController
-import chromahub.rhythm.app.core.domain.repository.LibraryCacheManager
-import chromahub.rhythm.app.core.domain.repository.PlaylistAdminController
+import com.qlzhj.rhythm.core.data.core.domain.repository.BackupRestoreController
+import com.qlzhj.rhythm.core.data.core.domain.repository.LibraryAdminController
+import com.qlzhj.rhythm.core.data.core.domain.repository.LibraryCacheManager
+import com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController
 import chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
 import chromahub.rhythm.app.infrastructure.service.PlaybackStateSource
 import chromahub.rhythm.app.infrastructure.service.SleepTimerController
 import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
-import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
@@ -160,7 +160,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreenWrapper(
     onBack: () -> Unit,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     navController: androidx.navigation.NavController,
     playbackState: PlaybackStateSource,
     playbackSettings: PlaybackSettingsController,

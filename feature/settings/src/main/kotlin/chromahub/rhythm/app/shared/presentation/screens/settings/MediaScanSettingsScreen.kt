@@ -99,12 +99,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
@@ -178,7 +178,7 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.SettingGroup
 @Composable
 fun MediaScanSettingsScreen(
     onBackClick: () -> Unit,
-    libraryAdmin: chromahub.rhythm.app.core.domain.repository.LibraryAdminController
+    libraryAdmin: com.qlzhj.rhythm.core.data.core.domain.repository.LibraryAdminController
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current

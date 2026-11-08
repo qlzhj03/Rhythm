@@ -15,7 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.rememberOffMain
 import androidx.navigation.NavHostController
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
@@ -127,7 +127,7 @@ internal fun StreamingPlaylist.toDisplayPlaylist(displaySongs: List<Song>): Play
 @Composable
 internal fun LocalStreamingAlbumDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,
@@ -402,7 +402,7 @@ internal fun LocalStreamingAlbumDetailRoute(
 @Composable
 internal fun LocalStreamingArtistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,
@@ -702,7 +702,7 @@ internal fun LocalStreamingArtistDetailRoute(
 @Composable
 internal fun LocalStreamingPlaylistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,

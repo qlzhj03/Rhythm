@@ -36,8 +36,8 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 
 /**
  * Rhythm Stats widget.
@@ -55,7 +55,7 @@ class RhythmStatsWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val appSettings = try {
-            chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context)
+            com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context)
         } catch (e: Exception) {
             null
         }

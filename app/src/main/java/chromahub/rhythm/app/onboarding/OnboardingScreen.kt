@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.onboarding
 
-import chromahub.rhythm.app.core.domain.backup.RestoreResult
+import com.qlzhj.rhythm.core.data.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
@@ -145,9 +145,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.screens.settings.progressStyleLabel
 import chromahub.rhythm.app.shared.presentation.screens.settings.thumbStyleLabel
-import chromahub.rhythm.app.shared.data.model.AlbumViewType
-import chromahub.rhythm.app.shared.data.model.ArtistViewType
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AlbumViewType
+import com.qlzhj.rhythm.core.data.shared.data.model.ArtistViewType
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
 import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
@@ -162,7 +162,7 @@ import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import com.qlzhj.rhythm.core.model.AutoEQProfile
-import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
+import com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion

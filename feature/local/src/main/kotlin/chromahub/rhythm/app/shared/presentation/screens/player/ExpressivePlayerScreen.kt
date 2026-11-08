@@ -110,7 +110,7 @@ import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.Album
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.LyricsData
 import com.qlzhj.rhythm.core.model.PlaybackLocation
@@ -2604,7 +2604,7 @@ private fun RhythmPlayerLyricsPanel(
                 }
             }
             else -> {
-                val localAppSettings = remember { chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context) }
+                val localAppSettings = remember { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context) }
                 val translationAutoWord by localAppSettings.translationAutoWord.collectAsState()
                 val wordByWordLyrics = remember(lyrics, translationAutoWord) {
                     lyrics.getWordByWordLyricsOrNull() ?: run {

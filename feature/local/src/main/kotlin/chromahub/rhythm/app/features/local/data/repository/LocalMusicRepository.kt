@@ -4,8 +4,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import com.qlzhj.rhythm.core.model.ScanProgress
 import chromahub.rhythm.app.core.domain.scan.MediaScanEngine
-import chromahub.rhythm.app.core.domain.scan.StableDateAddedResolver
-import chromahub.rhythm.app.core.domain.backup.BackupRestoreManager
+import com.qlzhj.rhythm.core.data.core.domain.scan.StableDateAddedResolver
+import com.qlzhj.rhythm.core.data.core.domain.backup.BackupRestoreManager
 
 
 import android.content.ContentUris
@@ -54,8 +54,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import chromahub.rhythm.app.features.local.data.database.entity.toSong
-import chromahub.rhythm.app.features.local.data.database.entity.toArtist
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.toSong
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.toArtist
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
@@ -74,13 +74,13 @@ import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.FolderNode
 import com.qlzhj.rhythm.core.model.Playlist
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.LyricsSourcePreference
 import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.model.ScanPhase
 import com.qlzhj.rhythm.core.model.UserAudioDevice
 import com.qlzhj.rhythm.core.model.PlaybackLocation
-import chromahub.rhythm.app.shared.data.model.LyricsApiPriority
+import com.qlzhj.rhythm.core.data.shared.data.model.LyricsApiPriority
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import com.qlzhj.rhythm.core.model.PlayableItem
 import com.qlzhj.rhythm.core.model.SourceType
@@ -96,11 +96,11 @@ import chromahub.rhythm.app.util.MetadataHeuristics
 import com.qlzhj.rhythm.core.common.SemanticLyrics
 import android.content.SharedPreferences
 import androidx.room.withTransaction
-import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
-import chromahub.rhythm.app.features.local.data.database.entity.ArtistEntity
-import chromahub.rhythm.app.features.local.data.database.entity.SongEntity
-import chromahub.rhythm.app.features.local.data.database.entity.toEntity
-import chromahub.rhythm.app.features.local.data.database.entity.SongArtistEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.RhythmDatabase
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.ArtistEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.SongEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.toEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.SongArtistEntity
 import androidx.core.content.edit
 import androidx.core.net.toUri
 
@@ -147,7 +147,7 @@ data class FolderSuggestion(
 
 class LocalMusicRepository @Inject constructor(
     @ApplicationContext context: Context,
-    private val streamingRepository: chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository,
+    private val streamingRepository: com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository,
 ) {
     private val TAG = "LocalMusicRepository"
     // Use WeakReference to prevent context leaks, but store applicationContext which is safe
@@ -2569,7 +2569,7 @@ class LocalMusicRepository @Inject constructor(
             // NetworkClient will handle API key dynamically (user-provided or fallback to default)
 
             val artistArtworkSource = appSettings.artistArtworkSource.value
-            if (artistArtworkSource == chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED) {
+            if (artistArtworkSource == com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED) {
                 return@withContext artists
             }
 
@@ -2594,7 +2594,7 @@ class LocalMusicRepository @Inject constructor(
                         continue
                     }
 
-                    if (artistArtworkSource != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.API_ONLY) {
+                    if (artistArtworkSource != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.API_ONLY) {
                         // Check local storage for artist image
                         val localImage = findLocalArtistImage(artist.name)
                         if (localImage != null) {
@@ -2619,7 +2619,7 @@ class LocalMusicRepository @Inject constructor(
                         }
                     }
 
-                    if (artistArtworkSource == chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.LOCAL_ONLY) {
+                    if (artistArtworkSource == com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.LOCAL_ONLY) {
                         updatedArtists.add(artist)
                         continue
                     }
@@ -6250,7 +6250,7 @@ class LocalMusicRepository @Inject constructor(
             
             // Check if cache cleanup is needed based on app settings
             val maxCacheSize = try {
-                val settings = chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context)
+                val settings = com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context)
                 settings.maxCacheSize.value
             } catch (e: Exception) {
                 Log.w(TAG, "Error getting cache size setting, using default", e)

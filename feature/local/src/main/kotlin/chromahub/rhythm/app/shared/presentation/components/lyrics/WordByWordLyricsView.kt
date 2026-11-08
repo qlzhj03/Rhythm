@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.WordByWordLyricLine
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first

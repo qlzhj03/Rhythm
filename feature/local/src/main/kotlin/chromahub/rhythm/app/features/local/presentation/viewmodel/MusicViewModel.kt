@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.features.local.presentation.viewmodel
 
 import chromahub.rhythm.app.infrastructure.service.SleepAction
-import chromahub.rhythm.app.core.domain.backup.RestoreResult
-import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
+import com.qlzhj.rhythm.core.data.core.domain.backup.RestoreResult
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -41,14 +41,14 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.Album
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.LyricsSourcePreference
 import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.model.ScanPhase
 import chromahub.rhythm.app.features.local.data.repository.LocalMusicRepository
-import chromahub.rhythm.app.features.local.data.database.entity.toSong
-import chromahub.rhythm.app.features.local.data.database.entity.toEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.toSong
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.toEntity
 import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
 import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.Playlist
@@ -64,8 +64,8 @@ import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.EqualizerUtils
 import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.util.PlaylistImportExportUtils
-import chromahub.rhythm.app.util.RhythmBackupDetectedException
+import com.qlzhj.rhythm.core.data.util.PlaylistImportExportUtils
+import com.qlzhj.rhythm.core.data.util.RhythmBackupDetectedException
 import com.qlzhj.rhythm.core.common.PlaybackCommandSerializer
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.ImageUtils
@@ -100,9 +100,9 @@ import kotlinx.coroutines.withTimeoutOrNull
 import androidx.room.withTransaction
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
-import chromahub.rhythm.app.features.local.data.database.entity.PlaylistEntity
-import chromahub.rhythm.app.features.local.data.database.entity.PlaylistSongEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.RhythmDatabase
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.PlaylistEntity
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.PlaylistSongEntity
 import java.time.Duration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -121,7 +121,7 @@ import chromahub.rhythm.app.util.LyricLine
 import chromahub.rhythm.app.util.LyricsParser
 import com.qlzhj.rhythm.core.common.ServiceStartUtils
 import chromahub.rhythm.app.util.StatusBroadcaster
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 
 @HiltViewModel
 class MusicViewModel @Inject constructor(
@@ -133,10 +133,10 @@ class MusicViewModel @Inject constructor(
     chromahub.rhythm.app.infrastructure.service.PlaybackStateSource,
     chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController,
     chromahub.rhythm.app.infrastructure.service.SleepTimerController,
-    chromahub.rhythm.app.core.domain.repository.PlaylistAdminController,
-    chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
-    chromahub.rhythm.app.core.domain.repository.LibraryCacheManager,
-    chromahub.rhythm.app.core.domain.repository.BackupRestoreController {
+    com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController,
+    com.qlzhj.rhythm.core.data.core.domain.repository.LibraryAdminController,
+    com.qlzhj.rhythm.core.data.core.domain.repository.LibraryCacheManager,
+    com.qlzhj.rhythm.core.data.core.domain.repository.BackupRestoreController {
 
     data class QueuedRestore(
         val backupJson: String,
@@ -1973,8 +1973,8 @@ class MusicViewModel @Inject constructor(
                 
                 val artistSource1 = appSettings.artistArtworkSource.value
                 val shouldFetchArtists = hasMissingArtists &&
-                    artistSource1 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED &&
-                    (artistSource1 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
+                    artistSource1 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED &&
+                    (artistSource1 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
                 val shouldFetchAlbumsAndSongs = (hasMissingAlbums || hasMissingSongs) && appSettings.isAutoFetchArtworkActive.value && (appSettings.ytMusicApiEnabled.value || appSettings.deezerApiEnabled.value)
 
                 if (shouldFetchArtists || shouldFetchAlbumsAndSongs) {
@@ -2144,8 +2144,8 @@ class MusicViewModel @Inject constructor(
                 
                 val artistSource2 = appSettings.artistArtworkSource.value
                 val shouldFetchArtists = hasMissingArtists &&
-                    artistSource2 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED &&
-                    (artistSource2 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
+                    artistSource2 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED &&
+                    (artistSource2 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
                 val shouldFetchAlbumsAndSongs = (hasMissingAlbums || hasMissingSongs) && appSettings.isAutoFetchArtworkActive.value && (appSettings.ytMusicApiEnabled.value || appSettings.deezerApiEnabled.value)
 
                 if (shouldFetchArtists || shouldFetchAlbumsAndSongs) {
@@ -2496,8 +2496,8 @@ class MusicViewModel @Inject constructor(
                         
                         val artistSource3 = appSettings.artistArtworkSource.value
                         val shouldFetchArtists = hasMissingArtists &&
-                            artistSource3 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED &&
-                            (artistSource3 != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
+                            artistSource3 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED &&
+                            (artistSource3 != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.API_ONLY || appSettings.deezerApiEnabled.value)
                         val shouldFetchAlbumsAndSongs = (hasMissingAlbums || hasMissingSongs) && appSettings.isAutoFetchArtworkActive.value && (appSettings.ytMusicApiEnabled.value || appSettings.deezerApiEnabled.value)
 
                         if (shouldFetchArtists || shouldFetchAlbumsAndSongs) {
@@ -3813,12 +3813,12 @@ class MusicViewModel @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         val artistSource = appSettings.artistArtworkSource.value
         val isAutoFetchActive = appSettings.isAutoFetchArtworkActive.value
-        if (!isAutoFetchActive && artistSource == chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED) {
+        if (!isAutoFetchActive && artistSource == com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED) {
             Log.d(TAG, "isAutoFetchArtworkActive and artist artwork are disabled, skipping internet artwork fetch")
             return@withContext
         }
         try {
-            if (fetchArtists && artistSource != chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED) {
+            if (fetchArtists && artistSource != com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED) {
                 Log.d(TAG, "Fetching artist images")
                 val missingArtists = _artists.value.filter { it.artworkUri == null }
                 Log.d(TAG, "Found ${missingArtists.size} artists without images out of ${_artists.value.size} total artists")
@@ -3932,7 +3932,7 @@ class MusicViewModel @Inject constructor(
      */
     fun refreshArtistImage(artistId: String) {
         viewModelScope.launch {
-            if (appSettings.artistArtworkSource.value == chromahub.rhythm.app.shared.data.model.ArtistArtworkSource.DISABLED) return@launch
+            if (appSettings.artistArtworkSource.value == com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource.DISABLED) return@launch
             val artist = _artists.value.find { it.id == artistId } ?: return@launch
             try {
                 val updatedArtists = repository.fetchArtistImages(listOf<Artist>(artist))
@@ -9691,8 +9691,8 @@ class MusicViewModel @Inject constructor(
      * Load detailed playback stats for a given time range
      */
     suspend fun loadPlaybackStats(
-        range: chromahub.rhythm.app.shared.data.repository.StatsTimeRange = chromahub.rhythm.app.shared.data.repository.StatsTimeRange.ALL_TIME
-    ): chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary {
+        range: com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange = com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange.ALL_TIME
+    ): com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.PlaybackStatsSummary {
         return playbackStatsRepository.loadSummary(
             range = range,
             songs = _songs.value
@@ -9709,8 +9709,8 @@ class MusicViewModel @Inject constructor(
      */
     suspend fun getSongPlaybackStats(
         songId: String,
-        range: chromahub.rhythm.app.shared.data.repository.StatsTimeRange = chromahub.rhythm.app.shared.data.repository.StatsTimeRange.ALL_TIME
-    ): chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary? {
+        range: com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange = com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange.ALL_TIME
+    ): com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository.SongPlaybackSummary? {
         return playbackStatsRepository.getSongPlaybackStats(songId, range)
     }
 

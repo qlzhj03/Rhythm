@@ -27,7 +27,7 @@ import com.qlzhj.rhythm.core.network.network.GitHubAsset
 import com.qlzhj.rhythm.core.network.network.GitHubRelease
 import com.qlzhj.rhythm.core.network.network.GitHubWorkflowRun
 import com.qlzhj.rhythm.core.network.network.NetworkManager
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.common.ChangelogFilter
 import com.qlzhj.rhythm.core.common.VersionComparator
 import com.google.gson.Gson

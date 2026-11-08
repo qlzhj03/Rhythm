@@ -1,7 +1,7 @@
 package chromahub.rhythm.app
 
 import androidx.media3.common.Player
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

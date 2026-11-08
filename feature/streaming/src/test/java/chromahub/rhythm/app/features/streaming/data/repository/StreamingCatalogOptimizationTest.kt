@@ -5,7 +5,7 @@ import com.qlzhj.rhythm.core.model.StreamingAlbum
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingSong
-import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import com.google.gson.Gson
 import kotlinx.coroutines.CancellationException

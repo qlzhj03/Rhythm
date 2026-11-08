@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.rememberOffMain
 import androidx.navigation.NavHostController
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
@@ -92,7 +92,7 @@ fun androidx.compose.animation.AnimatedVisibilityScope.SlideUpCornerWrapper(
 internal fun LocalHomeRoute(
     albums: List<com.qlzhj.rhythm.core.model.Album>,
     allSongs: List<com.qlzhj.rhythm.core.model.Song>,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     artists: List<com.qlzhj.rhythm.core.model.Artist>,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
@@ -359,7 +359,7 @@ internal fun LocalHomeRoute(
 internal fun LocalLibraryRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
     albums: List<com.qlzhj.rhythm.core.model.Album>,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     artists: List<com.qlzhj.rhythm.core.model.Artist>,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
@@ -733,7 +733,7 @@ internal fun LocalLibraryRoute(
 @Composable
 internal fun LocalPlaylistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     artists: List<com.qlzhj.rhythm.core.model.Artist>,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
@@ -873,7 +873,7 @@ internal fun LocalPlaylistDetailRoute(
             },
             onGoToArtist = { song ->
                 val separatorEnabled = appSettings.artistSeparatorEnabled.value
-                val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { chromahub.rhythm.app.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
+                val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
                 val candidates = ArtistSeparator.splitArtistNames(
                     song.artist,
                     delimiters = delimiters,
@@ -908,7 +908,7 @@ internal fun LocalPlaylistDetailRoute(
 @Composable
 internal fun LocalArtistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     navController: NavHostController,
@@ -1155,7 +1155,7 @@ internal fun LocalArtistDetailRoute(
 @Composable
 internal fun LocalAlbumDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     artists: List<com.qlzhj.rhythm.core.model.Artist>,
     currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
@@ -1306,7 +1306,7 @@ internal fun LocalAlbumDetailRoute(
         },
         onGoToArtist = { song ->
             val separatorEnabled = appSettings.artistSeparatorEnabled.value
-            val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { chromahub.rhythm.app.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
+            val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
             val candidates = com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                 song.artist,
                 delimiters = delimiters,

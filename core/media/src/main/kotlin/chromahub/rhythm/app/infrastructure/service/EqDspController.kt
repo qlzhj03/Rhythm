@@ -10,7 +10,7 @@ import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.UserAudioDevice
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.AutoEQManager
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.common.ServiceStartUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

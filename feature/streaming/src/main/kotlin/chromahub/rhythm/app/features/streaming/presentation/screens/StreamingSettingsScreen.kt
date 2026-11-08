@@ -59,7 +59,7 @@ import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.common.normalizeStreamingQuality
 import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup

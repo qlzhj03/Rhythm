@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.collectAsState
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 
 @Composable
 fun AutoScrollingTextOnDemand(

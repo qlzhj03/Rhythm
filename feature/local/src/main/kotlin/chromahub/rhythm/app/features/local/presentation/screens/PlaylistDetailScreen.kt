@@ -128,7 +128,7 @@ import chromahub.rhythm.app.features.local.presentation.components.dialogs.Playl
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistOperationResultDialog
-import chromahub.rhythm.app.util.PlaylistImportExportUtils
+import com.qlzhj.rhythm.core.data.util.PlaylistImportExportUtils
 import android.net.Uri
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -305,7 +305,7 @@ fun PlaylistDetailScreen(
 
     val haptics = LocalHapticFeedback.current
     val context = LocalContext.current
-    val appSettings = remember { chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context) }
+    val appSettings = remember { com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context) }
     var pendingMetadataEditCompleteCallback by remember { mutableStateOf<((Boolean) -> Unit)?>(null) }
     val writePermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()

@@ -26,12 +26,12 @@ import com.qlzhj.rhythm.core.model.StreamingServiceId
 import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import com.qlzhj.rhythm.core.model.StreamingSong
 import com.qlzhj.rhythm.core.model.StreamingSearchResults
-import chromahub.rhythm.app.core.domain.repository.StreamingLibraryController
-import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingLibraryController
+import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

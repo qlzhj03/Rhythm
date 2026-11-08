@@ -73,7 +73,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.BorderStroke
@@ -87,8 +87,8 @@ import androidx.compose.animation.core.EaseInOut
 import androidx.compose.ui.graphics.Color
 
 import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.res.stringResource

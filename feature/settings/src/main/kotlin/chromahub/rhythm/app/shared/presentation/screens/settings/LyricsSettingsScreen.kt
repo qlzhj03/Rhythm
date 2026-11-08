@@ -88,11 +88,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
@@ -441,9 +441,9 @@ fun LyricsSettingsScreen(onBackClick: () -> Unit) {
                                 icon = MaterialSymbolIcon("lyrics"),
                                 title = stringResource(R.string.lyricssourcesettingsscreen_lyrics_api_priority),
                                 description = when (apiPriority) {
-                                    chromahub.rhythm.app.shared.data.model.LyricsApiPriority.BETTERLYRICS_FIRST -> context.getString(R.string.lyrics_settings_betterlyrics_first)
-                                    chromahub.rhythm.app.shared.data.model.LyricsApiPriority.LYRICALLY_FIRST -> context.getString(R.string.lyrics_settings_lyrically_first)
-                                    chromahub.rhythm.app.shared.data.model.LyricsApiPriority.LRCLIB_FIRST -> context.getString(R.string.lyrics_settings_lrclib_first)
+                                    com.qlzhj.rhythm.core.data.shared.data.model.LyricsApiPriority.BETTERLYRICS_FIRST -> context.getString(R.string.lyrics_settings_betterlyrics_first)
+                                    com.qlzhj.rhythm.core.data.shared.data.model.LyricsApiPriority.LYRICALLY_FIRST -> context.getString(R.string.lyrics_settings_lyrically_first)
+                                    com.qlzhj.rhythm.core.data.shared.data.model.LyricsApiPriority.LRCLIB_FIRST -> context.getString(R.string.lyrics_settings_lrclib_first)
                                 },
                                 onClick = {
                                     showPriorityBottomSheet = true

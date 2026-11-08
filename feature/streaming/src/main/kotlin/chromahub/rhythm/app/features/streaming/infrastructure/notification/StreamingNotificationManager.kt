@@ -71,7 +71,7 @@ class StreamingNotificationManager(private val context: Context) {
     // ========== Authentication Notifications ==========
     
     private fun isNotificationsEnabled(): Boolean {
-        return chromahub.rhythm.app.shared.data.model.AppSettings.getInstance(context).streamingNotificationsEnabled.value
+        return com.qlzhj.rhythm.core.data.shared.data.model.AppSettings.getInstance(context).streamingNotificationsEnabled.value
     }
 
     /**

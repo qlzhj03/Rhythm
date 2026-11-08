@@ -241,7 +241,7 @@ fun MaterialPlayerScreen(
     onBack: () -> Unit,
     onLocationClick: () -> Unit,
     onQueueClick: () -> Unit,
-    appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
+    appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     musicViewModel: chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel,
     navController: NavController,
     modifier: Modifier = Modifier,

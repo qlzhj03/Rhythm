@@ -7,9 +7,9 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.room.withTransaction
-import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
-import chromahub.rhythm.app.features.local.data.database.entity.SongEntity
-import chromahub.rhythm.app.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.data.features.local.data.database.RhythmDatabase
+import com.qlzhj.rhythm.core.data.features.local.data.database.entity.SongEntity
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.model.ScanPhase
 import com.qlzhj.rhythm.core.model.ScanProgress
@@ -27,6 +27,7 @@ import androidx.core.content.edit
 import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
 import com.qlzhj.rhythm.core.common.StoragePathUtils
 import java.util.Locale
+import com.qlzhj.rhythm.core.data.core.domain.scan.StableDateAddedResolver
 
 /**
  * Centralized, High-Performance Media Scanning Engine for Rhythm.
