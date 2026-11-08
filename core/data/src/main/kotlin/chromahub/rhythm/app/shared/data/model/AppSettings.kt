@@ -307,9 +307,9 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         const val RHYTHM_AURA_MODE_MANUAL = RHYTHM_GUARD_MODE_MANUAL
         
         // Recently Played
-        private const val KEY_RECENTLY_PLAYED = "recently_played"
+        internal const val KEY_RECENTLY_PLAYED = "recently_played"
         private const val KEY_RECENTLY_PLAYED_SONG_CACHE = "recently_played_song_cache"
-        private const val KEY_LAST_PLAYED_TIMESTAMP = "last_played_timestamp"
+        internal const val KEY_LAST_PLAYED_TIMESTAMP = "last_played_timestamp"
         
         // API Integration
         private const val KEY_INTEGRATIONS_ENABLED = "integrations_enabled"
@@ -428,9 +428,9 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_BACKUP_LOCATION = "backup_location"
         
         // Sleep Timer
-        private const val KEY_SLEEP_TIMER_ACTIVE = "sleep_timer_active"
-        private const val KEY_SLEEP_TIMER_REMAINING_SECONDS = "sleep_timer_remaining_seconds"
-        private const val KEY_SLEEP_TIMER_ACTION = "sleep_timer_action"
+        internal const val KEY_SLEEP_TIMER_ACTIVE = "sleep_timer_active"
+        internal const val KEY_SLEEP_TIMER_REMAINING_SECONDS = "sleep_timer_remaining_seconds"
+        internal const val KEY_SLEEP_TIMER_ACTION = "sleep_timer_action"
         
         // Media Scan Tracking
         internal const val KEY_LAST_SCAN_TIMESTAMP = "last_scan_timestamp"
@@ -459,38 +459,38 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_REMEMBER_STREAMING_PASSWORDS = "remember_streaming_passwords"
         
         // Queue & Playback Behavior
-        private const val KEY_SHUFFLE_USES_EXOPLAYER = "shuffle_uses_exoplayer"
-        private const val KEY_AUTO_ADD_TO_QUEUE = "auto_add_to_queue"
-        private const val KEY_RESPECT_ALBUM_ON_PLAY = "respect_album_on_play"
-        private const val KEY_CLEAR_QUEUE_ON_NEW_SONG = "clear_queue_on_new_song"
-        private const val KEY_CONTEXT_QUEUE_PREFERENCE = "context_queue_preference" // ARTIST_FIRST | GENRE_FIRST | ARTIST_THEN_GENRE
-        private const val KEY_CONTEXT_QUEUE_PERSISTENCE = "context_queue_persistence" // EPHEMERAL | PERSISTENT
-        private const val KEY_CONTEXT_QUEUE_SIZE = "context_queue_size" // default number of contextual tracks to build
-        private const val KEY_HIDE_PLAYED_SONGS_IN_QUEUE = "hide_played_songs_in_queue"
-        private const val KEY_SHOW_QUEUE_DIALOG = "show_queue_dialog"
-        private const val KEY_LIST_QUEUE_ACTION_BEHAVIOR = "list_queue_action_behavior" // "replace", "ask", "play_next", "add_to_end"
-        private const val KEY_REPEAT_MODE_PERSISTENCE = "repeat_mode_persistence"
-        private const val KEY_SHUFFLE_MODE_PERSISTENCE = "shuffle_mode_persistence"
-        private const val KEY_KEEP_SHUFFLE_ON_SELECTION = "keep_shuffle_on_selection"
-        private const val KEY_SAVED_SHUFFLE_STATE = "saved_shuffle_state"
-        private const val KEY_SAVED_REPEAT_MODE = "saved_repeat_mode"
-        private const val KEY_PLAYBACK_SPEED = "playback_speed"
-        private const val KEY_DEFAULT_PLAYBACK_SPEED = "default_playback_speed"
-        private const val KEY_USE_DEFAULT_PLAYBACK_SPEED = "use_default_playback_speed"
-        private const val KEY_PLAYBACK_PITCH = "playback_pitch"
-        private const val KEY_SYNC_SPEED_AND_PITCH = "sync_speed_and_pitch"
-        private const val KEY_USE_HOURS_IN_TIME_FORMAT = "use_hours_in_time_format"
-        private const val KEY_SHOW_REMAINING_TIME = "show_remaining_time"
+        internal const val KEY_SHUFFLE_USES_EXOPLAYER = "shuffle_uses_exoplayer"
+        internal const val KEY_AUTO_ADD_TO_QUEUE = "auto_add_to_queue"
+        internal const val KEY_RESPECT_ALBUM_ON_PLAY = "respect_album_on_play"
+        internal const val KEY_CLEAR_QUEUE_ON_NEW_SONG = "clear_queue_on_new_song"
+        internal const val KEY_CONTEXT_QUEUE_PREFERENCE = "context_queue_preference" // ARTIST_FIRST | GENRE_FIRST | ARTIST_THEN_GENRE
+        internal const val KEY_CONTEXT_QUEUE_PERSISTENCE = "context_queue_persistence" // EPHEMERAL | PERSISTENT
+        internal const val KEY_CONTEXT_QUEUE_SIZE = "context_queue_size" // default number of contextual tracks to build
+        internal const val KEY_HIDE_PLAYED_SONGS_IN_QUEUE = "hide_played_songs_in_queue"
+        internal const val KEY_SHOW_QUEUE_DIALOG = "show_queue_dialog"
+        internal const val KEY_LIST_QUEUE_ACTION_BEHAVIOR = "list_queue_action_behavior" // "replace", "ask", "play_next", "add_to_end"
+        internal const val KEY_REPEAT_MODE_PERSISTENCE = "repeat_mode_persistence"
+        internal const val KEY_SHUFFLE_MODE_PERSISTENCE = "shuffle_mode_persistence"
+        internal const val KEY_KEEP_SHUFFLE_ON_SELECTION = "keep_shuffle_on_selection"
+        internal const val KEY_SAVED_SHUFFLE_STATE = "saved_shuffle_state"
+        internal const val KEY_SAVED_REPEAT_MODE = "saved_repeat_mode"
+        internal const val KEY_PLAYBACK_SPEED = "playback_speed"
+        internal const val KEY_DEFAULT_PLAYBACK_SPEED = "default_playback_speed"
+        internal const val KEY_USE_DEFAULT_PLAYBACK_SPEED = "use_default_playback_speed"
+        internal const val KEY_PLAYBACK_PITCH = "playback_pitch"
+        internal const val KEY_SYNC_SPEED_AND_PITCH = "sync_speed_and_pitch"
+        internal const val KEY_USE_HOURS_IN_TIME_FORMAT = "use_hours_in_time_format"
+        internal const val KEY_SHOW_REMAINING_TIME = "show_remaining_time"
         private const val KEY_EXPRESSIVE_COLORS = "expressive_colors"
         private const val KEY_THEME_INTENSITY = "theme_intensity"
-        private const val KEY_STOP_PLAYBACK_ON_APP_CLOSE = "stop_playback_on_app_close"
-        private const val KEY_QUEUE_PERSISTENCE_ENABLED = "queue_persistence_enabled" // Enable/disable queue persistence
-        private const val KEY_SAVED_QUEUE = "saved_queue" // Queue persistence - list of song IDs
-        private const val KEY_SAVED_QUEUE_INDEX = "saved_queue_index" // Current position in queue
-        private const val KEY_SAVED_PLAYBACK_POSITION = "saved_playback_position" // Current playback position in ms
-        private const val KEY_SAVED_ORIGINAL_QUEUE = "saved_original_queue" // Original un-shuffled queue
-        private const val KEY_SAVED_ORIGINAL_QUEUE_SOURCE = "saved_original_queue_source" // Queue source name
-        private const val KEY_HIDE_PLAYED_QUEUE_SONGS = "hide_played_queue_songs" // Hide already-played songs in queue
+        internal const val KEY_STOP_PLAYBACK_ON_APP_CLOSE = "stop_playback_on_app_close"
+        internal const val KEY_QUEUE_PERSISTENCE_ENABLED = "queue_persistence_enabled" // Enable/disable queue persistence
+        internal const val KEY_SAVED_QUEUE = "saved_queue" // Queue persistence - list of song IDs
+        internal const val KEY_SAVED_QUEUE_INDEX = "saved_queue_index" // Current position in queue
+        internal const val KEY_SAVED_PLAYBACK_POSITION = "saved_playback_position" // Current playback position in ms
+        internal const val KEY_SAVED_ORIGINAL_QUEUE = "saved_original_queue" // Original un-shuffled queue
+        internal const val KEY_SAVED_ORIGINAL_QUEUE_SOURCE = "saved_original_queue_source" // Queue source name
+        internal const val KEY_HIDE_PLAYED_QUEUE_SONGS = "hide_played_queue_songs" // Hide already-played songs in queue
         
         // Widget Settings
         internal const val KEY_WIDGET_SHOW_ALBUM_ART = "widget_show_album_art"
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val playbackQueueSection = chromahub.rhythm.app.shared.data.model.settings.PlaybackQueueSettingsSection(prefs)
     private val guardStatsSection = chromahub.rhythm.app.shared.data.model.settings.GuardStatsSettingsSection(prefs)
     val whitelistedSongs: StateFlow<List<String>> get() = librarySection.whitelistedSongs
     val whitelistedFolders: StateFlow<List<String>> get() = librarySection.whitelistedFolders
@@ -1060,80 +1061,74 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     fun setSpeakerAutoEQBypass(bypass: Boolean) = audioEqSection.setSpeakerAutoEQBypass(bypass)
     
     // Sleep Timer
-    private val _sleepTimerActive = MutableStateFlow(prefs.getBoolean(KEY_SLEEP_TIMER_ACTIVE, false))
-    val sleepTimerActive: StateFlow<Boolean> = _sleepTimerActive.asStateFlow()
+    val sleepTimerActive: StateFlow<Boolean> get() = playbackQueueSection.sleepTimerActive
+    fun setSleepTimerActive(active: Boolean) = playbackQueueSection.setSleepTimerActive(active)
     
-    private val _sleepTimerRemainingSeconds = MutableStateFlow(prefs.getLong(KEY_SLEEP_TIMER_REMAINING_SECONDS, 0L))
-    val sleepTimerRemainingSeconds: StateFlow<Long> = _sleepTimerRemainingSeconds.asStateFlow()
+    val sleepTimerRemainingSeconds: StateFlow<Long> get() = playbackQueueSection.sleepTimerRemainingSeconds
+    fun setSleepTimerRemainingSeconds(seconds: Long) = playbackQueueSection.setSleepTimerRemainingSeconds(seconds)
     
-    private val _sleepTimerAction = MutableStateFlow(prefs.getString(KEY_SLEEP_TIMER_ACTION, "FADE_OUT") ?: "FADE_OUT")
-    val sleepTimerAction: StateFlow<String> = _sleepTimerAction.asStateFlow()
+    val sleepTimerAction: StateFlow<String> get() = playbackQueueSection.sleepTimerAction
+    fun setSleepTimerAction(action: String) = playbackQueueSection.setSleepTimerAction(action)
     
     // Queue & Playback Behavior Settings
-    private val _shuffleUsesExoplayer = MutableStateFlow(prefs.getBoolean(KEY_SHUFFLE_USES_EXOPLAYER, false))
-    val shuffleUsesExoplayer: StateFlow<Boolean> = _shuffleUsesExoplayer.asStateFlow()
+    val shuffleUsesExoplayer: StateFlow<Boolean> get() = playbackQueueSection.shuffleUsesExoplayer
+    fun setShuffleUsesExoplayer(useExoplayer: Boolean) = playbackQueueSection.setShuffleUsesExoplayer(useExoplayer)
     
-    private val _autoAddToQueue = MutableStateFlow(prefs.getBoolean(KEY_AUTO_ADD_TO_QUEUE, true))
-    val autoAddToQueue: StateFlow<Boolean> = _autoAddToQueue.asStateFlow()
-    private val _respectAlbumOnPlay = MutableStateFlow(prefs.getBoolean(KEY_RESPECT_ALBUM_ON_PLAY, true))
-    val respectAlbumOnPlay: StateFlow<Boolean> = _respectAlbumOnPlay.asStateFlow()
+    val autoAddToQueue: StateFlow<Boolean> get() = playbackQueueSection.autoAddToQueue
+    fun setAutoAddToQueue(autoAdd: Boolean) = playbackQueueSection.setAutoAddToQueue(autoAdd)
+    val respectAlbumOnPlay: StateFlow<Boolean> get() = playbackQueueSection.respectAlbumOnPlay
+    fun setRespectAlbumOnPlay(respect: Boolean) = playbackQueueSection.setRespectAlbumOnPlay(respect)
     
-    private val _clearQueueOnNewSong = MutableStateFlow(prefs.getBoolean(KEY_CLEAR_QUEUE_ON_NEW_SONG, false))
-    val clearQueueOnNewSong: StateFlow<Boolean> = _clearQueueOnNewSong.asStateFlow()
+    val clearQueueOnNewSong: StateFlow<Boolean> get() = playbackQueueSection.clearQueueOnNewSong
+    fun setClearQueueOnNewSong(clearQueue: Boolean) = playbackQueueSection.setClearQueueOnNewSong(clearQueue)
 
-    private val initialHidePlayedQueueValue = prefs.getBoolean(
-        AppSettings.KEY_HIDE_PLAYED_QUEUE_SONGS,
-        prefs.getBoolean(AppSettings.KEY_HIDE_PLAYED_SONGS_IN_QUEUE, false)
-    )
 
     
-    private val _showQueueDialog = MutableStateFlow(prefs.getBoolean(KEY_SHOW_QUEUE_DIALOG, true))
-    val showQueueDialog: StateFlow<Boolean> = _showQueueDialog.asStateFlow()
+    val showQueueDialog: StateFlow<Boolean> get() = playbackQueueSection.showQueueDialog
+    fun setShowQueueDialog(show: Boolean) = playbackQueueSection.setShowQueueDialog(show)
 
-    private val _listQueueActionBehavior = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_LIST_QUEUE_ACTION_BEHAVIOR, "replace") ?: "replace"
-    )
-    val listQueueActionBehavior: StateFlow<String> = _listQueueActionBehavior.asStateFlow()
+    val listQueueActionBehavior: StateFlow<String> get() = playbackQueueSection.listQueueActionBehavior
+    fun setListQueueActionBehavior(behavior: String) = playbackQueueSection.setListQueueActionBehavior(behavior)
     
-    private val _hidePlayedQueueSongs = MutableStateFlow(initialHidePlayedQueueValue)
-    val hidePlayedQueueSongs: StateFlow<Boolean> = _hidePlayedQueueSongs.asStateFlow()
+    val hidePlayedQueueSongs: StateFlow<Boolean> get() = playbackQueueSection.hidePlayedQueueSongs
+    fun setHidePlayedQueueSongs(hide: Boolean) = playbackQueueSection.setHidePlayedQueueSongs(hide)
     
-    private val _repeatModePersistence = MutableStateFlow(prefs.getBoolean(KEY_REPEAT_MODE_PERSISTENCE, true))
-    val repeatModePersistence: StateFlow<Boolean> = _repeatModePersistence.asStateFlow()
+    val repeatModePersistence: StateFlow<Boolean> get() = playbackQueueSection.repeatModePersistence
+    fun setRepeatModePersistence(persist: Boolean) = playbackQueueSection.setRepeatModePersistence(persist)
     
-    private val _shuffleModePersistence = MutableStateFlow(prefs.getBoolean(KEY_SHUFFLE_MODE_PERSISTENCE, true))
-    val shuffleModePersistence: StateFlow<Boolean> = _shuffleModePersistence.asStateFlow()
+    val shuffleModePersistence: StateFlow<Boolean> get() = playbackQueueSection.shuffleModePersistence
+    fun setShuffleModePersistence(persist: Boolean) = playbackQueueSection.setShuffleModePersistence(persist)
     
-    private val _keepShuffleOnSelection = MutableStateFlow(prefs.getBoolean(KEY_KEEP_SHUFFLE_ON_SELECTION, false))
-    val keepShuffleOnSelection: StateFlow<Boolean> = _keepShuffleOnSelection.asStateFlow()
+    val keepShuffleOnSelection: StateFlow<Boolean> get() = playbackQueueSection.keepShuffleOnSelection
+    fun setKeepShuffleOnSelection(keep: Boolean) = playbackQueueSection.setKeepShuffleOnSelection(keep)
     
-    private val _savedShuffleState = MutableStateFlow(prefs.getBoolean(KEY_SAVED_SHUFFLE_STATE, false))
-    val savedShuffleState: StateFlow<Boolean> = _savedShuffleState.asStateFlow()
+    val savedShuffleState: StateFlow<Boolean> get() = playbackQueueSection.savedShuffleState
+    fun setSavedShuffleState(enabled: Boolean) = playbackQueueSection.setSavedShuffleState(enabled)
     
-    private val _savedRepeatMode = MutableStateFlow(prefs.getInt(KEY_SAVED_REPEAT_MODE, 0))
-    val savedRepeatMode: StateFlow<Int> = _savedRepeatMode.asStateFlow()
+    val savedRepeatMode: StateFlow<Int> get() = playbackQueueSection.savedRepeatMode
+    fun setSavedRepeatMode(mode: Int) = playbackQueueSection.setSavedRepeatMode(mode)
     
-    private val _playbackSpeed = MutableStateFlow(prefs.getFloat(KEY_PLAYBACK_SPEED, 1.0f))
-    val playbackSpeed: StateFlow<Float> = _playbackSpeed.asStateFlow()
+    val playbackSpeed: StateFlow<Float> get() = playbackQueueSection.playbackSpeed
+    fun setPlaybackSpeed(speed: Float) = playbackQueueSection.setPlaybackSpeed(speed)
 
-    private val _defaultPlaybackSpeed = MutableStateFlow(prefs.getFloat(KEY_DEFAULT_PLAYBACK_SPEED, 1.0f))
-    val defaultPlaybackSpeed: StateFlow<Float> = _defaultPlaybackSpeed.asStateFlow()
+    val defaultPlaybackSpeed: StateFlow<Float> get() = playbackQueueSection.defaultPlaybackSpeed
+    fun setDefaultPlaybackSpeed(speed: Float) = playbackQueueSection.setDefaultPlaybackSpeed(speed)
 
-    private val _useDefaultPlaybackSpeed = MutableStateFlow(prefs.getBoolean(KEY_USE_DEFAULT_PLAYBACK_SPEED, false))
-    val useDefaultPlaybackSpeed: StateFlow<Boolean> = _useDefaultPlaybackSpeed.asStateFlow()
+    val useDefaultPlaybackSpeed: StateFlow<Boolean> get() = playbackQueueSection.useDefaultPlaybackSpeed
+    fun setUseDefaultPlaybackSpeed(enabled: Boolean) = playbackQueueSection.setUseDefaultPlaybackSpeed(enabled)
 
-    private val _playbackPitch = MutableStateFlow(prefs.getFloat(KEY_PLAYBACK_PITCH, 1.0f))
-    val playbackPitch: StateFlow<Float> = _playbackPitch.asStateFlow()
+    val playbackPitch: StateFlow<Float> get() = playbackQueueSection.playbackPitch
+    fun setPlaybackPitch(pitch: Float) = playbackQueueSection.setPlaybackPitch(pitch)
 
-    private val _syncSpeedAndPitch = MutableStateFlow(prefs.getBoolean(KEY_SYNC_SPEED_AND_PITCH, false))
-    val syncSpeedAndPitch: StateFlow<Boolean> = _syncSpeedAndPitch.asStateFlow()
+    val syncSpeedAndPitch: StateFlow<Boolean> get() = playbackQueueSection.syncSpeedAndPitch
+    fun setSyncSpeedAndPitch(sync: Boolean) = playbackQueueSection.setSyncSpeedAndPitch(sync)
     
     // Time Format Settings - Show hours:minutes:seconds for longer tracks (>60 min)
-    private val _useHoursInTimeFormat = MutableStateFlow(prefs.getBoolean(KEY_USE_HOURS_IN_TIME_FORMAT, true))
-    val useHoursInTimeFormat: StateFlow<Boolean> = _useHoursInTimeFormat.asStateFlow()
+    val useHoursInTimeFormat: StateFlow<Boolean> get() = playbackQueueSection.useHoursInTimeFormat
+    fun setUseHoursInTimeFormat(enabled: Boolean) = playbackQueueSection.setUseHoursInTimeFormat(enabled)
     
-    private val _showRemainingTime = MutableStateFlow(prefs.getBoolean(KEY_SHOW_REMAINING_TIME, false))
-    val showRemainingTime: StateFlow<Boolean> = _showRemainingTime.asStateFlow()
+    val showRemainingTime: StateFlow<Boolean> get() = playbackQueueSection.showRemainingTime
+    fun setShowRemainingTime(enabled: Boolean) = playbackQueueSection.setShowRemainingTime(enabled)
     
     private val _expressiveColors = MutableStateFlow(prefs.getBoolean(KEY_EXPRESSIVE_COLORS, true))
     val expressiveColors: StateFlow<Boolean> = _expressiveColors.asStateFlow()
@@ -1142,59 +1137,37 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val themeIntensity: StateFlow<String> = _themeIntensity.asStateFlow()
     
     // Stop Playback on App Close
-    private val _stopPlaybackOnAppClose = MutableStateFlow(prefs.getBoolean(KEY_STOP_PLAYBACK_ON_APP_CLOSE, false))
-    val stopPlaybackOnAppClose: StateFlow<Boolean> = _stopPlaybackOnAppClose.asStateFlow()
+    val stopPlaybackOnAppClose: StateFlow<Boolean> get() = playbackQueueSection.stopPlaybackOnAppClose
+    fun setStopPlaybackOnAppClose(enabled: Boolean) = playbackQueueSection.setStopPlaybackOnAppClose(enabled)
     
     // Queue Persistence
-    private val _queuePersistenceEnabled = MutableStateFlow(prefs.getBoolean(KEY_QUEUE_PERSISTENCE_ENABLED, true))
-    val queuePersistenceEnabled: StateFlow<Boolean> = _queuePersistenceEnabled.asStateFlow()
+    val queuePersistenceEnabled: StateFlow<Boolean> get() = playbackQueueSection.queuePersistenceEnabled
+    fun setQueuePersistenceEnabled(enabled: Boolean) = playbackQueueSection.setQueuePersistenceEnabled(enabled)
 
     // Context queue preferences
-    private val _contextQueuePreference = MutableStateFlow(prefs.getString(KEY_CONTEXT_QUEUE_PREFERENCE, "ARTIST_THEN_GENRE")!!)
-    val contextQueuePreference: StateFlow<String> = _contextQueuePreference.asStateFlow()
+    val contextQueuePreference: StateFlow<String> get() = playbackQueueSection.contextQueuePreference
+    fun setContextQueuePreference(pref: String) = playbackQueueSection.setContextQueuePreference(pref)
 
-    private val _contextQueuePersistence = MutableStateFlow(prefs.getString(KEY_CONTEXT_QUEUE_PERSISTENCE, "EPHEMERAL")!!)
-    val contextQueuePersistence: StateFlow<String> = _contextQueuePersistence.asStateFlow()
+    val contextQueuePersistence: StateFlow<String> get() = playbackQueueSection.contextQueuePersistence
+    fun setContextQueuePersistence(value: String) = playbackQueueSection.setContextQueuePersistence(value)
 
-    private val _contextQueueSize = MutableStateFlow(prefs.getInt(KEY_CONTEXT_QUEUE_SIZE, 50))
-    val contextQueueSize: StateFlow<Int> = _contextQueueSize.asStateFlow()
+    val contextQueueSize: StateFlow<Int> get() = playbackQueueSection.contextQueueSize
+    fun setContextQueueSize(size: Int) = playbackQueueSection.setContextQueueSize(size)
     
-    private val _savedQueue = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_SAVED_QUEUE, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val savedQueue: StateFlow<List<String>> = _savedQueue.asStateFlow()
+    val savedQueue: StateFlow<List<String>> get() = playbackQueueSection.savedQueue
+    fun setSavedQueue(songIds: List<String>) = playbackQueueSection.setSavedQueue(songIds)
     
-    private val _savedQueueIndex = MutableStateFlow(prefs.getInt(KEY_SAVED_QUEUE_INDEX, -1))
-    val savedQueueIndex: StateFlow<Int> = _savedQueueIndex.asStateFlow()
+    val savedQueueIndex: StateFlow<Int> get() = playbackQueueSection.savedQueueIndex
+    fun setSavedQueueIndex(index: Int) = playbackQueueSection.setSavedQueueIndex(index)
     
-    private val _savedPlaybackPosition = MutableStateFlow(prefs.getLong(KEY_SAVED_PLAYBACK_POSITION, 0L))
-    val savedPlaybackPosition: StateFlow<Long> = _savedPlaybackPosition.asStateFlow()
+    val savedPlaybackPosition: StateFlow<Long> get() = playbackQueueSection.savedPlaybackPosition
+    fun setSavedPlaybackPosition(position: Long) = playbackQueueSection.setSavedPlaybackPosition(position)
 
-    private val _savedOriginalQueue = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_SAVED_ORIGINAL_QUEUE, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val savedOriginalQueue: StateFlow<List<String>> = _savedOriginalQueue.asStateFlow()
+    val savedOriginalQueue: StateFlow<List<String>> get() = playbackQueueSection.savedOriginalQueue
+    fun setSavedOriginalQueue(songIds: List<String>) = playbackQueueSection.setSavedOriginalQueue(songIds)
 
-    private val _savedOriginalQueueSource = MutableStateFlow<String?>(prefs.getString(KEY_SAVED_ORIGINAL_QUEUE_SOURCE, null))
-    val savedOriginalQueueSource: StateFlow<String?> = _savedOriginalQueueSource.asStateFlow()
+    val savedOriginalQueueSource: StateFlow<String?> get() = playbackQueueSection.savedOriginalQueueSource
+    fun setSavedOriginalQueueSource(sourceName: String?) = playbackQueueSection.setSavedOriginalQueueSource(sourceName)
     
     // Cache Settings
     private val _maxCacheSize = MutableStateFlow(safeLong(KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)) // 300MB default
@@ -1394,25 +1367,12 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     }
     
     // Recently Played
-    private val _recentlyPlayed = MutableStateFlow<List<String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_RECENTLY_PLAYED, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val recentlyPlayed: StateFlow<List<String>> = _recentlyPlayed.asStateFlow()
+    val recentlyPlayed: StateFlow<List<String>> get() = playbackQueueSection.recentlyPlayed
 
     private val _recentlyPlayedSongCache = MutableStateFlow(loadRecentlyPlayedSongCache())
     val recentlyPlayedSongCache: StateFlow<Map<String, Song>> = _recentlyPlayedSongCache.asStateFlow()
     
-    private val _lastPlayedTimestamp = MutableStateFlow(safeLong(KEY_LAST_PLAYED_TIMESTAMP, 0L))
-    val lastPlayedTimestamp: StateFlow<Long> = _lastPlayedTimestamp.asStateFlow()
+    val lastPlayedTimestamp: StateFlow<Long> get() = playbackQueueSection.lastPlayedTimestamp
     
     private val _integrationsEnabled = MutableStateFlow(prefs.getBoolean(KEY_INTEGRATIONS_ENABLED, false))
     override val integrationsEnabled: StateFlow<Boolean> = _integrationsEnabled.asStateFlow()
@@ -2274,123 +2234,30 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     
     // Sleep Timer Methods
-    fun setSleepTimerActive(active: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SLEEP_TIMER_ACTIVE, active) }
-        _sleepTimerActive.value = active
-    }
     
-    fun setSleepTimerRemainingSeconds(seconds: Long) {
-        prefs.edit { putLong(AppSettings.KEY_SLEEP_TIMER_REMAINING_SECONDS, seconds) }
-        _sleepTimerRemainingSeconds.value = seconds
-    }
     
-    fun setSleepTimerAction(action: String) {
-        prefs.edit { putString(AppSettings.KEY_SLEEP_TIMER_ACTION, action) }
-        _sleepTimerAction.value = action
-    }
     
     // Queue & Playback Behavior Methods
-    fun setShuffleUsesExoplayer(useExoplayer: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHUFFLE_USES_EXOPLAYER, useExoplayer) }
-        _shuffleUsesExoplayer.value = useExoplayer
-    }
     
-    fun setAutoAddToQueue(autoAdd: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUTO_ADD_TO_QUEUE, autoAdd) }
-        _autoAddToQueue.value = autoAdd
-    }
     
-    fun setRespectAlbumOnPlay(respect: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_RESPECT_ALBUM_ON_PLAY, respect) }
-        _respectAlbumOnPlay.value = respect
-    }
     
-    fun setClearQueueOnNewSong(clearQueue: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_CLEAR_QUEUE_ON_NEW_SONG, clearQueue) }
-        _clearQueueOnNewSong.value = clearQueue
-    }
 
     
-    fun setShowQueueDialog(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_QUEUE_DIALOG, show) }
-        _showQueueDialog.value = show
-    }
 
-    fun setListQueueActionBehavior(behavior: String) {
-        if (behavior in listOf("replace", "ask", "play_next", "add_to_end")) {
-            prefs.edit { putString(AppSettings.KEY_LIST_QUEUE_ACTION_BEHAVIOR, behavior) }
-            _listQueueActionBehavior.value = behavior
-        }
-    }
     
-    fun setHidePlayedQueueSongs(hide: Boolean) {
-        prefs.edit {
-    putBoolean(AppSettings.KEY_HIDE_PLAYED_QUEUE_SONGS, hide)
-    putBoolean(AppSettings.KEY_HIDE_PLAYED_SONGS_IN_QUEUE, hide)
-}
-        _hidePlayedQueueSongs.value = hide
-    }
     
-    fun setRepeatModePersistence(persist: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_REPEAT_MODE_PERSISTENCE, persist) }
-        _repeatModePersistence.value = persist
-    }
     
-    fun setShuffleModePersistence(persist: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHUFFLE_MODE_PERSISTENCE, persist) }
-        _shuffleModePersistence.value = persist
-    }
     
-    fun setKeepShuffleOnSelection(keep: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_KEEP_SHUFFLE_ON_SELECTION, keep) }
-        _keepShuffleOnSelection.value = keep
-    }
     
-    fun setSavedShuffleState(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SAVED_SHUFFLE_STATE, enabled) }
-        _savedShuffleState.value = enabled
-    }
     
-    fun setSavedRepeatMode(mode: Int) {
-        prefs.edit { putInt(AppSettings.KEY_SAVED_REPEAT_MODE, mode) }
-        _savedRepeatMode.value = mode
-    }
     
-    fun setPlaybackSpeed(speed: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_PLAYBACK_SPEED, speed) }
-        _playbackSpeed.value = speed
-    }
 
-    fun setDefaultPlaybackSpeed(speed: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_DEFAULT_PLAYBACK_SPEED, speed) }
-        _defaultPlaybackSpeed.value = speed
-    }
 
-    fun setUseDefaultPlaybackSpeed(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_DEFAULT_PLAYBACK_SPEED, enabled) }
-        _useDefaultPlaybackSpeed.value = enabled
-    }
 
-    fun setPlaybackPitch(pitch: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_PLAYBACK_PITCH, pitch) }
-        _playbackPitch.value = pitch
-    }
 
-    fun setSyncSpeedAndPitch(sync: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SYNC_SPEED_AND_PITCH, sync) }
-        _syncSpeedAndPitch.value = sync
-    }
     
     // Time Format Settings Methods
-    fun setUseHoursInTimeFormat(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_HOURS_IN_TIME_FORMAT, enabled) }
-        _useHoursInTimeFormat.value = enabled
-    }
     
-    fun setShowRemainingTime(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_REMAINING_TIME, enabled) }
-        _showRemainingTime.value = enabled
-    }
     
     fun setExpressiveColors(enabled: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_EXPRESSIVE_COLORS, enabled) }
@@ -2403,86 +2270,21 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Stop Playback on App Close Methods
-    fun setStopPlaybackOnAppClose(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_STOP_PLAYBACK_ON_APP_CLOSE, enabled) }
-        _stopPlaybackOnAppClose.value = enabled
-    }
     
     // Queue Persistence Methods
-    fun setQueuePersistenceEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_QUEUE_PERSISTENCE_ENABLED, enabled) }
-        _queuePersistenceEnabled.value = enabled
-        
-        // Clear saved queue if persistence is disabled
-        if (!enabled) {
-            clearSavedQueue()
-        }
-    }
     
-    fun setSavedQueue(songIds: List<String>) {
-        val json = Gson().toJson(songIds)
-        prefs.edit { putString(AppSettings.KEY_SAVED_QUEUE, json) }
-        _savedQueue.value = songIds
-    }
     
-    fun setSavedQueueIndex(index: Int) {
-        prefs.edit { putInt(AppSettings.KEY_SAVED_QUEUE_INDEX, index) }
-        _savedQueueIndex.value = index
-    }
     
-    fun setSavedPlaybackPosition(position: Long) {
-        prefs.edit { putLong(AppSettings.KEY_SAVED_PLAYBACK_POSITION, position) }
-        _savedPlaybackPosition.value = position
-    }
 
-    fun setSavedOriginalQueue(songIds: List<String>) {
-        val json = Gson().toJson(songIds)
-        prefs.edit { putString(AppSettings.KEY_SAVED_ORIGINAL_QUEUE, json) }
-        _savedOriginalQueue.value = songIds
-    }
 
-    fun setSavedOriginalQueueSource(sourceName: String?) {
-        if (sourceName == null) {
-            prefs.edit { remove(AppSettings.KEY_SAVED_ORIGINAL_QUEUE_SOURCE) }
-        } else {
-            prefs.edit { putString(AppSettings.KEY_SAVED_ORIGINAL_QUEUE_SOURCE, sourceName) }
-        }
-        _savedOriginalQueueSource.value = sourceName
-    }
 
-    fun clearSavedOriginalQueue() {
-        prefs.edit { remove(AppSettings.KEY_SAVED_ORIGINAL_QUEUE) }
-        prefs.edit { remove(AppSettings.KEY_SAVED_ORIGINAL_QUEUE_SOURCE) }
-        _savedOriginalQueue.value = emptyList()
-        _savedOriginalQueueSource.value = null
-    }
+    fun clearSavedOriginalQueue() = playbackQueueSection.clearSavedOriginalQueue()
     
-    fun clearSavedQueue() {
-        prefs.edit { remove(AppSettings.KEY_SAVED_QUEUE) }
-        prefs.edit { remove(AppSettings.KEY_SAVED_QUEUE_INDEX) }
-        prefs.edit { remove(AppSettings.KEY_SAVED_PLAYBACK_POSITION) }
-        clearSavedOriginalQueue()
-        _savedQueue.value = emptyList()
-        _savedQueueIndex.value = -1
-        _savedPlaybackPosition.value = 0L
-    }
+    fun clearSavedQueue() = playbackQueueSection.clearSavedQueue()
 
     // Context queue settings
-    fun setContextQueuePreference(pref: String) {
-        prefs.edit { putString(AppSettings.KEY_CONTEXT_QUEUE_PREFERENCE, pref) }
-        _contextQueuePreference.value = pref
-    }
 
-    fun setContextQueuePersistence(value: String) {
-        prefs.edit { putString(AppSettings.KEY_CONTEXT_QUEUE_PERSISTENCE, value) }
-        _contextQueuePersistence.value = value
-    }
 
-    fun setContextQueueSize(size: Int) {
-        val safeSize = size.coerceAtLeast(1)
-        prefs.edit { putInt(AppSettings.KEY_CONTEXT_QUEUE_SIZE, safeSize) }
-        _contextQueueSize.value = safeSize
-    }
     
     // Cache Settings Methods
     fun setMaxCacheSize(size: Long) {
@@ -2666,7 +2468,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun updateRecentlyPlayed(songIds: List<String>) {
         val json = Gson().toJson(songIds)
         prefs.edit { putString(AppSettings.KEY_RECENTLY_PLAYED, json) }
-        _recentlyPlayed.value = songIds
+        playbackQueueSection._recentlyPlayed.value = songIds
     }
 
     fun updateRecentlyPlayedSongCache(songs: List<Song>) {
@@ -2685,7 +2487,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     fun updateLastPlayedTimestamp(timestamp: Long) {
         prefs.edit { putLong(AppSettings.KEY_LAST_PLAYED_TIMESTAMP, timestamp) }
-        _lastPlayedTimestamp.value = timestamp
+        playbackQueueSection._lastPlayedTimestamp.value = timestamp
     }
     
     
@@ -4027,13 +3829,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         } catch (e: Exception) { emptyMap() }
         
         // Recently Played
-        _recentlyPlayed.value = try {
+        playbackQueueSection._recentlyPlayed.value = try {
             val json = prefs.getString(AppSettings.KEY_RECENTLY_PLAYED, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<List<String>>() {}.type) else emptyList()
         } catch (e: Exception) { emptyList() }
         _recentlyPlayedSongCache.value = loadRecentlyPlayedSongCache()
         
-        _lastPlayedTimestamp.value = safeLong(AppSettings.KEY_LAST_PLAYED_TIMESTAMP, 0L)
+        playbackQueueSection._lastPlayedTimestamp.value = safeLong(AppSettings.KEY_LAST_PLAYED_TIMESTAMP, 0L)
         
         // API Enable/Disable States
         _integrationsEnabled.value = prefs.getBoolean(AppSettings.KEY_INTEGRATIONS_ENABLED, false)
@@ -4126,9 +3928,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         }
         
         // Sleep Timer settings
-        _sleepTimerActive.value = prefs.getBoolean(AppSettings.KEY_SLEEP_TIMER_ACTIVE, false)
-        _sleepTimerRemainingSeconds.value = prefs.getLong(AppSettings.KEY_SLEEP_TIMER_REMAINING_SECONDS, 0L)
-        _sleepTimerAction.value = prefs.getString(AppSettings.KEY_SLEEP_TIMER_ACTION, "FADE_OUT") ?: "FADE_OUT"
+        playbackQueueSection._sleepTimerActive.value = prefs.getBoolean(AppSettings.KEY_SLEEP_TIMER_ACTIVE, false)
+        playbackQueueSection._sleepTimerRemainingSeconds.value = prefs.getLong(AppSettings.KEY_SLEEP_TIMER_REMAINING_SECONDS, 0L)
+        playbackQueueSection._sleepTimerAction.value = prefs.getString(AppSettings.KEY_SLEEP_TIMER_ACTION, "FADE_OUT") ?: "FADE_OUT"
         
         // Media Scan Tracking
         librarySection._lastScanTimestamp.value = safeLong(AppSettings.KEY_LAST_SCAN_TIMESTAMP, 0L)
