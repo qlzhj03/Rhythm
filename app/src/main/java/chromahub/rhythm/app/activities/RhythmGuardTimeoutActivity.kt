@@ -78,7 +78,7 @@ import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShape
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

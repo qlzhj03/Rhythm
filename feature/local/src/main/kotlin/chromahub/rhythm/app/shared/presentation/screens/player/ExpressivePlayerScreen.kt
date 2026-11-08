@@ -92,17 +92,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ExtraControlBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.ExtraControlBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.PlaybackBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.QueueBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.PlaybackQualityBottomSheet
-import chromahub.rhythm.app.shared.presentation.screens.settings.AudioRoutingDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.QueueBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.PlaybackQualityBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.AudioRoutingDialog
 import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackPitchDialog
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackSpeedDialog
-import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.PlaybackPitchDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.PlaybackSpeedDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.SleepTimerBottomSheetNew
 import chromahub.rhythm.app.shared.presentation.components.lyrics.LyricsEditorBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.lyrics.SyncedLyricsView
 import chromahub.rhythm.app.shared.presentation.components.lyrics.WordByWordLyricsView
@@ -117,32 +117,32 @@ import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.designsystem.components.AnimatedDigitTickerText
-import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.AutoScrollingTextOnDemand
 import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
 import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
-import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.components.PlaybackBufferingLoader
-import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
-import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
-import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ThumbStyle
 import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import com.qlzhj.rhythm.core.designsystem.components.RhythmControlButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmDetailActionButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonType
 import com.qlzhj.rhythm.core.designsystem.components.RhythmPlayButton
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.AudioQualityIcon
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.M3ImageUtils
+import com.qlzhj.rhythm.core.ui.util.M3ImageUtils
 import com.qlzhj.rhythm.core.designsystem.utils.ColorExtractor
 import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
 import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
@@ -200,7 +200,7 @@ internal val accentSchemeCache = java.util.concurrent.ConcurrentHashMap<String, 
  * ColorExtractor.QuantizerCelebi has enough pixels to produce meaningful clusters.
  */
 private suspend fun loadArtworkBitmap(context: android.content.Context, uri: android.net.Uri, maxSize: Int = 512): android.graphics.Bitmap? {
-    return chromahub.rhythm.app.util.ImageUtils.loadArtworkBitmap(context, uri, maxSize)
+    return com.qlzhj.rhythm.core.ui.util.ImageUtils.loadArtworkBitmap(context, uri, maxSize)
 }
 
 @Composable
@@ -2452,7 +2452,7 @@ fun ExpressivePlayerScreen(
         val equalizerEnabled by appSettings.equalizerEnabled.collectAsState()
         val autoEQProfiles by musicViewModel.autoEQProfiles.collectAsState()
         
-        chromahub.rhythm.app.shared.presentation.components.dialogs.AutoEQSuggestionDialog(
+        com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.AutoEQSuggestionDialog(
             deviceName = location?.name ?: detectedDevice!!.name,
             savedDevice = detectedDevice!!,
             equalizerEnabled = equalizerEnabled,
@@ -2486,7 +2486,7 @@ fun ExpressivePlayerScreen(
     }
     
     if (showDeviceConfig && musicViewModel != null) {
-        chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
+        com.qlzhj.rhythm.core.ui.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet(
             audioEffects = musicViewModel.audioEffects,
             audioDevices = musicViewModel.audioDevices,
             appSettings = appSettings,

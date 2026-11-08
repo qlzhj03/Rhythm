@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.components.lyrics
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
@@ -75,11 +75,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmToggleButtonGroup
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmToggleOption
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmToggleButtonGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmToggleOption
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils

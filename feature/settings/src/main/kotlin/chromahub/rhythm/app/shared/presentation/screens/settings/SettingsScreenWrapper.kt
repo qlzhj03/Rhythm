@@ -135,25 +135,26 @@ import com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController
 import com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackSettingsController
 import com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackStateSource
 import com.qlzhj.rhythm.core.media.infrastructure.service.SleepTimerController
-import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
-import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsBadgePalette
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsPalettes
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.SleepTimerBottomSheetNew
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import kotlin.math.absoluteValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
 
 // Wrapper function for navigation
 @OptIn(ExperimentalAnimationApi::class)

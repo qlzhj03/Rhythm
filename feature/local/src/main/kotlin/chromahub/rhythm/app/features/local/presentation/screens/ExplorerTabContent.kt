@@ -50,8 +50,8 @@ import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.designsystem.components.ContentLoadingIndicator
 import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveOutlinedButton
 import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
 import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape

@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.CompositionLocalProvider

@@ -42,9 +42,9 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.media.core.device.AudioCodecInfo
 import com.qlzhj.rhythm.core.media.core.device.DeviceCapabilitiesProvider
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveCookieEmptyState
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
@@ -53,6 +53,8 @@ import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import java.util.Locale
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 
 private data class MimeFilterTab(
     val label: String,

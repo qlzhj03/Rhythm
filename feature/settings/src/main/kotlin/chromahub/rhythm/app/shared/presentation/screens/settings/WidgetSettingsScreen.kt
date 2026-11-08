@@ -1,10 +1,10 @@
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
@@ -41,14 +41,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackWidgetBridgeInstaller
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

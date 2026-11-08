@@ -77,22 +77,22 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kotlin.system.exitProcess
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.HeaderAction
 import com.qlzhj.rhythm.core.designsystem.components.RhythmGroupedMenuContent
 import com.qlzhj.rhythm.core.designsystem.components.RhythmMenuItem
 import com.qlzhj.rhythm.core.designsystem.components.ArcProgressSlider
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
-import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
-import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ThumbStyle
 import com.qlzhj.rhythm.core.designsystem.components.CookieHorizontalSlider
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
 import com.qlzhj.rhythm.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
 import androidx.compose.animation.AnimatedContent
@@ -249,25 +249,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.QueueActionDialog
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons.Delete
 import com.qlzhj.rhythm.core.designsystem.components.SmallTabAnimation
-import chromahub.rhythm.app.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.mutableFloatStateOf
 
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.SaveCustomPresetDialog
-import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.EqualizerPresetOrderBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.common.rhythmMarquee
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.bottomsheets.DeviceConfigurationBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.SaveCustomPresetDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.bottomsheets.EqualizerPresetOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rhythmMarquee
 import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
 import com.qlzhj.rhythm.core.model.EqualizerPresetType
@@ -290,7 +290,7 @@ fun TunerAnimatedSwitch(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch(
+    com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch(
         checked = checked,
         onCheckedChange = onCheckedChange,
         modifier = modifier

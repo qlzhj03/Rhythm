@@ -55,7 +55,7 @@ import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.onboarding.OnboardingStep
 import chromahub.rhythm.app.onboarding.PermissionScreenState
 import chromahub.rhythm.app.onboarding.OnboardingScreen
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -63,8 +63,8 @@ import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.delay
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope

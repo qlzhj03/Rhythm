@@ -68,7 +68,7 @@ import com.qlzhj.rhythm.core.data.util.PlaylistImportExportUtils
 import com.qlzhj.rhythm.core.data.util.RhythmBackupDetectedException
 import com.qlzhj.rhythm.core.common.PlaybackCommandSerializer
 import com.qlzhj.rhythm.core.media.util.RhythmLyricsParser
-import chromahub.rhythm.app.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
 import com.qlzhj.rhythm.core.designsystem.utils.ColorExtractor
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors

@@ -42,13 +42,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
-import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.AutoScrollingTextOnDemand
 import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import com.qlzhj.rhythm.core.media.util.MediaUtils
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.activities.MainActivity
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter

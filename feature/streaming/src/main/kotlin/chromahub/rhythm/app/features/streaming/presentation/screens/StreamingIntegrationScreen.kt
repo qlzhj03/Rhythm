@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 
 /**
  * Default first-use screen for streaming mode.

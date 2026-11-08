@@ -23,7 +23,7 @@ import javax.inject.Inject
 import com.qlzhj.rhythm.core.common.ANRWatchdog
 import com.qlzhj.rhythm.core.common.HapticsGate
 import com.qlzhj.rhythm.core.media.util.CacheManager
-import chromahub.rhythm.app.util.CrashReporter
+import com.qlzhj.rhythm.core.ui.util.CrashReporter
 import com.qlzhj.rhythm.core.media.util.MediaUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -153,29 +153,29 @@ import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
 import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
 import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
-import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
-import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.settings.LibraryTabOrderBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsBadgePalette
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsPalettes
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.LibraryTabOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerScanner
 import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
-import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 import com.qlzhj.rhythm.core.designsystem.theme.ColorSchemeOption
 import com.qlzhj.rhythm.core.designsystem.theme.getPresetColorSchemeOptions
 import chromahub.rhythm.app.shared.presentation.screens.settings.ColorSchemePaletteRow
@@ -201,10 +201,10 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.statsGemLabel
 import chromahub.rhythm.app.shared.presentation.screens.settings.statsRangeIcon
 import chromahub.rhythm.app.shared.presentation.screens.settings.statsRangeLabel
 import chromahub.rhythm.app.shared.presentation.screens.settings.updateAllWidgets
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ShapePresetsBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.getLocalizedShapePresetName
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.ShapePresetsBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.getLocalizedShapePresetName
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.shared.presentation.screens.settings.CanvasNetworkModeDialog
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
@@ -227,13 +227,13 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShape
 import androidx.compose.ui.draw.shadow
-import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
-import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
-import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ThumbStyle
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -9300,7 +9300,7 @@ fun OnboardingAnimatedSwitch(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
-    chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch(
+    com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch(
         checked = checked,
         onCheckedChange = onCheckedChange,
         enabled = enabled,
@@ -10478,7 +10478,7 @@ private fun Material3SettingsGroup(
     lastItemShape: Shape? = null,
     iconShape: Shape? = null
 ) {
-    chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup(
+    com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup(
         title = title,
         items = items,
         containerColor = containerColor,

@@ -1,10 +1,10 @@
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
@@ -124,11 +124,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.runtime.mutableIntStateOf
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.LanguageSwitcherBottomSheet
 import android.content.Context
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.ui.platform.LocalContext
@@ -139,15 +139,21 @@ import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.SleepTimerBottomSheetNew
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
 import androidx.compose.ui.res.stringResource
 import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
 import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
-import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
-import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsBadgePalette
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingsPalettes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsSearchBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsSearchResults
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.buildSettingsSearchIndex
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.searchSettings
 
 // Define routes for navigation
 

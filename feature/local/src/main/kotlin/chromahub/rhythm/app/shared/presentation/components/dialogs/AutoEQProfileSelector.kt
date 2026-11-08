@@ -2,9 +2,9 @@
 
 package chromahub.rhythm.app.shared.presentation.components.dialogs
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 import androidx.compose.foundation.lazy.rememberLazyListState
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend

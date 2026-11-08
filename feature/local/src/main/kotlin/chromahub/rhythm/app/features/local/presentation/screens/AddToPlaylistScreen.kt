@@ -38,12 +38,12 @@ import kotlinx.coroutines.launch
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
-import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.HeaderAction
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
 import androidx.compose.ui.res.stringResource
 
 /**

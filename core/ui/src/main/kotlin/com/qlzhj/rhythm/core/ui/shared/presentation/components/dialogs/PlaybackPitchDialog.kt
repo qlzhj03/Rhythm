@@ -1,0 +1,30 @@
+package com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs
+
+import androidx.compose.runtime.Composable
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.PlaybackSpeedAndPitchBottomSheet
+
+@Composable
+fun PlaybackPitchDialog(
+    currentPitch: Float,
+    currentSpeed: Float = currentPitch,
+    syncEnabled: Boolean = false,
+    onSyncChange: (Boolean) -> Unit = {},
+    onDismiss: () -> Unit,
+    onSave: (Float) -> Unit,
+    onSaveBoth: ((speed: Float, pitch: Float) -> Unit)? = null
+) {
+    PlaybackSpeedAndPitchBottomSheet(
+        currentSpeed = currentSpeed,
+        currentPitch = currentPitch,
+        syncEnabled = syncEnabled,
+        onSyncChange = onSyncChange,
+        onDismiss = onDismiss,
+        onSave = { speed, pitch ->
+            if (onSaveBoth != null) {
+                onSaveBoth(speed, pitch)
+            } else {
+                onSave(pitch)
+            }
+        }
+    )
+}

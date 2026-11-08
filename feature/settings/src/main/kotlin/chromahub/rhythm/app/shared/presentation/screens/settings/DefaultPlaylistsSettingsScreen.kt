@@ -21,13 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 
 @Composable
 fun DefaultPlaylistsSettingsScreen(

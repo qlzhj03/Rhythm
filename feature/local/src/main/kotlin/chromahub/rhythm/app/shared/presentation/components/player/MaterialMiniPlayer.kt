@@ -74,10 +74,10 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import com.qlzhj.rhythm.core.designsystem.theme.PlayerButtonColor
 import com.qlzhj.rhythm.core.designsystem.theme.PlayerProgressColor
-import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.M3ImageUtils
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.util.concurrent.TimeUnit
@@ -94,8 +94,8 @@ import androidx.compose.ui.unit.IntOffset
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
-import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
-import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.PlayingEqIcon
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.AutoScrollingTextOnDemand
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
@@ -106,8 +106,8 @@ import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.components.ShimmerBox
-import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
-import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.runtime.collectAsState

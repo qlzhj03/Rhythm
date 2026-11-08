@@ -47,14 +47,14 @@ import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilterChip
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

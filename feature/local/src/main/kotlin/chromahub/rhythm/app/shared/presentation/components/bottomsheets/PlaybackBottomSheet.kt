@@ -1,5 +1,5 @@
 package chromahub.rhythm.app.shared.presentation.components.bottomsheets
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
@@ -44,9 +44,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -104,17 +104,20 @@ import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
-import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityLabel
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.streamingQualityOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.streamingQualityLabel
 import chromahub.rhythm.app.shared.presentation.components.player.VolumeSlider
 import java.util.Locale
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.PlaybackSpeedAndPitchBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -724,7 +727,7 @@ private fun PlaybackSpeedAndPitchCard(
                     title = { Text(text = context.getString(R.string.player_sync_speed_pitch)) },
                     description = { Text(text = context.getString(R.string.player_sync_speed_pitch_desc)) },
                     trailingContent = {
-                        chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch(
+                        com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch(
                             checked = syncEnabled,
                             onCheckedChange = {
                                 onSyncChange(it)
@@ -831,7 +834,7 @@ private fun PlaybackQuickSettingsCard(
                         }
                     )
                 },
-                scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH,
+                scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH,
                 onClick = {
                     HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                     onStopPlaybackOnZeroVolumeChange(!stopPlaybackOnZeroVolume)
@@ -851,7 +854,7 @@ private fun PlaybackQuickSettingsCard(
                         }
                     )
                 },
-                scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH,
+                scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH,
                 onClick = {
                     HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                     onResumeOnDeviceReconnectChange(!resumeOnDeviceReconnect)
@@ -871,7 +874,7 @@ private fun PlaybackQuickSettingsCard(
                         }
                     )
                 },
-                scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH,
+                scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH,
                 onClick = {
                     HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                     onGaplessPlaybackChange(!gaplessPlayback)
@@ -891,7 +894,7 @@ private fun PlaybackQuickSettingsCard(
                         }
                     )
                 },
-                scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH,
+                scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH,
                 onClick = {
                     HapticUtils.performHapticFeedback(context, haptics, HapticType.LIGHT)
                     onShowPlayedQueueSongsChange(!showPlayedQueueSongs)
@@ -922,7 +925,7 @@ private fun PlaybackQuickSettingsCard(
                         enabled = !isOffloadEnforced
                     )
                 },
-                scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH,
+                scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH,
                 enabled = !isOffloadEnforced,
                 onClick = {
                     if (!isOffloadEnforced) {
@@ -1015,7 +1018,7 @@ private fun PlaybackQuickSettingsCard(
                             navigateToSettings.invoke()
                         }
                     }
-                    ,scope = chromahub.rhythm.app.shared.presentation.components.SettingScope.BOTH
+                    ,scope = com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope.BOTH
                 )
             )
         }
@@ -1172,7 +1175,7 @@ private fun PlaybackPitchCard(
                                 else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch(
+                com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch(
                     checked = syncEnabled,
                     onCheckedChange = {
                         onSyncChange(it)
@@ -1277,7 +1280,7 @@ private fun AnimatedAudioSwitch(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
-    chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch(
+    com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch(
         checked = checked,
         onCheckedChange = onCheckedChange,
         enabled = enabled,

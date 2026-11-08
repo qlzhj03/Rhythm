@@ -3,7 +3,7 @@ package chromahub.rhythm.app.infrastructure.service.util
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import androidx.annotation.OptIn
-import chromahub.rhythm.app.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

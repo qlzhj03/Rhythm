@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import android.content.Context
 import android.net.nsd.NsdManager
@@ -51,17 +51,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.StreamingServiceId
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
 import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonType
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress

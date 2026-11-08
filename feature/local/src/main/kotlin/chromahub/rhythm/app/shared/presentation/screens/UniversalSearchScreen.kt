@@ -2,19 +2,19 @@ package chromahub.rhythm.app.shared.presentation.screens
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
-import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveCookieEmptyState
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.MarqueeText
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 
 import android.widget.Toast
@@ -67,13 +67,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.net.Uri
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.findAlbumForSong
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.model.StreamingAlbum
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
@@ -85,17 +85,17 @@ import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.SettingScope
-import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.shared.presentation.components.dialogs.SwitchModeDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.SettingScope
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.M3PlaceholderType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.SwitchModeDialog
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.common.GenreUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.M3ImageUtils
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.M3ImageUtils
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.delay

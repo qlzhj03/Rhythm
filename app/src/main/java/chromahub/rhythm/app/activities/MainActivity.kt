@@ -72,9 +72,9 @@ import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.navigation.RhythmNavigation
 import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import chromahub.rhythm.app.shared.presentation.theme.festive.FestiveOverlayFromSettings
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.util.CrashReporter
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.util.CrashReporter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -135,8 +135,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType // Import HapticFee
 import androidx.compose.material3.ButtonDefaults
 import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.shared.presentation.components.PermissionHandler
-import chromahub.rhythm.app.shared.presentation.components.dialogs.BetaProgramPopup
-import chromahub.rhythm.app.shared.presentation.components.dialogs.TrackCorruptionDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.BetaProgramPopup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.TrackCorruptionDialog
 import chromahub.rhythm.app.onboarding.OnboardingScreen
 import chromahub.rhythm.app.onboarding.OnboardingStep
 import chromahub.rhythm.app.onboarding.PermissionScreenState

@@ -36,11 +36,13 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackSpeedDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.PlaybackSpeedDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 
 @Composable
 fun PlaybackSettingsScreen(

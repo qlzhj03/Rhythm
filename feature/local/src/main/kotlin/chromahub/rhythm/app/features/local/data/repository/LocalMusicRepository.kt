@@ -2632,7 +2632,7 @@ class LocalMusicRepository @Inject constructor(
                     ) {
                         Log.d(TAG, "Skipping unknown/blank artist name")
                         val placeholderUri =
-                            chromahub.rhythm.app.util.ImageUtils.generatePlaceholderImage(
+                            com.qlzhj.rhythm.core.ui.util.ImageUtils.generatePlaceholderImage(
                                 name = "Unknown Artist",
                                 size = 500,
                                 cacheDir = context.cacheDir
@@ -2774,7 +2774,7 @@ class LocalMusicRepository @Inject constructor(
                     // If we get here, generate a placeholder image
                     Log.d(TAG, "Generating placeholder for artist: ${artist.name}")
                     val placeholderUri =
-                        chromahub.rhythm.app.util.ImageUtils.generatePlaceholderImage(
+                        com.qlzhj.rhythm.core.ui.util.ImageUtils.generatePlaceholderImage(
                             name = artist.name,
                             size = 500,
                             cacheDir = context.cacheDir
@@ -2787,7 +2787,7 @@ class LocalMusicRepository @Inject constructor(
                     Log.e(TAG, "Error fetching artist image for ${artist.name}", e)
                     try {
                         val placeholderUri =
-                            chromahub.rhythm.app.util.ImageUtils.generatePlaceholderImage(
+                            com.qlzhj.rhythm.core.ui.util.ImageUtils.generatePlaceholderImage(
                                 name = artist.name,
                                 size = 500,
                                 cacheDir = context.cacheDir
@@ -5349,7 +5349,7 @@ class LocalMusicRepository @Inject constructor(
                 }
 
                 // Generate a custom placeholder image based on album name
-                val placeholderUri = chromahub.rhythm.app.util.ImageUtils.generatePlaceholderImage(
+                val placeholderUri = com.qlzhj.rhythm.core.ui.util.ImageUtils.generatePlaceholderImage(
                     name = album.title,
                     size = 500,
                     cacheDir = context.cacheDir
@@ -5476,7 +5476,7 @@ class LocalMusicRepository @Inject constructor(
                 // Try to use a generated placeholder
                 try {
                     val placeholderUri =
-                        chromahub.rhythm.app.util.ImageUtils.generatePlaceholderImage(
+                        com.qlzhj.rhythm.core.ui.util.ImageUtils.generatePlaceholderImage(
                             name = album.title,
                             size = 500,
                             cacheDir = context.cacheDir

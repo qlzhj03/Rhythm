@@ -41,8 +41,8 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.media.core.device.AudioOutputCategory
 import com.qlzhj.rhythm.core.media.core.device.DeviceCapabilitiesProvider
 import com.qlzhj.rhythm.core.media.core.device.HiFiCapabilityChecker
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveCookieEmptyState
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding

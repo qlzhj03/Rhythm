@@ -52,11 +52,11 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginPhase
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
 import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
 import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader

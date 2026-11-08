@@ -2,13 +2,13 @@ package chromahub.rhythm.app.features.streaming.presentation.screens
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityLabel
-import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.streamingQualityLabel
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.streamingQualityOptions
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
@@ -36,10 +36,10 @@ import androidx.navigation.NavController
 import com.qlzhj.rhythm.core.model.StreamingQuality
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import android.content.Context
@@ -54,11 +54,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import com.qlzhj.rhythm.core.common.NetworkUtils
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import androidx.compose.ui.text.style.TextOverflow
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOption
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOption
 import androidx.annotation.StringRes
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight

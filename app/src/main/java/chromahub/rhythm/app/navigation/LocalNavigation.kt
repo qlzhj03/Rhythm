@@ -81,8 +81,8 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongPickerBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongPickerBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilledIconButton
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -121,17 +121,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueListActionDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.QueueActionDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.QueueListActionDialog
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.shared.presentation.components.player.RhythmPlayerSheet
-import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.SleepTimerBottomSheetNew
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
 import chromahub.rhythm.app.features.local.presentation.screens.HomeScreen
 import chromahub.rhythm.app.shared.presentation.screens.RhythmStatsScreen
@@ -142,6 +142,7 @@ import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailSc
 import chromahub.rhythm.app.features.local.presentation.screens.ArtistDetailScreen
 import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScreen
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
 import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen
@@ -149,7 +150,7 @@ import com.qlzhj.rhythm.core.model.toLibraryAlbum
 import com.qlzhj.rhythm.core.model.toLibraryArtist
 import com.qlzhj.rhythm.core.model.toLibraryPlaylist
 import com.qlzhj.rhythm.core.model.toLibrarySong
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
 import com.qlzhj.rhythm.core.model.StreamingArtist
@@ -170,9 +171,9 @@ import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
-import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

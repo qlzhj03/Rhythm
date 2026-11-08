@@ -9,17 +9,17 @@ import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceStateCard
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceStateCard
 import com.qlzhj.rhythm.core.model.StreamingServiceSession
 import com.qlzhj.rhythm.core.model.StreamingSong
 import com.qlzhj.rhythm.core.model.StreamingAlbum
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingServiceId
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingLibraryController
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
 import com.qlzhj.rhythm.core.model.toLibrarySong
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
 import com.qlzhj.rhythm.core.model.toLibraryArtist
@@ -144,14 +144,14 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGuardCard
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGuardCard
 import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import chromahub.rhythm.app.shared.presentation.components.common.FixedHeaderScreen
-import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.FixedHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.HeaderAction
 import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveConfig
 import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveThemeEngine
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
@@ -199,8 +199,8 @@ import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
-import chromahub.rhythm.app.features.local.presentation.components.settings.HomeSectionOrderBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.HomeSectionOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilledButton
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilledTonalButton
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveOutlinedButton
@@ -210,26 +210,26 @@ import com.qlzhj.rhythm.core.designsystem.components.ExpressiveLargeIconButton
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveCard
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveElevatedCard
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeTarget
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShapeFor
 import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
 import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
 import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
 import com.qlzhj.rhythm.core.designsystem.components.NetworkOperationLoader
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveAnimatedCounter
 import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.AudioQualityBadges
-import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
-import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
-import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.AudioQualityBadges
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.AudioQualityIcon
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.M3ImageUtils
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -553,7 +553,7 @@ fun HomeScreen(
 
     if (showHomeSectionOrderSheet) {
         if (isStreamingMode) {
-            chromahub.rhythm.app.shared.presentation.components.bottomsheets.StreamingHomeSectionOrderBottomSheet(
+            com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StreamingHomeSectionOrderBottomSheet(
                 onDismiss = { showHomeSectionOrderSheet = false },
                 appSettings = AppSettings.getInstance(context)
             )

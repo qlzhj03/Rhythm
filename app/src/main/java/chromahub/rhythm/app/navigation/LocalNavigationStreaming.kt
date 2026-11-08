@@ -18,10 +18,11 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.media.util.rememberOffMain
 import androidx.navigation.NavHostController
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
 import chromahub.rhythm.app.features.local.presentation.screens.ArtistDetailScreen
 import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
 import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen

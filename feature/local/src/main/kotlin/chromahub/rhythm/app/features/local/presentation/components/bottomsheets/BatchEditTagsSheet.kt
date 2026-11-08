@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
@@ -67,13 +67,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.compose.ui.unit.dp
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.M3PlaceholderType
 import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
-import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmGroupedButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonWeighted
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonSize
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmDetailActionButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.RhythmButtonType
 import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
 import com.qlzhj.rhythm.core.network.network.NetworkClient
 import com.qlzhj.rhythm.core.network.network.YTMusicSearchRequest
@@ -82,18 +82,19 @@ import com.qlzhj.rhythm.core.network.network.YTMusicClient
 import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.material3.Button
-import chromahub.rhythm.app.util.ImageUtils
+import com.qlzhj.rhythm.core.ui.util.ImageUtils
 import com.qlzhj.rhythm.core.media.util.MediaUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import java.io.File
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
 import androidx.compose.ui.text.style.TextAlign
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 
 private fun resolveBatchEditArtworkUri(context: android.content.Context, song: Song): Uri? {
     val currentArtworkUri = song.artworkUri

@@ -2,7 +2,7 @@ package chromahub.rhythm.app.features.local.presentation.navigation
 
 import android.net.Uri
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
-import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsRoutes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
 
 /**
  * Screen route constants for the inner navigation graph. Extracted from

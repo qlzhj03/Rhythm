@@ -33,7 +33,7 @@ import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import kotlin.system.exitProcess
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.rememberExpressiveShape
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.draw.clip

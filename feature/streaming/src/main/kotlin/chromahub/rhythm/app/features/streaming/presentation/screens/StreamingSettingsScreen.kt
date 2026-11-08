@@ -1,10 +1,10 @@
 package chromahub.rhythm.app.features.streaming.presentation.screens
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
@@ -56,15 +56,15 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.StreamingQuality
 import com.qlzhj.rhythm.core.common.NetworkUtils
-import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.shared.presentation.components.common.normalizeStreamingQuality
-import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.normalizeStreamingQuality
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.streamingQualityOptions
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 
@@ -223,7 +223,7 @@ fun StreamingSettingsScreen(
                             description = { Text(text = stringResource(id = R.string.exp_go_mode_desc)) },
                             onClick = {
                                 // Set settings host to open the Go Settings pane, then open settings
-                                appSettings.setInitialSettingsSubroute(chromahub.rhythm.app.shared.presentation.screens.settings.SettingsRoutes.GO_SETTINGS)
+                                appSettings.setInitialSettingsSubroute(com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes.GO_SETTINGS)
                                 onOpenGlobalSettings()
                             }
                         )

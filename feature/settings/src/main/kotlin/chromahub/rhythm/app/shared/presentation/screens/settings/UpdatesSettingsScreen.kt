@@ -2,10 +2,10 @@
 
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SheetAdaptiveType
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
 
 import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
@@ -103,25 +103,25 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kotlin.system.exitProcess
-import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveScrollBar
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveGroupButton
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
-import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
-import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ThumbStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.LicensesBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.UpdateBottomSheet
 import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
-import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeProvider
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
-import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
-import chromahub.rhythm.app.shared.presentation.components.common.SplashBackgroundOrbs
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
-import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.buildSplashBackdropShapes
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.SplashBackgroundOrbs
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
 import com.qlzhj.rhythm.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -141,15 +141,15 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.text.HtmlCompat
 import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
-import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.PlayingEqIcon
 import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
-import chromahub.rhythm.app.shared.presentation.components.dialogs.VersionCodeDowngradeWarningDialog
-import chromahub.rhythm.app.shared.presentation.components.player.PlayerChipOrderBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
-import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.dialogs.VersionCodeDowngradeWarningDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.PlayerChipOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
 
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerSettingRow
-import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerSettingCard
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingItem
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingGroup
