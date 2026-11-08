@@ -119,6 +119,21 @@
 
 预期效果：AppSettings.kt 6,973 → ~1,500 行以内（facade），总公共成员 854 → ~817；职责从 4 重收敛为 1 重；启动主线程 I/O 消除。
 
+## 7a. B2-3 实施裁定与状态（2026-11-08）
+
+**交付 3/10 域**（均已提交、全量门禁绿）：
+1. `WidgetSettingsSection`（11 成员，86 行）
+2. `AudioEqSettingsSection`（56 组，519 行，含 updateDerived 回调注入）
+3. `CustomizationSettingsSection`（77 组 + expressiveBottomButtons 全家族，749 行）
+
+AppSettings.kt：6,973 → 5,603 行（-19.7%），公共 API 零变化、零行为变化。
+
+**实施形态修正（§4.3 二次裁定）**：采用**同包扩展不可行**（扩展 fun 需全仓调用点 import churn），实际采用 **section 委托类**：section 持有 backing+val+setter，facade 保留同名委托成员——调用方零改动。跨域符号处置：companion 常量翻 internal + `AppSettings.X` 限定；类私有默认值/helper 随域迁移；跨域派生（updateDerivedSettings）经构造回调注入。
+
+**Library 域 92% 完成后暂停**：section 文件已生成（68 组：29 setter + 黑白名单/pinned/scan funs 族），残留 5 类闭包已逐一定位——① safeLong 需 facade/section 双副本（backup 仍用）② media-scan 标志族（audioMetadataExtractionCompleted 等）跨 audio/library 两域需归位 ③ defaultTabOrder/defaultHomeSectionOrder 需移至 section 顶部（初始化顺序）④ KEY_GENRE_DETECTION_COMPLETED 翻 internal ⑤ requestFullMediaRescanOnNextLaunch 的跨 section 引用。方法学已固化（结构解析 + 错误驱动收敛 + 分域断言脚本）。
+
+**剩余 6 域**（Library 收尾、GuardStats、PlaybackQueue、Lyrics、Theme、StreamingMode、Platform）沿用同一方法推进；Platform 域注意 lyricallyApiEnabled 为接口 override 成员必须留守。
+
 ## 8. B3 预告（DataStore 迁移前置问题清单）
 
 1. 热路径成员白名单：哪些成员必须保持同步读语义（EQ/playback 速度等）。
