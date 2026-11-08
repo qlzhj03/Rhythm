@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll

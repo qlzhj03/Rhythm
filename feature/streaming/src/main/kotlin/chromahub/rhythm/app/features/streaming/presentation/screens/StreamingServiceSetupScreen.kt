@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.presentation.screens
 
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -58,8 +58,8 @@ import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingM
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
-import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
-import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
 
 @Composable
 fun StreamingServiceSetupScreen(

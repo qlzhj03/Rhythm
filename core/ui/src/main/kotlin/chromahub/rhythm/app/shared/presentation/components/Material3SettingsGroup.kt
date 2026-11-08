@@ -25,8 +25,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface

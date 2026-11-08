@@ -6,10 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.core.designsystem.components.RhythmGroupedMenuContent
-import chromahub.rhythm.app.core.designsystem.components.RhythmMenuItem
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.components.RhythmGroupedMenuContent
+import com.qlzhj.rhythm.core.designsystem.components.RhythmMenuItem
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.R
 

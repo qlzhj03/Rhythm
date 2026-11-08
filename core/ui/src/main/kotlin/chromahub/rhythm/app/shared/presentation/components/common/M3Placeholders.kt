@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.components.common
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

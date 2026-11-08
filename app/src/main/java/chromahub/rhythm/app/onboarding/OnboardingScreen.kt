@@ -3,9 +3,9 @@ package chromahub.rhythm.app.onboarding
 import chromahub.rhythm.app.core.domain.backup.RestoreResult
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.Manifest
 import android.os.Build
@@ -149,10 +149,10 @@ import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import chromahub.rhythm.app.shared.data.model.ArtistViewType
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.MediaScanMode
-import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
-import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
-import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
+import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
+import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
+import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.SettingsBadgePalette
 import chromahub.rhythm.app.shared.presentation.components.SettingsPalettes
@@ -174,10 +174,10 @@ import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrL
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerDiscoverySheet
 import chromahub.rhythm.app.features.streaming.presentation.components.bottomsheets.NearbyServerScanner
-import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
+import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.core.designsystem.theme.ColorSchemeOption
-import chromahub.rhythm.app.core.designsystem.theme.getPresetColorSchemeOptions
+import com.qlzhj.rhythm.core.designsystem.theme.ColorSchemeOption
+import com.qlzhj.rhythm.core.designsystem.theme.getPresetColorSchemeOptions
 import chromahub.rhythm.app.shared.presentation.screens.settings.ColorSchemePaletteRow
 import chromahub.rhythm.app.shared.presentation.screens.settings.ActionPickerSheet
 import chromahub.rhythm.app.shared.presentation.screens.settings.ColorSource
@@ -207,8 +207,8 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.getLocal
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.shared.presentation.screens.settings.CanvasNetworkModeDialog
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState

@@ -2,8 +2,8 @@ package chromahub.rhythm.app.activities
 
 import dagger.hilt.android.AndroidEntryPoint
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import kotlin.system.exitProcess
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -63,8 +63,8 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 @AndroidEntryPoint
 class CrashActivity : AppCompatActivity() {

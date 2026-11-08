@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

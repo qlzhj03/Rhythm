@@ -55,13 +55,13 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveScrollBar
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
 
 /**
  * Defines the adaptive display presentation for sheets on tablets and large screen devices.
@@ -205,7 +205,7 @@ fun AdaptiveSheetCloseButton(
 @Composable
 fun AdaptiveSheetActionButton(
     onClick: () -> Unit,
-    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
+    icon: com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon,
     contentDescription: String?,
     modifier: Modifier = Modifier,
     normalContainerColor: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),

@@ -2,9 +2,9 @@ package chromahub.rhythm.app.shared.presentation.components.bottomsheets
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.Manifest
 import android.content.Intent
@@ -73,9 +73,9 @@ import com.qlzhj.rhythm.core.model.ExtendedSongInfo
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
-import chromahub.rhythm.app.core.designsystem.components.ContentLoadingIndicator
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
+import com.qlzhj.rhythm.core.designsystem.components.ContentLoadingIndicator
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
@@ -87,8 +87,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWe
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
@@ -101,9 +101,9 @@ import chromahub.rhythm.app.network.YTMusicClient
 import chromahub.rhythm.app.network.extractAlbumImageUrl
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
-import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.theme.MusicDimensions
 
 private fun resolveSongInfoArtworkUri(context: android.content.Context, song: Song): Uri? {
     val currentArtworkUri = song.artworkUri

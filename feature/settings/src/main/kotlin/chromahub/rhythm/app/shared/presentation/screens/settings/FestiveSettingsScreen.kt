@@ -1,14 +1,14 @@
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,7 +26,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveThemeType
+import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveThemeType
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 

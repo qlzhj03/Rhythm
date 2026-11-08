@@ -10,9 +10,9 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedB
 import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityLabel
 import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.animateFloatAsState
@@ -40,8 +40,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHea
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.BottomSheetDefaults
@@ -67,7 +67,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

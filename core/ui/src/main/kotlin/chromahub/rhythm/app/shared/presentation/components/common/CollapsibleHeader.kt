@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.components.common
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,8 +48,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
-import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
@@ -470,7 +470,7 @@ fun ArtistCollapsibleHeaderScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Album,
+                                    imageVector = com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons.Album,
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.onPrimaryContainer
@@ -494,7 +494,7 @@ fun ArtistCollapsibleHeaderScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Music.Song,
+                                    imageVector = com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons.Music.Song,
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.onSecondaryContainer

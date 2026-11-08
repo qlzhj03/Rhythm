@@ -1,11 +1,11 @@
 package chromahub.rhythm.app.shared.presentation.screens.settings
 
 
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
@@ -65,15 +65,15 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.common.safeGetQuantityString
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.text.style.TextAlign
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
-import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
 import com.qlzhj.rhythm.core.common.safeGetQuantityString
 
 /**

@@ -3,9 +3,9 @@ package chromahub.rhythm.app.features.local.presentation.components.bottomsheets
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 
 import android.net.Uri
 import android.widget.Toast
@@ -59,8 +59,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import coil.compose.AsyncImage
@@ -68,13 +68,13 @@ import coil.request.ImageRequest
 import androidx.compose.ui.unit.dp
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
+import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
+import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
 import chromahub.rhythm.app.network.NetworkClient
 import chromahub.rhythm.app.network.YTMusicSearchRequest
 import chromahub.rhythm.app.network.YTMusicContext

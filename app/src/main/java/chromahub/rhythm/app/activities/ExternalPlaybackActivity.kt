@@ -43,9 +43,9 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
-import chromahub.rhythm.app.core.designsystem.components.WaveSlider
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
-import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import chromahub.rhythm.app.util.MediaUtils
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel

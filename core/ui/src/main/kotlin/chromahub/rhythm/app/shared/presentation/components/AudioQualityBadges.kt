@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.shared.presentation.components
 
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.util.Log
 import androidx.compose.animation.*
@@ -566,7 +566,7 @@ private fun QualityBadge(
 @Composable
 private fun LegacyQualityBadge(
     text: String,
-    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
+    icon: com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon,
     qualityLevel: QualityLevel,
     modifier: Modifier = Modifier
 ) {

@@ -2,8 +2,8 @@ package chromahub.rhythm.app.features.local.presentation.screens
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import androidx.activity.compose.BackHandler
 import android.net.Uri
 import android.widget.Toast
@@ -58,15 +58,15 @@ import com.qlzhj.rhythm.core.model.findAlbumForRoute
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
 import chromahub.rhythm.app.network.AppleMusicCanvasProvider
@@ -92,9 +92,9 @@ import kotlinx.coroutines.withContext
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.sp
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 private enum class AlbumSortOrder {
     TRACK_NUMBER,

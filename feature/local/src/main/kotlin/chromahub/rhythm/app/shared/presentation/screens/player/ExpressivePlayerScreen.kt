@@ -106,7 +106,7 @@ import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBott
 import chromahub.rhythm.app.shared.presentation.components.lyrics.LyricsEditorBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.lyrics.SyncedLyricsView
 import chromahub.rhythm.app.shared.presentation.components.lyrics.WordByWordLyricsView
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.Album
@@ -116,36 +116,36 @@ import com.qlzhj.rhythm.core.model.LyricsData
 import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.core.designsystem.components.AnimatedDigitTickerText
+import com.qlzhj.rhythm.core.designsystem.components.AnimatedDigitTickerText
 import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
-import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
+import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.core.designsystem.components.PlaybackBufferingLoader
+import com.qlzhj.rhythm.core.designsystem.components.PlaybackBufferingLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.core.designsystem.components.WaveSlider
+import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
-import chromahub.rhythm.app.core.designsystem.components.RhythmControlButton
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.RhythmControlButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.core.designsystem.components.RhythmPlayButton
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.components.RhythmPlayButton
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
-import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.ColorExtractor
+import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
 import com.google.android.material.color.utilities.Hct
 import com.qlzhj.rhythm.core.common.LrcUtils
 import chromahub.rhythm.app.network.CanvasArtwork
@@ -184,8 +184,8 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 internal val artworkValidationCache = java.util.concurrent.ConcurrentHashMap<android.net.Uri, Boolean>()
 internal val accentSchemeCache = java.util.concurrent.ConcurrentHashMap<String, Pair<Color, Color>>()
@@ -537,7 +537,7 @@ fun ExpressivePlayerScreen(
                         bg to fg
                     } else {
                         val schemeType = if (sourceHct.chroma > 18.0) "VIBRANT" else "TONAL_SPOT"
-                        val (contrastLevel, chromaMultiplier) = chromahub.rhythm.app.core.designsystem.theme.resolveIntensity(themeIntensity)
+                        val (contrastLevel, chromaMultiplier) = com.qlzhj.rhythm.core.designsystem.theme.resolveIntensity(themeIntensity)
                         val dynamicScheme = ColorExtractor.createDynamicScheme(
                             sourceHct,
                             schemeType,

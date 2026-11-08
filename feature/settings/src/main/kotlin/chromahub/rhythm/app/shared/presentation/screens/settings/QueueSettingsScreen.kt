@@ -11,11 +11,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
 
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.content.Context
 import androidx.compose.animation.*
@@ -44,10 +44,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import kotlinx.coroutines.delay

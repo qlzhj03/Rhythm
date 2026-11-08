@@ -34,7 +34,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.Composable
@@ -51,7 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
+import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.onboarding.OnboardingStep
 import chromahub.rhythm.app.onboarding.PermissionScreenState
 import chromahub.rhythm.app.onboarding.OnboardingScreen

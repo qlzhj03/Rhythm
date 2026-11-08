@@ -39,9 +39,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.Morph
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.R
 

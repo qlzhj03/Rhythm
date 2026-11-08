@@ -6,16 +6,16 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Adaptive
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
 import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -90,10 +90,10 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.SettingScope
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.dialogs.SwitchModeDialog
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import com.qlzhj.rhythm.core.common.GenreUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.M3ImageUtils
 import coil.compose.AsyncImage
@@ -102,8 +102,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -2264,7 +2264,7 @@ private fun UniversalGenreBrowseItemCard(
     }
 }
 
-private fun universalGenreIconFor(genre: String): chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon {
+private fun universalGenreIconFor(genre: String): com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon {
     val normalized = genre.lowercase()
     return when {
         normalized.contains("hip hop") || normalized.contains("hip-hop") || normalized.contains("rap") || normalized.contains("trap") ->

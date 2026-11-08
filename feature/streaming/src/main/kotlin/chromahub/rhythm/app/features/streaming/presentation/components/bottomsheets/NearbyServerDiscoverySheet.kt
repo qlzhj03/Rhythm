@@ -53,11 +53,11 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.StreamingServiceId
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize

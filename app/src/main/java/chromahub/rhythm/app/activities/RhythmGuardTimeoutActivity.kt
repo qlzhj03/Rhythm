@@ -4,8 +4,8 @@ package chromahub.rhythm.app.activities
 
 import dagger.hilt.android.AndroidEntryPoint
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.app.NotificationManager
 import android.content.Context
@@ -86,15 +86,15 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.ui.graphics.Color
 
-import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
+import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 @AndroidEntryPoint
 class RhythmGuardTimeoutActivity : AppCompatActivity() {

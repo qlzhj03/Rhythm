@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
 
 /**
  * Preview components for Glance widgets

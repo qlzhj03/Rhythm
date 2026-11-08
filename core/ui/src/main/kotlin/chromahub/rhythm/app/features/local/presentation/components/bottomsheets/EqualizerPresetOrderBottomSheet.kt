@@ -56,15 +56,15 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Adaptive
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
-import chromahub.rhythm.app.core.designsystem.components.DragDropLazyColumn
+import com.qlzhj.rhythm.core.designsystem.components.DragDropLazyColumn
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import kotlinx.coroutines.launch
 import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
@@ -310,7 +310,7 @@ fun EqualizerPresetOrderBottomSheet(
 
                                 Column(modifier = Modifier.weight(1f)) {
                                     val displayName = if (info.type == EqualizerPresetType.BUILT_IN) {
-                                        chromahub.rhythm.app.util.getLocalizedPresetName(info.name)
+                                        com.qlzhj.rhythm.core.designsystem.util.getLocalizedPresetName(info.name)
                                     } else {
                                         info.name
                                     }

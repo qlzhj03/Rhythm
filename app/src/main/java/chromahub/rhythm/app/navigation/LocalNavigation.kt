@@ -2,9 +2,9 @@ package chromahub.rhythm.app.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 
 import android.content.Context
@@ -65,7 +65,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
+import com.qlzhj.rhythm.core.designsystem.theme.MusicDimensions
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -83,8 +83,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongPickerBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledIconButton
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilledIconButton
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.Composable
@@ -101,8 +101,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.designsystem.UiConstants
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.UiConstants
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -113,8 +113,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.rememberOffMain
-import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -166,8 +166,8 @@ import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
 import com.qlzhj.rhythm.core.common.ArtistSeparator
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel

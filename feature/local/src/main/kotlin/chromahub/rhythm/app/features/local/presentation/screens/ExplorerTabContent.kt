@@ -1,9 +1,9 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.Manifest
 import android.app.Activity
@@ -48,15 +48,15 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.core.designsystem.components.ContentLoadingIndicator
-import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
+import com.qlzhj.rhythm.core.designsystem.components.ContentLoadingIndicator
+import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveOutlinedButton
-import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveOutlinedButton
+import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch

@@ -10,10 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
 
 /**
  * Standard Two-Pane Master-Detail layout for tablets and foldable devices.

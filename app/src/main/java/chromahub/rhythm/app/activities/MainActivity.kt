@@ -68,9 +68,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.navigation.RhythmNavigation
-import chromahub.rhythm.app.core.designsystem.theme.RhythmTheme
+import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import chromahub.rhythm.app.shared.presentation.theme.festive.FestiveOverlayFromSettings
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
@@ -106,8 +106,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.qlzhj.rhythm.core.model.ScanPhase
-import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
-import chromahub.rhythm.app.core.designsystem.icons.Icon as RhythmIcon
+import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
+import com.qlzhj.rhythm.core.designsystem.icons.Icon as RhythmIcon
 import kotlin.math.abs
 import android.provider.Settings
 import com.qlzhj.rhythm.core.common.ServiceStartUtils
@@ -128,12 +128,12 @@ import java.util.Locale
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.rememberCoroutineScope
-import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
-import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType // Import HapticFeedbackType
 import androidx.compose.material3.ButtonDefaults
-import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
+import com.qlzhj.rhythm.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.shared.presentation.components.PermissionHandler
 import chromahub.rhythm.app.shared.presentation.components.dialogs.BetaProgramPopup
 import chromahub.rhythm.app.shared.presentation.components.dialogs.TrackCorruptionDialog

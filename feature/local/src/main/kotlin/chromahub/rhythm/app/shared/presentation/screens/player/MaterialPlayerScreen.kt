@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.shared.presentation.screens.player
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.content.Context
 import android.net.Uri
@@ -58,7 +58,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.draw.blur
@@ -158,25 +158,25 @@ import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.core.designsystem.components.WaveSlider
+import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
-import chromahub.rhythm.app.core.designsystem.components.M3LinearLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3LinearLoader
 import chromahub.rhythm.app.shared.presentation.components.common.FixedHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
-import chromahub.rhythm.app.core.designsystem.components.ShimmerBox
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveGroupButton
-import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
+import com.qlzhj.rhythm.core.designsystem.components.ShimmerBox
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveGroupButton
+import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.core.designsystem.theme.PlayerButtonColor
+import com.qlzhj.rhythm.core.designsystem.theme.PlayerButtonColor
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils
 import com.qlzhj.rhythm.core.common.LrcUtils
 import com.qlzhj.rhythm.core.common.SemanticLyrics
@@ -187,7 +187,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
-import chromahub.rhythm.app.core.designsystem.components.NetworkOperationLoader
+import com.qlzhj.rhythm.core.designsystem.components.NetworkOperationLoader
 import android.view.animation.OvershootInterpolator
 import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
 import chromahub.rhythm.app.shared.presentation.components.lyrics.SyncedLyricsView
@@ -195,9 +195,9 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.navigationBarsPadding
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import java.util.concurrent.TimeUnit
-import chromahub.rhythm.app.core.designsystem.components.PlaybackBufferingLoader
+import com.qlzhj.rhythm.core.designsystem.components.PlaybackBufferingLoader
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistChooserBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.QueueBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
@@ -212,8 +212,8 @@ import chromahub.rhythm.app.shared.presentation.components.player.PlayerChipOrde
 import chromahub.rhythm.app.shared.presentation.components.lyrics.LyricsEditorBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityBadges
 import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
 import java.util.Locale
 import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
@@ -2684,7 +2684,7 @@ fun MaterialPlayerScreen(
                                 alpha = line5Alpha
                             }
                         ) {
-                            chromahub.rhythm.app.core.designsystem.components.ExpressivePlayerControlGroup(
+                            com.qlzhj.rhythm.core.designsystem.components.ExpressivePlayerControlGroup(
                             isPlaying = isPlaying && !showLoaderInPlayPauseButton,
                             showSeekButtons = playerShowSeekButtons && canSeek,
                             onPrevious = {
@@ -2760,7 +2760,7 @@ fun MaterialPlayerScreen(
                                 alpha = line6Alpha
                             }
                         ) {
-                        chromahub.rhythm.app.core.designsystem.components.ExpressiveToggleButtonGroup(
+                        com.qlzhj.rhythm.core.designsystem.components.ExpressiveToggleButtonGroup(
                             shuffleEnabled = isShuffleEnabled,
                             lyricsVisible = showLyricsView,
                             repeatMode = repeatMode,

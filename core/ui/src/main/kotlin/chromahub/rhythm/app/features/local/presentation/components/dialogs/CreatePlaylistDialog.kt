@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.local.presentation.components.dialogs
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 

@@ -28,10 +28,10 @@ import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.MarqueeText
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.theme.MusicDimensions
 import com.qlzhj.rhythm.core.common.AudioQualityDetector
 
 @OptIn(ExperimentalMaterial3Api::class)

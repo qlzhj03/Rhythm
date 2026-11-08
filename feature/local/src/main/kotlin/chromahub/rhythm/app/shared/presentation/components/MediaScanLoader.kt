@@ -41,8 +41,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -68,8 +68,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.LinearWavyProgressIndicator
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.designsystem.components.MediaScanningLoader
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.components.MediaScanningLoader
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
 import android.util.Log
@@ -403,7 +403,7 @@ private fun MediaScanStats(
 
 @Composable
 private fun StatItem(
-    icon: chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon,
+    icon: com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon,
     count: Int,
     label: String,
     color: Color

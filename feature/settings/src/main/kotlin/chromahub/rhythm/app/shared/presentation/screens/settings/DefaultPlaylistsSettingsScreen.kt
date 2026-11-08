@@ -23,11 +23,11 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 
 @Composable
 fun DefaultPlaylistsSettingsScreen(

@@ -8,11 +8,11 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAda
 
 
 
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import androidx.compose.foundation.layout.PaddingValues
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.app.Activity
 import android.content.ClipData
@@ -51,7 +51,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.*
@@ -97,32 +97,32 @@ import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kotlin.system.exitProcess
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
-import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveGroupButton
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveScrollBar
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveGroupButton
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.UpdateBottomSheet
-import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
+import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
 import chromahub.rhythm.app.shared.presentation.components.common.buildSplashBackdropShapes
 import chromahub.rhythm.app.shared.presentation.components.common.SplashBackgroundOrbs
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
-import chromahub.rhythm.app.core.designsystem.theme.getFontPreviewStyle
+import com.qlzhj.rhythm.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
@@ -131,8 +131,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.io.File
-import chromahub.rhythm.app.core.designsystem.utils.FontLoader
-import chromahub.rhythm.app.core.designsystem.theme.parseCustomColorScheme
+import com.qlzhj.rhythm.core.designsystem.utils.FontLoader
+import com.qlzhj.rhythm.core.designsystem.theme.parseCustomColorScheme
 import androidx.compose.ui.viewinterop.AndroidView
 import android.widget.TextView
 import androidx.compose.foundation.Image
@@ -140,9 +140,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.core.text.HtmlCompat
-import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
-import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.player.PlayerChipOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem

@@ -38,11 +38,11 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonTy
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.getDeviceIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.SheetValue

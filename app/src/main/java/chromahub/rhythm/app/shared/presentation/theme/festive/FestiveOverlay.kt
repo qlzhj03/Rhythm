@@ -7,15 +7,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import chromahub.rhythm.app.core.designsystem.theme.festive.ChristmasDecorations
-import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveConfig
-import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveThemeEngine
-import chromahub.rhythm.app.core.designsystem.theme.festive.FestiveThemeType
-import chromahub.rhythm.app.core.designsystem.theme.festive.SnowCollection
-import chromahub.rhythm.app.core.designsystem.theme.festive.SnowfallEffect
-import chromahub.rhythm.app.core.designsystem.theme.festive.SnowfallWithSparkle
-import chromahub.rhythm.app.core.designsystem.theme.festive.Snowflake
-import chromahub.rhythm.app.core.designsystem.theme.festive.SnowflakeArea
+import com.qlzhj.rhythm.core.designsystem.theme.festive.ChristmasDecorations
+import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveConfig
+import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveThemeEngine
+import com.qlzhj.rhythm.core.designsystem.theme.festive.FestiveThemeType
+import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowCollection
+import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowfallEffect
+import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowfallWithSparkle
+import com.qlzhj.rhythm.core.designsystem.theme.festive.Snowflake
+import com.qlzhj.rhythm.core.designsystem.theme.festive.SnowflakeArea
 import chromahub.rhythm.app.shared.data.model.AppSettings
 
 /**

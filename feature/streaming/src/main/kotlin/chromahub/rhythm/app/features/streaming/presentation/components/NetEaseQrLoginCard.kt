@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginPhase
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
-import chromahub.rhythm.app.core.designsystem.components.M3FourColorCircularLoader
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter

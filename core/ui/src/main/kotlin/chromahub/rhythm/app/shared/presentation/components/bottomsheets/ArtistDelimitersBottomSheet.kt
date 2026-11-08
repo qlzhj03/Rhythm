@@ -35,17 +35,17 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilterChip
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilterChip
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.common.ArtistSeparator
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import kotlinx.coroutines.launch
 
 private enum class DelimiterSheetPage {

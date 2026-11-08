@@ -1,9 +1,9 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.app.Activity
 import android.content.ClipData
@@ -68,10 +68,10 @@ import chromahub.rhythm.app.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.common.GsonUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.util.getLocalizedPresetName
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.util.getLocalizedPresetName
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.util.AudioDeviceManager
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
@@ -81,19 +81,19 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGrou
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
-import chromahub.rhythm.app.core.designsystem.components.RhythmGroupedMenuContent
-import chromahub.rhythm.app.core.designsystem.components.RhythmMenuItem
-import chromahub.rhythm.app.core.designsystem.components.ArcProgressSlider
+import com.qlzhj.rhythm.core.designsystem.components.RhythmGroupedMenuContent
+import com.qlzhj.rhythm.core.designsystem.components.RhythmMenuItem
+import com.qlzhj.rhythm.core.designsystem.components.ArcProgressSlider
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar
 import chromahub.rhythm.app.shared.presentation.components.common.ProgressStyle
 import chromahub.rhythm.app.shared.presentation.components.common.ThumbStyle
-import chromahub.rhythm.app.core.designsystem.components.CookieHorizontalSlider
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.CookieHorizontalSlider
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.LicensesBottomSheet
-import chromahub.rhythm.app.core.designsystem.utils.LazyListStateSaver
+import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
-import chromahub.rhythm.app.core.designsystem.theme.getFontPreviewStyle
+import com.qlzhj.rhythm.core.designsystem.theme.getFontPreviewStyle
 import kotlinx.coroutines.delay
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -252,9 +252,9 @@ import androidx.navigation.navArgument
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.QueueActionDialog
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Delete
-import chromahub.rhythm.app.core.designsystem.components.SmallTabAnimation
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons.Delete
+import com.qlzhj.rhythm.core.designsystem.components.SmallTabAnimation
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import kotlinx.coroutines.flow.collect

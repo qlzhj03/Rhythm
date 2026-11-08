@@ -19,8 +19,8 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 
 /**
  * 引导页「选择串流服务商」列表。选项由 [StreamingServiceOptions.defaults] 单一来源驱动，

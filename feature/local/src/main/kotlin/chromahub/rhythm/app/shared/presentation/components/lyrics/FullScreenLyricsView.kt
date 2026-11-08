@@ -43,20 +43,20 @@ import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import androidx.compose.material3.ContainedLoadingIndicator
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
-import chromahub.rhythm.app.core.designsystem.components.ExpressivePlayerControlGroup
+import com.qlzhj.rhythm.core.designsystem.components.ExpressivePlayerControlGroup
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
 import com.qlzhj.rhythm.core.common.LrcUtils
 import com.qlzhj.rhythm.core.common.SemanticLyrics
@@ -66,8 +66,8 @@ import kotlinx.coroutines.delay
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 @Composable
 fun FullScreenLyricsView(

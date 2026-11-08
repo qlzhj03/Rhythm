@@ -4,7 +4,7 @@ import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Playlist
-import chromahub.rhythm.app.core.designsystem.components.extractFastScrollGlyph
+import com.qlzhj.rhythm.core.designsystem.components.extractFastScrollGlyph
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.screens.ArtistSortOption
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryPlaylistSortOrder

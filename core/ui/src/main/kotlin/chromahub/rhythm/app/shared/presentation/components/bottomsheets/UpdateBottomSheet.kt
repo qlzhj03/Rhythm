@@ -4,8 +4,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
@@ -32,8 +32,8 @@ import androidx.core.text.HtmlCompat
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

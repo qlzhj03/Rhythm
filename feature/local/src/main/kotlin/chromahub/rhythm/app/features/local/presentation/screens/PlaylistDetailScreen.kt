@@ -2,9 +2,9 @@ package chromahub.rhythm.app.features.local.presentation.screens
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 
 import android.content.Context
 import androidx.compose.ui.focus.FocusRequester
@@ -54,11 +54,11 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmSortMenu
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmSortOption
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
-import chromahub.rhythm.app.core.designsystem.components.RhythmGroupedMenuContent
-import chromahub.rhythm.app.core.designsystem.components.RhythmMenuItem
+import com.qlzhj.rhythm.core.designsystem.components.RhythmGroupedMenuContent
+import com.qlzhj.rhythm.core.designsystem.components.RhythmMenuItem
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButtonFullWidth
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveScrollBar
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveScrollBar
 import chromahub.rhythm.app.shared.presentation.components.common.playlistDetailFastScrollLabel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -120,9 +120,9 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.smartPlaylistDi
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Search
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.designsystem.UiConstants
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons.Search
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.UiConstants
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistExportDialog
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.PlaylistImportDialog
@@ -134,13 +134,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveFilledButton
-import chromahub.rhythm.app.core.designsystem.theme.ExpressiveMaterialShape
-import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveFilledButton
+import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -150,7 +150,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.rememberUpdatedState
 import chromahub.rhythm.app.util.QueueEntry
 import chromahub.rhythm.app.util.QueueEntryKeyTracker
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import kotlinx.coroutines.delay // Import delay
@@ -176,8 +176,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 // Playlist sort order enum
 enum class PlaylistSortOrder {

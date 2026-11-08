@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeProvider
-import chromahub.rhythm.app.core.designsystem.components.ExpressiveShapes
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
 
 import kotlin.random.Random
 

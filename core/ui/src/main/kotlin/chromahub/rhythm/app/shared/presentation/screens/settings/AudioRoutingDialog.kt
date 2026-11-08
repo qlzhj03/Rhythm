@@ -21,10 +21,10 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAd
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

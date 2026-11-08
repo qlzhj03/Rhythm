@@ -4,8 +4,8 @@ package chromahub.rhythm.app.features.local.presentation.screens
 
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -31,7 +31,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
+import com.qlzhj.rhythm.core.designsystem.components.horizontalEdgeBlend
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -64,9 +64,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.components.player.PlayingEqIcon
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
-import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
@@ -74,7 +74,7 @@ import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
 import com.qlzhj.rhythm.core.model.Artist
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
-import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
+import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmSongMenuContent
@@ -87,16 +87,16 @@ import chromahub.rhythm.app.shared.presentation.components.common.HeaderActionGr
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
 import chromahub.rhythm.app.network.WikipediaProvider
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.M3ImageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 private enum class ArtistSortOrder {
     DEFAULT,

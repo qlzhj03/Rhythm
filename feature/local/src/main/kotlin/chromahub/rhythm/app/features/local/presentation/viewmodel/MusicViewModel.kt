@@ -69,7 +69,7 @@ import chromahub.rhythm.app.util.RhythmBackupDetectedException
 import com.qlzhj.rhythm.core.common.PlaybackCommandSerializer
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
+import com.qlzhj.rhythm.core.designsystem.utils.ColorExtractor
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import kotlinx.coroutines.Job

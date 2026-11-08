@@ -6,8 +6,8 @@ package chromahub.rhythm.app.rhythmguard
  * routing responsibility — extracted from RhythmNavigation.kt (P4-phase P4-2).
  */
 
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -83,7 +83,7 @@ import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
-import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
+import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.AudioDeviceManager
 import androidx.core.app.NotificationCompat

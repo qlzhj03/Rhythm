@@ -40,10 +40,10 @@ import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderT
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
-import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.MediaUtils
 import chromahub.rhythm.app.network.NetworkClient
@@ -55,8 +55,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import java.io.File
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
+import com.qlzhj.rhythm.core.designsystem.utils.windowScreenHeightDp
 
 private fun resolveAlbumArtworkUri(context: android.content.Context, song: Song): Uri? {
     val currentArtworkUri = song.artworkUri

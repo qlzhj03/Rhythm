@@ -52,10 +52,10 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
-import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -73,7 +73,7 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Playback
 import chromahub.rhythm.app.shared.presentation.components.player.ExpressiveBottomButtonsOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
 import chromahub.rhythm.app.shared.presentation.components.lyrics.LyricsEditorBottomSheet
-import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
+import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
