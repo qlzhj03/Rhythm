@@ -172,18 +172,18 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_TRANSLATION_AUTO_WORD = "translation_auto_word"
         
         // Theme Settings
-        private const val KEY_USE_SYSTEM_THEME = "use_system_theme"
-        private const val KEY_DARK_MODE = "dark_mode"
-        private const val KEY_AMOLED_THEME = "amoled_theme"
-        private const val KEY_FLOATING_NAVIGATION_BAR = "floating_navigation_bar"
-        private const val KEY_USE_DYNAMIC_COLORS = "use_dynamic_colors"
-        private const val KEY_CUSTOM_COLOR_SCHEME = "custom_color_scheme"
-        private const val KEY_CUSTOM_FONT = "custom_font"
-        private const val KEY_COLOR_SOURCE = "color_source" // ALBUM_ART, MONET, or CUSTOM
+        internal const val KEY_USE_SYSTEM_THEME = "use_system_theme"
+        internal const val KEY_DARK_MODE = "dark_mode"
+        internal const val KEY_AMOLED_THEME = "amoled_theme"
+        internal const val KEY_FLOATING_NAVIGATION_BAR = "floating_navigation_bar"
+        internal const val KEY_USE_DYNAMIC_COLORS = "use_dynamic_colors"
+        internal const val KEY_CUSTOM_COLOR_SCHEME = "custom_color_scheme"
+        internal const val KEY_CUSTOM_FONT = "custom_font"
+        internal const val KEY_COLOR_SOURCE = "color_source" // ALBUM_ART, MONET, or CUSTOM
         internal const val KEY_EXTRACTED_ALBUM_COLORS = "extracted_album_colors" // JSON string with color values
-        private const val KEY_FONT_SOURCE = "font_source" // SYSTEM or CUSTOM
-        private const val KEY_CUSTOM_FONT_PATH = "custom_font_path" // Path to imported font file
-        private const val KEY_CUSTOM_FONT_FAMILY = "custom_font_family" // Display name of custom font
+        internal const val KEY_FONT_SOURCE = "font_source" // SYSTEM or CUSTOM
+        internal const val KEY_CUSTOM_FONT_PATH = "custom_font_path" // Path to imported font file
+        internal const val KEY_CUSTOM_FONT_FAMILY = "custom_font_family" // Display name of custom font
         
         // Player Theme Settings
         internal const val KEY_PLAYER_THEME_ID = "player_theme_id" // ID of the selected player theme (default, compact, large, minimal)
@@ -392,10 +392,10 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_TRACK_ERROR_CHECKER_ENABLED = "track_error_checker_enabled"
         
         // Festive Theme Settings
-        private const val KEY_FESTIVE_THEME_ENABLED = "festive_theme_enabled"
-        private const val KEY_FESTIVE_THEME_TYPE = "festive_theme_type"
-        private const val KEY_FESTIVE_THEME_INTENSITY = "festive_theme_intensity"
-        private const val KEY_FESTIVE_THEME_AUTO_DETECT = "festive_theme_auto_detect"
+        internal const val KEY_FESTIVE_THEME_ENABLED = "festive_theme_enabled"
+        internal const val KEY_FESTIVE_THEME_TYPE = "festive_theme_type"
+        internal const val KEY_FESTIVE_THEME_INTENSITY = "festive_theme_intensity"
+        internal const val KEY_FESTIVE_THEME_AUTO_DETECT = "festive_theme_auto_detect"
         private const val KEY_FESTIVE_SNOWFLAKE_SIZE = "festive_snowflake_size"
         private const val KEY_FESTIVE_SNOWFLAKE_AREA = "festive_snowflake_area"
         
@@ -481,8 +481,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_SYNC_SPEED_AND_PITCH = "sync_speed_and_pitch"
         internal const val KEY_USE_HOURS_IN_TIME_FORMAT = "use_hours_in_time_format"
         internal const val KEY_SHOW_REMAINING_TIME = "show_remaining_time"
-        private const val KEY_EXPRESSIVE_COLORS = "expressive_colors"
-        private const val KEY_THEME_INTENSITY = "theme_intensity"
+        internal const val KEY_EXPRESSIVE_COLORS = "expressive_colors"
+        internal const val KEY_THEME_INTENSITY = "theme_intensity"
         internal const val KEY_STOP_PLAYBACK_ON_APP_CLOSE = "stop_playback_on_app_close"
         internal const val KEY_QUEUE_PERSISTENCE_ENABLED = "queue_persistence_enabled" // Enable/disable queue persistence
         internal const val KEY_SAVED_QUEUE = "saved_queue" // Queue persistence - list of song IDs
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val themeSection = chromahub.rhythm.app.shared.data.model.settings.ThemeSettingsSection(prefs)
     private val playbackQueueSection = chromahub.rhythm.app.shared.data.model.settings.PlaybackQueueSettingsSection(prefs)
     private val guardStatsSection = chromahub.rhythm.app.shared.data.model.settings.GuardStatsSettingsSection(prefs)
     val whitelistedSongs: StateFlow<List<String>> get() = librarySection.whitelistedSongs
@@ -825,20 +826,20 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val translationAutoWord: StateFlow<Boolean> = _translationAutoWord.asStateFlow()
     
     // Theme Settings
-    private val _useSystemTheme = MutableStateFlow(prefs.getBoolean(KEY_USE_SYSTEM_THEME, true))
-    val useSystemTheme: StateFlow<Boolean> = _useSystemTheme.asStateFlow()
+    val useSystemTheme: StateFlow<Boolean> get() = themeSection.useSystemTheme
+    fun setUseSystemTheme(use: Boolean) = themeSection.setUseSystemTheme(use)
     
-    private val _darkMode = MutableStateFlow(prefs.getBoolean(KEY_DARK_MODE, true))
-    val darkMode: StateFlow<Boolean> = _darkMode.asStateFlow()
+    val darkMode: StateFlow<Boolean> get() = themeSection.darkMode
+    fun setDarkMode(dark: Boolean) = themeSection.setDarkMode(dark)
     
-    private val _amoledTheme = MutableStateFlow(prefs.getBoolean(KEY_AMOLED_THEME, false))
-    val amoledTheme: StateFlow<Boolean> = _amoledTheme.asStateFlow()
+    val amoledTheme: StateFlow<Boolean> get() = themeSection.amoledTheme
+    fun setAmoledTheme(amoled: Boolean) = themeSection.setAmoledTheme(amoled)
 
-    private val _floatingNavigationBar = MutableStateFlow(prefs.getBoolean(KEY_FLOATING_NAVIGATION_BAR, true))
-    val floatingNavigationBar: StateFlow<Boolean> = _floatingNavigationBar.asStateFlow()
+    val floatingNavigationBar: StateFlow<Boolean> get() = themeSection.floatingNavigationBar
+    fun setFloatingNavigationBar(enabled: Boolean) = themeSection.setFloatingNavigationBar(enabled)
     
-    private val _useDynamicColors = MutableStateFlow(prefs.getBoolean(KEY_USE_DYNAMIC_COLORS, true))
-    val useDynamicColors: StateFlow<Boolean> = _useDynamicColors.asStateFlow()
+    val useDynamicColors: StateFlow<Boolean> get() = themeSection.useDynamicColors
+    fun setUseDynamicColors(use: Boolean) = themeSection.setUseDynamicColors(use)
     
     // Artist Separator Settings
     val artistSeparatorEnabled: StateFlow<Boolean> get() = librarySection.artistSeparatorEnabled
@@ -851,26 +852,26 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val artistSeparatorCustomDelimiters: StateFlow<List<String>> get() = librarySection.artistSeparatorCustomDelimiters
     fun setArtistSeparatorCustomDelimiters(tokens: List<String>) = librarySection.setArtistSeparatorCustomDelimiters(tokens)
     
-    private val _customColorScheme = MutableStateFlow(prefs.getString(KEY_CUSTOM_COLOR_SCHEME, "Default") ?: "Default")
-    val customColorScheme: StateFlow<String> = _customColorScheme.asStateFlow()
+    val customColorScheme: StateFlow<String> get() = themeSection.customColorScheme
+    fun setCustomColorScheme(scheme: String) = themeSection.setCustomColorScheme(scheme)
     
-    private val _customFont = MutableStateFlow(prefs.getString(KEY_CUSTOM_FONT, "Geom") ?: "Geom")
-    val customFont: StateFlow<String> = _customFont.asStateFlow()
+    val customFont: StateFlow<String> get() = themeSection.customFont
+    fun setCustomFont(font: String) = themeSection.setCustomFont(font)
     
-    private val _colorSource = MutableStateFlow(prefs.getString(KEY_COLOR_SOURCE, "MONET") ?: "MONET")
-    val colorSource: StateFlow<String> = _colorSource.asStateFlow()
+    val colorSource: StateFlow<String> get() = themeSection.colorSource
+    fun setColorSource(source: String) = themeSection.setColorSource(source)
     
     val extractedAlbumColors: StateFlow<String?> get() = librarySection.extractedAlbumColors
     fun setExtractedAlbumColors(colorsJson: String?) = librarySection.setExtractedAlbumColors(colorsJson)
     
-    private val _fontSource = MutableStateFlow(prefs.getString(KEY_FONT_SOURCE, "SYSTEM") ?: "SYSTEM")
-    val fontSource: StateFlow<String> = _fontSource.asStateFlow()
+    val fontSource: StateFlow<String> get() = themeSection.fontSource
+    fun setFontSource(source: String) = themeSection.setFontSource(source)
     
-    private val _customFontPath = MutableStateFlow(prefs.getString(KEY_CUSTOM_FONT_PATH, null))
-    val customFontPath: StateFlow<String?> = _customFontPath.asStateFlow()
+    val customFontPath: StateFlow<String?> get() = themeSection.customFontPath
+    fun setCustomFontPath(path: String?) = themeSection.setCustomFontPath(path)
     
-    private val _customFontFamily = MutableStateFlow(prefs.getString(KEY_CUSTOM_FONT_FAMILY, "System") ?: "System")
-    val customFontFamily: StateFlow<String> = _customFontFamily.asStateFlow()
+    val customFontFamily: StateFlow<String> get() = themeSection.customFontFamily
+    fun setCustomFontFamily(family: String) = themeSection.setCustomFontFamily(family)
     
     // Player Theme Settings
     val playerThemeId: StateFlow<String> get() = customizationSection.playerThemeId
@@ -1130,11 +1131,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val showRemainingTime: StateFlow<Boolean> get() = playbackQueueSection.showRemainingTime
     fun setShowRemainingTime(enabled: Boolean) = playbackQueueSection.setShowRemainingTime(enabled)
     
-    private val _expressiveColors = MutableStateFlow(prefs.getBoolean(KEY_EXPRESSIVE_COLORS, true))
-    val expressiveColors: StateFlow<Boolean> = _expressiveColors.asStateFlow()
+    val expressiveColors: StateFlow<Boolean> get() = themeSection.expressiveColors
+    fun setExpressiveColors(enabled: Boolean) = themeSection.setExpressiveColors(enabled)
 
-    private val _themeIntensity = MutableStateFlow(prefs.getString(KEY_THEME_INTENSITY, "STANDARD") ?: "STANDARD")
-    val themeIntensity: StateFlow<String> = _themeIntensity.asStateFlow()
+    val themeIntensity: StateFlow<String> get() = themeSection.themeIntensity
+    fun setThemeIntensity(intensity: String) = themeSection.setThemeIntensity(intensity)
     
     // Stop Playback on App Close
     val stopPlaybackOnAppClose: StateFlow<Boolean> get() = playbackQueueSection.stopPlaybackOnAppClose
@@ -1583,17 +1584,17 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun setEnableAlbumEditing(enabled: Boolean) = librarySection.setEnableAlbumEditing(enabled)
     
     // Festive Theme Settings
-    private val _festiveThemeEnabled = MutableStateFlow(prefs.getBoolean(KEY_FESTIVE_THEME_ENABLED, true))
-    val festiveThemeEnabled: StateFlow<Boolean> = _festiveThemeEnabled.asStateFlow()
+    val festiveThemeEnabled: StateFlow<Boolean> get() = themeSection.festiveThemeEnabled
+    fun setFestiveThemeEnabled(enabled: Boolean) = themeSection.setFestiveThemeEnabled(enabled)
     
-    private val _festiveThemeType = MutableStateFlow(prefs.getString(KEY_FESTIVE_THEME_TYPE, "CHRISTMAS") ?: "CHRISTMAS")
-    val festiveThemeType: StateFlow<String> = _festiveThemeType.asStateFlow()
+    val festiveThemeType: StateFlow<String> get() = themeSection.festiveThemeType
+    fun setFestiveThemeType(type: String) = themeSection.setFestiveThemeType(type)
     
-    private val _festiveThemeIntensity = MutableStateFlow(prefs.getFloat(KEY_FESTIVE_THEME_INTENSITY, 0.5f))
-    val festiveThemeIntensity: StateFlow<Float> = _festiveThemeIntensity.asStateFlow()
+    val festiveThemeIntensity: StateFlow<Float> get() = themeSection.festiveThemeIntensity
+    fun setFestiveThemeIntensity(intensity: Float) = themeSection.setFestiveThemeIntensity(intensity)
     
-    private val _festiveThemeAutoDetect = MutableStateFlow(prefs.getBoolean(KEY_FESTIVE_THEME_AUTO_DETECT, true))
-    val festiveThemeAutoDetect: StateFlow<Boolean> = _festiveThemeAutoDetect.asStateFlow()
+    val festiveThemeAutoDetect: StateFlow<Boolean> get() = themeSection.festiveThemeAutoDetect
+    fun setFestiveThemeAutoDetect(autoDetect: Boolean) = themeSection.setFestiveThemeAutoDetect(autoDetect)
     
     private val _festiveSnowflakeSize = MutableStateFlow(prefs.getFloat(KEY_FESTIVE_SNOWFLAKE_SIZE, 1.0f))
     val festiveSnowflakeSize: StateFlow<Float> = _festiveSnowflakeSize.asStateFlow()
@@ -1998,30 +1999,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Theme Settings Methods
-    fun setUseSystemTheme(use: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_SYSTEM_THEME, use) }
-        _useSystemTheme.value = use
-    }
     
-    fun setDarkMode(dark: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_DARK_MODE, dark) }
-        _darkMode.value = dark
-    }
     
-    fun setUseDynamicColors(use: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_DYNAMIC_COLORS, use) }
-        _useDynamicColors.value = use
-    }
     
-    fun setAmoledTheme(amoled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AMOLED_THEME, amoled) }
-        _amoledTheme.value = amoled
-    }
 
-    fun setFloatingNavigationBar(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_FLOATING_NAVIGATION_BAR, enabled) }
-        _floatingNavigationBar.value = enabled
-    }
     
     // Artist Separator Settings Methods
     
@@ -2031,36 +2012,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     fun setArtistSeparatorCacheSignature(signature: String?) = librarySection.setArtistSeparatorCacheSignature(signature)
     
-    fun setCustomColorScheme(scheme: String) {
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_COLOR_SCHEME, scheme) }
-        _customColorScheme.value = scheme
-    }
-    
-    fun setCustomFont(font: String) {
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_FONT, font) }
-        _customFont.value = font
-    }
-    
-    fun setColorSource(source: String) {
-        prefs.edit { putString(AppSettings.KEY_COLOR_SOURCE, source) }
-        _colorSource.value = source
-    }
     
     
-    fun setFontSource(source: String) {
-        prefs.edit { putString(AppSettings.KEY_FONT_SOURCE, source) }
-        _fontSource.value = source
-    }
     
-    fun setCustomFontPath(path: String?) {
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_FONT_PATH, path) }
-        _customFontPath.value = path
-    }
     
-    fun setCustomFontFamily(family: String) {
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_FONT_FAMILY, family) }
-        _customFontFamily.value = family
-    }
+    
+    
     
     // Player Theme Settings Methods
     
@@ -2259,15 +2216,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     // Time Format Settings Methods
     
     
-    fun setExpressiveColors(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_EXPRESSIVE_COLORS, enabled) }
-        _expressiveColors.value = enabled
-    }
 
-    fun setThemeIntensity(intensity: String) {
-        prefs.edit { putString(AppSettings.KEY_THEME_INTENSITY, intensity) }
-        _themeIntensity.value = intensity
-    }
     
     // Stop Playback on App Close Methods
     
@@ -2817,25 +2766,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     // UI Settings Methods
     
     // Festive Theme Settings Methods
-    fun setFestiveThemeEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_FESTIVE_THEME_ENABLED, enabled) }
-        _festiveThemeEnabled.value = enabled
-    }
     
-    fun setFestiveThemeType(type: String) {
-        prefs.edit { putString(AppSettings.KEY_FESTIVE_THEME_TYPE, type) }
-        _festiveThemeType.value = type
-    }
     
-    fun setFestiveThemeIntensity(intensity: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_FESTIVE_THEME_INTENSITY, intensity) }
-        _festiveThemeIntensity.value = intensity
-    }
     
-    fun setFestiveThemeAutoDetect(autoDetect: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_FESTIVE_THEME_AUTO_DETECT, autoDetect) }
-        _festiveThemeAutoDetect.value = autoDetect
-    }
     
     fun setFestiveSnowflakeSize(size: Float) {
         prefs.edit { putFloat(AppSettings.KEY_FESTIVE_SNOWFLAKE_SIZE, size) }
@@ -3716,13 +3649,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         updateDerivedSettings()
         
         // Theme Settings
-        _useSystemTheme.value = prefs.getBoolean(AppSettings.KEY_USE_SYSTEM_THEME, true)
-        _darkMode.value = prefs.getBoolean(AppSettings.KEY_DARK_MODE, true)
-        _amoledTheme.value = prefs.getBoolean(AppSettings.KEY_AMOLED_THEME, false)
-        _floatingNavigationBar.value = prefs.getBoolean(AppSettings.KEY_FLOATING_NAVIGATION_BAR, true)
-        _useDynamicColors.value = prefs.getBoolean(AppSettings.KEY_USE_DYNAMIC_COLORS, false)
-        _customColorScheme.value = prefs.getString(AppSettings.KEY_CUSTOM_COLOR_SCHEME, "Default") ?: "Default"
-        _customFont.value = prefs.getString(AppSettings.KEY_CUSTOM_FONT, "Geom") ?: "Geom"
+        themeSection._useSystemTheme.value = prefs.getBoolean(AppSettings.KEY_USE_SYSTEM_THEME, true)
+        themeSection._darkMode.value = prefs.getBoolean(AppSettings.KEY_DARK_MODE, true)
+        themeSection._amoledTheme.value = prefs.getBoolean(AppSettings.KEY_AMOLED_THEME, false)
+        themeSection._floatingNavigationBar.value = prefs.getBoolean(AppSettings.KEY_FLOATING_NAVIGATION_BAR, true)
+        themeSection._useDynamicColors.value = prefs.getBoolean(AppSettings.KEY_USE_DYNAMIC_COLORS, false)
+        themeSection._customColorScheme.value = prefs.getString(AppSettings.KEY_CUSTOM_COLOR_SCHEME, "Default") ?: "Default"
+        themeSection._customFont.value = prefs.getString(AppSettings.KEY_CUSTOM_FONT, "Geom") ?: "Geom"
         
         // Library Settings
         librarySection._albumViewType.value = AlbumViewType.valueOf(prefs.getString(AppSettings.KEY_ALBUM_VIEW_TYPE, AlbumViewType.GRID.name) ?: AlbumViewType.GRID.name)
