@@ -451,12 +451,12 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_SHOW_SCROLL_TO_TOP = "show_scroll_to_top"
         
         // App Mode Settings (Local vs Streaming)
-        private const val KEY_APP_MODE = "app_mode" // "LOCAL" or "STREAMING"
-        private const val KEY_STREAMING_SERVICE = "streaming_service" // "SPOTIFY", "APPLE_MUSIC", etc.
-        private const val KEY_STREAMING_QUALITY = "streaming_quality" // "LOW", "MEDIUM", "HIGH", "LOSSLESS"
-        private const val KEY_ALLOW_CELLULAR_STREAMING = "allow_cellular_streaming"
-        private const val KEY_OFFLINE_MODE = "offline_mode"
-        private const val KEY_REMEMBER_STREAMING_PASSWORDS = "remember_streaming_passwords"
+        internal const val KEY_APP_MODE = "app_mode" // "LOCAL" or "STREAMING"
+        internal const val KEY_STREAMING_SERVICE = "streaming_service" // "SPOTIFY", "APPLE_MUSIC", etc.
+        internal const val KEY_STREAMING_QUALITY = "streaming_quality" // "LOW", "MEDIUM", "HIGH", "LOSSLESS"
+        internal const val KEY_ALLOW_CELLULAR_STREAMING = "allow_cellular_streaming"
+        internal const val KEY_OFFLINE_MODE = "offline_mode"
+        internal const val KEY_REMEMBER_STREAMING_PASSWORDS = "remember_streaming_passwords"
         
         // Queue & Playback Behavior
         internal const val KEY_SHUFFLE_USES_EXOPLAYER = "shuffle_uses_exoplayer"
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val streamingModeSection = chromahub.rhythm.app.shared.data.model.settings.StreamingModeSettingsSection(prefs)
     private val themeSection = chromahub.rhythm.app.shared.data.model.settings.ThemeSettingsSection(prefs)
     private val playbackQueueSection = chromahub.rhythm.app.shared.data.model.settings.PlaybackQueueSettingsSection(prefs)
     private val guardStatsSection = chromahub.rhythm.app.shared.data.model.settings.GuardStatsSettingsSection(prefs)
@@ -977,25 +978,25 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val showScrollToTop: StateFlow<Boolean> = _showScrollToTop.asStateFlow()
     
     // App Mode Settings (Local vs Streaming)
-    private val _appMode = MutableStateFlow(prefs.getString(KEY_APP_MODE, "LOCAL") ?: "LOCAL")
-    val appMode: StateFlow<String> = _appMode.asStateFlow()
+    val appMode: StateFlow<String> get() = streamingModeSection.appMode
+    fun setAppMode(mode: String) = streamingModeSection.setAppMode(mode)
     
-    private val _streamingService = MutableStateFlow(prefs.getString(KEY_STREAMING_SERVICE, "SUBSONIC") ?: "SUBSONIC")
-    val streamingService: StateFlow<String> = _streamingService.asStateFlow()
+    val streamingService: StateFlow<String> get() = streamingModeSection.streamingService
+    fun setStreamingService(service: String) = streamingModeSection.setStreamingService(service)
     
     // Default to LOSSLESS so the server streams the original file at full quality.
     // Users can downgrade in Go Settings if they want to save data.
-    private val _streamingQuality = MutableStateFlow(prefs.getString(KEY_STREAMING_QUALITY, "LOSSLESS") ?: "LOSSLESS")
-    val streamingQuality: StateFlow<String> = _streamingQuality.asStateFlow()
+    val streamingQuality: StateFlow<String> get() = streamingModeSection.streamingQuality
+    fun setStreamingQuality(quality: String) = streamingModeSection.setStreamingQuality(quality)
     
-    private val _allowCellularStreaming = MutableStateFlow(prefs.getBoolean(KEY_ALLOW_CELLULAR_STREAMING, true))
-    val allowCellularStreaming: StateFlow<Boolean> = _allowCellularStreaming.asStateFlow()
+    val allowCellularStreaming: StateFlow<Boolean> get() = streamingModeSection.allowCellularStreaming
+    fun setAllowCellularStreaming(allow: Boolean) = streamingModeSection.setAllowCellularStreaming(allow)
     
-    private val _offlineMode = MutableStateFlow(prefs.getBoolean(KEY_OFFLINE_MODE, false))
-    val offlineMode: StateFlow<Boolean> = _offlineMode.asStateFlow()
+    val offlineMode: StateFlow<Boolean> get() = streamingModeSection.offlineMode
+    fun setOfflineMode(enabled: Boolean) = streamingModeSection.setOfflineMode(enabled)
 
-    private val _rememberStreamingPasswords = MutableStateFlow(prefs.getBoolean(KEY_REMEMBER_STREAMING_PASSWORDS, true))
-    val rememberStreamingPasswords: StateFlow<Boolean> = _rememberStreamingPasswords.asStateFlow()
+    val rememberStreamingPasswords: StateFlow<Boolean> get() = streamingModeSection.rememberStreamingPasswords
+    fun setRememberStreamingPasswords(enabled: Boolean) = streamingModeSection.setRememberStreamingPasswords(enabled)
     
     // Audio Device Settings
     
@@ -2113,35 +2114,11 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // App Mode setter methods
-    fun setAppMode(mode: String) {
-        prefs.edit { putString(AppSettings.KEY_APP_MODE, mode) }
-        _appMode.value = mode
-    }
     
-    fun setStreamingService(service: String) {
-        prefs.edit { putString(AppSettings.KEY_STREAMING_SERVICE, service) }
-        _streamingService.value = service
-    }
     
-    fun setStreamingQuality(quality: String) {
-        prefs.edit { putString(AppSettings.KEY_STREAMING_QUALITY, quality) }
-        _streamingQuality.value = quality
-    }
     
-    fun setAllowCellularStreaming(allow: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_ALLOW_CELLULAR_STREAMING, allow) }
-        _allowCellularStreaming.value = allow
-    }
     
-    fun setOfflineMode(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_OFFLINE_MODE, enabled) }
-        _offlineMode.value = enabled
-    }
 
-    fun setRememberStreamingPasswords(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_REMEMBER_STREAMING_PASSWORDS, enabled) }
-        _rememberStreamingPasswords.value = enabled
-    }
     
     
     // Audio Device Settings Methods
