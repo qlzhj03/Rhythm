@@ -1,6 +1,6 @@
 // Design system: theme (ui.theme + festive/), RhythmIcons/MaterialSymbolIcon,
 // Expressive base components, and the shared resource center (strings/drawable/
-// font). Namespace duplicates :app so `chromahub.rhythm.app.R` keeps resolving.
+// font). Unique package root com.qlzhj.rhythm.core.designsystem (2026-11 rehome).
 
 plugins {
     id("rhythm.android.library.compose")

@@ -61,7 +61,8 @@ Android 音乐播放器:本地曲库 + 自托管流媒体(Subsonic / Navidrome /
 
 另有 `:macrobenchmark` 与 `build-logic/`(约定插件)。
 
-- 所有模块 namespace 相同;包声明与源码目录一致(2026-11 归位完成):**import 即可定位文件位置**;`android.uniquePackageNames=false` 维持,新增文件按所在目录写 package(构建不拦重复包名)。
+- 每模块唯一包根(2026-11-08 唯一包名重构,见 `docs/unique-package-names-design.md`):`:app` = `com.qlzhj.rhythm.app`,core/feature 模块 = `com.qlzhj.rhythm.<core|feature>.<name>`;**import 即定位「模块 + 文件」**;`android.uniquePackageNames=true` 由构建强制唯一,新增文件按所在目录写 package。
+- **applicationId = `com.qlzhj.rhythm`**(debug 后缀 `.debug`),与代码包根分离;旧 `chromahub.rhythm.app` 安装无法原地更新。自定义 action / broadcast / extra 协议串保持 `chromahub.rhythm.app.*` 字面前缀不变(收发双方均在自身代码内,属既定决策,勿"顺手"改名)。macrobenchmark 仍以 `chromahub.rhythm.app.benchmark` 为包(目标身份 = applicationId)。
 - 代码放哪:跨 feature 复用的组件进 `:core:ui`(设置/播放列表对话框、BottomSheet、PlayingEqIcon 等已随 B1 PR-8/9 下沉),播放器域组件进 local 的播放器共享目录,设置页组件进 `:feature:settings`;勿再往各 feature 的 presentation/components 扩散。
 - 既有数千行级大文件(ViewModel、大屏、工具类)不追加功能,新功能新建文件 / ViewModel;UseCase 不强制,仅多处复用才抽。
 - 新增库模块一律用 `build-logic` 约定插件,勿复制 `:app` 的手写配置。

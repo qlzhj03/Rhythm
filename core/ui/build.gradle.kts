@@ -1,8 +1,7 @@
 // Cross-feature shared UI: bottom sheets, dialogs, generic list/sort menus,
 // settings primitives (Tuner switches, search bar) and media-quality badges.
-// Files keep their original packages (chromahub.rhythm.app.shared.presentation.*)
-// so every import site stays untouched — see docs/multi-module-refactor-plan.md
-// PR-5 "zero import churn" policy established in PR-3.
+// Unique package root com.qlzhj.rhythm.core.ui (2026-11 rehome —
+// docs/unique-package-names-design.md).
 
 plugins {
     id("rhythm.android.library.compose")
