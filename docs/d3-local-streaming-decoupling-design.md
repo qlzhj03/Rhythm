@@ -1,6 +1,6 @@
 # D3 专项：解除最后一条 feature→feature 债务 local→streaming
 
-> 状态：**草稿（待批准）**（2026-11-08）。上游：`docs/multi-module-refactor-plan.md`（PR-1..7）、`docs/b1-musicviewmodel-seams-design.md`（settings→local）、`docs/d-settings-decoupling-design.md`（settings→widget / settings→streaming 已解除）。
+> 状态：**已批准并收口**（2026-11-08）——D3-1/2/3 全部完成，local→streaming 依赖已剪断，跨 feature 债务清零（§8 为实施裁定补记：Option T 落地）。上游：`docs/multi-module-refactor-plan.md`（PR-1..7）、`docs/b1-musicviewmodel-seams-design.md`（settings→local）、`docs/d-settings-decoupling-design.md`（settings→widget / settings→streaming 已解除）。
 > 本专项完成后，feature 模块完全平行，AGENTS.md §4 债务清零。
 
 ## 1. 意图与动机
@@ -109,3 +109,15 @@
 | PR-D3-3 | StreamingLibraryController + body 迁移 + slot + **build!: 剪断依赖** + 债务清零 | 同上 + installDebug 真机冒烟（Go 模式 home / 下载 / 搜索 / 质量选择） |
 
 分支：`refactor/d3-pr1-repo-relocate` → `refactor/d3-pr2-search-seam` → `refactor/d3-pr3-home-unhook`（stacked）。文档以 `docs:` commit 随 PR-D3-1 入库。
+
+## 8. 实施裁定补记（2026-11-08，D3-3 §4.5 清点结论）
+
+§4.5 前置清点实测：StreamingHomeBody/WelcomeContent 区域渲染依赖 **13+ 个 `:feature:local` 私有 Modern\* 家族组件**（ModernAlbumCard/ModernArtistCard/ModernFeaturedSection/ModernListeningStatsSection/ModernRecentSongCard/ModernRecentlyPlayedSection/ModernRecommendedSection/ModernScrollableContent/ModernSectionTitle/EmptyState/ModernEmptyState/RenderLocalSection/RenderStreamingSection 等），远超「>3 个组件需下沉」阈值——**按预定规则回退 §4.4 Option T**（body 变纯 (state, callbacks)，留守 local）：
+
+- body/welcome **留守** `:feature:local`，不迁移；
+- body 的 12 个 VM 状态流改为 **:app 聚合传参**（:app :879-926 已收集其中 11 个，仅补 syncProgress）；聚合类型 `StreamingHomeState` 定义在 `:feature:local`（HomeScreen 自有参数类型，成员全为 core 类型）；
+- VM 动作与主文件消费走 **`StreamingLibraryController` 窄缝**（:core:data，10 成员=实测消费集：4 只读流 + downloadSong/downloadSongById/removeDownload/refreshHome/loadLibrary/clearError）；
+- 5 个流媒体符号归位核心模块：`StreamingSyncProgress`+`StreamingSyncStage` → `:core:model`；`StreamingServiceSession` → `:core:model`；`StreamingServiceOption(s)`、`StreamingServiceStateCard` → `:core:ui`；`StreamingHomeSectionOrderBottomSheet` → `:core:ui` bottomsheets；
+- 重组面变化：body 的流值改经 HomeScreen 参数级重组（与既有 mapped 参数同路径，值相等语义不变）。
+
+§4.3 原方案 S（body 迁 `:feature:streaming` + slot）作废；`PlaybackStateSource` 扩展不再需要；PR-D3-3 内容相应调整为上述 T 形态，**剪断目标与门禁不变**。搜索缝隙落点按依赖方向修正为 `:core:media`（D3-2 已实施，因 `playNext/addSongToQueue` 引用 `LocalQueueController`，:core:data 不依赖 :core:media）。

@@ -34,7 +34,7 @@ Android 音乐播放器:本地曲库 + 自托管流媒体(Subsonic / Navidrome /
 ## 3. 架构约定
 
 - 分层:Screen → ViewModel → Repository → 数据源;ViewModel 不直接碰 SQL、MediaStore、HTTP。
-- 依赖方向:presentation → data / domain;data 不依赖 presentation 与 Compose;**feature 模块之间禁止互相依赖**,既有跨 feature 引用是已知债务(local→streaming;B1 PR-9 已解除 settings→local,D1 已解除 settings→widget,D2 已解除 settings→streaming),勿新增。
+- 依赖方向:presentation → data / domain;data 不依赖 presentation 与 Compose;**feature 模块之间禁止互相依赖**(B1 PR-9 解除 settings→local,D1 解除 settings→widget,D2 解除 settings→streaming,D3 解除 local→streaming,跨 feature 债务已清零),勿新增。
 - 导航:字符串路由,新页面 = 新增 Composable route 并在 `:app` 导航装配处接线;禁止用序列化对象定义路由。
 - DI:全仓 Hilt,禁止引入其他 DI 框架;UI 取 ViewModel 一律 `hiltViewModel()`——`viewModel()` 不走 Hilt 工厂,多参构造必崩。
 - 状态:`StateFlow` 单向流(私有 Mutable + `asStateFlow()` 暴露,派生用 `stateIn`),UI 统一 `collectAsState()`;非 MVI,无 Intent / Effect 层,屏幕直接调 ViewModel 方法。

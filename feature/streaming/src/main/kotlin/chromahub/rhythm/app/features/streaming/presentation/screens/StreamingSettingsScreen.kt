@@ -57,7 +57,7 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.core.model.StreamingQuality
 import chromahub.rhythm.app.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.common.normalizeStreamingQuality
@@ -438,7 +438,7 @@ private fun StreamingStatusCard(
 @Composable
 private fun ServiceSelectionBottomSheet(
     selectedService: String,
-    sessions: Map<String, chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession>,
+    sessions: Map<String, chromahub.rhythm.app.core.model.StreamingServiceSession>,
     onDismiss: () -> Unit,
     onSelect: (String) -> Unit
 ) {

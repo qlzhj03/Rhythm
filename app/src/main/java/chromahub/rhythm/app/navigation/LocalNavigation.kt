@@ -149,7 +149,7 @@ import chromahub.rhythm.app.core.model.toLibraryAlbum
 import chromahub.rhythm.app.core.model.toLibraryArtist
 import chromahub.rhythm.app.core.model.toLibraryPlaylist
 import chromahub.rhythm.app.core.model.toLibrarySong
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
 import chromahub.rhythm.app.core.model.StreamingArtist
@@ -922,6 +922,9 @@ private fun LocalNavigationContent(
     }
     val streamingIsAuthenticated by streamingMusicViewModel.isAuthenticated.collectAsState()
     val streamingIsOnline by streamingMusicViewModel.isOnline.collectAsState()
+    val streamingSyncProgress by streamingMusicViewModel.syncProgress.collectAsState()
+    val streamingHasLoadedHomeContent by streamingMusicViewModel.hasLoadedHomeContent.collectAsState()
+    val streamingHasLoadedLibrary by streamingMusicViewModel.hasLoadedLibrary.collectAsState()
     val offlineMode by appSettings.offlineMode.collectAsState()
     val isEffectivelyOffline = !streamingIsOnline || !streamingIsAuthenticated || offlineMode
     val streamingServiceConnected = remember(streamingSessions, streamingServiceId, isEffectivelyOffline) {
@@ -1976,7 +1979,24 @@ private fun LocalNavigationContent(
                                 navController.navigate(Screen.ArtistDetail.createRoute(artist.name))
                             },
                             isStreamingMode = isStreamingMode,
-                            streamingViewModel = streamingMusicViewModel,
+                            streamingLibrary = streamingMusicViewModel,
+                            streamingHome = chromahub.rhythm.app.features.local.presentation.screens.StreamingHomeState(
+                                isOnline = streamingIsOnline,
+                                syncProgress = streamingSyncProgress,
+                                serviceSessions = streamingSessions,
+                                isAuthenticated = streamingIsAuthenticated,
+                                hasLoadedHomeContent = streamingHasLoadedHomeContent,
+                                hasLoadedLibrary = streamingHasLoadedLibrary,
+                                allSongs = streamingAllSongs,
+                                recommendations = streamingRecommendations,
+                                newReleases = streamingNewReleases,
+                                savedAlbums = streamingSavedAlbums,
+                                followedArtists = streamingFollowedArtists,
+                                savedPlaylists = streamingSavedPlaylists,
+                                downloadedSongs = streamingDownloadedSongs,
+                                downloadedAlbums = streamingDownloadedAlbums,
+                                downloadedArtists = streamingDownloadedArtists,
+                            ),
                             streamingSongs = streamingMappedSongs,
                             streamingAlbums = streamingMappedAlbums,
                             streamingArtists = streamingMappedArtists,
@@ -3487,7 +3507,7 @@ private fun LocalNavigationContent(
                         },
                         onRefreshClick = {
                             if (isStreamingMode) {
-                                streamingMusicViewModel.loadLibrary()
+                                streamingMusicViewModel.loadLibrary(false)
                             } else {
                                 viewModel.refreshLibrary(showMediaScanLoader = false)
                             }

@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.features.streaming.presentation.model
+package chromahub.rhythm.app.shared.presentation.components.common
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

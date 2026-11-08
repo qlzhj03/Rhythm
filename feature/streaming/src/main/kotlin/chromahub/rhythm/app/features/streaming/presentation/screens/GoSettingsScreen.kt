@@ -54,11 +54,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOptions
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import androidx.compose.ui.text.style.TextOverflow
-import chromahub.rhythm.app.features.streaming.presentation.model.StreamingServiceOption
+import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOption
 import androidx.annotation.StringRes
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -459,7 +459,7 @@ private fun StreamingStatusCard(
 @Composable
 private fun ServiceSelectionBottomSheet(
     selectedService: String,
-    sessions: Map<String, chromahub.rhythm.app.features.streaming.data.repository.StreamingServiceSession>,
+    sessions: Map<String, chromahub.rhythm.app.core.model.StreamingServiceSession>,
     onDismiss: () -> Unit,
     onSelect: (String) -> Unit
 ) {
