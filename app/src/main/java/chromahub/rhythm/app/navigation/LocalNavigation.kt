@@ -145,25 +145,25 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenW
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
 import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen
-import chromahub.rhythm.app.core.model.toLibraryAlbum
-import chromahub.rhythm.app.core.model.toLibraryArtist
-import chromahub.rhythm.app.core.model.toLibraryPlaylist
-import chromahub.rhythm.app.core.model.toLibrarySong
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryArtist
+import com.qlzhj.rhythm.core.model.toLibraryPlaylist
+import com.qlzhj.rhythm.core.model.toLibrarySong
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingPlaybackUris
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.findAlbumForSong
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
@@ -222,10 +222,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.res.stringResource
-import chromahub.rhythm.app.core.model.toLibraryAlbum
-import chromahub.rhythm.app.core.model.toLibraryArtist
-import chromahub.rhythm.app.core.model.toLibraryPlaylist
-import chromahub.rhythm.app.core.model.toLibrarySong
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryArtist
+import com.qlzhj.rhythm.core.model.toLibraryPlaylist
+import com.qlzhj.rhythm.core.model.toLibrarySong
 
 // Streaming detail/service routes hosted inside the unified navigation shell.
 
@@ -372,13 +372,13 @@ fun LocalNavigation(
         Log.d("RhythmNavigation", "Lyrics seek: timestampMs=$timestampMs")
         viewModel.seekTo(timestampMs, autoPlayIfPaused = true)
     }
-    val onPlaySong = { song: chromahub.rhythm.app.core.model.Song -> viewModel.playSong(song) }
-    val onPlayAlbum = { album: chromahub.rhythm.app.core.model.Album -> viewModel.playAlbum(album) }
-    val onPlayAlbumShuffled = { album: chromahub.rhythm.app.core.model.Album -> viewModel.playAlbumShuffled(album) }
-    val onPlayArtist = { artist: chromahub.rhythm.app.core.model.Artist -> viewModel.playArtist(artist) }
+    val onPlaySong = { song: com.qlzhj.rhythm.core.model.Song -> viewModel.playSong(song) }
+    val onPlayAlbum = { album: com.qlzhj.rhythm.core.model.Album -> viewModel.playAlbum(album) }
+    val onPlayAlbumShuffled = { album: com.qlzhj.rhythm.core.model.Album -> viewModel.playAlbumShuffled(album) }
+    val onPlayArtist = { artist: com.qlzhj.rhythm.core.model.Artist -> viewModel.playArtist(artist) }
     val onPlayPlaylist =
-        { playlist: chromahub.rhythm.app.core.model.Playlist -> viewModel.playPlaylist(playlist) }
-    val onPlayPlaylistShuffled = { playlist: chromahub.rhythm.app.core.model.Playlist -> viewModel.playPlaylistShuffled(playlist) }
+        { playlist: com.qlzhj.rhythm.core.model.Playlist -> viewModel.playPlaylist(playlist) }
+    val onPlayPlaylistShuffled = { playlist: com.qlzhj.rhythm.core.model.Playlist -> viewModel.playPlaylistShuffled(playlist) }
     val onToggleShuffle = { viewModel.toggleShuffle() }
     val onToggleRepeat = { viewModel.toggleRepeatMode() }
     val onToggleFavorite = { viewModel.toggleFavorite() }
@@ -726,7 +726,7 @@ private fun LocalNavigationContent(
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
     snackbarHostState: SnackbarHostState,
     coroutineScope: kotlinx.coroutines.CoroutineScope,
-    currentSong: chromahub.rhythm.app.core.model.Song?,
+    currentSong: com.qlzhj.rhythm.core.model.Song?,
     currentRoute: String,
     isPlaying: Boolean,
     progress: () -> Float,
@@ -739,20 +739,20 @@ private fun LocalNavigationContent(
     showBottomNav: Boolean,
     isTablet: Boolean,
     startDestination: String,
-    songs: List<chromahub.rhythm.app.core.model.Song>,
-    allSongs: List<chromahub.rhythm.app.core.model.Song>,
-    albums: List<chromahub.rhythm.app.core.model.Album>,
-    artists: List<chromahub.rhythm.app.core.model.Artist>,
-    playlists: List<chromahub.rhythm.app.core.model.Playlist>,
+    songs: List<com.qlzhj.rhythm.core.model.Song>,
+    allSongs: List<com.qlzhj.rhythm.core.model.Song>,
+    albums: List<com.qlzhj.rhythm.core.model.Album>,
+    artists: List<com.qlzhj.rhythm.core.model.Artist>,
+    playlists: List<com.qlzhj.rhythm.core.model.Playlist>,
     isShuffleEnabled: Boolean,
     repeatMode: Int,
     isFavorite: Boolean,
     sortOrder: MusicViewModel.SortOrder,
     showLyrics: Boolean,
     showOnlineOnlyLyrics: Boolean,
-    lyrics: chromahub.rhythm.app.core.model.LyricsData?,
+    lyrics: com.qlzhj.rhythm.core.model.LyricsData?,
     isLoadingLyrics: Boolean,
-    recentlyPlayed: List<chromahub.rhythm.app.core.model.Song>,
+    recentlyPlayed: List<com.qlzhj.rhythm.core.model.Song>,
     currentDevice: PlaybackLocation?,
     isMediaScanning: Boolean,
     useSystemTheme: Boolean,
@@ -761,12 +761,12 @@ private fun LocalNavigationContent(
     libraryTabOrder: List<String>,
     hiddenLibraryTabs: Set<String>,
     firstVisibleLibraryTab: LibraryTab,
-    onPlaySong: (chromahub.rhythm.app.core.model.Song) -> Unit,
-    onPlayAlbum: (chromahub.rhythm.app.core.model.Album) -> Unit,
-    onPlayAlbumShuffled: (chromahub.rhythm.app.core.model.Album) -> Unit,
-    onPlayArtist: (chromahub.rhythm.app.core.model.Artist) -> Unit,
-    onPlayPlaylist: (chromahub.rhythm.app.core.model.Playlist) -> Unit,
-    onPlayPlaylistShuffled: (chromahub.rhythm.app.core.model.Playlist) -> Unit,
+    onPlaySong: (com.qlzhj.rhythm.core.model.Song) -> Unit,
+    onPlayAlbum: (com.qlzhj.rhythm.core.model.Album) -> Unit,
+    onPlayAlbumShuffled: (com.qlzhj.rhythm.core.model.Album) -> Unit,
+    onPlayArtist: (com.qlzhj.rhythm.core.model.Artist) -> Unit,
+    onPlayPlaylist: (com.qlzhj.rhythm.core.model.Playlist) -> Unit,
+    onPlayPlaylistShuffled: (com.qlzhj.rhythm.core.model.Playlist) -> Unit,
     onToggleShuffle: () -> Unit,
     onToggleRepeat: () -> Unit,
     onToggleFavorite: () -> Unit,
@@ -841,14 +841,14 @@ private fun LocalNavigationContent(
             .distinctBy { it.id }
             .associateBy { it.id }
     }
-    val playStreamingMappedQueue: (List<chromahub.rhythm.app.core.model.Song>, Int, Boolean) -> Unit =
+    val playStreamingMappedQueue: (List<com.qlzhj.rhythm.core.model.Song>, Int, Boolean) -> Unit =
         { mappedSongs, startIndex, shuffle ->
             val originals = mappedSongs.mapNotNull { streamingSongById[it.id] }
             if (originals.isNotEmpty()) {
                 streamingMusicViewModel.playQueue(originals, startIndex, shuffle, pinStartIndex = shuffle)
             }
         }
-    val streamingMappedSongs by rememberOffMain(emptyList<chromahub.rhythm.app.core.model.Song>(), streamingServiceConnected, streamingAllSongs, streamingRecommendations, streamingLikedSongs, streamingDownloadedSongs) {
+    val streamingMappedSongs by rememberOffMain(emptyList<com.qlzhj.rhythm.core.model.Song>(), streamingServiceConnected, streamingAllSongs, streamingRecommendations, streamingLikedSongs, streamingDownloadedSongs) {
         val base = if (!streamingServiceConnected) {
             streamingDownloadedSongs
         } else if (streamingAllSongs.isNotEmpty()) {
@@ -866,7 +866,7 @@ private fun LocalNavigationContent(
         }
         base.map { it.toLibraryAlbum(emptyList()) }
     }
-    val streamingMappedArtists by rememberOffMain(emptyList<chromahub.rhythm.app.core.model.Artist>(), streamingServiceConnected, streamingFollowedArtists, streamingAllSongs, streamingDownloadedArtists, streamingDownloadedSongs) {
+    val streamingMappedArtists by rememberOffMain(emptyList<com.qlzhj.rhythm.core.model.Artist>(), streamingServiceConnected, streamingFollowedArtists, streamingAllSongs, streamingDownloadedArtists, streamingDownloadedSongs) {
         val baseArtists = if (!streamingServiceConnected) {
             streamingDownloadedArtists
         } else if (streamingFollowedArtists.isNotEmpty() || streamingDownloadedArtists.isNotEmpty()) {
@@ -977,7 +977,7 @@ private fun LocalNavigationContent(
 
     val showAddToPlaylistSheet = remember { mutableStateOf(false) }
     val showCreatePlaylistDialog = remember { mutableStateOf(false) }
-    val songForCreatePlaylistDialog = remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
+    val songForCreatePlaylistDialog = remember { mutableStateOf<com.qlzhj.rhythm.core.model.Song?>(null) }
 
     LaunchedEffect(viewModel.selectedSongForPlaylist.collectAsState().value) {
         if (viewModel.selectedSongForPlaylist.value != null) {

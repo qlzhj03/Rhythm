@@ -3,7 +3,7 @@ package chromahub.rhythm.app.shared.data.model.settings
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
-import chromahub.rhythm.app.core.model.LyricsSourcePreference
+import com.qlzhj.rhythm.core.model.LyricsSourcePreference
 import chromahub.rhythm.app.shared.data.model.LyricsApiPriority
 import com.google.gson.reflect.TypeToken
 import chromahub.rhythm.app.shared.data.model.AppSettings

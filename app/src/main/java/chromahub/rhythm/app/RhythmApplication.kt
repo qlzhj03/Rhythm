@@ -102,7 +102,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             enableWikipedia = BuildConfig.ENABLE_WIKIPEDIA
         }
         chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.qualityIcons =
-            chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons(
+            com.qlzhj.rhythm.core.model.PlaybackQualityInfo.QualityIcons(
                 hd = chromahub.rhythm.app.R.drawable.ic_hd,
                 highRes = chromahub.rhythm.app.R.drawable.ic_high_res,
                 dolby = chromahub.rhythm.app.R.drawable.ic_dolby,
@@ -123,7 +123,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
                 // forwards through this very bridge (PR-5 seam inversion).
                 override fun updateWidget(
                     context: android.content.Context,
-                    song: chromahub.rhythm.app.core.model.Song?,
+                    song: com.qlzhj.rhythm.core.model.Song?,
                     isPlaying: Boolean,
                     hasPrevious: Boolean,
                     hasNext: Boolean,

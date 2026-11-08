@@ -25,24 +25,24 @@ import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScree
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.features.streaming.presentation.screens.StreamingServiceSetupScreen
 import chromahub.rhythm.app.features.streaming.presentation.screens.GoSettingsScreen
-import chromahub.rhythm.app.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingPlaybackUris
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.ui.platform.LocalContext
-import chromahub.rhythm.app.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
 
 // Streaming detail route bodies + route constants and streaming->local mappers,
 // extracted verbatim from LocalNavigationContent (P4-phase P4-3).
@@ -128,7 +128,7 @@ internal fun StreamingPlaylist.toDisplayPlaylist(displaySongs: List<Song>): Play
 internal fun LocalStreamingAlbumDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
-    currentSong: chromahub.rhythm.app.core.model.Song?,
+    currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,
     navController: NavHostController,
@@ -271,7 +271,7 @@ internal fun LocalStreamingAlbumDetailRoute(
 
     val albumSongsById = remember(albumSongs) { albumSongs.associateBy { it.id } }
     var showSongInfoSheet by remember { mutableStateOf(false) }
-    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
+    var selectedSongForInfo by remember { mutableStateOf<com.qlzhj.rhythm.core.model.Song?>(null) }
 
     AlbumDetailScreen(
         albumId = albumId,
@@ -403,7 +403,7 @@ internal fun LocalStreamingAlbumDetailRoute(
 internal fun LocalStreamingArtistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
-    currentSong: chromahub.rhythm.app.core.model.Song?,
+    currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,
     navController: NavHostController,
@@ -574,7 +574,7 @@ internal fun LocalStreamingArtistDetailRoute(
     }
     val artistSongsById = remember(artistSongs) { artistSongs.associateBy { it.id } }
     var showSongInfoSheet by remember { mutableStateOf(false) }
-    var selectedSongForInfo by remember { mutableStateOf<chromahub.rhythm.app.core.model.Song?>(null) }
+    var selectedSongForInfo by remember { mutableStateOf<com.qlzhj.rhythm.core.model.Song?>(null) }
 
     ArtistDetailScreen(
         viewModel = viewModel,
@@ -703,7 +703,7 @@ internal fun LocalStreamingArtistDetailRoute(
 internal fun LocalStreamingPlaylistDetailRoute(
     backStackEntry: androidx.navigation.NavBackStackEntry,
     appSettings: chromahub.rhythm.app.shared.data.model.AppSettings,
-    currentSong: chromahub.rhythm.app.core.model.Song?,
+    currentSong: com.qlzhj.rhythm.core.model.Song?,
     isPlaying: Boolean,
     isShuffleEnabled: Boolean,
     navController: NavHostController,
@@ -711,7 +711,7 @@ internal fun LocalStreamingPlaylistDetailRoute(
     onPlayerClick: () -> Unit,
     onSkipNext: () -> Unit,
     onToggleFavorite: () -> Unit,
-    songs: List<chromahub.rhythm.app.core.model.Song>,
+    songs: List<com.qlzhj.rhythm.core.model.Song>,
     streamingMusicViewModel: StreamingMusicViewModel,
     viewModel: MusicViewModel,
     selectedStreamingSongForPlaylist: androidx.compose.runtime.MutableState<StreamingSong?>,

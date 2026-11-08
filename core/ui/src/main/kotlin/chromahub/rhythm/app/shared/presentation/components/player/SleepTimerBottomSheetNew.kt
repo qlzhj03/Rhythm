@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.infrastructure.service.SleepAction
 import androidx.compose.material3.LinearWavyProgressIndicator
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton

@@ -117,8 +117,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.screens.settings.smartPlaylistDisplayName
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons.Search
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding

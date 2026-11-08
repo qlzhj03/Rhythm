@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.StreamingServiceRules
+import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginPhase

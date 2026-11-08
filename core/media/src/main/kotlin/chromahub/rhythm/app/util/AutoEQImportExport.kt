@@ -2,7 +2,7 @@ package chromahub.rhythm.app.util
 
 import android.content.Context
 import android.net.Uri
-import chromahub.rhythm.app.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser

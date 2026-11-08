@@ -28,10 +28,10 @@ data class SongEntity(
     val path: String? = null
 )
 
-fun SongEntity.toSong(): chromahub.rhythm.app.core.model.Song {
+fun SongEntity.toSong(): com.qlzhj.rhythm.core.model.Song {
     val normalizedDateAdded = if (dateAdded in 1..99_999_999_999L) dateAdded * 1000L else dateAdded
     val normalizedDateModified = if (dateModified in 1..99_999_999_999L) dateModified * 1000L else dateModified
-    return chromahub.rhythm.app.core.model.Song(
+    return com.qlzhj.rhythm.core.model.Song(
         id = id,
         title = title,
         artist = artist,
@@ -56,7 +56,7 @@ fun SongEntity.toSong(): chromahub.rhythm.app.core.model.Song {
 }
 
 
-fun chromahub.rhythm.app.core.model.Song.toEntity(): SongEntity {
+fun com.qlzhj.rhythm.core.model.Song.toEntity(): SongEntity {
     val normalizedDateAdded = if (dateAdded in 1..99_999_999_999L) dateAdded * 1000L else dateAdded
     val normalizedDateModified = if (dateModified in 1..99_999_999_999L) dateModified * 1000L else dateModified
     return SongEntity(

@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
-import chromahub.rhythm.app.core.model.SourceType
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.SourceType
+import com.qlzhj.rhythm.core.model.StreamingSong
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter

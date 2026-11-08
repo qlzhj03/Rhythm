@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.UserAudioDevice
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.UserAudioDevice
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.AutoEQManager
 import chromahub.rhythm.app.shared.data.model.AppSettings

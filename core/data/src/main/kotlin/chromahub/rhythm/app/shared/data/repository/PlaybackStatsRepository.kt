@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.common.GenreUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.CanvasNetworkMode
+import com.qlzhj.rhythm.core.model.CanvasNetworkMode
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons

@@ -1,10 +1,10 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
-import chromahub.rhythm.app.core.model.SourceType
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.SourceType
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingSong
 import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import com.google.gson.Gson

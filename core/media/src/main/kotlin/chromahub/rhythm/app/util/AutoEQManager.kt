@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.util
 
 import android.content.Context
-import chromahub.rhythm.app.core.model.AutoEQDatabase
-import chromahub.rhythm.app.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.AutoEQDatabase
+import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -10,7 +10,7 @@ import chromahub.rhythm.app.core.designsystem.components.RhythmGroupedMenuConten
 import chromahub.rhythm.app.core.designsystem.components.RhythmMenuItem
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.R
 
 private data class SongMenuItem(

@@ -1,11 +1,11 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingServiceSession
-import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.core.model.StreamingSyncProgress
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingServiceSession
+import com.qlzhj.rhythm.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.StreamingSyncProgress
 
 /**
  * Immutable snapshot of the streaming (Go-mode) home state, collected in :app

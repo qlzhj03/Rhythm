@@ -153,9 +153,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
 import chromahub.rhythm.app.core.designsystem.components.WaveSlider
@@ -215,9 +215,9 @@ import chromahub.rhythm.app.util.MediaUtils
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import java.util.Locale
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.findAlbumForSong
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.findAlbumForSong
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.lyrics.WordByWordLyricsView
@@ -268,7 +268,7 @@ fun MaterialPlayerScreen(
     isFavorite: Boolean = false,
     showLyrics: Boolean = true,
     onlineOnlyLyrics: Boolean = false,
-    lyrics: chromahub.rhythm.app.core.model.LyricsData? = null,
+    lyrics: com.qlzhj.rhythm.core.model.LyricsData? = null,
     isLoadingLyrics: Boolean = false,
     onRetryLyrics: () -> Unit = {},
     onEditLyrics: (String) -> Unit = {},
@@ -795,7 +795,7 @@ fun MaterialPlayerScreen(
 
     // AutoEQ Suggestion Dialog state
     var showAutoEQSuggestion by remember { mutableStateOf(false) }
-    var detectedDevice by remember { mutableStateOf<chromahub.rhythm.app.core.model.UserAudioDevice?>(null) }
+    var detectedDevice by remember { mutableStateOf<com.qlzhj.rhythm.core.model.UserAudioDevice?>(null) }
     var showDeviceConfig by remember { mutableStateOf(false) }
 
     // State for showing loader in play/pause button

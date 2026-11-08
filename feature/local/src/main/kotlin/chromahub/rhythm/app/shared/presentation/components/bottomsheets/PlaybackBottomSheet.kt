@@ -98,7 +98,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.delay
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.PlaybackLocation
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType

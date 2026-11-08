@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.core.domain.repository
 
 import android.net.Uri
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
 import kotlinx.coroutines.flow.StateFlow
 

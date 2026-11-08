@@ -1,13 +1,13 @@
 package chromahub.rhythm.app.core.domain.repository
 
-import chromahub.rhythm.app.core.model.SourceType
+import com.qlzhj.rhythm.core.model.SourceType
 import chromahub.rhythm.app.core.domain.repository.MusicRepository
-import chromahub.rhythm.app.core.model.BrowseCategory
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.BrowseCategory
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.LyricsData
 import kotlinx.coroutines.flow.Flow
 
 /**

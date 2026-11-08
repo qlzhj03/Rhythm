@@ -18,13 +18,13 @@ import java.io.File
 import java.util.Date // Import Date for timestamp
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CanvasNetworkMode
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
-import chromahub.rhythm.app.core.model.LyricsSourcePreference
-import chromahub.rhythm.app.core.model.MediaScanMode
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CanvasNetworkMode
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.LyricsSourcePreference
+import com.qlzhj.rhythm.core.model.MediaScanMode
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 
 /**
  * Data class to represent a single crash log entry

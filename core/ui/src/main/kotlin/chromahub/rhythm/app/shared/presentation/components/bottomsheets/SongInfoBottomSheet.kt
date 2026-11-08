@@ -69,8 +69,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.ExtendedSongInfo
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.ExtendedSongInfo
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader

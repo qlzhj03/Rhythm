@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.util.AutoEQManager
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
-import chromahub.rhythm.app.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.AutoEQProfile
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsSearchBar
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
-import chromahub.rhythm.app.core.model.UserAudioDevice
+import com.qlzhj.rhythm.core.model.UserAudioDevice
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import chromahub.rhythm.app.core.designsystem.theme.rememberExpressiveShape

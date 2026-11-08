@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.*
+import com.qlzhj.rhythm.core.model.*
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.screens.player.PlayerScreen
 import kotlin.math.roundToInt

@@ -50,8 +50,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.EqualizerPresetType
-import chromahub.rhythm.app.core.model.UnifiedEqualizerPreset
+import com.qlzhj.rhythm.core.model.EqualizerPresetType
+import com.qlzhj.rhythm.core.model.UnifiedEqualizerPreset
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.RhythmAdaptiveModalSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAdaptiveType
@@ -66,8 +66,8 @@ import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import kotlinx.coroutines.launch
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
 
 private fun groupedBottomSheetItemShape(index: Int, totalCount: Int): RoundedCornerShape {
     if (totalCount <= 1) return RoundedCornerShape(24.dp)
@@ -97,7 +97,7 @@ fun EqualizerPresetOrderBottomSheet(
     val autoEQProfiles by audioEffects.autoEQProfiles.collectAsState()
     val userDevicesJson by appSettings.userAudioDevices.collectAsState()
     val userDevices = remember(userDevicesJson) {
-        chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(userDevicesJson)
+        com.qlzhj.rhythm.core.model.UserAudioDevice.fromJson(userDevicesJson)
     }
 
     val sheetState = rememberBottomSheetState(

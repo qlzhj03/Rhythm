@@ -22,8 +22,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import chromahub.rhythm.app.infrastructure.service.player.MissingLocalMediaClassifier
-import chromahub.rhythm.app.core.model.AutoEQDatabase
-import chromahub.rhythm.app.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.AutoEQDatabase
+import com.qlzhj.rhythm.core.model.AutoEQProfile
 import chromahub.rhythm.app.util.AutoEQManager
 import android.util.LruCache
 import androidx.core.net.toUri
@@ -40,22 +40,22 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.LyricsSourcePreference
-import chromahub.rhythm.app.core.model.MediaScanMode
-import chromahub.rhythm.app.core.model.ScanPhase
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.LyricsSourcePreference
+import com.qlzhj.rhythm.core.model.MediaScanMode
+import com.qlzhj.rhythm.core.model.ScanPhase
 import chromahub.rhythm.app.features.local.data.repository.LocalMusicRepository
 import chromahub.rhythm.app.features.local.data.database.entity.toSong
 import chromahub.rhythm.app.features.local.data.database.entity.toEntity
-import chromahub.rhythm.app.core.model.StreamingPlaybackUris
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Queue
-import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.model.FolderNode
-import chromahub.rhythm.app.core.model.PlaybackQualityInfo
+import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Queue
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.model.FolderNode
+import com.qlzhj.rhythm.core.model.PlaybackQualityInfo
 import chromahub.rhythm.app.infrastructure.service.EqDspController
 import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
@@ -109,7 +109,7 @@ import com.google.gson.reflect.TypeToken
 import java.util.Calendar
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
-import chromahub.rhythm.app.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.LyricsData
 import chromahub.rhythm.app.util.PendingWriteRequest
 import chromahub.rhythm.app.util.PendingBatchWriteRequest
 import chromahub.rhythm.app.util.PendingLyricsWriteRequest
@@ -258,7 +258,7 @@ class MusicViewModel @Inject constructor(
     // AutoEQ state now owned by EqDspController; exposed via the B1 PR-9 seams
     val audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController get() = eqDsp
     val audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController get() = eqDsp
-    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
+    val autoEQProfiles: StateFlow<List<com.qlzhj.rhythm.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
     val autoEQLoading: StateFlow<Boolean> get() = eqDsp.autoEQLoading
     
     
@@ -10215,20 +10215,20 @@ class MusicViewModel @Inject constructor(
         eqDsp.loadAutoEQProfiles()
     }
     
-    fun searchAutoEQProfiles(query: String): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
+    fun searchAutoEQProfiles(query: String): List<com.qlzhj.rhythm.core.model.AutoEQProfile> {
         return eqDsp.searchAutoEQProfiles(query)
     }
     
-    fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
+    fun applyAutoEQProfile(profile: com.qlzhj.rhythm.core.model.AutoEQProfile) {
         eqDsp.applyAutoEQProfile(profile)
     }
     
-    fun getAutoEQRecommendedProfiles(): List<chromahub.rhythm.app.core.model.AutoEQProfile> {
+    fun getAutoEQRecommendedProfiles(): List<com.qlzhj.rhythm.core.model.AutoEQProfile> {
         return eqDsp.getAutoEQRecommendedProfiles()
     }
     
     // User Audio Device Management
-    fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    fun saveUserAudioDevice(device: com.qlzhj.rhythm.core.model.UserAudioDevice) {
         eqDsp.saveUserAudioDevice(device)
     }
     
@@ -10236,11 +10236,11 @@ class MusicViewModel @Inject constructor(
         eqDsp.deleteUserAudioDevice(deviceId)
     }
     
-    fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    fun setActiveAudioDevice(device: com.qlzhj.rhythm.core.model.UserAudioDevice) {
         eqDsp.setActiveAudioDevice(device)
     }
     
-    fun getActiveAudioDevice(): chromahub.rhythm.app.core.model.UserAudioDevice? {
+    fun getActiveAudioDevice(): com.qlzhj.rhythm.core.model.UserAudioDevice? {
         return eqDsp.getActiveAudioDevice()
     }
     
@@ -10248,7 +10248,7 @@ class MusicViewModel @Inject constructor(
      * Try to match a connected audio device (from PlaybackLocation) with saved UserAudioDevice
      * Uses fuzzy matching to account for slight name variations
      */
-    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
+    fun findMatchingUserDevice(deviceName: String): com.qlzhj.rhythm.core.model.UserAudioDevice? {
         return eqDsp.findMatchingUserDevice(deviceName)
     }
     
@@ -10268,7 +10268,7 @@ class MusicViewModel @Inject constructor(
     }
 
     // Custom Equalizer Presets & Reordering
-    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
+    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): com.qlzhj.rhythm.core.model.CustomEqualizerPreset {
         return eqDsp.saveCustomEqualizerPreset(name, bands)
     }
 
@@ -10276,11 +10276,11 @@ class MusicViewModel @Inject constructor(
         eqDsp.deleteCustomEqualizerPreset(id)
     }
 
-    fun saveCustomAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
+    fun saveCustomAutoEQProfile(profile: com.qlzhj.rhythm.core.model.AutoEQProfile) {
         eqDsp.saveCustomAutoEQProfile(profile)
     }
 
-    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
+    fun saveCustomAutoEQProfiles(profiles: List<com.qlzhj.rhythm.core.model.AutoEQProfile>) {
         eqDsp.saveCustomAutoEQProfiles(profiles)
     }
 
@@ -10308,7 +10308,7 @@ class MusicViewModel @Inject constructor(
         eqDsp.unpinAutoEQProfile(name)
     }
 
-    fun assignAutoEQProfileToDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice, profileName: String?) {
+    fun assignAutoEQProfileToDevice(device: com.qlzhj.rhythm.core.model.UserAudioDevice, profileName: String?) {
         eqDsp.assignAutoEQProfileToDevice(device, profileName)
     }
     

@@ -103,7 +103,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.runtime.derivedStateOf
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.core.designsystem.components.DragDropLazyColumn
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState

@@ -3,8 +3,8 @@ package chromahub.rhythm.app.shared.data.model.settings
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import android.util.Log
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

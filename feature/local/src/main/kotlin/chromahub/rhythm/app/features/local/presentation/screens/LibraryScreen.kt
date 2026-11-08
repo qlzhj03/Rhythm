@@ -202,11 +202,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.presentation.screens.settings.smartPlaylistDisplayName
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.model.findAlbumForSong
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.model.findAlbumForSong
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import chromahub.rhythm.app.shared.data.model.ArtistViewType
 import chromahub.rhythm.app.shared.data.model.PlaylistViewType
@@ -237,7 +237,7 @@ import chromahub.rhythm.app.util.M3ImageUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.ScanPhase
+import com.qlzhj.rhythm.core.model.ScanPhase
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest

@@ -1,13 +1,13 @@
 package chromahub.rhythm.app.features.streaming
 
-import chromahub.rhythm.app.core.model.SourceType
+import com.qlzhj.rhythm.core.model.SourceType
 import chromahub.rhythm.app.features.streaming.data.provider.JellyfinApiClient
 import chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingCatalogCache
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingSong
 import chromahub.rhythm.app.util.coil.StreamingArtworkKeyer
 import com.google.gson.Gson
 import com.google.gson.JsonParser

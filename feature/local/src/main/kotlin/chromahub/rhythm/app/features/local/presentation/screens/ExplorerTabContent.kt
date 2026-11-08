@@ -47,7 +47,7 @@ import androidx.core.content.ContextCompat
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.core.designsystem.components.ContentLoadingIndicator
 import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget

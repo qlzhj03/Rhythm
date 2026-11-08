@@ -65,8 +65,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
@@ -268,10 +268,10 @@ import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.
 import chromahub.rhythm.app.features.local.presentation.components.dialogs.SaveCustomPresetDialog
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.EqualizerPresetOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.rhythmMarquee
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
-import chromahub.rhythm.app.core.model.EqualizerPresetType
-import chromahub.rhythm.app.core.model.UnifiedEqualizerPreset
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.EqualizerPresetType
+import com.qlzhj.rhythm.core.model.UnifiedEqualizerPreset
 import androidx.compose.ui.res.stringResource
 import java.util.Locale
 
@@ -394,7 +394,7 @@ fun EqualizerScreen(
     val customAutoEQProfiles by audioEffects.customAutoEQProfiles.collectAsState()
     val userDevicesJson by appSettings.userAudioDevices.collectAsState()
     val userDevices = remember(userDevicesJson) {
-        chromahub.rhythm.app.core.model.UserAudioDevice.fromJson(userDevicesJson)
+        com.qlzhj.rhythm.core.model.UserAudioDevice.fromJson(userDevicesJson)
     }
 
     LaunchedEffect(Unit) {

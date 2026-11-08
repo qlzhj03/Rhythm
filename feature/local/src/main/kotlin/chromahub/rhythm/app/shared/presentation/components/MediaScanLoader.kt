@@ -7,8 +7,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.LaunchedEffect
-import chromahub.rhythm.app.core.model.ScanProgress
-import chromahub.rhythm.app.core.model.ScanPhase
+import com.qlzhj.rhythm.core.model.ScanProgress
+import com.qlzhj.rhythm.core.model.ScanPhase
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing

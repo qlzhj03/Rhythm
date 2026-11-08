@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.features.local.presentation.screens
 
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Album
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

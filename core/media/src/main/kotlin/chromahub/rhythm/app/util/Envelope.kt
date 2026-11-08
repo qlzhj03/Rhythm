@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.core.model.Curve
+import com.qlzhj.rhythm.core.model.Curve
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.infrastructure.service
 
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import kotlinx.coroutines.flow.StateFlow
 
 /**

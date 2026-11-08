@@ -8,7 +8,7 @@ import com.qlzhj.rhythm.core.common.StoragePathUtils
 import com.google.gson.Gson
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import com.google.gson.reflect.TypeToken
-import chromahub.rhythm.app.core.model.MediaScanMode
+import com.qlzhj.rhythm.core.model.MediaScanMode
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

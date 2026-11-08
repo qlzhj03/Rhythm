@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.core.model.Curve
+import com.qlzhj.rhythm.core.model.Curve
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

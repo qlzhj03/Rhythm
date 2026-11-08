@@ -77,21 +77,21 @@ import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.findAlbumForSong
-import chromahub.rhythm.app.core.model.LyricsData
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.findAlbumForSong
+import com.qlzhj.rhythm.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
 import chromahub.rhythm.app.network.AppleMusicCanvasProvider
 import chromahub.rhythm.app.network.CanvasArtwork
-import chromahub.rhythm.app.core.model.CanvasNetworkMode
+import com.qlzhj.rhythm.core.model.CanvasNetworkMode
 import com.qlzhj.rhythm.core.common.NetworkUtils
 
 @OptIn(ExperimentalMaterial3Api::class)

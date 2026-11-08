@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.model.Album
 
 /**
  * Utility object for handling artist collaborations and separating individual artists

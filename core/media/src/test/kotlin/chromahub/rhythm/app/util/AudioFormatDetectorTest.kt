@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.util
 
 import android.net.FakeUri
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

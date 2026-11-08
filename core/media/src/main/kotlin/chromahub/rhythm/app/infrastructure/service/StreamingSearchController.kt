@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.infrastructure.service
 
-import chromahub.rhythm.app.core.model.BrowseCategory
-import chromahub.rhythm.app.core.model.StreamingSearchResults
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.BrowseCategory
+import com.qlzhj.rhythm.core.model.StreamingSearchResults
+import com.qlzhj.rhythm.core.model.StreamingSong
 import kotlinx.coroutines.flow.StateFlow
 
 /**

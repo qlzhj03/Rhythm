@@ -84,8 +84,8 @@ import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils
 import chromahub.rhythm.app.util.RhythmLyricsParser
-import chromahub.rhythm.app.core.model.LyricsData
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import androidx.compose.runtime.collectAsState
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveAssistChip

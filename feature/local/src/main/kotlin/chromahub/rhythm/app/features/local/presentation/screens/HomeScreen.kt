@@ -10,19 +10,19 @@ import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceStateCard
-import chromahub.rhythm.app.core.model.StreamingServiceSession
-import chromahub.rhythm.app.core.model.StreamingSong
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingServiceId
+import com.qlzhj.rhythm.core.model.StreamingServiceSession
+import com.qlzhj.rhythm.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingServiceId
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.core.domain.repository.StreamingLibraryController
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
-import chromahub.rhythm.app.core.model.toLibrarySong
-import chromahub.rhythm.app.core.model.toLibraryAlbum
-import chromahub.rhythm.app.core.model.toLibraryArtist
+import com.qlzhj.rhythm.core.model.toLibrarySong
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryArtist
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.util.rememberOffMain
 
@@ -195,9 +195,9 @@ import chromahub.rhythm.app.core.designsystem.utils.PerformIfEnabled
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
 import chromahub.rhythm.app.features.local.presentation.components.settings.HomeSectionOrderBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
@@ -246,9 +246,9 @@ import androidx.core.text.HtmlCompat
 import androidx.compose.ui.res.stringResource
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenWidthDp
 import chromahub.rhythm.app.core.designsystem.utils.windowScreenHeightDp
-import chromahub.rhythm.app.core.model.toLibraryAlbum
-import chromahub.rhythm.app.core.model.toLibraryArtist
-import chromahub.rhythm.app.core.model.toLibrarySong
+import com.qlzhj.rhythm.core.model.toLibraryAlbum
+import com.qlzhj.rhythm.core.model.toLibraryArtist
+import com.qlzhj.rhythm.core.model.toLibrarySong
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -285,7 +285,7 @@ fun HomeScreen(
     streamingSongs: List<Song> = emptyList(),
     streamingAlbums: List<Album> = emptyList(),
     streamingArtists: List<Artist> = emptyList(),
-    streamingPlaylists: List<chromahub.rhythm.app.core.model.Playlist> = emptyList(),
+    streamingPlaylists: List<com.qlzhj.rhythm.core.model.Playlist> = emptyList(),
     streamingRecentlyPlayed: List<Song> = emptyList(),
     streamingServiceName: String = "",
     streamingServiceConnected: Boolean = false,
@@ -293,11 +293,11 @@ fun HomeScreen(
     streamingError: String? = null,
     onConfigureService: (String) -> Unit = {},
     onSwitchToLocalMode: () -> Unit = {},
-    onStreamingNavigateToArtist: (chromahub.rhythm.app.core.model.StreamingArtist) -> Unit = {},
-    onStreamingNavigateToAlbum: (chromahub.rhythm.app.core.model.StreamingAlbum) -> Unit = {},
-    onStreamingNavigateToPlaylist: (chromahub.rhythm.app.core.model.StreamingPlaylist) -> Unit = {},
-    onStreamingPlayQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>, Int, Boolean) -> Unit = { _, _, _ -> },
-    onStreamingShuffleQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>) -> Unit = {}
+    onStreamingNavigateToArtist: (com.qlzhj.rhythm.core.model.StreamingArtist) -> Unit = {},
+    onStreamingNavigateToAlbum: (com.qlzhj.rhythm.core.model.StreamingAlbum) -> Unit = {},
+    onStreamingNavigateToPlaylist: (com.qlzhj.rhythm.core.model.StreamingPlaylist) -> Unit = {},
+    onStreamingPlayQueue: (List<com.qlzhj.rhythm.core.model.StreamingSong>, Int, Boolean) -> Unit = { _, _, _ -> },
+    onStreamingShuffleQueue: (List<com.qlzhj.rhythm.core.model.StreamingSong>) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
@@ -700,7 +700,7 @@ private fun StreamingHomeBody(
     songs: List<Song>,
     albums: List<Album>,
     artists: List<Artist>,
-    playlists: List<chromahub.rhythm.app.core.model.Playlist>,
+    playlists: List<com.qlzhj.rhythm.core.model.Playlist>,
     recentlyPlayed: List<Song>,
     serviceName: String,
     serviceConnected: Boolean,
@@ -708,11 +708,11 @@ private fun StreamingHomeBody(
     errorMessage: String?,
     onConfigureService: (String) -> Unit,
     onSwitchToLocalMode: () -> Unit = {},
-    onNavigateToArtist: (chromahub.rhythm.app.core.model.StreamingArtist) -> Unit,
-    onNavigateToAlbum: (chromahub.rhythm.app.core.model.StreamingAlbum) -> Unit,
-    onNavigateToPlaylist: (chromahub.rhythm.app.core.model.StreamingPlaylist) -> Unit,
-    onPlayQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>, Int, Boolean) -> Unit,
-    onShuffleQueue: (List<chromahub.rhythm.app.core.model.StreamingSong>) -> Unit,
+    onNavigateToArtist: (com.qlzhj.rhythm.core.model.StreamingArtist) -> Unit,
+    onNavigateToAlbum: (com.qlzhj.rhythm.core.model.StreamingAlbum) -> Unit,
+    onNavigateToPlaylist: (com.qlzhj.rhythm.core.model.StreamingPlaylist) -> Unit,
+    onPlayQueue: (List<com.qlzhj.rhythm.core.model.StreamingSong>, Int, Boolean) -> Unit,
+    onShuffleQueue: (List<com.qlzhj.rhythm.core.model.StreamingSong>) -> Unit,
     onViewAllArtists: () -> Unit,
     onNavigateToLibrary: () -> Unit,
     onSongClick: (Song) -> Unit,
@@ -808,7 +808,7 @@ private fun StreamingHomeBody(
     val rawDownloadedSongs = home?.downloadedSongs ?: emptyList()
     val rawDownloadedAlbums = home?.downloadedAlbums ?: emptyList()
     val rawDownloadedArtists = home?.downloadedArtists ?: emptyList()
-    val syncProgress = home?.syncProgress ?: chromahub.rhythm.app.core.model.StreamingSyncProgress()
+    val syncProgress = home?.syncProgress ?: com.qlzhj.rhythm.core.model.StreamingSyncProgress()
     val isSyncing = syncProgress.isSyncing
 
     val streamingSongById by rememberOffMain(emptyMap<String, StreamingSong>(), rawAllSongs, rawRecommendations, rawNewReleases, rawDownloadedSongs) {

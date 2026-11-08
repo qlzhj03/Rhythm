@@ -68,11 +68,11 @@ import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.shared.presentation.components.AudioQualityIcon
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.core.designsystem.components.M3CircularLoader
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget

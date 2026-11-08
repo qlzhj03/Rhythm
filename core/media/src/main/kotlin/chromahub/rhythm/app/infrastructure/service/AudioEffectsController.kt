@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.infrastructure.service
 
 import android.app.Activity
-import chromahub.rhythm.app.core.model.AutoEQProfile
-import chromahub.rhythm.app.core.model.CustomEqualizerPreset
+import com.qlzhj.rhythm.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.CustomEqualizerPreset
 import kotlinx.coroutines.flow.StateFlow
 
 /**

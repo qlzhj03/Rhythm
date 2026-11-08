@@ -54,7 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.model.StreamingQuality
+import com.qlzhj.rhythm.core.model.StreamingQuality
 import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSwitch
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
@@ -438,7 +438,7 @@ private fun StreamingStatusCard(
 @Composable
 private fun ServiceSelectionBottomSheet(
     selectedService: String,
-    sessions: Map<String, chromahub.rhythm.app.core.model.StreamingServiceSession>,
+    sessions: Map<String, com.qlzhj.rhythm.core.model.StreamingServiceSession>,
     onDismiss: () -> Unit,
     onSelect: (String) -> Unit
 ) {

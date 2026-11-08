@@ -15,7 +15,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
-import chromahub.rhythm.app.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.LyricsData
 
 /**
  * Jellyfin API client for authentication, search and stream URL generation.

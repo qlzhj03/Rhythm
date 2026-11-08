@@ -1,9 +1,9 @@
 package chromahub.rhythm.app.shared.presentation.components.common
 
-import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.model.Album
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.model.Album
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.Playlist
 import chromahub.rhythm.app.core.designsystem.components.extractFastScrollGlyph
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.screens.ArtistSortOption

@@ -148,7 +148,7 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.thumbStyleLabel
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import chromahub.rhythm.app.shared.data.model.ArtistViewType
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.MediaScanMode
+import com.qlzhj.rhythm.core.model.MediaScanMode
 import chromahub.rhythm.app.core.designsystem.components.DataProcessingLoader
 import chromahub.rhythm.app.core.designsystem.components.InitializationLoader
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
@@ -161,13 +161,13 @@ import chromahub.rhythm.app.features.local.presentation.components.settings.Libr
 import chromahub.rhythm.app.features.local.presentation.components.bottomsheets.AutoEQPresetPickerBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistArtworkSourceBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.core.model.AutoEQProfile
+import com.qlzhj.rhythm.core.model.AutoEQProfile
 import chromahub.rhythm.app.shared.data.model.ArtistArtworkSource
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import chromahub.rhythm.app.shared.presentation.viewmodel.AppVersion
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.StreamingServiceRules
+import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import chromahub.rhythm.app.features.streaming.presentation.components.NetEaseQrLoginCard
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.NetEaseQrLoginUiState
@@ -2759,9 +2759,9 @@ fun EnhancedAudioPlaybackContent(
                             description = context.getString(R.string.onboarding_lyrics_source_desc),
                             selectedOption = lyricsSourcePreference.displayName,
                             icon = MaterialSymbolIcon("cloud", filled = true),
-                            options = chromahub.rhythm.app.core.model.LyricsSourcePreference.values().map { it.displayName },
+                            options = com.qlzhj.rhythm.core.model.LyricsSourcePreference.values().map { it.displayName },
                             onOptionSelected = { displayName ->
-                                val preference = chromahub.rhythm.app.core.model.LyricsSourcePreference.values()
+                                val preference = com.qlzhj.rhythm.core.model.LyricsSourcePreference.values()
                                     .find { it.displayName == displayName }
                                 if (preference != null) {
                                     appSettings.setLyricsSourcePreference(preference)
@@ -2876,9 +2876,9 @@ fun EnhancedAudioPlaybackContent(
                             description = context.getString(R.string.onboarding_lyrics_source_desc),
                             selectedOption = lyricsSourcePreference.displayName,
                             icon = MaterialSymbolIcon("cloud", filled = true),
-                            options = chromahub.rhythm.app.core.model.LyricsSourcePreference.values().map { it.displayName },
+                            options = com.qlzhj.rhythm.core.model.LyricsSourcePreference.values().map { it.displayName },
                             onOptionSelected = { displayName ->
-                                val preference = chromahub.rhythm.app.core.model.LyricsSourcePreference.values()
+                                val preference = com.qlzhj.rhythm.core.model.LyricsSourcePreference.values()
                                     .find { it.displayName == displayName }
                                 if (preference != null) {
                                     appSettings.setLyricsSourcePreference(preference)
@@ -8856,7 +8856,7 @@ private fun IntegrationsSettingsCards(
     broadcastStatusEnabled: Boolean,
     bluetoothLyricsEnabled: Boolean,
     appleCanvasEnabled: Boolean,
-    appleCanvasNetworkMode: chromahub.rhythm.app.core.model.CanvasNetworkMode,
+    appleCanvasNetworkMode: com.qlzhj.rhythm.core.model.CanvasNetworkMode,
     onDeezerChange: (Boolean) -> Unit,
     onLrcLibChange: (Boolean) -> Unit,
     onLyricallyChange: (Boolean) -> Unit,
@@ -8922,8 +8922,8 @@ private fun IntegrationsSettingsCards(
 
     val apiItems = buildList {
         val appleCanvasDesc = context.getString(R.string.onboarding_canvas_desc_prefix) + when (appleCanvasNetworkMode) {
-            chromahub.rhythm.app.core.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
-            chromahub.rhythm.app.core.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
+            com.qlzhj.rhythm.core.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
+            com.qlzhj.rhythm.core.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
         }
         add(
             onboardingToggleItem(

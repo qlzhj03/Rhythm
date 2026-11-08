@@ -10,10 +10,10 @@ import androidx.room.withTransaction
 import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
 import chromahub.rhythm.app.features.local.data.database.entity.SongEntity
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.MediaScanMode
-import chromahub.rhythm.app.core.model.ScanPhase
-import chromahub.rhythm.app.core.model.ScanProgress
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.MediaScanMode
+import com.qlzhj.rhythm.core.model.ScanPhase
+import com.qlzhj.rhythm.core.model.ScanProgress
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.util.AudioFormatDetector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

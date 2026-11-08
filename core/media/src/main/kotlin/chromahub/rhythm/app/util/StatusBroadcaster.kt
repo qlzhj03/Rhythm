@@ -3,7 +3,7 @@ package chromahub.rhythm.app.util
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 
 /**
  * StatusBroadcaster handles broadcasting playback status to third-party apps

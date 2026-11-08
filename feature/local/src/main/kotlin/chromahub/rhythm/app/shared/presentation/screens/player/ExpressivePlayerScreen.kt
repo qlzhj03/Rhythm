@@ -109,13 +109,13 @@ import chromahub.rhythm.app.shared.presentation.components.lyrics.WordByWordLyri
 import chromahub.rhythm.app.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.navigation.Screen
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.Album
+import com.qlzhj.rhythm.core.model.Album
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Artist
-import chromahub.rhythm.app.core.model.LyricsData
-import chromahub.rhythm.app.core.model.PlaybackLocation
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Artist
+import com.qlzhj.rhythm.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.PlaybackLocation
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.core.designsystem.components.AnimatedDigitTickerText
 import chromahub.rhythm.app.shared.presentation.components.common.AutoScrollingTextOnDemand
 import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
@@ -353,7 +353,7 @@ fun ExpressivePlayerScreen(
     val context = LocalContext.current
 
     var showAutoEQSuggestion by remember { mutableStateOf(false) }
-    var detectedDevice by remember { mutableStateOf<chromahub.rhythm.app.core.model.UserAudioDevice?>(null) }
+    var detectedDevice by remember { mutableStateOf<com.qlzhj.rhythm.core.model.UserAudioDevice?>(null) }
     var showDeviceConfig by remember { mutableStateOf(false) }
 
     LaunchedEffect(location) {

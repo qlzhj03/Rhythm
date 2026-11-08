@@ -6,11 +6,11 @@ import javax.inject.Inject
 import chromahub.rhythm.app.R
 import android.content.Context
 import android.util.Log
-import chromahub.rhythm.app.core.model.AlbumItem
-import chromahub.rhythm.app.core.model.ArtistItem
-import chromahub.rhythm.app.core.model.PlayableItem
-import chromahub.rhythm.app.core.model.PlaylistItem
-import chromahub.rhythm.app.core.model.SourceType
+import com.qlzhj.rhythm.core.model.AlbumItem
+import com.qlzhj.rhythm.core.model.ArtistItem
+import com.qlzhj.rhythm.core.model.PlayableItem
+import com.qlzhj.rhythm.core.model.PlaylistItem
+import com.qlzhj.rhythm.core.model.SourceType
 import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.features.streaming.data.provider.JellyfinApiClient
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseApiClient
@@ -22,15 +22,15 @@ import chromahub.rhythm.app.features.streaming.data.provider.ProviderPlaylist
 import chromahub.rhythm.app.features.streaming.data.provider.ProviderSong
 import chromahub.rhythm.app.features.streaming.data.provider.SubsonicApiClient
 import chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager
-import chromahub.rhythm.app.core.model.BrowseCategory
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingArtist
-import chromahub.rhythm.app.core.model.StreamingPlaylist
-import chromahub.rhythm.app.core.model.StreamingServiceId
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.BrowseCategory
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingArtist
+import com.qlzhj.rhythm.core.model.StreamingPlaylist
+import com.qlzhj.rhythm.core.model.StreamingServiceId
+import com.qlzhj.rhythm.core.model.StreamingSong
 import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.LyricsData
+import com.qlzhj.rhythm.core.model.LyricsData
 import chromahub.rhythm.app.network.NetworkClient
 import chromahub.rhythm.app.network.DeezerApiService
 import android.net.Uri
@@ -2149,7 +2149,7 @@ class StreamingMusicRepositoryImpl @Inject constructor(
             sourceType = serviceToSourceType(serviceId),
             externalId = providerPlaylist.providerId,
             owner = if (providerPlaylist.owner != null) {
-                chromahub.rhythm.app.core.model.PlaylistOwner(
+                com.qlzhj.rhythm.core.model.PlaylistOwner(
                     id = normalizeKey(providerPlaylist.owner),
                     displayName = providerPlaylist.owner,
                     imageUrl = null,
@@ -2194,7 +2194,7 @@ class StreamingMusicRepositoryImpl @Inject constructor(
             sourceType = serviceToSourceType(serviceId),
             externalId = providerAlbum.providerId,
             releaseDate = null,
-            albumType = chromahub.rhythm.app.core.model.AlbumType.ALBUM,
+            albumType = com.qlzhj.rhythm.core.model.AlbumType.ALBUM,
             genres = emptyList(),
             label = null,
             copyright = null,

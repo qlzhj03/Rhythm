@@ -20,8 +20,8 @@ import org.jaudiotagger.tag.Tag
 import org.jaudiotagger.tag.images.ArtworkFactory
 import androidx.core.net.toUri
 import com.qlzhj.rhythm.core.common.AudioQualityDetector
-import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.model.ExtendedSongInfo
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.model.ExtendedSongInfo
 import java.io.File
 import java.io.FileOutputStream
 import java.io.RandomAccessFile

@@ -53,7 +53,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.core.model.Artist
+import com.qlzhj.rhythm.core.model.Artist
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
@@ -151,7 +151,7 @@ fun RhythmStatsScreen(
 @Composable
 private fun StatsPageContent(
     range: StatsTimeRange,
-    songs: List<chromahub.rhythm.app.core.model.Song>,
+    songs: List<com.qlzhj.rhythm.core.model.Song>,
     artists: List<Artist>,
     viewModel: MusicViewModel,
     useHoursFormat: Boolean

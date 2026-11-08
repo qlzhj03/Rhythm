@@ -21,8 +21,8 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Timeline
 import androidx.media3.common.Player
 import androidx.media3.common.ForwardingPlayer
-import chromahub.rhythm.app.core.model.TransitionSettings
-import chromahub.rhythm.app.core.model.TransitionMode
+import com.qlzhj.rhythm.core.model.TransitionSettings
+import com.qlzhj.rhythm.core.model.TransitionMode
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
@@ -36,7 +36,7 @@ import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionError
 import androidx.media3.session.SessionResult
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.infrastructure.service.player.RhythmPlayerEngine
 import chromahub.rhythm.app.infrastructure.service.player.TransitionController
 import chromahub.rhythm.app.infrastructure.service.player.PreloadController
@@ -59,14 +59,14 @@ import androidx.media3.common.AudioAttributes as ExoAudioAttributes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.qlzhj.rhythm.core.common.GsonUtils
-import chromahub.rhythm.app.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Playlist
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.rhythmGuardFormatDurationFromMinutes
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.model.PlaybackQualityInfo
+import com.qlzhj.rhythm.core.model.PlaybackQualityInfo
 import com.qlzhj.rhythm.core.common.AudioQualityDetector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

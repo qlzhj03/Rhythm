@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.infrastructure.service
 
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import android.content.Context
 
 /** Main-activity class + widget bridge, installed by :app (multi-module split PR-4). */
@@ -18,8 +18,8 @@ object MediaServiceHooks {
     /** Artwork bitmap loader for the media session (lives in :app until PR-5). */
     /** Quality-tier icon drawables owned by :app (:core:media is resource-free). */
     @Volatile
-    var qualityIcons: chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons =
-        chromahub.rhythm.app.core.model.PlaybackQualityInfo.QualityIcons()
+    var qualityIcons: com.qlzhj.rhythm.core.model.PlaybackQualityInfo.QualityIcons =
+        com.qlzhj.rhythm.core.model.PlaybackQualityInfo.QualityIcons()
 
     @Volatile
     var artworkBitmapLoader: androidx.media3.common.util.BitmapLoader? = null
@@ -38,7 +38,7 @@ object MediaServiceHooks {
 /** Metadata extraction for externally-opened audio files (MediaUtils, :app). */
 interface ExternalMetadataExtractor {
     fun getMediaMimeType(context: Context, uri: android.net.Uri): String?
-    fun extractMetadataFromUri(context: Context, uri: android.net.Uri): chromahub.rhythm.app.core.model.Song?
+    fun extractMetadataFromUri(context: Context, uri: android.net.Uri): com.qlzhj.rhythm.core.model.Song?
 }
 
 /** Widget update bridge; implementation lives with the Glance widgets (:feature:widget, PR-5). */

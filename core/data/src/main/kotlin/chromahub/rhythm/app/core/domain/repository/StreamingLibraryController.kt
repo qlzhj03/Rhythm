@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.core.domain.repository
 
-import chromahub.rhythm.app.core.model.StreamingAlbum
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.StreamingAlbum
+import com.qlzhj.rhythm.core.model.StreamingSong
 import kotlinx.coroutines.flow.StateFlow
 
 /**

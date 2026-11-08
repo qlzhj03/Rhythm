@@ -88,8 +88,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
@@ -322,8 +322,8 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                                 description = context.getString(
                                     R.string.api_apple_motion_canvas_desc,
                                     when (appleCanvasNetworkMode) {
-                                        chromahub.rhythm.app.core.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
-                                        chromahub.rhythm.app.core.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
+                                        com.qlzhj.rhythm.core.model.CanvasNetworkMode.WIFI_ONLY -> context.getString(R.string.api_apple_canvas_wifi)
+                                        com.qlzhj.rhythm.core.model.CanvasNetworkMode.BOTH -> context.getString(R.string.api_apple_canvas_both)
                                     }
                                 ),
                                 enabled = integrationsEnabled,

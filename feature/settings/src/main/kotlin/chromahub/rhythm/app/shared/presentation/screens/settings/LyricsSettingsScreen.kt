@@ -89,8 +89,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.model.Playlist
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.GsonUtils
@@ -369,18 +369,18 @@ fun LyricsSettingsScreen(onBackClick: () -> Unit) {
                     modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                 )
 
-                val sourceOptions = listOf<Pair<chromahub.rhythm.app.core.model.LyricsSourcePreference, Triple<String, String, MaterialSymbolIcon>>>(
-                    chromahub.rhythm.app.core.model.LyricsSourcePreference.EMBEDDED_FIRST to Triple(
+                val sourceOptions = listOf<Pair<com.qlzhj.rhythm.core.model.LyricsSourcePreference, Triple<String, String, MaterialSymbolIcon>>>(
+                    com.qlzhj.rhythm.core.model.LyricsSourcePreference.EMBEDDED_FIRST to Triple(
                         context.getString(R.string.lyrics_settings_embedded_first),
                         context.getString(R.string.lyrics_settings_embedded_first_desc),
                         RhythmIcons.MusicNote
                     ),
-                    chromahub.rhythm.app.core.model.LyricsSourcePreference.API_FIRST to Triple(
+                    com.qlzhj.rhythm.core.model.LyricsSourcePreference.API_FIRST to Triple(
                         context.getString(R.string.lyrics_settings_online_first),
                         context.getString(R.string.lyrics_settings_online_first_desc),
                         MaterialSymbolIcon("cloud_queue")
                     ),
-                    chromahub.rhythm.app.core.model.LyricsSourcePreference.LOCAL_FIRST to Triple(
+                    com.qlzhj.rhythm.core.model.LyricsSourcePreference.LOCAL_FIRST to Triple(
                         context.getString(R.string.lyrics_settings_local_first),
                         context.getString(R.string.lyrics_settings_local_first_desc),
                         RhythmIcons.Storage

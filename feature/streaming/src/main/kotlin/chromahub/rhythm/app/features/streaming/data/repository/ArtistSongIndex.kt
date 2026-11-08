@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.features.streaming.data.repository
 
-import chromahub.rhythm.app.core.model.StreamingSong
+import com.qlzhj.rhythm.core.model.StreamingSong
 
 /**
  * Groups songs by case-insensitive credited artist name, indexed once per batch.

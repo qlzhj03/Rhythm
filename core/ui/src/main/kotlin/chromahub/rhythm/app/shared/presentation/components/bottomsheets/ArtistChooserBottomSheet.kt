@@ -3,7 +3,7 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAda
 
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.model.Artist
+import com.qlzhj.rhythm.core.model.Artist
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShapeTarget
 import chromahub.rhythm.app.shared.presentation.components.common.rememberExpressiveShapeFor
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils

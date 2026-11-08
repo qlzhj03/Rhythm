@@ -83,7 +83,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
-import chromahub.rhythm.app.core.model.Song
+import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.util.MediaUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -105,7 +105,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import chromahub.rhythm.app.core.model.ScanPhase
+import com.qlzhj.rhythm.core.model.ScanPhase
 import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.core.designsystem.icons.Icon as RhythmIcon
 import kotlin.math.abs
@@ -142,8 +142,8 @@ import chromahub.rhythm.app.onboarding.OnboardingStep
 import chromahub.rhythm.app.onboarding.PermissionScreenState
 import androidx.core.content.pm.ShortcutManagerCompat
 import chromahub.rhythm.app.features.streaming.presentation.viewmodel.StreamingMusicViewModel
-import chromahub.rhythm.app.core.model.StreamingSyncStage
-import chromahub.rhythm.app.core.model.SourceType
+import com.qlzhj.rhythm.core.model.StreamingSyncStage
+import com.qlzhj.rhythm.core.model.SourceType
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
