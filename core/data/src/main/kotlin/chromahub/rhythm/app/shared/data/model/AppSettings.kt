@@ -155,21 +155,21 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_PRELOAD_LIMIT = "preload_limit"
         
         // Lyrics Settings
-        private const val KEY_SHOW_LYRICS = "show_lyrics"
-        private const val KEY_ONLINE_ONLY_LYRICS = "online_only_lyrics" // Deprecated, kept for migration
-        private const val KEY_LYRICS_SOURCE_PREFERENCE = "lyrics_source_preference"
-        private const val KEY_SHOW_LYRICS_BACKGROUND_ARTWORK = "show_lyrics_background_artwork"
-        private const val KEY_SHOW_LYRICS_TRANSLATION = "show_lyrics_translation"
-        private const val KEY_SHOW_LYRICS_ROMANIZATION = "show_lyrics_romanization"
-        private const val KEY_KEEP_SCREEN_ON_LYRICS = "keep_screen_on_lyrics"
-        private const val KEY_TAP_LYRICS_TO_FULL_SCREEN = "tap_lyrics_to_full_screen"
-        private const val KEY_LYRICS_API_PRIORITY = "lyrics_api_priority"
-        private const val KEY_LYRICS_API_FALLBACK_RETRY = "lyrics_api_fallback_retry"
-        private const val KEY_AUTO_HIDE_LYRICS_CONTROLS = "auto_hide_lyrics_controls"
-        private const val KEY_LYRIC_BOLD = "lyric_bold"
+        internal const val KEY_SHOW_LYRICS = "show_lyrics"
+        internal const val KEY_ONLINE_ONLY_LYRICS = "online_only_lyrics" // Deprecated, kept for migration
+        internal const val KEY_LYRICS_SOURCE_PREFERENCE = "lyrics_source_preference"
+        internal const val KEY_SHOW_LYRICS_BACKGROUND_ARTWORK = "show_lyrics_background_artwork"
+        internal const val KEY_SHOW_LYRICS_TRANSLATION = "show_lyrics_translation"
+        internal const val KEY_SHOW_LYRICS_ROMANIZATION = "show_lyrics_romanization"
+        internal const val KEY_KEEP_SCREEN_ON_LYRICS = "keep_screen_on_lyrics"
+        internal const val KEY_TAP_LYRICS_TO_FULL_SCREEN = "tap_lyrics_to_full_screen"
+        internal const val KEY_LYRICS_API_PRIORITY = "lyrics_api_priority"
+        internal const val KEY_LYRICS_API_FALLBACK_RETRY = "lyrics_api_fallback_retry"
+        internal const val KEY_AUTO_HIDE_LYRICS_CONTROLS = "auto_hide_lyrics_controls"
+        internal const val KEY_LYRIC_BOLD = "lyric_bold"
         private const val KEY_TRIM_LYRICS = "trim_lyrics"
-        private const val KEY_LYRIC_NO_ANIMATION = "lyric_no_animation"
-        private const val KEY_TRANSLATION_AUTO_WORD = "translation_auto_word"
+        internal const val KEY_LYRIC_NO_ANIMATION = "lyric_no_animation"
+        internal const val KEY_TRANSLATION_AUTO_WORD = "translation_auto_word"
         
         // Theme Settings
         internal const val KEY_USE_SYSTEM_THEME = "use_system_theme"
@@ -329,7 +329,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         
         // General Broadcast Status Settings (for Tasker, KWGT, etc.)
         private const val KEY_BROADCAST_STATUS_ENABLED = "broadcast_status_enabled"
-        private const val KEY_BLUETOOTH_LYRICS_ENABLED = "bluetooth_lyrics_enabled"
+        internal const val KEY_BLUETOOTH_LYRICS_ENABLED = "bluetooth_lyrics_enabled"
         
         // Enhanced User Preferences
         private const val KEY_FAVORITE_GENRES = "favorite_genres"
@@ -607,7 +607,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_GESTURE_LIBRARY_SWIPE_TABS = "gesture_library_swipe_tabs" // Swipe between library tabs
         internal const val KEY_MINIPLAYER_SWIPE_TRACKS = "miniplayer_swipe_tracks" // Swipe horizontally on miniplayer to change tracks
         internal const val KEY_MINIPLAYER_SWIPE_DISMISS = "miniplayer_swipe_dismiss" // Swipe vertically on miniplayer to open/dismiss
-        private const val KEY_TAP_LYRICS_TO_SEEK = "tap_lyrics_to_seek" // Tap lyric line to seek playback
+        internal const val KEY_TAP_LYRICS_TO_SEEK = "tap_lyrics_to_seek" // Tap lyric line to seek playback
         
         // Expressive MaterialShapes Settings (M3 Expressive API)
         internal const val KEY_EXPRESSIVE_SHAPES_ENABLED = "expressive_shapes_enabled" // Master toggle for expressive shapes
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val lyricsSection = chromahub.rhythm.app.shared.data.model.settings.LyricsSettingsSection(prefs, { updateDerivedSettings() })
     private val streamingModeSection = chromahub.rhythm.app.shared.data.model.settings.StreamingModeSettingsSection(prefs)
     private val themeSection = chromahub.rhythm.app.shared.data.model.settings.ThemeSettingsSection(prefs)
     private val playbackQueueSection = chromahub.rhythm.app.shared.data.model.settings.PlaybackQueueSettingsSection(prefs)
@@ -766,65 +767,54 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     fun setDisabledDecoderExtensions(disabledSet: Set<String>) = audioEqSection.setDisabledDecoderExtensions(disabledSet)
     
     // Lyrics Settings
-    private val _showLyrics = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LYRICS, true))
-    val showLyrics: StateFlow<Boolean> = _showLyrics.asStateFlow()
+    val showLyrics: StateFlow<Boolean> get() = lyricsSection.showLyrics
+    fun setShowLyrics(show: Boolean) = lyricsSection.setShowLyrics(show)
     
     // Migrate from old online_only_lyrics setting to new preference system
-    private val migratedLyricsPreference = run {
-        val hasOldSetting = prefs.contains(AppSettings.KEY_ONLINE_ONLY_LYRICS)
-        if (hasOldSetting && !prefs.contains(AppSettings.KEY_LYRICS_SOURCE_PREFERENCE)) {
-            // Migrate: online_only = true means API_FIRST, false means allow all sources
-            val onlineOnly = prefs.getBoolean(AppSettings.KEY_ONLINE_ONLY_LYRICS, true)
-            if (onlineOnly) LyricsSourcePreference.API_FIRST.ordinal else LyricsSourcePreference.EMBEDDED_FIRST.ordinal
-        } else {
-            prefs.getInt(AppSettings.KEY_LYRICS_SOURCE_PREFERENCE, LyricsSourcePreference.LOCAL_FIRST.ordinal)
-        }
-    }
     
-    private val _lyricsSourcePreference = MutableStateFlow(LyricsSourcePreference.fromOrdinal(migratedLyricsPreference))
-    val lyricsSourcePreference: StateFlow<LyricsSourcePreference> = _lyricsSourcePreference.asStateFlow()
+    val lyricsSourcePreference: StateFlow<LyricsSourcePreference> get() = lyricsSection.lyricsSourcePreference
+    fun setLyricsSourcePreference(preference: LyricsSourcePreference) = lyricsSection.setLyricsSourcePreference(preference)
     
     // Keep for backward compatibility but make it read from new preference
-    private val _onlineOnlyLyrics = MutableStateFlow(_lyricsSourcePreference.value == LyricsSourcePreference.API_FIRST)
-    val onlineOnlyLyrics: StateFlow<Boolean> = _onlineOnlyLyrics.asStateFlow()
+    val onlineOnlyLyrics: StateFlow<Boolean> get() = lyricsSection.onlineOnlyLyrics
+    @Deprecated("Use setLyricsSourcePreference instead")
+    fun setOnlineOnlyLyrics(onlineOnly: Boolean) = lyricsSection.setOnlineOnlyLyrics(onlineOnly)
     
-    private val _showLyricsBackgroundArtwork = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LYRICS_BACKGROUND_ARTWORK, true))
-    val showLyricsBackgroundArtwork: StateFlow<Boolean> = _showLyricsBackgroundArtwork.asStateFlow()
+    val showLyricsBackgroundArtwork: StateFlow<Boolean> get() = lyricsSection.showLyricsBackgroundArtwork
+    fun setShowLyricsBackgroundArtwork(show: Boolean) = lyricsSection.setShowLyricsBackgroundArtwork(show)
 
-    private val _showLyricsTranslation = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LYRICS_TRANSLATION, true))
-    val showLyricsTranslation: StateFlow<Boolean> = _showLyricsTranslation.asStateFlow()
+    val showLyricsTranslation: StateFlow<Boolean> get() = lyricsSection.showLyricsTranslation
+    fun setShowLyricsTranslation(show: Boolean) = lyricsSection.setShowLyricsTranslation(show)
     
-    private val _showLyricsRomanization = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LYRICS_ROMANIZATION, true))
-    val showLyricsRomanization: StateFlow<Boolean> = _showLyricsRomanization.asStateFlow()
+    val showLyricsRomanization: StateFlow<Boolean> get() = lyricsSection.showLyricsRomanization
+    fun setShowLyricsRomanization(show: Boolean) = lyricsSection.setShowLyricsRomanization(show)
     
-    private val _keepScreenOnLyrics = MutableStateFlow(prefs.getBoolean(KEY_KEEP_SCREEN_ON_LYRICS, false))
-    val keepScreenOnLyrics: StateFlow<Boolean> = _keepScreenOnLyrics.asStateFlow()
+    val keepScreenOnLyrics: StateFlow<Boolean> get() = lyricsSection.keepScreenOnLyrics
+    fun setKeepScreenOnLyrics(enabled: Boolean) = lyricsSection.setKeepScreenOnLyrics(enabled)
     
-    private val _tapLyricsToFullScreen = MutableStateFlow(prefs.getBoolean(KEY_TAP_LYRICS_TO_FULL_SCREEN, true))
-    val tapLyricsToFullScreen: StateFlow<Boolean> = _tapLyricsToFullScreen.asStateFlow()
+    val tapLyricsToFullScreen: StateFlow<Boolean> get() = lyricsSection.tapLyricsToFullScreen
+    fun setTapLyricsToFullScreen(enable: Boolean) = lyricsSection.setTapLyricsToFullScreen(enable)
 
-    private val _lyricsApiPriority = MutableStateFlow(
-        LyricsApiPriority.fromOrdinal(prefs.getInt(AppSettings.KEY_LYRICS_API_PRIORITY, LyricsApiPriority.LYRICALLY_FIRST.ordinal))
-    )
-    val lyricsApiPriority: StateFlow<LyricsApiPriority> = _lyricsApiPriority.asStateFlow()
+    val lyricsApiPriority: StateFlow<LyricsApiPriority> get() = lyricsSection.lyricsApiPriority
+    fun setLyricsApiPriority(priority: LyricsApiPriority) = lyricsSection.setLyricsApiPriority(priority)
 
-    private val _lyricsApiFallbackRetry = MutableStateFlow(prefs.getBoolean(KEY_LYRICS_API_FALLBACK_RETRY, true))
-    val lyricsApiFallbackRetry: StateFlow<Boolean> = _lyricsApiFallbackRetry.asStateFlow()
+    val lyricsApiFallbackRetry: StateFlow<Boolean> get() = lyricsSection.lyricsApiFallbackRetry
+    fun setLyricsApiFallbackRetry(enable: Boolean) = lyricsSection.setLyricsApiFallbackRetry(enable)
     
-    private val _autoHideLyricsControls = MutableStateFlow(prefs.getBoolean(KEY_AUTO_HIDE_LYRICS_CONTROLS, true))
-    val autoHideLyricsControls: StateFlow<Boolean> = _autoHideLyricsControls.asStateFlow()
+    val autoHideLyricsControls: StateFlow<Boolean> get() = lyricsSection.autoHideLyricsControls
+    fun setAutoHideLyricsControls(enabled: Boolean) = lyricsSection.setAutoHideLyricsControls(enabled)
     
-    private val _lyricBold = MutableStateFlow(prefs.getBoolean(KEY_LYRIC_BOLD, false))
-    val lyricBold: StateFlow<Boolean> = _lyricBold.asStateFlow()
+    val lyricBold: StateFlow<Boolean> get() = lyricsSection.lyricBold
+    fun setLyricBold(enable: Boolean) = lyricsSection.setLyricBold(enable)
 
     private val _trimLyrics = MutableStateFlow(prefs.getBoolean(KEY_TRIM_LYRICS, true))
     val trimLyrics: StateFlow<Boolean> = _trimLyrics.asStateFlow()
 
-    private val _lyricNoAnimation = MutableStateFlow(prefs.getBoolean(KEY_LYRIC_NO_ANIMATION, false))
-    val lyricNoAnimation: StateFlow<Boolean> = _lyricNoAnimation.asStateFlow()
+    val lyricNoAnimation: StateFlow<Boolean> get() = lyricsSection.lyricNoAnimation
+    fun setLyricNoAnimation(enable: Boolean) = lyricsSection.setLyricNoAnimation(enable)
 
-    private val _translationAutoWord = MutableStateFlow(prefs.getBoolean(KEY_TRANSLATION_AUTO_WORD, false))
-    val translationAutoWord: StateFlow<Boolean> = _translationAutoWord.asStateFlow()
+    val translationAutoWord: StateFlow<Boolean> get() = lyricsSection.translationAutoWord
+    fun setTranslationAutoWord(enable: Boolean) = lyricsSection.setTranslationAutoWord(enable)
     
     // Theme Settings
     val useSystemTheme: StateFlow<Boolean> get() = themeSection.useSystemTheme
@@ -1191,38 +1181,14 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val favoriteSongs: StateFlow<String?> = _favoriteSongs.asStateFlow()
     
     // Song Lyrics Preferences - Map of songId to source preference ("online", "embedded", "lrc")
-    private val _songLyricsPreferences = MutableStateFlow<Map<String, String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_SONG_LYRICS_PREFERENCES, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type)
-            } else {
-                emptyMap()
-            }
-        } catch (e: Exception) {
-            emptyMap()
-        }
-    )
-    val songLyricsPreferences: StateFlow<Map<String, String>> = _songLyricsPreferences.asStateFlow()
+    val songLyricsPreferences: StateFlow<Map<String, String>> get() = lyricsSection.songLyricsPreferences
 
     // Custom LRC Files - Map of songId to custom LRC filename
-    private val _songCustomLrcFiles = MutableStateFlow<Map<String, String>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_SONG_CUSTOM_LRC_FILES, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type)
-            } else {
-                emptyMap()
-            }
-        } catch (e: Exception) {
-            emptyMap()
-        }
-    )
-    val songCustomLrcFiles: StateFlow<Map<String, String>> = _songCustomLrcFiles.asStateFlow()
+    val songCustomLrcFiles: StateFlow<Map<String, String>> get() = lyricsSection.songCustomLrcFiles
 
     // LRC Rename Behavior - "ask", "always", "never"
-    private val _lrcRenameBehavior = MutableStateFlow(prefs.getString(KEY_LRC_RENAME_BEHAVIOR, "ask") ?: "ask")
-    val lrcRenameBehavior: StateFlow<String> = _lrcRenameBehavior.asStateFlow()
+    val lrcRenameBehavior: StateFlow<String> get() = lyricsSection.lrcRenameBehavior
+    fun setLrcRenameBehavior(value: String) = lyricsSection.setLrcRenameBehavior(value)
     
     private val _defaultPlaylistsEnabled = MutableStateFlow(prefs.getBoolean(KEY_DEFAULT_PLAYLISTS_ENABLED, true))
     val defaultPlaylistsEnabled: StateFlow<Boolean> = _defaultPlaylistsEnabled.asStateFlow()
@@ -1428,8 +1394,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _broadcastStatusEnabled = MutableStateFlow(prefs.getBoolean(KEY_BROADCAST_STATUS_ENABLED, false))
     val broadcastStatusEnabled: StateFlow<Boolean> = _broadcastStatusEnabled.asStateFlow()
 
-    private val _bluetoothLyricsEnabled = MutableStateFlow(prefs.getBoolean(KEY_BLUETOOTH_LYRICS_ENABLED, false))
-    val bluetoothLyricsEnabled: StateFlow<Boolean> = _bluetoothLyricsEnabled.asStateFlow()
+    val bluetoothLyricsEnabled: StateFlow<Boolean> get() = lyricsSection.bluetoothLyricsEnabled
+    fun setBluetoothLyricsEnabled(enabled: Boolean) = lyricsSection.setBluetoothLyricsEnabled(enabled)
 
     // Enhanced User Preferences
     private val _favoriteGenres = MutableStateFlow<Map<String, Int>>(
@@ -1916,88 +1882,28 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     
     // Lyrics Settings Methods
-    fun setShowLyrics(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_LYRICS, show) }
-        _showLyrics.value = show
-    }
     
-    fun setLyricsSourcePreference(preference: LyricsSourcePreference) {
-        prefs.edit { putInt(AppSettings.KEY_LYRICS_SOURCE_PREFERENCE, preference.ordinal) }
-        _lyricsSourcePreference.value = preference
-        // Update the backward compatibility flag
-        _onlineOnlyLyrics.value = (preference == LyricsSourcePreference.API_FIRST)
-    }
     
-    @Deprecated("Use setLyricsSourcePreference instead")
-    fun setOnlineOnlyLyrics(onlineOnly: Boolean) {
-        // Convert to new preference system
-        val preference = if (onlineOnly) LyricsSourcePreference.API_FIRST else LyricsSourcePreference.EMBEDDED_FIRST
-        setLyricsSourcePreference(preference)
-    }
     
-    fun setShowLyricsBackgroundArtwork(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_LYRICS_BACKGROUND_ARTWORK, show) }
-        _showLyricsBackgroundArtwork.value = show
-    }
 
-    fun setShowLyricsTranslation(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_LYRICS_TRANSLATION, show) }
-        _showLyricsTranslation.value = show
-    }
     
-    fun setShowLyricsRomanization(show: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_LYRICS_ROMANIZATION, show) }
-        _showLyricsRomanization.value = show
-    }
     
-    fun setKeepScreenOnLyrics(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_KEEP_SCREEN_ON_LYRICS, enabled) }
-        _keepScreenOnLyrics.value = enabled
-    }
     
-    fun setTapLyricsToFullScreen(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_TAP_LYRICS_TO_FULL_SCREEN, enable) }
-        _tapLyricsToFullScreen.value = enable
-    }
 
-    fun setLyricsApiPriority(priority: LyricsApiPriority) {
-        prefs.edit { putInt(AppSettings.KEY_LYRICS_API_PRIORITY, priority.ordinal) }
-        _lyricsApiPriority.value = priority
-    }
     
     fun isLyricsApiPrioritySet(): Boolean {
         return prefs.contains(AppSettings.KEY_LYRICS_API_PRIORITY)
     }
 
-    fun setLyricsApiFallbackRetry(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_LYRICS_API_FALLBACK_RETRY, enable) }
-        _lyricsApiFallbackRetry.value = enable
-    }
 
-    fun setAutoHideLyricsControls(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUTO_HIDE_LYRICS_CONTROLS, enabled) }
-        _autoHideLyricsControls.value = enabled
-    }
 
-    fun setLyricBold(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_LYRIC_BOLD, enable) }
-        _lyricBold.value = enable
-    }
 
     fun setTrimLyrics(enable: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_TRIM_LYRICS, enable) }
         _trimLyrics.value = enable
     }
 
-    fun setLyricNoAnimation(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_LYRIC_NO_ANIMATION, enable) }
-        _lyricNoAnimation.value = enable
-    }
 
-    fun setTranslationAutoWord(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_TRANSLATION_AUTO_WORD, enable) }
-        _translationAutoWord.value = enable
-    }
     
     // Theme Settings Methods
     
@@ -2499,10 +2405,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _broadcastStatusEnabled.value = enabled
     }
 
-    fun setBluetoothLyricsEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BLUETOOTH_LYRICS_ENABLED, enabled) }
-        _bluetoothLyricsEnabled.value = enabled
-    }
 
     // Enhanced User Preferences Methods
     fun updateFavoriteGenres(genres: Map<String, Int>) {
@@ -3659,18 +3561,18 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _maxCacheSize.value = safeLong(AppSettings.KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)
         
         // Other settings
-        _showLyrics.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS, true)
-        _tapLyricsToFullScreen.value = prefs.getBoolean(AppSettings.KEY_TAP_LYRICS_TO_FULL_SCREEN, true)
-        _lyricsApiPriority.value = LyricsApiPriority.fromOrdinal(
+        lyricsSection._showLyrics.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS, true)
+        lyricsSection._tapLyricsToFullScreen.value = prefs.getBoolean(AppSettings.KEY_TAP_LYRICS_TO_FULL_SCREEN, true)
+        lyricsSection._lyricsApiPriority.value = LyricsApiPriority.fromOrdinal(
             prefs.getInt(AppSettings.KEY_LYRICS_API_PRIORITY, LyricsApiPriority.LYRICALLY_FIRST.ordinal)
         )
-        _lyricsApiFallbackRetry.value = prefs.getBoolean(AppSettings.KEY_LYRICS_API_FALLBACK_RETRY, true)
-        _onlineOnlyLyrics.value = prefs.getBoolean(AppSettings.KEY_ONLINE_ONLY_LYRICS, true)
-        _lyricBold.value = prefs.getBoolean(AppSettings.KEY_LYRIC_BOLD, false)
+        lyricsSection._lyricsApiFallbackRetry.value = prefs.getBoolean(AppSettings.KEY_LYRICS_API_FALLBACK_RETRY, true)
+        lyricsSection._onlineOnlyLyrics.value = prefs.getBoolean(AppSettings.KEY_ONLINE_ONLY_LYRICS, true)
+        lyricsSection._lyricBold.value = prefs.getBoolean(AppSettings.KEY_LYRIC_BOLD, false)
         _trimLyrics.value = prefs.getBoolean(AppSettings.KEY_TRIM_LYRICS, true)
-        _lyricNoAnimation.value = prefs.getBoolean(AppSettings.KEY_LYRIC_NO_ANIMATION, false)
-        _translationAutoWord.value = prefs.getBoolean(AppSettings.KEY_TRANSLATION_AUTO_WORD, false)
-        _showLyricsBackgroundArtwork.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS_BACKGROUND_ARTWORK, true)
+        lyricsSection._lyricNoAnimation.value = prefs.getBoolean(AppSettings.KEY_LYRIC_NO_ANIMATION, false)
+        lyricsSection._translationAutoWord.value = prefs.getBoolean(AppSettings.KEY_TRANSLATION_AUTO_WORD, false)
+        lyricsSection._showLyricsBackgroundArtwork.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS_BACKGROUND_ARTWORK, true)
         _searchHistory.value = prefs.getString(AppSettings.KEY_SEARCH_HISTORY, null)
         _showKeyboardOnSearchOpen.value = prefs.getBoolean(AppSettings.KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN, true)
         _playlists.value = prefs.getString(AppSettings.KEY_PLAYLISTS, null)
@@ -3766,7 +3668,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
         // General Broadcast Status Settings
         _broadcastStatusEnabled.value = prefs.getBoolean(AppSettings.KEY_BROADCAST_STATUS_ENABLED, false)
-        _bluetoothLyricsEnabled.value = prefs.getBoolean(AppSettings.KEY_BLUETOOTH_LYRICS_ENABLED, false)
+        lyricsSection._bluetoothLyricsEnabled.value = prefs.getBoolean(AppSettings.KEY_BLUETOOTH_LYRICS_ENABLED, false)
         
         // App Updates
         _autoCheckForUpdates.value = prefs.getBoolean(AppSettings.KEY_AUTO_CHECK_FOR_UPDATES, true)
@@ -3895,63 +3797,59 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         _expressiveQualityBadgeAlwaysVisible.value = prefs.getBoolean(AppSettings.KEY_EXPRESSIVE_QUALITY_BADGE_ALWAYS_VISIBLE, false)
         
         // Lyrics song preferences and renaming behavior
-        _lrcRenameBehavior.value = prefs.getString(AppSettings.KEY_LRC_RENAME_BEHAVIOR, "ask") ?: "ask"
-        _songLyricsPreferences.value = try {
+        lyricsSection._lrcRenameBehavior.value = prefs.getString(AppSettings.KEY_LRC_RENAME_BEHAVIOR, "ask") ?: "ask"
+        lyricsSection._songLyricsPreferences.value = try {
             val json = prefs.getString(AppSettings.KEY_SONG_LYRICS_PREFERENCES, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type) else emptyMap()
         } catch (e: Exception) { emptyMap() }
-        _songCustomLrcFiles.value = try {
+        lyricsSection._songCustomLrcFiles.value = try {
             val json = prefs.getString(AppSettings.KEY_SONG_CUSTOM_LRC_FILES, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type) else emptyMap()
         } catch (e: Exception) { emptyMap() }
     }
 
     fun getSongLyricsPreference(songId: String): String? {
-        return _songLyricsPreferences.value[songId]
+        return lyricsSection._songLyricsPreferences.value[songId]
     }
 
     fun setSongLyricsPreference(songId: String, preference: String?) {
-        val currentPrefs = _songLyricsPreferences.value.toMutableMap()
+        val currentPrefs = lyricsSection._songLyricsPreferences.value.toMutableMap()
         if (preference == null) {
             currentPrefs.remove(songId)
         } else {
             currentPrefs[songId] = preference
         }
-        _songLyricsPreferences.value = currentPrefs
+        lyricsSection._songLyricsPreferences.value = currentPrefs
         prefs.edit { putString(AppSettings.KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(currentPrefs)) }
     }
 
     fun getSongCustomLrcFile(songId: String): String? {
-        return _songCustomLrcFiles.value[songId]
+        return lyricsSection._songCustomLrcFiles.value[songId]
     }
 
     fun setSongCustomLrcFile(songId: String, path: String?) {
-        val currentFiles = _songCustomLrcFiles.value.toMutableMap()
+        val currentFiles = lyricsSection._songCustomLrcFiles.value.toMutableMap()
         if (path == null) {
             currentFiles.remove(songId)
         } else {
             currentFiles[songId] = path
         }
-        _songCustomLrcFiles.value = currentFiles
+        lyricsSection._songCustomLrcFiles.value = currentFiles
         prefs.edit { putString(AppSettings.KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(currentFiles)) }
     }
 
-    fun setLrcRenameBehavior(value: String) {
-        _lrcRenameBehavior.value = value
-        prefs.edit { putString(AppSettings.KEY_LRC_RENAME_BEHAVIOR, value) }
-    }
     fun exportLyricsPreferencesToCsv(context: Context, uri: Uri): Boolean =
         chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.export(
-            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+            lyricsSection._songLyricsPreferences.value, lyricsSection._songCustomLrcFiles.value, context, uri
         )
 
     fun importLyricsPreferencesFromCsv(context: Context, uri: Uri): Boolean {
         val imported = chromahub.rhythm.app.core.domain.settings.LyricsPreferenceIo.import(
-            _songLyricsPreferences.value, _songCustomLrcFiles.value, context, uri
+            lyricsSection._songLyricsPreferences.value, lyricsSection._songCustomLrcFiles.value, context, uri
         ) ?: return false
-        _songLyricsPreferences.value = imported.first
+        lyricsSection._songLyricsPreferences.value = imported.first
         prefs.edit { putString(AppSettings.KEY_SONG_LYRICS_PREFERENCES, Gson().toJson(imported.first)) }
-        _songCustomLrcFiles.value = imported.second
+        lyricsSection._songCustomLrcFiles.value = imported.second
         prefs.edit { putString(AppSettings.KEY_SONG_CUSTOM_LRC_FILES, Gson().toJson(imported.second)) }
         return true
     }
@@ -4260,12 +4158,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val miniPlayerSwipeDismiss: StateFlow<Boolean> get() = customizationSection.miniPlayerSwipeDismiss
     fun setMiniPlayerSwipeDismiss(value: Boolean) = customizationSection.setMiniPlayerSwipeDismiss(value)
 
-    private val _tapLyricsToSeek = MutableStateFlow(prefs.getBoolean(KEY_TAP_LYRICS_TO_SEEK, true))
-    val tapLyricsToSeek: StateFlow<Boolean> = _tapLyricsToSeek.asStateFlow()
-    fun setTapLyricsToSeek(value: Boolean) {
-        _tapLyricsToSeek.value = value
-        prefs.edit { putBoolean(AppSettings.KEY_TAP_LYRICS_TO_SEEK, value) }
-    }
+    val tapLyricsToSeek: StateFlow<Boolean> get() = lyricsSection.tapLyricsToSeek
+    fun setTapLyricsToSeek(value: Boolean) = lyricsSection.setTapLyricsToSeek(value)
     
     val homeSectionOrder: StateFlow<List<String>> get() = customizationSection.homeSectionOrder
     fun setHomeSectionOrder(value: List<String>) = customizationSection.setHomeSectionOrder(value)
