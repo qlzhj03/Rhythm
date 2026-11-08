@@ -119,28 +119,28 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         
         // Playback Settings
         private const val KEY_GAPLESS_PLAYBACK = "gapless_playback"
-        private const val KEY_CROSSFADE = "crossfade"
-        private const val KEY_CROSSFADE_DURATION = "crossfade_duration"
-        private const val KEY_CROSSFADE_REPEAT_ONE = "crossfade_repeat_one"
-        private const val KEY_CROSSFADE_ON_SKIP = "crossfade_on_skip"
-        private const val KEY_AUDIO_NORMALIZATION = "audio_normalization"
-        private const val KEY_REPLAY_GAIN = "replay_gain"
-        private const val KEY_REPLAY_GAIN_MODE = "replay_gain_mode"
-        private const val KEY_REPLAY_GAIN_DRC = "replay_gain_drc"
-        private const val KEY_REPLAY_GAIN_PREAMP = "replay_gain_preamp"
-        private const val KEY_REPLAY_GAIN_PREAMP_UNTAGGED = "replay_gain_preamp_untagged"
+        internal const val KEY_CROSSFADE = "crossfade"
+        internal const val KEY_CROSSFADE_DURATION = "crossfade_duration"
+        internal const val KEY_CROSSFADE_REPEAT_ONE = "crossfade_repeat_one"
+        internal const val KEY_CROSSFADE_ON_SKIP = "crossfade_on_skip"
+        internal const val KEY_AUDIO_NORMALIZATION = "audio_normalization"
+        internal const val KEY_REPLAY_GAIN = "replay_gain"
+        internal const val KEY_REPLAY_GAIN_MODE = "replay_gain_mode"
+        internal const val KEY_REPLAY_GAIN_DRC = "replay_gain_drc"
+        internal const val KEY_REPLAY_GAIN_PREAMP = "replay_gain_preamp"
+        internal const val KEY_REPLAY_GAIN_PREAMP_UNTAGGED = "replay_gain_preamp_untagged"
         private const val KEY_SKIP_SILENCE = "skip_silence_enabled"
-        private const val KEY_AUDIO_ROUTING_MODE = "audio_routing_mode" // "default", "app", "system"
-        private const val KEY_RESUME_ON_DEVICE_RECONNECT = "resume_on_device_reconnect"
-        private const val KEY_AUDIO_OFFLOAD_ENABLED = "audio_offload_enabled"
+        internal const val KEY_AUDIO_ROUTING_MODE = "audio_routing_mode" // "default", "app", "system"
+        internal const val KEY_RESUME_ON_DEVICE_RECONNECT = "resume_on_device_reconnect"
+        internal const val KEY_AUDIO_OFFLOAD_ENABLED = "audio_offload_enabled"
 
-        private const val KEY_AUDIO_ENGINE_SOFTWARE_ENABLED = "audio_engine_software_enabled"
-        private const val KEY_AUDIO_ENGINE_PREFER_HARDWARE = "audio_engine_prefer_hardware"
-        private const val KEY_AUDIO_ENGINE_FLOAT_OUTPUT = "audio_engine_float_output"
-        private const val KEY_AUDIO_ENGINE_FLOAT_OUTPUT_MIGRATED = "audio_engine_float_output_v2_migrated"
-        private const val KEY_AUDIO_ENGINE_DISABLED_DECODERS = "audio_engine_disabled_decoders"
-        private const val KEY_DECODER_EXTENSIONS_ENABLED = "audio_decoder_extensions_enabled"
-        private const val KEY_DISABLED_DECODER_EXTENSIONS = "audio_disabled_decoder_extensions"
+        internal const val KEY_AUDIO_ENGINE_SOFTWARE_ENABLED = "audio_engine_software_enabled"
+        internal const val KEY_AUDIO_ENGINE_PREFER_HARDWARE = "audio_engine_prefer_hardware"
+        internal const val KEY_AUDIO_ENGINE_FLOAT_OUTPUT = "audio_engine_float_output"
+        internal const val KEY_AUDIO_ENGINE_FLOAT_OUTPUT_MIGRATED = "audio_engine_float_output_v2_migrated"
+        internal const val KEY_AUDIO_ENGINE_DISABLED_DECODERS = "audio_engine_disabled_decoders"
+        internal const val KEY_DECODER_EXTENSIONS_ENABLED = "audio_decoder_extensions_enabled"
+        internal const val KEY_DISABLED_DECODER_EXTENSIONS = "audio_disabled_decoder_extensions"
         
         // Battery Saver Settings
         private const val KEY_BATTERY_SAVER_ENABLED = "battery_saver_enabled"
@@ -217,31 +217,31 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS = "show_library_bottom_bar_always"
         
         // Audio Device Settings
-        private const val KEY_AUTO_CONNECT_DEVICE = "auto_connect_device"
-        private const val KEY_USE_SYSTEM_VOLUME = "use_system_volume"
-        private const val KEY_APP_VOLUME = "app_volume"
-        private const val KEY_STOP_PLAYBACK_ON_ZERO_VOLUME = "stop_playback_on_zero_volume"
-        private const val KEY_DISMISSED_AUTOEQ_SUGGESTIONS = "dismissed_autoeq_suggestions"
+        internal const val KEY_AUTO_CONNECT_DEVICE = "auto_connect_device"
+        internal const val KEY_USE_SYSTEM_VOLUME = "use_system_volume"
+        internal const val KEY_APP_VOLUME = "app_volume"
+        internal const val KEY_STOP_PLAYBACK_ON_ZERO_VOLUME = "stop_playback_on_zero_volume"
+        internal const val KEY_DISMISSED_AUTOEQ_SUGGESTIONS = "dismissed_autoeq_suggestions"
         
         // Equalizer Settings
-        private const val KEY_EQUALIZER_ENABLED = "equalizer_enabled"
-        private const val KEY_EQUALIZER_PRESET = "equalizer_preset"
-        private const val KEY_EQUALIZER_BAND_LEVELS = "equalizer_band_levels"
-        private const val KEY_AUTOEQ_PROFILE = "autoeq_profile"
+        internal const val KEY_EQUALIZER_ENABLED = "equalizer_enabled"
+        internal const val KEY_EQUALIZER_PRESET = "equalizer_preset"
+        internal const val KEY_EQUALIZER_BAND_LEVELS = "equalizer_band_levels"
+        internal const val KEY_AUTOEQ_PROFILE = "autoeq_profile"
         private const val KEY_USER_AUDIO_DEVICES = "user_audio_devices"
-        private const val KEY_ACTIVE_AUDIO_DEVICE_ID = "active_audio_device_id"
-        private const val KEY_BASS_BOOST_ENABLED = "bass_boost_enabled"
-        private const val KEY_BASS_BOOST_STRENGTH = "bass_boost_strength"
-        private const val KEY_BASS_BOOST_AVAILABLE = "bass_boost_available"
-        private const val KEY_VIRTUALIZER_ENABLED = "virtualizer_enabled"
-        private const val KEY_VIRTUALIZER_STRENGTH = "virtualizer_strength"
-        private const val KEY_MONO_AUDIO_ENABLED = "mono_audio_enabled"
-        private const val KEY_CUSTOM_EQUALIZER_PRESETS = "custom_equalizer_presets"
-        private const val KEY_EQUALIZER_PRESET_ORDER = "equalizer_preset_order"
-        private const val KEY_HIDDEN_EQUALIZER_PRESETS = "hidden_equalizer_presets"
-        private const val KEY_PINNED_AUTOEQ_PROFILES = "pinned_autoeq_profiles"
-        private const val KEY_CUSTOM_AUTOEQ_PROFILES = "custom_autoeq_profiles"
-        private const val KEY_SPEAKER_AUTOEQ_BYPASS = "speaker_autoeq_bypass"
+        internal const val KEY_ACTIVE_AUDIO_DEVICE_ID = "active_audio_device_id"
+        internal const val KEY_BASS_BOOST_ENABLED = "bass_boost_enabled"
+        internal const val KEY_BASS_BOOST_STRENGTH = "bass_boost_strength"
+        internal const val KEY_BASS_BOOST_AVAILABLE = "bass_boost_available"
+        internal const val KEY_VIRTUALIZER_ENABLED = "virtualizer_enabled"
+        internal const val KEY_VIRTUALIZER_STRENGTH = "virtualizer_strength"
+        internal const val KEY_MONO_AUDIO_ENABLED = "mono_audio_enabled"
+        internal const val KEY_CUSTOM_EQUALIZER_PRESETS = "custom_equalizer_presets"
+        internal const val KEY_EQUALIZER_PRESET_ORDER = "equalizer_preset_order"
+        internal const val KEY_HIDDEN_EQUALIZER_PRESETS = "hidden_equalizer_presets"
+        internal const val KEY_PINNED_AUTOEQ_PROFILES = "pinned_autoeq_profiles"
+        internal const val KEY_CUSTOM_AUTOEQ_PROFILES = "custom_autoeq_profiles"
+        internal const val KEY_SPEAKER_AUTOEQ_BYPASS = "speaker_autoeq_bypass"
         
         // Cache Settings
         private const val KEY_MAX_CACHE_SIZE = "max_cache_size"
@@ -344,7 +344,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_INITIAL_MEDIA_SCAN_COMPLETED = "initial_media_scan_completed"
         private const val KEY_GENRE_DETECTION_COMPLETED = "genre_detection_completed"
-        private const val KEY_AUDIO_METADATA_EXTRACTION_COMPLETED = "audio_metadata_extraction_completed"
+        internal const val KEY_AUDIO_METADATA_EXTRACTION_COMPLETED = "audio_metadata_extraction_completed"
         private const val KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED = "embedded_artwork_extraction_completed"
         private const val KEY_EMBEDDED_ARTWORK_EXTRACTION_LOSSLESS_STATUS = "embedded_artwork_extraction_lossless_status"
 
@@ -645,6 +645,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    val defaultEqualizerPresetOrder get() = audioEqSection.defaultEqualizerPresetOrder
+    val pinnedAutoEQProfiles: StateFlow<List<String>> get() = audioEqSection.pinnedAutoEQProfiles
+    val customAutoEQProfiles: StateFlow<List<AutoEQProfile>> get() = audioEqSection.customAutoEQProfiles
+    val customEqualizerPresets: StateFlow<List<CustomEqualizerPreset>> get() = audioEqSection.customEqualizerPresets
+    private val audioEqSection = chromahub.rhythm.app.shared.data.model.settings.AudioEqSettingsSection(prefs, { updateDerivedSettings() })
     private val widgetSection = chromahub.rhythm.app.shared.data.model.settings.WidgetSettingsSection(prefs)
 
     // Settings-driven background jobs (auto-backup / update / rhythm pulse),
@@ -682,8 +687,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     }
     
     // Playback Settings
-    private val _audioOffloadEnabled = MutableStateFlow(prefs.getBoolean(KEY_AUDIO_OFFLOAD_ENABLED, false))
-    val audioOffloadEnabled: StateFlow<Boolean> = _audioOffloadEnabled.asStateFlow()
+    val audioOffloadEnabled: StateFlow<Boolean> get() = audioEqSection.audioOffloadEnabled
+    fun setAudioOffloadEnabled(enable: Boolean) = audioEqSection.setAudioOffloadEnabled(enable)
     
     private val _preloadLimit = MutableStateFlow(prefs.getInt(KEY_PRELOAD_LIMIT, 3))
     val preloadLimit: StateFlow<Int> = _preloadLimit.asStateFlow()
@@ -691,74 +696,62 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _gaplessPlayback = MutableStateFlow(prefs.getBoolean(KEY_GAPLESS_PLAYBACK, true))
     val gaplessPlayback: StateFlow<Boolean> = _gaplessPlayback.asStateFlow()
     
-    private val _resumeOnDeviceReconnect = MutableStateFlow(prefs.getBoolean(KEY_RESUME_ON_DEVICE_RECONNECT, false))
-    val resumeOnDeviceReconnect: StateFlow<Boolean> = _resumeOnDeviceReconnect.asStateFlow()
+    val resumeOnDeviceReconnect: StateFlow<Boolean> get() = audioEqSection.resumeOnDeviceReconnect
+    fun setResumeOnDeviceReconnect(enable: Boolean) = audioEqSection.setResumeOnDeviceReconnect(enable)
     
-    private val _crossfade = MutableStateFlow(prefs.getBoolean(KEY_CROSSFADE, true))
-    val crossfade: StateFlow<Boolean> = _crossfade.asStateFlow()
+    val crossfade: StateFlow<Boolean> get() = audioEqSection.crossfade
+    fun setCrossfade(enable: Boolean) = audioEqSection.setCrossfade(enable)
     
-    private val _crossfadeDuration = MutableStateFlow(prefs.getFloat(KEY_CROSSFADE_DURATION, 4f))
-    val crossfadeDuration: StateFlow<Float> = _crossfadeDuration.asStateFlow()
+    val crossfadeDuration: StateFlow<Float> get() = audioEqSection.crossfadeDuration
+    fun setCrossfadeDuration(duration: Float) = audioEqSection.setCrossfadeDuration(duration)
 
-    private val _crossfadeRepeatOne = MutableStateFlow(prefs.getBoolean(KEY_CROSSFADE_REPEAT_ONE, true))
-    val crossfadeRepeatOne: StateFlow<Boolean> = _crossfadeRepeatOne.asStateFlow()
+    val crossfadeRepeatOne: StateFlow<Boolean> get() = audioEqSection.crossfadeRepeatOne
+    fun setCrossfadeRepeatOne(enabled: Boolean) = audioEqSection.setCrossfadeRepeatOne(enabled)
     
-    private val _crossfadeOnSkip = MutableStateFlow(prefs.getBoolean(KEY_CROSSFADE_ON_SKIP, true))
-    val crossfadeOnSkip: StateFlow<Boolean> = _crossfadeOnSkip.asStateFlow()
+    val crossfadeOnSkip: StateFlow<Boolean> get() = audioEqSection.crossfadeOnSkip
+    fun setCrossfadeOnSkip(enable: Boolean) = audioEqSection.setCrossfadeOnSkip(enable)
     
-    private val _audioNormalization = MutableStateFlow(prefs.getBoolean(KEY_AUDIO_NORMALIZATION, true))
-    val audioNormalization: StateFlow<Boolean> = _audioNormalization.asStateFlow()
+    val audioNormalization: StateFlow<Boolean> get() = audioEqSection.audioNormalization
+    fun setAudioNormalization(enable: Boolean) = audioEqSection.setAudioNormalization(enable)
     
-    private val _replayGain = MutableStateFlow(prefs.getBoolean(KEY_REPLAY_GAIN, false))
-    val replayGain: StateFlow<Boolean> = _replayGain.asStateFlow()
+    val replayGain: StateFlow<Boolean> get() = audioEqSection.replayGain
+    fun setReplayGain(enable: Boolean) = audioEqSection.setReplayGain(enable)
 
-    private val _replayGainMode = MutableStateFlow(prefs.getInt(KEY_REPLAY_GAIN_MODE, 1)) // 1 = Track, 2 = Album, 0 = None
-    val replayGainMode: StateFlow<Int> = _replayGainMode.asStateFlow()
+    val replayGainMode: StateFlow<Int> get() = audioEqSection.replayGainMode
+    fun setReplayGainMode(mode: Int) = audioEqSection.setReplayGainMode(mode)
 
-    private val _replayGainDrc = MutableStateFlow(prefs.getBoolean(KEY_REPLAY_GAIN_DRC, true))
-    val replayGainDrc: StateFlow<Boolean> = _replayGainDrc.asStateFlow()
+    val replayGainDrc: StateFlow<Boolean> get() = audioEqSection.replayGainDrc
+    fun setReplayGainDrc(enable: Boolean) = audioEqSection.setReplayGainDrc(enable)
 
-    private val _replayGainPreamp = MutableStateFlow(prefs.getFloat(KEY_REPLAY_GAIN_PREAMP, 0f))
-    val replayGainPreamp: StateFlow<Float> = _replayGainPreamp.asStateFlow()
+    val replayGainPreamp: StateFlow<Float> get() = audioEqSection.replayGainPreamp
+    fun setReplayGainPreamp(preamp: Float) = audioEqSection.setReplayGainPreamp(preamp)
 
-    private val _replayGainPreampUntagged = MutableStateFlow(prefs.getFloat(KEY_REPLAY_GAIN_PREAMP_UNTAGGED, 0f))
-    val replayGainPreampUntagged: StateFlow<Float> = _replayGainPreampUntagged.asStateFlow()
+    val replayGainPreampUntagged: StateFlow<Float> get() = audioEqSection.replayGainPreampUntagged
+    fun setReplayGainPreampUntagged(preamp: Float) = audioEqSection.setReplayGainPreampUntagged(preamp)
     
     private val _skipSilenceEnabled = MutableStateFlow(prefs.getBoolean(KEY_SKIP_SILENCE, false))
     val skipSilenceEnabled: StateFlow<Boolean> = _skipSilenceEnabled.asStateFlow()
     
-    private val _audioRoutingMode = MutableStateFlow(prefs.getString(KEY_AUDIO_ROUTING_MODE, "default") ?: "default")
-    val audioRoutingMode: StateFlow<String> = _audioRoutingMode.asStateFlow()
+    val audioRoutingMode: StateFlow<String> get() = audioEqSection.audioRoutingMode
+    fun setAudioRoutingMode(mode: String) = audioEqSection.setAudioRoutingMode(mode)
 
-    private val _audioEngineSoftwareEnabled = MutableStateFlow(prefs.getBoolean(KEY_AUDIO_ENGINE_SOFTWARE_ENABLED, true))
-    val audioEngineSoftwareEnabled: StateFlow<Boolean> = _audioEngineSoftwareEnabled.asStateFlow()
+    val audioEngineSoftwareEnabled: StateFlow<Boolean> get() = audioEqSection.audioEngineSoftwareEnabled
+    fun setAudioEngineSoftwareEnabled(enabled: Boolean) = audioEqSection.setAudioEngineSoftwareEnabled(enabled)
 
-    private val _audioEnginePreferHardware = MutableStateFlow(prefs.getBoolean(KEY_AUDIO_ENGINE_PREFER_HARDWARE, true))
-    val audioEnginePreferHardware: StateFlow<Boolean> = _audioEnginePreferHardware.asStateFlow()
+    val audioEnginePreferHardware: StateFlow<Boolean> get() = audioEqSection.audioEnginePreferHardware
+    fun setAudioEnginePreferHardware(prefer: Boolean) = audioEqSection.setAudioEnginePreferHardware(prefer)
 
-    private val _audioEngineFloatOutput = MutableStateFlow(
-        run {
-            if (!prefs.getBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT_MIGRATED, false)) {
-                prefs.edit {
-                    putBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT, false)
-                    putBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT_MIGRATED, true)
-                }
-                false
-            } else {
-                prefs.getBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT, false)
-            }
-        }
-    )
-    val audioEngineFloatOutput: StateFlow<Boolean> = _audioEngineFloatOutput.asStateFlow()
+    val audioEngineFloatOutput: StateFlow<Boolean> get() = audioEqSection.audioEngineFloatOutput
+    fun setAudioEngineFloatOutput(enable: Boolean) = audioEqSection.setAudioEngineFloatOutput(enable)
 
-    private val _audioEngineDisabledDecoders = MutableStateFlow(prefs.getStringSet(KEY_AUDIO_ENGINE_DISABLED_DECODERS, emptySet())?.toSet() ?: emptySet())
-    val audioEngineDisabledDecoders: StateFlow<Set<String>> = _audioEngineDisabledDecoders.asStateFlow()
+    val audioEngineDisabledDecoders: StateFlow<Set<String>> get() = audioEqSection.audioEngineDisabledDecoders
+    fun setAudioEngineDisabledDecoders(disabledSet: Set<String>) = audioEqSection.setAudioEngineDisabledDecoders(disabledSet)
 
-    private val _decoderExtensionsEnabled = MutableStateFlow(prefs.getBoolean(KEY_DECODER_EXTENSIONS_ENABLED, true))
-    val decoderExtensionsEnabled: StateFlow<Boolean> = _decoderExtensionsEnabled.asStateFlow()
+    val decoderExtensionsEnabled: StateFlow<Boolean> get() = audioEqSection.decoderExtensionsEnabled
+    fun setDecoderExtensionsEnabled(enabled: Boolean) = audioEqSection.setDecoderExtensionsEnabled(enabled)
 
-    private val _disabledDecoderExtensions = MutableStateFlow(prefs.getStringSet(KEY_DISABLED_DECODER_EXTENSIONS, emptySet())?.toSet() ?: emptySet())
-    val disabledDecoderExtensions: StateFlow<Set<String>> = _disabledDecoderExtensions.asStateFlow()
+    val disabledDecoderExtensions: StateFlow<Set<String>> get() = audioEqSection.disabledDecoderExtensions
+    fun setDisabledDecoderExtensions(disabledSet: Set<String>) = audioEqSection.setDisabledDecoderExtensions(disabledSet)
     
     // Lyrics Settings
     private val _showLyrics = MutableStateFlow(prefs.getBoolean(KEY_SHOW_LYRICS, true))
@@ -1122,98 +1115,67 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     // Audio Device Settings
     
-    private val _autoConnectDevice = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CONNECT_DEVICE, true))
-    val autoConnectDevice: StateFlow<Boolean> = _autoConnectDevice.asStateFlow()
+    val autoConnectDevice: StateFlow<Boolean> get() = audioEqSection.autoConnectDevice
+    fun setAutoConnectDevice(enable: Boolean) = audioEqSection.setAutoConnectDevice(enable)
     
-    private val _useSystemVolume = MutableStateFlow(prefs.getBoolean(KEY_USE_SYSTEM_VOLUME, true))
-    val useSystemVolume: StateFlow<Boolean> = _useSystemVolume.asStateFlow()
+    val useSystemVolume: StateFlow<Boolean> get() = audioEqSection.useSystemVolume
+    fun setUseSystemVolume(enable: Boolean) = audioEqSection.setUseSystemVolume(enable)
     
-    private val _appVolume = MutableStateFlow(prefs.getFloat(KEY_APP_VOLUME, 1.0f))
-    val appVolume: StateFlow<Float> = _appVolume.asStateFlow()
+    val appVolume: StateFlow<Float> get() = audioEqSection.appVolume
+    fun setAppVolume(volume: Float) = audioEqSection.setAppVolume(volume)
     
-    private val _stopPlaybackOnZeroVolume = MutableStateFlow(prefs.getBoolean(KEY_STOP_PLAYBACK_ON_ZERO_VOLUME, false))
-    val stopPlaybackOnZeroVolume: StateFlow<Boolean> = _stopPlaybackOnZeroVolume.asStateFlow()
+    val stopPlaybackOnZeroVolume: StateFlow<Boolean> get() = audioEqSection.stopPlaybackOnZeroVolume
+    fun setStopPlaybackOnZeroVolume(enable: Boolean) = audioEqSection.setStopPlaybackOnZeroVolume(enable)
     
     // Equalizer Settings
-    private val _equalizerEnabled = MutableStateFlow(prefs.getBoolean(KEY_EQUALIZER_ENABLED, false))
-    val equalizerEnabled: StateFlow<Boolean> = _equalizerEnabled.asStateFlow()
+    val equalizerEnabled: StateFlow<Boolean> get() = audioEqSection.equalizerEnabled
+    fun setEqualizerEnabled(enable: Boolean) = audioEqSection.setEqualizerEnabled(enable)
     
-    private val _equalizerPreset = MutableStateFlow(prefs.getString(KEY_EQUALIZER_PRESET, "Custom") ?: "Custom")
-    val equalizerPreset: StateFlow<String> = _equalizerPreset.asStateFlow()
+    val equalizerPreset: StateFlow<String> get() = audioEqSection.equalizerPreset
+    fun setEqualizerPreset(preset: String) = audioEqSection.setEqualizerPreset(preset)
     
-    private val _equalizerBandLevels = MutableStateFlow(prefs.getString(KEY_EQUALIZER_BAND_LEVELS, "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0") ?: "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0")
-    val equalizerBandLevels: StateFlow<String> = _equalizerBandLevels.asStateFlow()
+    val equalizerBandLevels: StateFlow<String> get() = audioEqSection.equalizerBandLevels
+    fun setEqualizerBandLevels(levels: String) = audioEqSection.setEqualizerBandLevels(levels)
     
-    private val _autoEQProfile = MutableStateFlow(prefs.getString(KEY_AUTOEQ_PROFILE, "") ?: "")
-    val autoEQProfile: StateFlow<String> = _autoEQProfile.asStateFlow()
+    val autoEQProfile: StateFlow<String> get() = audioEqSection.autoEQProfile
+    fun setAutoEQProfile(profileName: String) = audioEqSection.setAutoEQProfile(profileName)
     
     private val _userAudioDevices = MutableStateFlow(prefs.getString(KEY_USER_AUDIO_DEVICES, null))
     val userAudioDevices: StateFlow<String?> = _userAudioDevices.asStateFlow()
     
-    private val _activeAudioDeviceId = MutableStateFlow(prefs.getString(KEY_ACTIVE_AUDIO_DEVICE_ID, null))
-    val activeAudioDeviceId: StateFlow<String?> = _activeAudioDeviceId.asStateFlow()
+    val activeAudioDeviceId: StateFlow<String?> get() = audioEqSection.activeAudioDeviceId
+    fun setActiveAudioDeviceId(deviceId: String?) = audioEqSection.setActiveAudioDeviceId(deviceId)
     
-    private val _dismissedAutoEQSuggestions = MutableStateFlow(prefs.getString(KEY_DISMISSED_AUTOEQ_SUGGESTIONS, null))
-    val dismissedAutoEQSuggestions: StateFlow<String?> = _dismissedAutoEQSuggestions.asStateFlow()
+    val dismissedAutoEQSuggestions: StateFlow<String?> get() = audioEqSection.dismissedAutoEQSuggestions
+    fun setDismissedAutoEQSuggestions(dismissedDevices: String?) = audioEqSection.setDismissedAutoEQSuggestions(dismissedDevices)
     
-    private val _bassBoostEnabled = MutableStateFlow(prefs.getBoolean(KEY_BASS_BOOST_ENABLED, false))
-    val bassBoostEnabled: StateFlow<Boolean> = _bassBoostEnabled.asStateFlow()
+    val bassBoostEnabled: StateFlow<Boolean> get() = audioEqSection.bassBoostEnabled
+    fun setBassBoostEnabled(enable: Boolean) = audioEqSection.setBassBoostEnabled(enable)
     
-    private val _bassBoostStrength = MutableStateFlow(prefs.getInt(KEY_BASS_BOOST_STRENGTH, 0))
-    val bassBoostStrength: StateFlow<Int> = _bassBoostStrength.asStateFlow()
+    val bassBoostStrength: StateFlow<Int> get() = audioEqSection.bassBoostStrength
+    fun setBassBoostStrength(strength: Int) = audioEqSection.setBassBoostStrength(strength)
     
-    private val _virtualizerEnabled = MutableStateFlow(prefs.getBoolean(KEY_VIRTUALIZER_ENABLED, false))
-    val virtualizerEnabled: StateFlow<Boolean> = _virtualizerEnabled.asStateFlow()
+    val virtualizerEnabled: StateFlow<Boolean> get() = audioEqSection.virtualizerEnabled
+    fun setVirtualizerEnabled(enable: Boolean) = audioEqSection.setVirtualizerEnabled(enable)
     
-    private val _virtualizerStrength = MutableStateFlow(prefs.getInt(KEY_VIRTUALIZER_STRENGTH, 0))
-    val virtualizerStrength: StateFlow<Int> = _virtualizerStrength.asStateFlow()
+    val virtualizerStrength: StateFlow<Int> get() = audioEqSection.virtualizerStrength
+    fun setVirtualizerStrength(strength: Int) = audioEqSection.setVirtualizerStrength(strength)
     
-    private val _monoAudioEnabled = MutableStateFlow(prefs.getBoolean(KEY_MONO_AUDIO_ENABLED, false))
-    val monoAudioEnabled: StateFlow<Boolean> = _monoAudioEnabled.asStateFlow()
+    val monoAudioEnabled: StateFlow<Boolean> get() = audioEqSection.monoAudioEnabled
+    fun setMonoAudioEnabled(enable: Boolean) = audioEqSection.setMonoAudioEnabled(enable)
     
-    val defaultEqualizerPresetOrder = listOf(
-        "Flat", "Rock", "Pop", "Jazz", "Classical", "Electronic",
-        "Hip Hop", "Vocal", "Bass Boost", "Treble Boost", "V-Shape", "Harman"
-    )
 
-    private val _customEqualizerPresets = MutableStateFlow(
-        CustomEqualizerPreset.fromJson(prefs.getString(AppSettings.KEY_CUSTOM_EQUALIZER_PRESETS, null))
-    )
-    val customEqualizerPresets: StateFlow<List<CustomEqualizerPreset>> = _customEqualizerPresets.asStateFlow()
 
-    private val _equalizerPresetOrder = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_EQUALIZER_PRESET_ORDER, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.takeIf { it.isNotEmpty() }
-            ?: defaultEqualizerPresetOrder
-    )
-    val equalizerPresetOrder: StateFlow<List<String>> = _equalizerPresetOrder.asStateFlow()
+    val equalizerPresetOrder: StateFlow<List<String>> get() = audioEqSection.equalizerPresetOrder
+    fun setEqualizerPresetOrder(order: List<String>) = audioEqSection.setEqualizerPresetOrder(order)
 
-    private val _hiddenEqualizerPresets = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_HIDDEN_EQUALIZER_PRESETS, null)
-            ?.split(",")
-            ?.filter { it.isNotBlank() }
-            ?.toSet()
-            ?: emptySet()
-    )
-    val hiddenEqualizerPresets: StateFlow<Set<String>> = _hiddenEqualizerPresets.asStateFlow()
+    fun setHiddenEqualizerPresets(hidden: Set<String>) = audioEqSection.setHiddenEqualizerPresets(hidden)
+    val hiddenEqualizerPresets: StateFlow<Set<String>> get() = audioEqSection.hiddenEqualizerPresets
 
-    private val _pinnedAutoEQProfiles = MutableStateFlow(
-        prefs.getString(AppSettings.KEY_PINNED_AUTOEQ_PROFILES, null)
-            ?.split(";;")
-            ?.filter { it.isNotBlank() }
-            ?: emptyList()
-    )
-    val pinnedAutoEQProfiles: StateFlow<List<String>> = _pinnedAutoEQProfiles.asStateFlow()
     
-    private val _customAutoEQProfiles = MutableStateFlow(
-        AutoEQProfile.listFromJson(prefs.getString(AppSettings.KEY_CUSTOM_AUTOEQ_PROFILES, null))
-    )
-    val customAutoEQProfiles: StateFlow<List<AutoEQProfile>> = _customAutoEQProfiles.asStateFlow()
 
-    private val _speakerAutoEQBypass = MutableStateFlow(prefs.getBoolean(KEY_SPEAKER_AUTOEQ_BYPASS, true))
-    val speakerAutoEQBypass: StateFlow<Boolean> = _speakerAutoEQBypass.asStateFlow()
+    val speakerAutoEQBypass: StateFlow<Boolean> get() = audioEqSection.speakerAutoEQBypass
+    fun setSpeakerAutoEQBypass(bypass: Boolean) = audioEqSection.setSpeakerAutoEQBypass(bypass)
     
     // Sleep Timer
     private val _sleepTimerActive = MutableStateFlow(prefs.getBoolean(KEY_SLEEP_TIMER_ACTIVE, false))
@@ -1791,10 +1753,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     private val _genreDetectionCompleted = MutableStateFlow(prefs.getBoolean(KEY_GENRE_DETECTION_COMPLETED, false))
     val genreDetectionCompleted: StateFlow<Boolean> = _genreDetectionCompleted.asStateFlow()
 
-    private val _audioMetadataExtractionCompleted = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_AUDIO_METADATA_EXTRACTION_COMPLETED, false)
-    )
-    val audioMetadataExtractionCompleted: StateFlow<Boolean> = _audioMetadataExtractionCompleted.asStateFlow()
+    val audioMetadataExtractionCompleted: StateFlow<Boolean> get() = audioEqSection.audioMetadataExtractionCompleted
+    fun setAudioMetadataExtractionCompleted(completed: Boolean) = audioEqSection.setAudioMetadataExtractionCompleted(completed)
 
     private val _embeddedArtworkExtractionCompleted = MutableStateFlow(
         prefs.getBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED, false)
@@ -1807,7 +1767,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val embeddedArtworkExtractionLosslessStatus: StateFlow<Boolean> = _embeddedArtworkExtractionLosslessStatus.asStateFlow()
 
     // App Updater Settings
-private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CHECK_FOR_UPDATES, true))
+private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_AUTO_CHECK_FOR_UPDATES, true))
     val autoCheckForUpdates: StateFlow<Boolean> = _autoCheckForUpdates.asStateFlow()
     
     private val _updateChannel = MutableStateFlow(prefs.getString(KEY_UPDATE_CHANNEL, "stable") ?: "stable")
@@ -1941,8 +1901,8 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     private val _codecMonitoringEnabled = MutableStateFlow(prefs.getBoolean("codec_monitoring_enabled", false))
     val codecMonitoringEnabled: StateFlow<Boolean> = _codecMonitoringEnabled.asStateFlow()
     
-    private val _audioDeviceLoggingEnabled = MutableStateFlow(prefs.getBoolean("audio_device_logging_enabled", false))
-    val audioDeviceLoggingEnabled: StateFlow<Boolean> = _audioDeviceLoggingEnabled.asStateFlow()
+    val audioDeviceLoggingEnabled: StateFlow<Boolean> get() = audioEqSection.audioDeviceLoggingEnabled
+    fun setAudioDeviceLoggingEnabled(enabled: Boolean) = audioEqSection.setAudioDeviceLoggingEnabled(enabled)
     
     private val _showCodecNotifications = MutableStateFlow(prefs.getBoolean(KEY_SHOW_CODEC_NOTIFICATIONS, false))
     val showCodecNotifications: StateFlow<Boolean> = _showCodecNotifications.asStateFlow()
@@ -2008,7 +1968,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         val masterEnabled = _batterySaverEnabled.value
         val mode = _batterySaverMode.value
         val enableOffloadInManual = _batterySaverEnableOffload.value
-        val baseOffload = _audioOffloadEnabled.value
+        val baseOffload = audioEqSection._audioOffloadEnabled.value
         
         return baseOffload || (masterEnabled && (mode == "auto" || enableOffloadInManual))
     }
@@ -2232,11 +2192,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         }
     }
     
-    fun setAudioOffloadEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_OFFLOAD_ENABLED, enable) }
-        _audioOffloadEnabled.value = enable
-        updateDerivedSettings()
-    }
 
     // Battery Saver Methods
     fun setBatterySaverEnabled(enabled: Boolean) {
@@ -2298,34 +2253,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _gaplessPlayback.value = enable
     }
     
-    fun setResumeOnDeviceReconnect(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_RESUME_ON_DEVICE_RECONNECT, enable) }
-        _resumeOnDeviceReconnect.value = enable
-    }
     
-    fun setCrossfade(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_CROSSFADE, enable) }
-        _crossfade.value = enable
-    }
     
-    fun setCrossfadeDuration(duration: Float) {
-        if (isValidCrossfadeDuration(duration)) {
-            prefs.edit { putFloat(AppSettings.KEY_CROSSFADE_DURATION, duration) }
-            _crossfadeDuration.value = duration
-        } else {
-            Log.w("AppSettings", "Invalid crossfade duration: $duration, keeping current value")
-        }
-    }
 
-    fun setCrossfadeRepeatOne(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_CROSSFADE_REPEAT_ONE, enabled) }
-        _crossfadeRepeatOne.value = enabled
-    }
     
-    fun setCrossfadeOnSkip(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_CROSSFADE_ON_SKIP, enable) }
-        _crossfadeOnSkip.value = enable
-    }
     
     fun setSkipSilenceEnabled(enable: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_SKIP_SILENCE, enable) }
@@ -2333,103 +2264,26 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         Log.d("AppSettings", "Skip silence ${if (enable) "enabled" else "disabled"}")
     }
     
-    fun setAudioRoutingMode(mode: String) {
-        require(mode in listOf("default", "app", "system")) { "Invalid audio routing mode: $mode" }
-        prefs.edit { putString(AppSettings.KEY_AUDIO_ROUTING_MODE, mode) }
-        _audioRoutingMode.value = mode
-        Log.d("AppSettings", "Audio routing mode set to: $mode")
-    }
 
-    fun setAudioEngineSoftwareEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_ENGINE_SOFTWARE_ENABLED, enabled) }
-        _audioEngineSoftwareEnabled.value = enabled
-    }
 
-    fun setAudioEnginePreferHardware(prefer: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_ENGINE_PREFER_HARDWARE, prefer) }
-        _audioEnginePreferHardware.value = prefer
-    }
 
-    fun setAudioEngineFloatOutput(enable: Boolean) {
-        prefs.edit {
-            putBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT, enable)
-            putBoolean(AppSettings.KEY_AUDIO_ENGINE_FLOAT_OUTPUT_MIGRATED, true)
-        }
-        _audioEngineFloatOutput.value = enable
-    }
 
-    fun setAudioEngineDisabledDecoders(disabledSet: Set<String>) {
-        prefs.edit { putStringSet(AppSettings.KEY_AUDIO_ENGINE_DISABLED_DECODERS, disabledSet) }
-        _audioEngineDisabledDecoders.value = disabledSet
-    }
 
-    fun toggleAudioEngineDecoder(decoderName: String, enabled: Boolean) {
-        val current = _audioEngineDisabledDecoders.value.toMutableSet()
-        if (enabled) {
-            current.remove(decoderName)
-        } else {
-            current.add(decoderName)
-        }
-        setAudioEngineDisabledDecoders(current)
-    }
+    fun toggleAudioEngineDecoder(decoderName: String, enabled: Boolean) = audioEqSection.toggleAudioEngineDecoder(decoderName, enabled)
 
-    fun resetAudioEngineDecoders() {
-        setAudioEngineDisabledDecoders(emptySet())
-    }
+    fun resetAudioEngineDecoders() = audioEqSection.resetAudioEngineDecoders()
 
-    fun setDecoderExtensionsEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_DECODER_EXTENSIONS_ENABLED, enabled) }
-        _decoderExtensionsEnabled.value = enabled
-    }
 
-    fun setDisabledDecoderExtensions(disabledSet: Set<String>) {
-        prefs.edit { putStringSet(AppSettings.KEY_DISABLED_DECODER_EXTENSIONS, disabledSet) }
-        _disabledDecoderExtensions.value = disabledSet
-    }
 
-    fun toggleDecoderExtension(extensionId: String, enabled: Boolean) {
-        val current = _disabledDecoderExtensions.value.toMutableSet()
-        if (enabled) {
-            current.remove(extensionId)
-        } else {
-            current.add(extensionId)
-        }
-        setDisabledDecoderExtensions(current)
-    }
+    fun toggleDecoderExtension(extensionId: String, enabled: Boolean) = audioEqSection.toggleDecoderExtension(extensionId, enabled)
 
-    fun resetDecoderExtensions() {
-        setDisabledDecoderExtensions(emptySet())
-    }
+    fun resetDecoderExtensions() = audioEqSection.resetDecoderExtensions()
     
-    fun setAudioNormalization(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_NORMALIZATION, enable) }
-        _audioNormalization.value = enable
-    }
     
-    fun setReplayGain(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_REPLAY_GAIN, enable) }
-        _replayGain.value = enable
-    }
 
-    fun setReplayGainMode(mode: Int) {
-        prefs.edit { putInt(AppSettings.KEY_REPLAY_GAIN_MODE, mode) }
-        _replayGainMode.value = mode
-    }
 
-    fun setReplayGainDrc(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_REPLAY_GAIN_DRC, enable) }
-        _replayGainDrc.value = enable
-    }
 
-    fun setReplayGainPreamp(preamp: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP, preamp) }
-        _replayGainPreamp.value = preamp
-    }
 
-    fun setReplayGainPreampUntagged(preamp: Float) {
-        prefs.edit { putFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP_UNTAGGED, preamp) }
-        _replayGainPreampUntagged.value = preamp
-    }
     
     // Lyrics Settings Methods
     fun setShowLyrics(show: Boolean) {
@@ -2807,7 +2661,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
 
         _initialMediaScanCompleted.value = false
         _genreDetectionCompleted.value = false
-        _audioMetadataExtractionCompleted.value = false
+        audioEqSection._audioMetadataExtractionCompleted.value = false
         _embeddedArtworkExtractionCompleted.value = false
         _embeddedArtworkExtractionLosslessStatus.value = false
         _lastScanTimestamp.value = 0L
@@ -2888,244 +2742,49 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     
     // Audio Device Settings Methods
     
-    fun setAutoConnectDevice(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUTO_CONNECT_DEVICE, enable) }
-        _autoConnectDevice.value = enable
-    }
     
-    fun setUseSystemVolume(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_SYSTEM_VOLUME, enable) }
-        _useSystemVolume.value = enable
-    }
     
-    fun setAppVolume(volume: Float) {
-        val clamped = volume.coerceIn(0f, 1f)
-        prefs.edit { putFloat(AppSettings.KEY_APP_VOLUME, clamped) }
-        _appVolume.value = clamped
-    }
     
-    fun setStopPlaybackOnZeroVolume(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_STOP_PLAYBACK_ON_ZERO_VOLUME, enable) }
-        _stopPlaybackOnZeroVolume.value = enable
-    }
     
     // Equalizer Settings Methods
-    fun setEqualizerEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_EQUALIZER_ENABLED, enable) }
-        _equalizerEnabled.value = enable
-    }
     
-    fun setEqualizerPreset(preset: String) {
-        prefs.edit { putString(AppSettings.KEY_EQUALIZER_PRESET, preset) }
-        _equalizerPreset.value = preset
-    }
     
-    fun setEqualizerBandLevels(levels: String) {
-        prefs.edit { putString(AppSettings.KEY_EQUALIZER_BAND_LEVELS, levels) }
-        _equalizerBandLevels.value = levels
-    }
     
-    fun setAutoEQProfile(profileName: String) {
-        prefs.edit { putString(AppSettings.KEY_AUTOEQ_PROFILE, profileName) }
-        _autoEQProfile.value = profileName
-    }
     
     fun setUserAudioDevices(devicesJson: String?) {
         prefs.edit { putString(AppSettings.KEY_USER_AUDIO_DEVICES, devicesJson) }
         _userAudioDevices.value = devicesJson
     }
     
-    fun setActiveAudioDeviceId(deviceId: String?) {
-        prefs.edit { putString(AppSettings.KEY_ACTIVE_AUDIO_DEVICE_ID, deviceId) }
-        _activeAudioDeviceId.value = deviceId
-    }
     
-    fun setDismissedAutoEQSuggestions(dismissedDevices: String?) {
-        prefs.edit { putString(AppSettings.KEY_DISMISSED_AUTOEQ_SUGGESTIONS, dismissedDevices) }
-        _dismissedAutoEQSuggestions.value = dismissedDevices
-    }
     
-    fun setBassBoostEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BASS_BOOST_ENABLED, enable) }
-        _bassBoostEnabled.value = enable
-    }
     
-    fun setBassBoostStrength(strength: Int) {
-        prefs.edit { putInt(AppSettings.KEY_BASS_BOOST_STRENGTH, strength) }
-        _bassBoostStrength.value = strength
-    }
     
-    fun setBassBoostAvailable(available: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BASS_BOOST_AVAILABLE, available) }
-    }
+    fun setBassBoostAvailable(available: Boolean) = audioEqSection.setBassBoostAvailable(available)
     
-    fun isBassBoostAvailable(): Boolean {
-        return prefs.getBoolean(AppSettings.KEY_BASS_BOOST_AVAILABLE, true)
-    }
+    fun isBassBoostAvailable() = audioEqSection.isBassBoostAvailable()
     
-    fun setVirtualizerEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_VIRTUALIZER_ENABLED, enable) }
-        _virtualizerEnabled.value = enable
-    }
     
-    fun setVirtualizerStrength(strength: Int) {
-        prefs.edit { putInt(AppSettings.KEY_VIRTUALIZER_STRENGTH, strength) }
-        _virtualizerStrength.value = strength
-    }
     
-    fun setMonoAudioEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_MONO_AUDIO_ENABLED, enable) }
-        _monoAudioEnabled.value = enable
-    }
 
-    fun saveCustomEqualizerPreset(preset: CustomEqualizerPreset) {
-        val current = _customEqualizerPresets.value.toMutableList()
-        val index = current.indexOfFirst { it.id == preset.id || it.name.equals(preset.name, ignoreCase = true) }
-        if (index >= 0) {
-            current[index] = preset
-        } else {
-            current.add(preset)
-        }
-        val json = CustomEqualizerPreset.toJson(current)
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_EQUALIZER_PRESETS, json) }
-        _customEqualizerPresets.value = current
+    fun saveCustomEqualizerPreset(preset: CustomEqualizerPreset) = audioEqSection.saveCustomEqualizerPreset(preset)
 
-        // Also ensure preset is in the preset order
-        val order = _equalizerPresetOrder.value.toMutableList()
-        if (preset.name !in order) {
-            val firstBuiltInIndex = order.indexOfFirst { it in defaultEqualizerPresetOrder }
-            if (firstBuiltInIndex >= 0) {
-                order.add(firstBuiltInIndex, preset.name)
-            } else {
-                order.add(preset.name)
-            }
-            setEqualizerPresetOrder(order)
-        }
-    }
+    fun deleteCustomEqualizerPreset(id: String) = audioEqSection.deleteCustomEqualizerPreset(id)
 
-    fun deleteCustomEqualizerPreset(id: String) {
-        val current = _customEqualizerPresets.value.toMutableList()
-        val preset = current.find { it.id == id }
-        current.removeAll { it.id == id }
-        val json = CustomEqualizerPreset.toJson(current)
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_EQUALIZER_PRESETS, json) }
-        _customEqualizerPresets.value = current
 
-        if (preset != null) {
-            val order = _equalizerPresetOrder.value.toMutableList()
-            order.remove(preset.name)
-            setEqualizerPresetOrder(order)
-            val hidden = _hiddenEqualizerPresets.value.toMutableSet()
-            hidden.remove(preset.name)
-            setHiddenEqualizerPresets(hidden)
+    fun resetEqualizerPresetOrder() = audioEqSection.resetEqualizerPresetOrder()
 
-            if (_equalizerPreset.value == preset.name) {
-                setEqualizerPreset("Flat")
-                setEqualizerBandLevels(List(10) { 0f }.joinToString(","))
-            }
-        }
-    }
 
-    fun setEqualizerPresetOrder(order: List<String>) {
-        val orderStr = order.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_EQUALIZER_PRESET_ORDER, orderStr) }
-        _equalizerPresetOrder.value = order
-    }
+    fun pinAutoEQProfile(name: String) = audioEqSection.pinAutoEQProfile(name)
 
-    fun resetEqualizerPresetOrder() {
-        val customNames = _customEqualizerPresets.value.map { it.name }
-        val pinnedNames = _pinnedAutoEQProfiles.value.map { "AutoEQ: $it" }
-        val resetOrder = pinnedNames + customNames + defaultEqualizerPresetOrder
-        prefs.edit { remove(AppSettings.KEY_EQUALIZER_PRESET_ORDER) }
-        _equalizerPresetOrder.value = resetOrder
-        setHiddenEqualizerPresets(emptySet())
-    }
+    fun unpinAutoEQProfile(name: String) = audioEqSection.unpinAutoEQProfile(name)
 
-    fun setHiddenEqualizerPresets(hidden: Set<String>) {
-        val hiddenStr = hidden.joinToString(",")
-        prefs.edit { putString(AppSettings.KEY_HIDDEN_EQUALIZER_PRESETS, hiddenStr) }
-        _hiddenEqualizerPresets.value = hidden
-    }
+    fun saveCustomAutoEQProfile(profile: AutoEQProfile) = audioEqSection.saveCustomAutoEQProfile(profile)
 
-    fun pinAutoEQProfile(name: String) {
-        val current = _pinnedAutoEQProfiles.value.toMutableList()
-        if (!current.contains(name)) {
-            current.add(name)
-            val str = current.joinToString(";;")
-            prefs.edit { putString(AppSettings.KEY_PINNED_AUTOEQ_PROFILES, str) }
-            _pinnedAutoEQProfiles.value = current
+    fun saveCustomAutoEQProfiles(profiles: List<AutoEQProfile>) = audioEqSection.saveCustomAutoEQProfiles(profiles)
 
-            val order = _equalizerPresetOrder.value.toMutableList()
-            val presetKey = "AutoEQ: $name"
-            if (presetKey !in order) {
-                val lastAutoEQIndex = order.indexOfLast { it.startsWith("AutoEQ: ") }
-                val insertIndex = if (lastAutoEQIndex >= 0) lastAutoEQIndex + 1 else 0
-                order.add(insertIndex, presetKey)
-                setEqualizerPresetOrder(order)
-            }
-        }
-    }
+    fun deleteCustomAutoEQProfile(name: String) = audioEqSection.deleteCustomAutoEQProfile(name)
 
-    fun unpinAutoEQProfile(name: String) {
-        val current = _pinnedAutoEQProfiles.value.toMutableList()
-        current.remove(name)
-        val str = current.joinToString(";;")
-        prefs.edit { putString(AppSettings.KEY_PINNED_AUTOEQ_PROFILES, str) }
-        _pinnedAutoEQProfiles.value = current
-
-        val order = _equalizerPresetOrder.value.toMutableList()
-        val presetKey = "AutoEQ: $name"
-        order.remove(presetKey)
-        setEqualizerPresetOrder(order)
-        val hidden = _hiddenEqualizerPresets.value.toMutableSet()
-        hidden.remove(presetKey)
-        setHiddenEqualizerPresets(hidden)
-    }
-
-    fun saveCustomAutoEQProfile(profile: AutoEQProfile) {
-        val current = _customAutoEQProfiles.value.toMutableList()
-        val index = current.indexOfFirst { it.name.equals(profile.name, ignoreCase = true) }
-        if (index >= 0) {
-            current[index] = profile
-        } else {
-            current.add(profile)
-        }
-        val json = AutoEQProfile.listToJson(current)
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_AUTOEQ_PROFILES, json) }
-        _customAutoEQProfiles.value = current
-    }
-
-    fun saveCustomAutoEQProfiles(profiles: List<AutoEQProfile>) {
-        val current = _customAutoEQProfiles.value.toMutableList()
-        for (profile in profiles) {
-            val index = current.indexOfFirst { it.name.equals(profile.name, ignoreCase = true) }
-            if (index >= 0) {
-                current[index] = profile
-            } else {
-                current.add(profile)
-            }
-        }
-        val json = AutoEQProfile.listToJson(current)
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_AUTOEQ_PROFILES, json) }
-        _customAutoEQProfiles.value = current
-    }
-
-    fun deleteCustomAutoEQProfile(name: String) {
-        val current = _customAutoEQProfiles.value.toMutableList()
-        current.removeAll { it.name.equals(name, ignoreCase = true) }
-        val json = AutoEQProfile.listToJson(current)
-        prefs.edit { putString(AppSettings.KEY_CUSTOM_AUTOEQ_PROFILES, json) }
-        _customAutoEQProfiles.value = current
-        unpinAutoEQProfile(name)
-        if (_autoEQProfile.value.equals(name, ignoreCase = true)) {
-            setAutoEQProfile("")
-        }
-    }
-
-    fun setSpeakerAutoEQBypass(bypass: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SPEAKER_AUTOEQ_BYPASS, bypass) }
-        _speakerAutoEQBypass.value = bypass
-    }
     
     // Sleep Timer Methods
     fun setSleepTimerActive(active: Boolean) {
@@ -3840,10 +3499,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _genreDetectionCompleted.value = completed
     }
 
-    fun setAudioMetadataExtractionCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_METADATA_EXTRACTION_COMPLETED, completed) }
-        _audioMetadataExtractionCompleted.value = completed
-    }
 
     fun setEmbeddedArtworkExtractionCompleted(completed: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_EMBEDDED_ARTWORK_EXTRACTION_COMPLETED, completed) }
@@ -4070,10 +3725,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _enhancedSeekingEnabled.value = enabled
     }
     
-    fun setAudioDeviceLoggingEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean("audio_device_logging_enabled", enabled) }
-        _audioDeviceLoggingEnabled.value = enabled
-    }
     
     fun setTrackErrorCheckerEnabled(enabled: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_TRACK_ERROR_CHECKER_ENABLED, enabled) }
@@ -5058,7 +4709,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
                 when {
                     key == "listening_time" || key.endsWith("_timestamp") || key.endsWith("_ms") || key.endsWith("_at") -> "Long"
                     key == "songs_played" || key == "unique_artists" || key == "rhythm_guard_age" || key.endsWith("_count") || key.endsWith("_limit") || key.endsWith("_index") -> "Int"
-                    key == "gapless_playback" || key == "crossfade" || key.endsWith("_enabled") || key.endsWith("_active") -> "Boolean"
+                    key == "gapless_playback" || key == "audioEqSection._crossfade" || key.endsWith("_enabled") || key.endsWith("_active") -> "Boolean"
                     key == "crossfade_duration" || key.endsWith("_strength") || key.endsWith("_threshold") || key.endsWith("_speed") || key.endsWith("_pitch") -> "Float"
                     else -> null
                 }
@@ -5168,12 +4819,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         return size in minSize..maxSize
     }
     
-    /**
-     * Validates crossfade duration
-     */
-    private fun isValidCrossfadeDuration(duration: Float): Boolean {
-        return duration in 0.1f..12.0f
-    }
     
     /**
      * Validates update check interval
@@ -5188,16 +4833,16 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
     private fun refreshAllStateFlows() {
         // Playback Settings
         _gaplessPlayback.value = prefs.getBoolean(AppSettings.KEY_GAPLESS_PLAYBACK, true)
-        _crossfade.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE, true)
-        _crossfadeDuration.value = prefs.getFloat(AppSettings.KEY_CROSSFADE_DURATION, 4f)
-        _crossfadeRepeatOne.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE_REPEAT_ONE, true)
-        _audioNormalization.value = prefs.getBoolean(AppSettings.KEY_AUDIO_NORMALIZATION, true)
-        _replayGain.value = prefs.getBoolean(AppSettings.KEY_REPLAY_GAIN, false)
-        _replayGainMode.value = prefs.getInt(AppSettings.KEY_REPLAY_GAIN_MODE, 1)
-        _replayGainDrc.value = prefs.getBoolean(AppSettings.KEY_REPLAY_GAIN_DRC, true)
-        _replayGainPreamp.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP, 0f)
-        _replayGainPreampUntagged.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP_UNTAGGED, 0f)
-        _audioOffloadEnabled.value = prefs.getBoolean(AppSettings.KEY_AUDIO_OFFLOAD_ENABLED, false)
+        audioEqSection._crossfade.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE, true)
+        audioEqSection._crossfadeDuration.value = prefs.getFloat(AppSettings.KEY_CROSSFADE_DURATION, 4f)
+        audioEqSection._crossfadeRepeatOne.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE_REPEAT_ONE, true)
+        audioEqSection._audioNormalization.value = prefs.getBoolean(AppSettings.KEY_AUDIO_NORMALIZATION, true)
+        audioEqSection._replayGain.value = prefs.getBoolean(AppSettings.KEY_REPLAY_GAIN, false)
+        audioEqSection._replayGainMode.value = prefs.getInt(AppSettings.KEY_REPLAY_GAIN_MODE, 1)
+        audioEqSection._replayGainDrc.value = prefs.getBoolean(AppSettings.KEY_REPLAY_GAIN_DRC, true)
+        audioEqSection._replayGainPreamp.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP, 0f)
+        audioEqSection._replayGainPreampUntagged.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP_UNTAGGED, 0f)
+        audioEqSection._audioOffloadEnabled.value = prefs.getBoolean(AppSettings.KEY_AUDIO_OFFLOAD_ENABLED, false)
         _skipSilenceEnabled.value = prefs.getBoolean(AppSettings.KEY_SKIP_SILENCE, false)
         _batterySaverEnabled.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLED, false)
         _batterySaverMode.value = prefs.getString(AppSettings.KEY_BATTERY_SAVER_MODE, "auto") ?: "auto"
@@ -5234,10 +4879,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(KEY_AUTO_CH
         _showLibraryBottomBarAlways.value = prefs.getBoolean(AppSettings.KEY_SHOW_LIBRARY_BOTTOM_BAR_ALWAYS, false)
         
         // Audio Device Settings
-        _autoConnectDevice.value = prefs.getBoolean(AppSettings.KEY_AUTO_CONNECT_DEVICE, true)
-        _useSystemVolume.value = prefs.getBoolean(AppSettings.KEY_USE_SYSTEM_VOLUME, true)
-        _appVolume.value = prefs.getFloat(AppSettings.KEY_APP_VOLUME, 1.0f)
-        _stopPlaybackOnZeroVolume.value = prefs.getBoolean(AppSettings.KEY_STOP_PLAYBACK_ON_ZERO_VOLUME, false)
+        audioEqSection._autoConnectDevice.value = prefs.getBoolean(AppSettings.KEY_AUTO_CONNECT_DEVICE, true)
+        audioEqSection._useSystemVolume.value = prefs.getBoolean(AppSettings.KEY_USE_SYSTEM_VOLUME, true)
+        audioEqSection._appVolume.value = prefs.getFloat(AppSettings.KEY_APP_VOLUME, 1.0f)
+        audioEqSection._stopPlaybackOnZeroVolume.value = prefs.getBoolean(AppSettings.KEY_STOP_PLAYBACK_ON_ZERO_VOLUME, false)
         
         // Cache Settings
         _maxCacheSize.value = safeLong(AppSettings.KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)
