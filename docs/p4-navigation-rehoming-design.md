@@ -90,3 +90,15 @@
 - AppSettings 字符串交接路由（setInitialStreamingRoute 系）
 - OnboardingScreen 写 `"home"/"library"` 字符串的既有行为（仅在 P4-1 注释登记）
 - Player sheet 机制与空 Box 路由
+
+---
+
+## 交付状态（2026-11-08）
+
+四段全部交付（每段独立分支/提交、门禁绿）：
+1. **P4-1** `refactor/p4-pr1-deadweight`（4 commits）：死路由表（MainScreen/LocalScreen）、重复 Equalizer 注册、死模式选择器三件套、死接线参数、幻影路由探测（when{} 实证退化为无条件 navigate，STREAMING 分支亦死——两模式渲染同一 LocalNavigation）、冗余 import；净删 +7/-455。Player 锚点路由已加注释登记。
+2. **P4-2** `refactor/p4-pr2-guard-host`（f131fec）：RhythmGuardWarningHost + 状态类型 + 常量 + helper（≈1,620 行）出栏至 `app/.../rhythmguard/RhythmGuardWarningHost.kt`，host 翻 internal；RhythmNavigation.kt 2,152 → 185 行纯导航装配。
+3. **P4-3** `refactor/p4-pr3-nav-split`（bcd56ff）：10 个大路由块抽为顶层 `internal fun LocalXxxRoute`（Routes 文件 1,436 行 / Streaming 文件 1,020 行），LocalNavigation.kt 4,886 → 3,040。实现细化（对 §3 方法约束的两点补充）：① 路由体引用的派生局部声明按**传递闭包**在路由 fun 内重声明（chrome 原声明留守供其余消费）——remember 无 saveable，重排零行为差异；② composable lambda 的显式参数（`backStackEntry ->`）解析为路由 fun 参数、隐式 `it` 使用者合成同名参数；③ 共享可变状态经参数传递（`var x by remember` 改对偶形式暴露 state 持有者）。§3 的「参数只传现场所需」由闭包分析器保证。
+4. **P4-4** `refactor/p4-pr4-startup-warmup`（540085a）：StreamingRoutes（4 常量 + 4 builder）出口 `:feature:streaming` 的 `presentation/navigation/StreamingRoutes.kt`（public，SettingsRoutes 先例）；4 个 streaming→local mapper 留守 :app。
+
+门禁：每段 :app:compileDebugKotlin + assembleDebug + 8 模块 JVM 单测绿。真机冒烟（双形态五 tab/三层详情/EQ 出栈/模式切换/守护弹窗）待合并前抽查。

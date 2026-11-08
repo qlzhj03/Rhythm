@@ -85,3 +85,15 @@ MusicViewModel：构造 `private val eqDsp = EqDspController(...)`；AudioEffect
 
 - EqualizerScreen 归位放在 P3（P4-3 路由拆解只做剪切，若先动 P4 会两次触碰同一文件）。
 - 存储 backend（SharedPreferences→DataStore）是 B3 的事；P3 只动状态所有权，不动存储。
+
+---
+
+## 交付状态（2026-11-08）
+
+四段全部交付（每段独立分支/提交、门禁绿）：
+1. **P3-1** `refactor/p3-pr1-eq-controller`（b9bb393）：`EqDspController` 落 `:core:media` `infrastructure/service/`（**public**——缝接口为 public，跨模块实现），实现两缝接口；VM 全量委托（40 个成员单行化），VM 10,818 → 10,391 行。三适配：`getApplication` → 构造 context、`viewModelScope` → 注入 scope、audioSessionId/系统 EQ 打开器（EqualizerUtils 在 :feature:local）经 lambda 注入。
+2. **P3-2** `refactor/p3-pr2-eq-wiring`（34a6fd6）：VM 撤销两缝接口实现（`val audioEffects/audioDevices get() = eqDsp`）；:app Equalizer 注册点 + 两处播放器屏（Expressive/Material）改传接口；PlaybackBottomSheet 混合路径收敛为接口单路径（顺带消除 bass/virtualizer 的 appSettings 冗余预写——双写变单写，持久化结果不变）。
+3. **P3-3** `refactor/p3-pr3-eq-consistency`：isBassBoostAvailable 流下沉 `AudioEqSettingsSection`（`_isBassBoostAvailable` backing + facade 暴露 `isBassBoostAvailableFlow`），控制器直通（服务直写键 → 流同步 → divergence 消除）；接口 `updateBassBoostAvailability()` 成员、VM 包装、EqualizerScreen 手动刷新调用一并清除。
+4. **P3-4** `refactor/p3-pr4-eq-screen-rehome`（0e2002f）：EqualizerScreen.kt（1,478 行）`:feature:settings` → `:feature:local`，同包物理移动——:app import 零改动（C 阶段保包名红利）；一条未使用的 SettingsScreenWrapper import 清除。
+
+门禁：每段三模块 compileDebugKotlin + assembleDebug + 8 模块 JVM 单测（P3-4 另含 :feature:settings）绿。真机 EQ 冒烟（预设/bands/AutoEQ 档位/设备绑定/系统 EQ 入口）待合并前抽查。
