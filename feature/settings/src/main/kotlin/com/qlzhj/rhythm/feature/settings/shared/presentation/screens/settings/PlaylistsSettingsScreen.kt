@@ -1,0 +1,654 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+
+package com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
+
+
+
+import com.qlzhj.rhythm.core.designsystem.LocalMiniPlayerPadding
+import androidx.compose.foundation.layout.PaddingValues
+import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
+import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
+import com.qlzhj.rhythm.core.designsystem.icons.Icon
+
+import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.DocumentsContract
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
+import com.qlzhj.rhythm.feature.settings.R
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.border
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material3.*
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Slider
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.hapticfeedback.HapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
+import com.qlzhj.rhythm.core.model.Playlist
+import com.qlzhj.rhythm.core.model.Song
+import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
+import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
+import com.qlzhj.rhythm.core.common.GsonUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
+import com.qlzhj.rhythm.core.designsystem.utils.HapticType
+import com.qlzhj.rhythm.core.common.safeGetQuantityString
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import kotlin.system.exitProcess
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.CollapsibleHeaderScreen
+import com.qlzhj.rhythm.core.designsystem.components.ButtonGroupStyle
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveScrollBar
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveGroupButton
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StyledProgressBar
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ProgressStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ThumbStyle
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.LicensesBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.UpdateBottomSheet
+import com.qlzhj.rhythm.core.designsystem.utils.LazyListStateSaver
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.ExpressiveShapeProvider
+import com.qlzhj.rhythm.core.designsystem.components.ExpressiveShapes
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.buildSplashBackdropShapes
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.SplashBackgroundOrbs
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
+import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
+import com.qlzhj.rhythm.core.designsystem.theme.getFontPreviewStyle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.io.File
+import com.qlzhj.rhythm.core.designsystem.utils.FontLoader
+import com.qlzhj.rhythm.core.designsystem.theme.parseCustomColorScheme
+import androidx.compose.ui.viewinterop.AndroidView
+import android.widget.TextView
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.core.text.HtmlCompat
+import com.qlzhj.rhythm.core.designsystem.components.M3FourColorCircularLoader
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.PlayingEqIcon
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.BulkPlaylistExportDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.PlaylistImportDialog
+import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.PlaylistOperationProgressDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.PlaylistOperationResultDialog
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.AppRestartDialog
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.PlayerChipOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.HomeSectionOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.features.local.presentation.components.settings.LibraryTabOrderBottomSheet
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsGroup
+import com.qlzhj.rhythm.core.ui.shared.presentation.components.Material3SettingsItem
+
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.TunerSettingRow
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.TunerAnimatedSwitch
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.TunerSettingCard
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.SettingItem
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.SettingGroup
+import com.qlzhj.rhythm.core.common.safeGetQuantityString
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.SettingsRoutes
+import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.smartPlaylistDisplayName
+
+
+@Composable
+fun PlaylistsSettingsScreen(
+    onBackClick: () -> Unit,
+    onNavigateTo: (String) -> Unit = {},
+    playlistAdmin: com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController
+) {
+    val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
+    val appSettings = AppSettings.getInstance(context)
+    val playlists by playlistAdmin.playlists.collectAsState()
+    val defaultPlaylistsEnabled by appSettings.defaultPlaylistsEnabled.collectAsState()
+
+    val defaultPlaylists = playlists.filter { it.isDefault }
+    val userPlaylists = playlists.filter { !it.isDefault }
+    val emptyPlaylists = playlists.filter { !it.isDefault && it.songs.isEmpty() }
+
+    var showCreatePlaylistDialog by remember { mutableStateOf(false) }
+    var playlistToDelete by remember { mutableStateOf<Playlist?>(null) }
+    var showBulkExportDialog by remember { mutableStateOf(false) }
+    var showImportDialog by remember { mutableStateOf(false) }
+    var showOperationProgress by remember { mutableStateOf(false) }
+    var operationProgressText by remember { mutableStateOf("") }
+    var showCleanupConfirmDialog by remember { mutableStateOf(false) }
+    var showRestartDialog by remember { mutableStateOf(false) }
+
+    val settingGroups = listOf(
+        SettingGroup(
+            title = context.getString(R.string.settings_playlists_overview),
+            items = listOf() // Empty items - we'll add the stat card separately
+        ),
+        SettingGroup(
+            title = context.getString(R.string.settings_playlists_management),
+            items = listOf(
+                SettingItem(
+                    MaterialSymbolIcon("add_circle"),
+                    context.getString(R.string.settings_create_new_playlist),
+                    context.getString(R.string.settings_create_new_playlist_desc),
+                    onClick = {
+                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                        showCreatePlaylistDialog = true
+                    }
+                ),
+                SettingItem(
+                    MaterialSymbolIcon("upload"),
+                    context.getString(R.string.settings_import_playlists),
+                    context.getString(R.string.settings_import_playlists_desc),
+                    onClick = {
+                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                        showImportDialog = true
+                    }
+                ),
+                SettingItem(
+                    RhythmIcons.Download,
+                    context.getString(R.string.settings_export_all_playlists),
+                    context.getString(R.string.settings_export_all_playlists_desc),
+                    onClick = {
+                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                        showBulkExportDialog = true
+                    }
+                )
+            ) + if (emptyPlaylists.isNotEmpty()) listOf(
+                SettingItem(
+                    RhythmIcons.Delete,
+                    context.getString(R.string.settings_cleanup_empty_playlists),
+                    pluralStringResource(R.plurals.settings_cleanup_empty_playlists_desc, emptyPlaylists.size, emptyPlaylists.size),
+                    onClick = {
+                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                        showCleanupConfirmDialog = true
+                    }
+                )
+            ) else emptyList()
+        ),
+        SettingGroup(
+            title = context.getString(R.string.settings_default_playlists),
+            items = listOf(
+                SettingItem(
+                    RhythmIcons.Library,
+                    context.getString(R.string.settings_default_playlists),
+                    if (defaultPlaylistsEnabled) {
+                        context.getString(R.string.playlists_active_format, defaultPlaylists.size)
+                    } else {
+                        context.getString(R.string.status_disabled)
+                    },
+                    onClick = {
+                        HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                        onNavigateTo(SettingsRoutes.DEFAULT_PLAYLISTS)
+                    }
+                )
+            ) + (if (defaultPlaylists.isNotEmpty()) {
+                defaultPlaylists.map { playlist ->
+                    SettingItem(
+                        icon = null,
+                        title = smartPlaylistDisplayName(playlist.id, playlist.name, context),
+                        description = context.getString(R.string.playlists_song_count_format, playlist.songs.size),
+                        onClick = null,
+                        data = playlist.id
+                    )
+                }
+            } else {
+                listOf(
+                    SettingItem(
+                        icon = null,
+                        title = context.getString(R.string.settings_no_default_playlists),
+                        description = context.getString(R.string.settings_no_default_playlists_desc),
+                        onClick = null
+                    )
+                )
+            })
+        ),
+        SettingGroup(
+            title = context.getString(R.string.settings_my_playlists),
+            items = if (userPlaylists.isNotEmpty()) {
+                userPlaylists.map { playlist ->
+                    SettingItem(
+                        icon = null,
+                        title = playlist.name,
+                        description = context.getString(R.string.playlists_song_count_format, playlist.songs.size),
+                        onClick = null,
+                        data = playlist.id
+                    )
+                }
+            } else {
+                listOf(
+                    SettingItem(
+                        icon = null,
+                        title = context.getString(R.string.settings_no_custom_playlists),
+                        description = context.getString(R.string.settings_no_custom_playlists_desc),
+                        onClick = {
+                            HapticUtils.performHapticFeedback(context, haptic, HapticType.LIGHT)
+                            showCreatePlaylistDialog = true
+                        }
+                    )
+                )
+            }
+        )
+    )
+
+    CollapsibleHeaderScreen(
+        title = context.getString(R.string.settings_playlists),
+        showBackButton = true,
+        onBackClick = {
+            HapticUtils.performHapticFeedback(context, haptic, HapticType.HEAVY)
+            onBackClick()
+        }
+    ) { modifier ->
+        val lazyListState = rememberSaveable(
+            saver = LazyListStateSaver
+        ) {
+            androidx.compose.foundation.lazy.LazyListState()
+        }
+
+        LazyColumn(
+            contentPadding = PaddingValues(bottom = 24.dp + LocalMiniPlayerPadding.current.calculateBottomPadding()),
+            state = lazyListState,
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Collection Statistics Card
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Card(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            bottomStart = 24.dp,
+                            topEnd = 6.dp,
+                            bottomEnd = 6.dp
+                        ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "${playlists.size}",
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = context.getString(R.string.settings_total),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                    Card(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(6.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "${userPlaylists.size}",
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = context.getString(R.string.settings_custom),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                    Card(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(
+                            topStart = 6.dp,
+                            bottomStart = 6.dp,
+                            topEnd = 24.dp,
+                            bottomEnd = 24.dp
+                        ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        )
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "${defaultPlaylists.size}",
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = context.getString(R.string.settings_default),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                }
+            }
+
+            items(settingGroups.filter { it.title != context.getString(R.string.settings_playlists_overview) }) { group ->
+                Spacer(modifier = Modifier.height(24.dp))
+
+                val isDefaultPlaylistGroup =
+                    group.title == context.getString(R.string.settings_default_playlists)
+                val isPlaylistRowsGroup =
+                    isDefaultPlaylistGroup ||
+                        group.title == context.getString(R.string.settings_my_playlists)
+
+                val materialItems = if (isPlaylistRowsGroup) {
+                    group.items.map { item ->
+                        val playlistId = item.data as? String
+                        val playlist = playlists.find { it.id == playlistId }
+
+                        if (item.onClick != null || item.toggleState != null || playlistId == null) {
+                            toMaterial3SettingsItem(
+                                context = context,
+                                item = item,
+                                hapticFeedback = haptic
+                            )
+                        } else {
+                            Material3SettingsItem(
+                                icon = item.icon,
+                                title = { Text(item.title) },
+                                description = item.description?.let { desc -> { Text(desc) } },
+                                trailingContent = if (!isDefaultPlaylistGroup && playlist != null) {
+                                    {
+                                        IconButton(
+                                            onClick = {
+                                                HapticUtils.performHapticFeedback(context, haptic, HapticType.HEAVY)
+                                                playlistToDelete = playlist
+                                            }
+                                        ) {
+                                            Icon(
+                                                imageVector = RhythmIcons.Delete,
+                                                contentDescription = context.getString(R.string.dialog_delete),
+                                                tint = MaterialTheme.colorScheme.error,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    null
+                                },
+                                onClick = item.onClick
+                            )
+                        }
+                    }
+                } else {
+                    group.items.map { item ->
+                        toMaterial3SettingsItem(
+                            context = context,
+                            item = item,
+                            hapticFeedback = haptic
+                        )
+                    }
+                }
+
+                Material3SettingsGroup(
+                    title = group.title,
+                    items = materialItems,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                )
+            }
+        }
+    }
+
+    // Dialogs
+    if (showCreatePlaylistDialog) {
+        CreatePlaylistDialog(
+            onDismiss = { showCreatePlaylistDialog = false },
+            onConfirm = { name ->
+                playlistAdmin.createPlaylist(name)
+                showCreatePlaylistDialog = false
+            }
+        )
+    }
+
+    if (showBulkExportDialog) {
+        BulkPlaylistExportDialog(
+            playlistCount = playlists.size,
+            onDismiss = { showBulkExportDialog = false },
+            onExport = { format, includeDefault ->
+                showBulkExportDialog = false
+                showOperationProgress = true
+                operationProgressText = context.getString(R.string.operation_exporting_playlists)
+                playlistAdmin.exportAllPlaylists(format, includeDefault) { result ->
+                    showOperationProgress = false
+                }
+            },
+            onExportToCustomLocation = { format, includeDefault, directoryUri ->
+                showBulkExportDialog = false
+                showOperationProgress = true
+                operationProgressText = context.getString(R.string.operation_exporting_playlists_location)
+                playlistAdmin.exportAllPlaylists(format, includeDefault, directoryUri) { result ->
+                    showOperationProgress = false
+                }
+            }
+        )
+    }
+
+    if (showImportDialog) {
+        PlaylistImportDialog(
+            onDismiss = { showImportDialog = false },
+            onImport = { uri, onResult, _ ->
+                showImportDialog = false
+                showOperationProgress = true
+                operationProgressText = context.getString(R.string.operation_importing_playlist)
+                playlistAdmin.importPlaylist(uri, onResult) {
+                    // When import completes successfully, show restart dialog
+                    showOperationProgress = false
+                    showRestartDialog = true
+                }
+            }
+        )
+    }
+
+    if (showOperationProgress) {
+        PlaylistOperationProgressDialog(
+            operation = operationProgressText,
+            onDismiss = { /* Cannot dismiss during operation */ }
+        )
+    }
+
+    if (showCleanupConfirmDialog) {
+        val emptyCount = emptyPlaylists.size
+        AlertDialog(
+            onDismissRequest = { showCleanupConfirmDialog = false },
+            icon = {
+                Icon(
+                    imageVector = RhythmIcons.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(28.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = context.getString(R.string.dialog_cleanup_empty_playlists_title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Text(pluralStringResource(R.plurals.dialog_cleanup_empty_playlists_message, emptyCount, emptyCount))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        emptyPlaylists.forEach { playlist ->
+                            playlistAdmin.deletePlaylist(playlist.id)
+                        }
+                        showCleanupConfirmDialog = false
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    )
+                ) {
+                    Icon(
+                        imageVector = RhythmIcons.Delete,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(context.getString(R.string.dialog_delete))
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showCleanupConfirmDialog = false }) {
+                    Icon(
+                        imageVector = RhythmIcons.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(context.getString(R.string.dialog_cancel))
+                }
+            },
+            shape = RoundedCornerShape(24.dp)
+        )
+    }
+
+    // App Restart Dialog for default playlists toggle
+    if (showRestartDialog) {
+        AppRestartDialog(
+            onDismiss = { showRestartDialog = false },
+            onRestart = {
+                showRestartDialog = false
+                com.qlzhj.rhythm.core.common.AppRestarter.restartApp(context)
+            },
+            onContinue = {
+                showRestartDialog = false
+                // Continue without restart
+            }
+        )
+    }
+
+    playlistToDelete?.let { playlist ->
+        AlertDialog(
+            onDismissRequest = { playlistToDelete = null },
+            icon = {
+                Icon(
+                    imageVector = RhythmIcons.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(28.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = context.getString(R.string.dialog_delete_playlist_title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = { Text(context.getString(R.string.dialog_delete_playlist_message, playlist.name)) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        playlistAdmin.deletePlaylist(playlist.id)
+                        playlistToDelete = null
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    )
+                ) {
+                    Icon(
+                        imageVector = RhythmIcons.Delete,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(context.getString(R.string.dialog_delete))
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { playlistToDelete = null }) {
+                    Icon(
+                        imageVector = RhythmIcons.Close,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(context.getString(R.string.dialog_cancel))
+                }
+            },
+            shape = RoundedCornerShape(24.dp)
+        )
+    }
+}

@@ -23,7 +23,7 @@ import com.qlzhj.rhythm.feature.local.presentation.screens.PlaylistDetailScreen
 import com.qlzhj.rhythm.feature.local.presentation.screens.ArtistDetailScreen
 import com.qlzhj.rhythm.feature.local.presentation.screens.AlbumDetailScreen
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.shared.presentation.screens.settings.*
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.*
 import com.qlzhj.rhythm.feature.streaming.presentation.screens.StreamingServiceSetupScreen
 import com.qlzhj.rhythm.feature.streaming.presentation.screens.GoSettingsScreen
 import com.qlzhj.rhythm.core.model.toLibraryAlbum

@@ -141,9 +141,9 @@ import com.qlzhj.rhythm.feature.local.shared.presentation.screens.player.PlayerS
 import com.qlzhj.rhythm.feature.local.presentation.screens.PlaylistDetailScreen
 import com.qlzhj.rhythm.feature.local.presentation.screens.ArtistDetailScreen
 import com.qlzhj.rhythm.feature.local.presentation.screens.AlbumDetailScreen
-import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.SettingsScreenWrapper
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
-import chromahub.rhythm.app.shared.presentation.screens.settings.*
+import com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.*
 import com.qlzhj.rhythm.feature.streaming.presentation.screens.StreamingServiceSetupScreen
 import com.qlzhj.rhythm.feature.streaming.presentation.screens.GoSettingsScreen
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
@@ -1903,11 +1903,11 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerLabs.route) {
-                    chromahub.rhythm.app.shared.presentation.screens.settings.LabsSettingsScreen(onBackClick = navigateBackOrToSettings)
+                    com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.LabsSettingsScreen(onBackClick = navigateBackOrToSettings)
                 }
 
                 composable(Screen.TunerAbout.route) {
-                    chromahub.rhythm.app.shared.presentation.screens.settings.AboutScreen(
+                    com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.AboutScreen(
                         onBackClick = navigateBackOrToSettings,
                         onNavigateToUpdates = {
                             navController.navigate(Screen.TunerUpdates.route) {
@@ -1923,13 +1923,13 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerNativeCapabilities.route) {
-                    chromahub.rhythm.app.shared.presentation.screens.settings.NativeCapabilitiesSettingsScreen(
+                    com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.NativeCapabilitiesSettingsScreen(
                         onBackClick = navigateBackOrToSettings
                     )
                 }
 
                 composable(Screen.TunerExternalCapabilities.route) {
-                    chromahub.rhythm.app.shared.presentation.screens.settings.ExternalCapabilitiesSettingsScreen(
+                    com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.ExternalCapabilitiesSettingsScreen(
                         onBackClick = navigateBackOrToSettings,
                         onNavigateTo = { route ->
                             when (route) {
@@ -1941,7 +1941,7 @@ private fun LocalNavigationContent(
                 }
 
                 composable(Screen.TunerDecoderExtensions.route) {
-                    chromahub.rhythm.app.shared.presentation.screens.settings.DecoderExtensionsSettingsScreen(
+                    com.qlzhj.rhythm.feature.settings.shared.presentation.screens.settings.DecoderExtensionsSettingsScreen(
                         onBackClick = navigateBackOrToSettings
                     )
                 }
