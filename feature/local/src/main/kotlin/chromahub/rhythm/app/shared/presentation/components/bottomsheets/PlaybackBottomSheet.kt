@@ -331,22 +331,18 @@ fun PlaybackBottomSheet(
                             virtualizerStrength = virtualizerStrength,
                             onAudioNormalizationChange = { appSettings.setAudioNormalization(it) },
                             onReplayGainChange = { appSettings.setReplayGain(it) },
-                            onEqualizerEnabledChange = { musicViewModel.setEqualizerEnabled(it) },
+                            onEqualizerEnabledChange = { musicViewModel.audioEffects.setEqualizerEnabled(it) },
                             onBassBoostEnabledChange = { enabled ->
-                                appSettings.setBassBoostEnabled(enabled)
-                                musicViewModel.setBassBoost(enabled, bassBoostStrength.toShort())
+                                musicViewModel.audioEffects.setBassBoost(enabled, bassBoostStrength.toShort())
                             },
                             onBassBoostStrengthChange = { strength ->
-                                appSettings.setBassBoostStrength(strength)
-                                musicViewModel.setBassBoost(bassBoostEnabled, strength.toShort())
+                                musicViewModel.audioEffects.setBassBoost(bassBoostEnabled, strength.toShort())
                             },
                             onVirtualizerEnabledChange = { enabled ->
-                                appSettings.setVirtualizerEnabled(enabled)
-                                musicViewModel.setVirtualizer(enabled, virtualizerStrength.toShort())
+                                musicViewModel.audioEffects.setVirtualizer(enabled, virtualizerStrength.toShort())
                             },
                             onVirtualizerStrengthChange = { strength ->
-                                appSettings.setVirtualizerStrength(strength)
-                                musicViewModel.setVirtualizer(virtualizerEnabled, strength.toShort())
+                                musicViewModel.audioEffects.setVirtualizer(virtualizerEnabled, strength.toShort())
                             },
                             onNavigateToEqualizer = onNavigateToEqualizer,
                             haptics = haptics,

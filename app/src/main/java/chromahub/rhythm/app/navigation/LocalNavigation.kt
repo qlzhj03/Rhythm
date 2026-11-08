@@ -2023,8 +2023,8 @@ private fun LocalNavigationContent(
                     SlideUpCornerWrapper {
                         EqualizerScreen(
                             navController = navController,
-                            audioEffects = viewModel,
-                            audioDevices = viewModel,
+                            audioEffects = viewModel.audioEffects,
+                            audioDevices = viewModel.audioDevices,
                             appSettings = appSettings
                         )
                     }
