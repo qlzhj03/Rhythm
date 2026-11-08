@@ -111,8 +111,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.AdaptiveSheetScrollContainer
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.groupedBottomSheetItemShape
-import chromahub.rhythm.app.features.streaming.presentation.screens.streamingQualityOptions
-import chromahub.rhythm.app.features.streaming.presentation.screens.streamingQualityLabel
+import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityOptions
+import chromahub.rhythm.app.shared.presentation.components.common.streamingQualityLabel
 import chromahub.rhythm.app.shared.presentation.components.player.VolumeSlider
 import java.util.Locale
 
