@@ -75,15 +75,7 @@ internal class AudioEqSettingsSection(
         prefs.edit { putBoolean(AppSettings.KEY_AUDIO_ENGINE_SOFTWARE_ENABLED, enabled) }
         _audioEngineSoftwareEnabled.value = enabled
     }
-    internal val _audioMetadataExtractionCompleted = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_AUDIO_METADATA_EXTRACTION_COMPLETED, false)
-    )
 
-    val audioMetadataExtractionCompleted: StateFlow<Boolean> get() = _audioMetadataExtractionCompleted.asStateFlow()
-    fun setAudioMetadataExtractionCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_AUDIO_METADATA_EXTRACTION_COMPLETED, completed) }
-        _audioMetadataExtractionCompleted.value = completed
-    }
     internal val _audioNormalization = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_AUDIO_NORMALIZATION, true))
 
     val audioNormalization: StateFlow<Boolean> get() = _audioNormalization.asStateFlow()
