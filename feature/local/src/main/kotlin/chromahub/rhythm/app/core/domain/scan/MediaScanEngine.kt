@@ -14,7 +14,7 @@ import com.qlzhj.rhythm.core.model.MediaScanMode
 import com.qlzhj.rhythm.core.model.ScanPhase
 import com.qlzhj.rhythm.core.model.ScanProgress
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.util.AudioFormatDetector
+import com.qlzhj.rhythm.core.media.util.AudioFormatDetector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import androidx.core.net.toUri
 import androidx.core.content.edit
-import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
+import com.qlzhj.rhythm.core.media.infrastructure.provider.RhythmAlbumArtProvider
 import com.qlzhj.rhythm.core.common.StoragePathUtils
 import java.util.Locale
 import com.qlzhj.rhythm.core.data.core.domain.scan.StableDateAddedResolver
@@ -263,11 +263,11 @@ class MediaScanEngine(
                         val rawGenre = if (colGenre >= 0) cursor.getString(colGenre) else null
                         val rawAlbumArtist = if (colAlbumArtist >= 0) cursor.getString(colAlbumArtist) else null
 
-                        var title = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(rawTitle) ?: rawTitle
-                        var artist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(rawArtist) ?: rawArtist
-                        var album = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(rawAlbum) ?: rawAlbum
-                        var genre = rawGenre?.let { chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) }
-                        var albumArtist = rawAlbumArtist?.let { chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) }
+                        var title = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(rawTitle) ?: rawTitle
+                        var artist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(rawArtist) ?: rawArtist
+                        var album = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(rawAlbum) ?: rawAlbum
+                        var genre = rawGenre?.let { com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) }
+                        var albumArtist = rawAlbumArtist?.let { com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) }
 
                         var discNumber = when {
                             discFromStore > 0 -> discFromStore
@@ -295,7 +295,7 @@ class MediaScanEngine(
                                         if (year == 0) {
                                             val dateValues = propertyMap["DATE"] ?: propertyMap["YEAR"]
                                             if (!dateValues.isNullOrEmpty() && dateValues[0].isNotBlank()) {
-                                                year = chromahub.rhythm.app.util.MetadataHeuristics.parseYear(dateValues[0])
+                                                year = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.parseYear(dateValues[0])
                                             }
                                         }
                                         if (trackNumber == 0) {
@@ -319,24 +319,24 @@ class MediaScanEngine(
                                             }
                                         }
                                         val tagTitle = propertyMap["TITLE"]?.firstOrNull()?.trim()
-                                        if (!tagTitle.isNullOrBlank() && (title == "Unknown Title" || chromahub.rhythm.app.util.MetadataHeuristics.isLikelyCorruptedMetadata(title))) {
-                                            title = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(tagTitle) ?: tagTitle
+                                        if (!tagTitle.isNullOrBlank() && (title == "Unknown Title" || com.qlzhj.rhythm.core.media.util.MetadataHeuristics.isLikelyCorruptedMetadata(title))) {
+                                            title = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(tagTitle) ?: tagTitle
                                         }
                                         val tagArtist = propertyMap["ARTIST"]?.firstOrNull()?.trim()
-                                        if (!tagArtist.isNullOrBlank() && (artist == "<unknown>" || chromahub.rhythm.app.util.MetadataHeuristics.isLikelyCorruptedMetadata(artist))) {
-                                            artist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(tagArtist) ?: tagArtist
+                                        if (!tagArtist.isNullOrBlank() && (artist == "<unknown>" || com.qlzhj.rhythm.core.media.util.MetadataHeuristics.isLikelyCorruptedMetadata(artist))) {
+                                            artist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(tagArtist) ?: tagArtist
                                         }
                                         val tagAlbum = propertyMap["ALBUM"]?.firstOrNull()?.trim()
-                                        if (!tagAlbum.isNullOrBlank() && (album == "Unknown Album" || chromahub.rhythm.app.util.MetadataHeuristics.isLikelyCorruptedMetadata(album))) {
-                                            album = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(tagAlbum) ?: tagAlbum
+                                        if (!tagAlbum.isNullOrBlank() && (album == "Unknown Album" || com.qlzhj.rhythm.core.media.util.MetadataHeuristics.isLikelyCorruptedMetadata(album))) {
+                                            album = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(tagAlbum) ?: tagAlbum
                                         }
                                         val tagAlbumArtist = (propertyMap["ALBUMARTIST"] ?: propertyMap["ALBUM ARTIST"] ?: propertyMap["ALBUM_ARTIST"])?.firstOrNull()?.trim()
-                                        if (!tagAlbumArtist.isNullOrBlank() && (albumArtist.isNullOrBlank() || chromahub.rhythm.app.util.MetadataHeuristics.isLikelyCorruptedMetadata(albumArtist))) {
-                                            albumArtist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(tagAlbumArtist) ?: tagAlbumArtist
+                                        if (!tagAlbumArtist.isNullOrBlank() && (albumArtist.isNullOrBlank() || com.qlzhj.rhythm.core.media.util.MetadataHeuristics.isLikelyCorruptedMetadata(albumArtist))) {
+                                            albumArtist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(tagAlbumArtist) ?: tagAlbumArtist
                                         }
                                         val tagGenre = propertyMap["GENRE"]?.firstOrNull()?.trim()
-                                        if (!tagGenre.isNullOrBlank() && (genre.isNullOrBlank() || chromahub.rhythm.app.util.MetadataHeuristics.isLikelyCorruptedMetadata(genre))) {
-                                            genre = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(tagGenre) ?: tagGenre
+                                        if (!tagGenre.isNullOrBlank() && (genre.isNullOrBlank() || com.qlzhj.rhythm.core.media.util.MetadataHeuristics.isLikelyCorruptedMetadata(genre))) {
+                                            genre = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(tagGenre) ?: tagGenre
                                         }
                                     }
                                 }
@@ -591,23 +591,23 @@ class MediaScanEngine(
                 val propertyMap = metadata?.propertyMap ?: emptyMap()
 
                 propertyMap["TITLE"]?.firstOrNull()?.trim()?.takeIf { it.isNotBlank() }?.let {
-                    title = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                    title = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                 }
                 propertyMap["ARTIST"]?.firstOrNull()?.trim()?.takeIf { it.isNotBlank() }?.let {
-                    artist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                    artist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                 }
                 propertyMap["ALBUM"]?.firstOrNull()?.trim()?.takeIf { it.isNotBlank() }?.let {
-                    album = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                    album = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                 }
                 (propertyMap["ALBUMARTIST"] ?: propertyMap["ALBUM ARTIST"] ?: propertyMap["ALBUM_ARTIST"])?.firstOrNull()?.trim()?.takeIf { it.isNotBlank() }?.let {
-                    albumArtist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                    albumArtist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                 }
                 propertyMap["GENRE"]?.firstOrNull()?.trim()?.takeIf { it.isNotBlank() }?.let {
-                    genre = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                    genre = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                 }
                 val dateValues = propertyMap["DATE"] ?: propertyMap["YEAR"]
                 if (!dateValues.isNullOrEmpty() && dateValues[0].isNotBlank()) {
-                    year = chromahub.rhythm.app.util.MetadataHeuristics.parseYear(dateValues[0])
+                    year = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.parseYear(dateValues[0])
                 }
                 val trackValues = propertyMap["TRACKNUMBER"]
                 if (!trackValues.isNullOrEmpty() && trackValues[0].isNotBlank()) {
@@ -636,27 +636,27 @@ class MediaScanEngine(
                 }
                 if (title == file.nameWithoutExtension) {
                     retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_TITLE)?.trim()?.let {
-                        if (it.isNotBlank()) title = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                        if (it.isNotBlank()) title = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                     }
                 }
                 if (artist == "Unknown Artist") {
                     retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_ARTIST)?.trim()?.let {
-                        if (it.isNotBlank()) artist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                        if (it.isNotBlank()) artist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                     }
                 }
                 if (album == "Unknown Album") {
                     retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_ALBUM)?.trim()?.let {
-                        if (it.isNotBlank()) album = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                        if (it.isNotBlank()) album = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                     }
                 }
                 if (albumArtist.isNullOrBlank()) {
                     retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)?.trim()?.let {
-                        if (it.isNotBlank()) albumArtist = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                        if (it.isNotBlank()) albumArtist = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                     }
                 }
                 if (genre.isNullOrBlank()) {
                     retriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_GENRE)?.trim()?.let {
-                        if (it.isNotBlank()) genre = chromahub.rhythm.app.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
+                        if (it.isNotBlank()) genre = com.qlzhj.rhythm.core.media.util.MetadataHeuristics.normalizeMetadataText(it) ?: it
                     }
                 }
                 if (year == 0) {

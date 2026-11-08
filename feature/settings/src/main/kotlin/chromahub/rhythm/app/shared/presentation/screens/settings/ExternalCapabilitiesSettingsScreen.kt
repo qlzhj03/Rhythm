@@ -39,8 +39,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.device.AudioCodecInfo
-import chromahub.rhythm.app.core.device.DeviceCapabilitiesProvider
+import com.qlzhj.rhythm.core.media.core.device.AudioCodecInfo
+import com.qlzhj.rhythm.core.media.core.device.DeviceCapabilitiesProvider
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import chromahub.rhythm.app.shared.presentation.components.Material3SettingsGroup
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen

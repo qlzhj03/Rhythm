@@ -1895,7 +1895,7 @@ class AppUpdaterViewModel @Inject constructor(
     private fun showDownloadProgressNotification(progressPercent: Int) {
         val context = getApplication<Application>()
         val openUpdatesIntent =
-            Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+            Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra("navigate_to", "updates")
             }
@@ -1934,7 +1934,7 @@ class AppUpdaterViewModel @Inject constructor(
     ) {
         val context = getApplication<Application>()
         val openUpdatesIntent =
-            Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+            Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra("navigate_to", "updates")
             }

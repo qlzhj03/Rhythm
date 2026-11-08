@@ -9,11 +9,11 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.util.PendingLyricsWriteRequest
-import chromahub.rhythm.app.util.PendingWriteRequest
-import chromahub.rhythm.app.util.PendingBatchWriteRequest
-import chromahub.rhythm.app.util.RecoverableSecurityExceptionWrapper
+import com.qlzhj.rhythm.core.media.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.PendingLyricsWriteRequest
+import com.qlzhj.rhythm.core.media.util.PendingWriteRequest
+import com.qlzhj.rhythm.core.media.util.PendingBatchWriteRequest
+import com.qlzhj.rhythm.core.media.util.RecoverableSecurityExceptionWrapper
 import android.provider.MediaStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -286,7 +286,7 @@ try {
                     .setShortLabel(if (isPlaying) "Pause" else "Play")
                     .setLongLabel(if (isPlaying) "Pause Music" else "Play Music")
                     .setIcon(android.graphics.drawable.Icon.createWithResource(context, if (isPlaying) chromahub.rhythm.app.R.drawable.ic_pause_shortcut else chromahub.rhythm.app.R.drawable.ic_play_shortcut))
-                    .setIntent(Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+                    .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_PLAY_PAUSE"
                     })
                     .build()
@@ -295,7 +295,7 @@ try {
                     .setShortLabel("Next")
                     .setLongLabel("Next Track")
                     .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.ic_skip_next_shortcut))
-                    .setIntent(Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+                    .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_SKIP_NEXT"
                     })
                     .build()
@@ -304,7 +304,7 @@ try {
                     .setShortLabel("Previous")
                     .setLongLabel("Previous Track")
                     .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.ic_skip_previous_shortcut))
-                    .setIntent(Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+                    .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_SKIP_PREVIOUS"
                     })
                     .build()
@@ -313,7 +313,7 @@ try {
                     .setShortLabel("Open Player")
                     .setLongLabel("Open Music Player")
                     .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.rhythm_icon_small))
-                    .setIntent(Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+                    .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = Intent.ACTION_MAIN
                         putExtra("OPEN_PLAYER", true)
                     })

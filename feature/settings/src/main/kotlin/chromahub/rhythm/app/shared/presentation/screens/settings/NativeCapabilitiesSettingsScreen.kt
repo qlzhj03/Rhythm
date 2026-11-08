@@ -38,9 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.core.device.AudioOutputCategory
-import chromahub.rhythm.app.core.device.DeviceCapabilitiesProvider
-import chromahub.rhythm.app.core.device.HiFiCapabilityChecker
+import com.qlzhj.rhythm.core.media.core.device.AudioOutputCategory
+import com.qlzhj.rhythm.core.media.core.device.DeviceCapabilitiesProvider
+import com.qlzhj.rhythm.core.media.core.device.HiFiCapabilityChecker
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveCookieEmptyState
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon

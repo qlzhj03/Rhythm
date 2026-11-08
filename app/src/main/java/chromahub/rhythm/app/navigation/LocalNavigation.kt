@@ -112,7 +112,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.rememberOffMain
+import com.qlzhj.rhythm.core.media.util.rememberOffMain
 import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
 import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
 import androidx.navigation.NavHostController

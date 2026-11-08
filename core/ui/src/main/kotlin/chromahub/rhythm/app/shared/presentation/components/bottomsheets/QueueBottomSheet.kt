@@ -119,8 +119,8 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedB
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.QueueEntry
-import chromahub.rhythm.app.util.QueueEntryKeyTracker
+import com.qlzhj.rhythm.core.media.util.QueueEntry
+import com.qlzhj.rhythm.core.media.util.QueueEntryKeyTracker
 import androidx.compose.ui.res.stringResource
 
 

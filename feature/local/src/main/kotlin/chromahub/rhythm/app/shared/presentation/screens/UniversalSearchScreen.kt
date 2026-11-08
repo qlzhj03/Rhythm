@@ -79,7 +79,7 @@ import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaybackUris
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingSong
-import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
+import com.qlzhj.rhythm.core.media.infrastructure.service.StreamingSearchController
 import com.qlzhj.rhythm.core.model.Album
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.Artist

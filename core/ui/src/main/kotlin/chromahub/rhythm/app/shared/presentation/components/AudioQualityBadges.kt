@@ -28,7 +28,7 @@ import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.model.PlaybackQualityInfo
 import com.qlzhj.rhythm.core.model.StreamingSong
 import com.qlzhj.rhythm.core.common.AudioQualityDetector
-import chromahub.rhythm.app.util.AudioFormatDetector
+import com.qlzhj.rhythm.core.media.util.AudioFormatDetector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

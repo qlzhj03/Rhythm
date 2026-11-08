@@ -22,8 +22,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import chromahub.rhythm.app.core.device.DeviceCapabilitiesProvider
-import chromahub.rhythm.app.core.device.HiFiCapabilityChecker
+import com.qlzhj.rhythm.core.media.core.device.DeviceCapabilitiesProvider
+import com.qlzhj.rhythm.core.media.core.device.HiFiCapabilityChecker
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.animation.core.Spring

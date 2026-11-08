@@ -22,9 +22,9 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import com.qlzhj.rhythm.core.common.ANRWatchdog
 import com.qlzhj.rhythm.core.common.HapticsGate
-import chromahub.rhythm.app.util.CacheManager
+import com.qlzhj.rhythm.core.media.util.CacheManager
 import chromahub.rhythm.app.util.CrashReporter
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -101,7 +101,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             enableSpotifySearch = BuildConfig.ENABLE_SPOTIFY_SEARCH
             enableWikipedia = BuildConfig.ENABLE_WIKIPEDIA
         }
-        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.qualityIcons =
+        com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.qualityIcons =
             com.qlzhj.rhythm.core.model.PlaybackQualityInfo.QualityIcons(
                 hd = chromahub.rhythm.app.R.drawable.ic_hd,
                 highRes = chromahub.rhythm.app.R.drawable.ic_high_res,
@@ -111,14 +111,14 @@ class RhythmApplication : Application(), ImageLoaderFactory {
                 hq = chromahub.rhythm.app.R.drawable.ic_hq,
                 sq = chromahub.rhythm.app.R.drawable.ic_sq,
             )
-        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.guardTimeoutStarter = { context, reason, untilMs, startedAtMs ->
+        com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.guardTimeoutStarter = { context, reason, untilMs, startedAtMs ->
             chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity.start(
                 context = context, reason = reason, timeoutUntilMs = untilMs, timeoutStartedAtMs = startedAtMs)
         }
-        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.mainActivityClass =
+        com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.mainActivityClass =
             chromahub.rhythm.app.activities.MainActivity::class.java
-        chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller.bridge =
-            object : chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridge {
+        com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackWidgetBridgeInstaller.bridge =
+            object : com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackWidgetBridge {
                 // NOTE: must call the Glance updater directly — WidgetUpdater now
                 // forwards through this very bridge (PR-5 seam inversion).
                 override fun updateWidget(
@@ -148,8 +148,8 @@ class RhythmApplication : Application(), ImageLoaderFactory {
             }
 
         // Streaming playback seam for :core:media (repository lives in :feature:streaming).
-        chromahub.rhythm.app.infrastructure.service.PlaybackResolverInstaller.resolver =
-            object : chromahub.rhythm.app.infrastructure.service.StreamingPlaybackResolver {
+        com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackResolverInstaller.resolver =
+            object : com.qlzhj.rhythm.core.media.infrastructure.service.StreamingPlaybackResolver {
                 override suspend fun getStreamingUrl(songId: String): String? = streamingRepository.getStreamingUrl(songId)
                 override fun buildUserTrustingHttpClientBuilder() =
                     chromahub.rhythm.app.features.streaming.data.provider.UserTrustManager.buildUserTrustingHttpClientBuilder()
@@ -188,10 +188,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         // Install worker class references for AppSettings scheduling (:core:data
         // cannot see :app workers directly — multi-module split PR-3).
         com.qlzhj.rhythm.core.network.network.AppWorkerRegistry.apply {
-            backupWorkerClass = chromahub.rhythm.app.worker.BackupWorker::class.java
+            backupWorkerClass = com.qlzhj.rhythm.core.media.worker.BackupWorker::class.java
             updateNotificationWorkerClass = chromahub.rhythm.app.worker.UpdateNotificationWorker::class.java
             rhythmPulseWorkerClass = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker::class.java
-            backupWorkName = chromahub.rhythm.app.worker.BackupWorker.WORK_NAME
+            backupWorkName = com.qlzhj.rhythm.core.media.worker.BackupWorker.WORK_NAME
             updateNotificationWorkName = chromahub.rhythm.app.worker.UpdateNotificationWorker.WORK_NAME
             rhythmPulseWorkName = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker.WORK_NAME
         }
@@ -259,10 +259,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         return ImageLoader.Builder(this)
             .okHttpClient(imageOkHttpClient)
             .components {
-                add(chromahub.rhythm.app.util.coil.AudioArtworkKeyer())
-                add(chromahub.rhythm.app.util.coil.StreamingArtworkKeyer())
-                add(chromahub.rhythm.app.util.coil.StreamingArtworkStringKeyer())
-                add(chromahub.rhythm.app.util.coil.AudioArtworkFetcher.Factory(applicationContext))
+                add(com.qlzhj.rhythm.core.media.util.coil.AudioArtworkKeyer())
+                add(com.qlzhj.rhythm.core.media.util.coil.StreamingArtworkKeyer())
+                add(com.qlzhj.rhythm.core.media.util.coil.StreamingArtworkStringKeyer())
+                add(com.qlzhj.rhythm.core.media.util.coil.AudioArtworkFetcher.Factory(applicationContext))
             }
             .memoryCache {
                 MemoryCache.Builder(this)

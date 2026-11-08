@@ -24,7 +24,7 @@ import com.qlzhj.rhythm.core.model.toLibrarySong
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
 import com.qlzhj.rhythm.core.model.toLibraryArtist
 import com.qlzhj.rhythm.core.common.ArtistSeparator
-import chromahub.rhythm.app.util.rememberOffMain
+import com.qlzhj.rhythm.core.media.util.rememberOffMain
 
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult

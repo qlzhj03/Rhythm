@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "chromahub.rhythm.app"
+    namespace = "com.qlzhj.rhythm.core.media"
 }
 
 dependencies {

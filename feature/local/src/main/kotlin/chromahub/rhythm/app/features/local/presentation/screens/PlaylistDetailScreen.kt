@@ -148,8 +148,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.rememberUpdatedState
-import chromahub.rhythm.app.util.QueueEntry
-import chromahub.rhythm.app.util.QueueEntryKeyTracker
+import com.qlzhj.rhythm.core.media.util.QueueEntry
+import com.qlzhj.rhythm.core.media.util.QueueEntryKeyTracker
 import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet

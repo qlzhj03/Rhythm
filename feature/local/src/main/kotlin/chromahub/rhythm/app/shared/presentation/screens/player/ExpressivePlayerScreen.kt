@@ -99,7 +99,7 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.QueueBot
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.PlaybackQualityBottomSheet
 import chromahub.rhythm.app.shared.presentation.screens.settings.AudioRoutingDialog
-import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
+import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackPitchDialog
 import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackSpeedDialog
 import chromahub.rhythm.app.shared.presentation.components.player.SleepTimerBottomSheetNew
@@ -2626,9 +2626,9 @@ private fun RhythmPlayerLyricsPanel(
                     val lyricsText = remember(lyrics) { lyrics.getBestLyrics() ?: "" }
                     val filteredText = remember(lyricsText, showTranslation, showRomanization) { filterPlainLyricsByPreference(lyricsText, showTranslation, showRomanization) }
                     val likelySynced = remember(lyricsText) { Regex("\\[\\d{1,3}:\\d{2}(?:[.:]\\d{0,3})?]").containsMatchIn(lyricsText) }
-                    val parsedLyrics by produceState<List<chromahub.rhythm.app.util.LyricLine>?>(if (likelySynced) null else emptyList(), lyricsText, likelySynced) {
+                    val parsedLyrics by produceState<List<com.qlzhj.rhythm.core.media.util.LyricLine>?>(if (likelySynced) null else emptyList(), lyricsText, likelySynced) {
                         value = if (likelySynced) null else emptyList()
-                        value = if (!likelySynced) emptyList() else withContext(Dispatchers.Default) { chromahub.rhythm.app.util.LyricsParser.parseLyrics(lyricsText) }
+                        value = if (!likelySynced) emptyList() else withContext(Dispatchers.Default) { com.qlzhj.rhythm.core.media.util.LyricsParser.parseLyrics(lyricsText) }
                     }
                     if (parsedLyrics == null) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -2685,10 +2685,10 @@ private fun filterPlainLyricsByPreference(rawLyrics: String, showTranslation: Bo
         val isBracketTrans = t.startsWith("(") && t.endsWith(")") && t.length > 2
         val isBracketRoman = t.startsWith("[") && t.endsWith("]") && t.length > 2
         val hasLetters = t.any { it.isLetter() }
-        val isLatin = chromahub.rhythm.app.util.LyricsParser.isLatinBased(t)
+        val isLatin = com.qlzhj.rhythm.core.media.util.LyricsParser.isLatinBased(t)
         if ((!showTranslation && isBracketTrans) || (!showRomanization && (isBracketRoman || (hasLetters && isLatin && prevNonLatin)))) return@forEach
         filteredLines += line
-        if (!isBracketTrans && !isBracketRoman) prevNonLatin = chromahub.rhythm.app.util.LyricsParser.hasNonLatinScript(t)
+        if (!isBracketTrans && !isBracketRoman) prevNonLatin = com.qlzhj.rhythm.core.media.util.LyricsParser.hasNonLatinScript(t)
     }
     return filteredLines.joinToString("\n")
 }

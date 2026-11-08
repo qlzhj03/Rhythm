@@ -46,7 +46,7 @@ import chromahub.rhythm.app.shared.presentation.components.dialogs.PlaybackSpeed
 fun PlaybackSettingsScreen(
     onBackClick: () -> Unit,
     onNavigateTo: (String) -> Unit = {},
-    playbackSettings: chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController
+    playbackSettings: com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackSettingsController
 ) {
     val context = LocalContext.current
     val appSettings = AppSettings.getInstance(context)

@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.util.LyricLine
-import chromahub.rhythm.app.util.LyricsParser
+import com.qlzhj.rhythm.core.media.util.LyricLine
+import com.qlzhj.rhythm.core.media.util.LyricsParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
@@ -428,11 +428,11 @@ private fun SyncedVocalGapItem(
  */
 @Composable
 private fun SyncedLyricItem(
-    line: chromahub.rhythm.app.util.LyricLine,
+    line: com.qlzhj.rhythm.core.media.util.LyricLine,
     index: Int,
     currentLineIndex: Int,
     currentPlaybackTime: Long,
-    parsedLyrics: List<chromahub.rhythm.app.util.LyricLine>,
+    parsedLyrics: List<com.qlzhj.rhythm.core.media.util.LyricLine>,
     onSeek: ((Long) -> Unit)?,
     showTranslation: Boolean,
     showRomanization: Boolean,

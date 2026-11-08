@@ -83,7 +83,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmToggleOp
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils
-import chromahub.rhythm.app.util.RhythmLyricsParser
+import com.qlzhj.rhythm.core.media.util.RhythmLyricsParser
 import com.qlzhj.rhythm.core.model.LyricsData
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
@@ -339,7 +339,7 @@ fun LyricsEditorBottomSheet(
         }
 
         // If lyrics have Enhanced LRC word timestamps, adjust both line and word timestamps
-        if (chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(lyrics)) {
+        if (com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(lyrics)) {
             return try {
                 val parsed = RhythmLyricsParser.parseEnhancedLRCtoWordByWord(lyrics)
                 if (parsed.isNotEmpty()) {
@@ -450,7 +450,7 @@ fun LyricsEditorBottomSheet(
                 selectedFormat = LyricFormat.LINE_BY_LINE
             }
         } else if (isLrc) {
-            val hasWordTimestamps = chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(loadedLyrics)
+            val hasWordTimestamps = com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(loadedLyrics)
             if (hasWordTimestamps) {
                 val parsedWordByWordLines = try {
                     RhythmLyricsParser.parseEnhancedLRCtoWordByWord(loadedLyrics)
@@ -586,7 +586,7 @@ fun LyricsEditorBottomSheet(
         }
         when {
             selectedFormat == LyricFormat.WORD_BY_WORD -> "$baseName.json"
-            selectedFormat == LyricFormat.LINE_BY_LINE && chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(editedLineByLine) -> "$baseName.elrc"
+            selectedFormat == LyricFormat.LINE_BY_LINE && com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(editedLineByLine) -> "$baseName.elrc"
             selectedFormat == LyricFormat.SOURCE && editedSource.trim().startsWith("<") -> "$baseName.ttml"
             else -> "$baseName.lrc"
         }
@@ -596,7 +596,7 @@ fun LyricsEditorBottomSheet(
         when (selectedFormat) {
             LyricFormat.WORD_BY_WORD -> "Word-by-Word JSON (.json)"
             LyricFormat.LINE_BY_LINE -> {
-                if (chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(editedLineByLine)) {
+                if (com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(editedLineByLine)) {
                     "Enhanced LRC (.elrc)"
                 } else {
                     "Standard LRC (.lrc)"
@@ -790,7 +790,7 @@ fun LyricsEditorBottomSheet(
                                         editedLineByLine = RhythmLyricsParser.toEnhancedLRCFormat(parsed)
                                     }
                                 } catch (_: Exception) {}
-                            } else if (targetFormat == LyricFormat.WORD_BY_WORD && editedWordByWord.isBlank() && chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(editedLineByLine)) {
+                            } else if (targetFormat == LyricFormat.WORD_BY_WORD && editedWordByWord.isBlank() && com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(editedLineByLine)) {
                                 try {
                                     val parsed = RhythmLyricsParser.parseEnhancedLRCtoWordByWord(editedLineByLine)
                                     if (parsed.isNotEmpty()) {
@@ -1139,7 +1139,7 @@ fun LyricsEditorBottomSheet(
                                 if (editedLyrics.isNotBlank()) {
                                     val mimeType = when {
                                         selectedFormat == LyricFormat.WORD_BY_WORD -> "application/json"
-                                        selectedFormat == LyricFormat.LINE_BY_LINE && chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(editedLineByLine) -> "text/x-lrc"
+                                        selectedFormat == LyricFormat.LINE_BY_LINE && com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(editedLineByLine) -> "text/x-lrc"
                                         selectedFormat == LyricFormat.SOURCE && editedSource.trim().startsWith("<") -> "application/ttml+xml"
                                         else -> "application/octet-stream"
                                     }

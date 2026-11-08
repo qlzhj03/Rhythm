@@ -292,7 +292,7 @@ class RhythmLyricsWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .defaultWeight()
                         .fillMaxWidth()
-                        .clickable(actionStartActivity(chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity())),
+                        .clickable(actionStartActivity(com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity())),
                     verticalAlignment = Alignment.Vertical.CenterVertically,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

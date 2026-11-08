@@ -8,7 +8,7 @@ import com.qlzhj.rhythm.core.model.StreamingAlbum
 import com.qlzhj.rhythm.core.model.StreamingArtist
 import com.qlzhj.rhythm.core.model.StreamingPlaylist
 import com.qlzhj.rhythm.core.model.StreamingSong
-import chromahub.rhythm.app.util.coil.StreamingArtworkKeyer
+import com.qlzhj.rhythm.core.media.util.coil.StreamingArtworkKeyer
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import org.junit.Assert.assertEquals

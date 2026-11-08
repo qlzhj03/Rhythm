@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.features.local.presentation.viewmodel
 
-import chromahub.rhythm.app.infrastructure.service.SleepAction
+import com.qlzhj.rhythm.core.media.infrastructure.service.SleepAction
 import com.qlzhj.rhythm.core.data.core.domain.backup.RestoreResult
 import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +21,10 @@ import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import chromahub.rhythm.app.infrastructure.service.player.MissingLocalMediaClassifier
+import com.qlzhj.rhythm.core.media.infrastructure.service.player.MissingLocalMediaClassifier
 import com.qlzhj.rhythm.core.model.AutoEQDatabase
 import com.qlzhj.rhythm.core.model.AutoEQProfile
-import chromahub.rhythm.app.util.AutoEQManager
+import com.qlzhj.rhythm.core.media.util.AutoEQManager
 import android.util.LruCache
 import androidx.core.net.toUri
 import coil.Coil
@@ -56,18 +56,18 @@ import com.qlzhj.rhythm.core.model.Queue
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.core.model.FolderNode
 import com.qlzhj.rhythm.core.model.PlaybackQualityInfo
-import chromahub.rhythm.app.infrastructure.service.EqDspController
-import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
-import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
+import com.qlzhj.rhythm.core.media.infrastructure.service.EqDspController
+import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
+import com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackWidgetBridgeInstaller
 import com.qlzhj.rhythm.core.common.StoragePathUtils
-import chromahub.rhythm.app.util.AudioDeviceManager
+import com.qlzhj.rhythm.core.media.util.AudioDeviceManager
 import chromahub.rhythm.app.util.EqualizerUtils
 import com.qlzhj.rhythm.core.common.GsonUtils
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import com.qlzhj.rhythm.core.data.util.PlaylistImportExportUtils
 import com.qlzhj.rhythm.core.data.util.RhythmBackupDetectedException
 import com.qlzhj.rhythm.core.common.PlaybackCommandSerializer
-import chromahub.rhythm.app.util.RhythmLyricsParser
+import com.qlzhj.rhythm.core.media.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.ImageUtils
 import com.qlzhj.rhythm.core.designsystem.utils.ColorExtractor
 import com.google.common.util.concurrent.ListenableFuture
@@ -110,17 +110,17 @@ import java.util.Calendar
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import com.qlzhj.rhythm.core.model.LyricsData
-import chromahub.rhythm.app.util.PendingWriteRequest
-import chromahub.rhythm.app.util.PendingBatchWriteRequest
-import chromahub.rhythm.app.util.PendingLyricsWriteRequest
-import chromahub.rhythm.app.util.PendingDeleteRequest
-import chromahub.rhythm.app.util.QueueUtils
+import com.qlzhj.rhythm.core.media.util.PendingWriteRequest
+import com.qlzhj.rhythm.core.media.util.PendingBatchWriteRequest
+import com.qlzhj.rhythm.core.media.util.PendingLyricsWriteRequest
+import com.qlzhj.rhythm.core.media.util.PendingDeleteRequest
+import com.qlzhj.rhythm.core.media.util.QueueUtils
 import com.qlzhj.rhythm.core.common.GenreUtils
 import com.qlzhj.rhythm.core.common.NaturalSortComparator
-import chromahub.rhythm.app.util.LyricLine
-import chromahub.rhythm.app.util.LyricsParser
+import com.qlzhj.rhythm.core.media.util.LyricLine
+import com.qlzhj.rhythm.core.media.util.LyricsParser
 import com.qlzhj.rhythm.core.common.ServiceStartUtils
-import chromahub.rhythm.app.util.StatusBroadcaster
+import com.qlzhj.rhythm.core.media.util.StatusBroadcaster
 import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 
 @HiltViewModel
@@ -129,10 +129,10 @@ class MusicViewModel @Inject constructor(
     private val repository: LocalMusicRepository,
     private val streamingRepository: StreamingMusicRepository,
 ) : AndroidViewModel(application),
-    chromahub.rhythm.app.infrastructure.service.LocalQueueController,
-    chromahub.rhythm.app.infrastructure.service.PlaybackStateSource,
-    chromahub.rhythm.app.infrastructure.service.PlaybackSettingsController,
-    chromahub.rhythm.app.infrastructure.service.SleepTimerController,
+    com.qlzhj.rhythm.core.media.infrastructure.service.LocalQueueController,
+    com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackStateSource,
+    com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackSettingsController,
+    com.qlzhj.rhythm.core.media.infrastructure.service.SleepTimerController,
     com.qlzhj.rhythm.core.data.core.domain.repository.PlaylistAdminController,
     com.qlzhj.rhythm.core.data.core.domain.repository.LibraryAdminController,
     com.qlzhj.rhythm.core.data.core.domain.repository.LibraryCacheManager,
@@ -256,8 +256,8 @@ class MusicViewModel @Inject constructor(
     private val statusBroadcaster = StatusBroadcaster(application)
     
     // AutoEQ state now owned by EqDspController; exposed via the B1 PR-9 seams
-    val audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController get() = eqDsp
-    val audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController get() = eqDsp
+    val audioEffects: com.qlzhj.rhythm.core.media.infrastructure.service.AudioEffectsController get() = eqDsp
+    val audioDevices: com.qlzhj.rhythm.core.media.infrastructure.service.AudioDeviceController get() = eqDsp
     val autoEQProfiles: StateFlow<List<com.qlzhj.rhythm.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
     val autoEQLoading: StateFlow<Boolean> get() = eqDsp.autoEQLoading
     
@@ -6191,7 +6191,7 @@ class MusicViewModel @Inject constructor(
         Log.d(TAG, "Blocked playback action '$action' due to active Rhythm Guard timeout")
         enforceRhythmGuardTimeout(reason = action)
 
-        chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.guardTimeoutStarter?.invoke(
+        com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.guardTimeoutStarter?.invoke(
             getApplication<Application>(),
             appSettings.rhythmGuardTimeoutReason.value.ifBlank {
                 getApplication<Application>().getString(R.string.settings_rhythm_guard_timeout_activity_default_reason)
@@ -8517,7 +8517,7 @@ class MusicViewModel @Inject constructor(
                             wordByWordLyrics = sanitizedLyrics
                         )
                     } else if (isSynced) {
-                        val hasWordTimestamps = chromahub.rhythm.app.util.LyricsParser.hasWordTimestamps(sanitizedLyrics)
+                        val hasWordTimestamps = com.qlzhj.rhythm.core.media.util.LyricsParser.hasWordTimestamps(sanitizedLyrics)
                         if (hasWordTimestamps) {
                             val parsedWordByWordLines = try {
                                 RhythmLyricsParser.parseEnhancedLRCtoWordByWord(sanitizedLyrics)
@@ -8597,7 +8597,7 @@ class MusicViewModel @Inject constructor(
             if (matchResult != null) {
                 val timestamp = matchResult.groupValues[0].substring(0, matchResult.groupValues[0].indexOf(']') + 1)
                 val text = matchResult.groupValues[3]
-                val normalizedText = chromahub.rhythm.app.util.LyricsParser.normalizeWordFlowText(text)
+                val normalizedText = com.qlzhj.rhythm.core.media.util.LyricsParser.normalizeWordFlowText(text)
                 "$timestamp$normalizedText"
             } else {
                 line

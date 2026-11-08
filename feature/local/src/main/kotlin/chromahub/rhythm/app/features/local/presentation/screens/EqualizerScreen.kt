@@ -72,7 +72,7 @@ import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import com.qlzhj.rhythm.core.designsystem.util.getLocalizedPresetName
 import com.qlzhj.rhythm.core.designsystem.utils.windowScreenWidthDp
-import chromahub.rhythm.app.util.AudioDeviceManager
+import com.qlzhj.rhythm.core.media.util.AudioDeviceManager
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -305,8 +305,8 @@ fun TunerAnimatedSwitch(
 @Composable
 fun EqualizerScreen(
     navController: NavController,
-    audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
-    audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
+    audioEffects: com.qlzhj.rhythm.core.media.infrastructure.service.AudioEffectsController,
+    audioDevices: com.qlzhj.rhythm.core.media.infrastructure.service.AudioDeviceController,
     appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current
@@ -694,7 +694,7 @@ fun EqualizerScreen(
                             onClick = {
                                 showMenu = false
                                 val activity = context as? Activity
-                                audioEffects.openSystemEqualizer(activity, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST)
+                                audioEffects.openSystemEqualizer(activity, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST)
                             }
                         )
                     )

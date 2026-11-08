@@ -277,8 +277,8 @@ fun CacheManagementSettingsScreen(
                 kotlinx.coroutines.Dispatchers.IO
             ) {
                 Pair(
-                    chromahub.rhythm.app.util.CacheManager.getCacheSize(context),
-                    chromahub.rhythm.app.util.CacheManager.getDetailedCacheSize(context)
+                    com.qlzhj.rhythm.core.media.util.CacheManager.getCacheSize(context),
+                    com.qlzhj.rhythm.core.media.util.CacheManager.getDetailedCacheSize(context)
                 )
             }
             currentCacheSize = totalCacheSize
@@ -373,7 +373,7 @@ fun CacheManagementSettingsScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = chromahub.rhythm.app.util.CacheManager.formatBytes(currentCacheSize),
+                                    text = com.qlzhj.rhythm.core.media.util.CacheManager.formatBytes(currentCacheSize),
                                     style = MaterialTheme.typography.displayMedium,
                                     fontWeight = FontWeight.ExtraBold,
                                     color = MaterialTheme.colorScheme.onSurface,
@@ -490,7 +490,7 @@ fun CacheManagementSettingsScreen(
                                         },
                                         trailingContent = {
                                             Text(
-                                                text = chromahub.rhythm.app.util.CacheManager.formatBytes(entry.value),
+                                                text = com.qlzhj.rhythm.core.media.util.CacheManager.formatBytes(entry.value),
                                                 style = MaterialTheme.typography.labelMedium,
                                                 fontWeight = FontWeight.Bold,
                                                 color = MaterialTheme.colorScheme.onSurface
@@ -605,7 +605,7 @@ fun CacheManagementSettingsScreen(
                                         kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                                             trimArtworkCacheNow(context.cacheDir)
                                         }
-                                        chromahub.rhythm.app.util.CacheManager.clearAllCache(context, null)
+                                        com.qlzhj.rhythm.core.media.util.CacheManager.clearAllCache(context, null)
                                         cacheManager.clearInMemoryCaches()
                                         cacheManager.clearSongCacheData()
                                         // Schedule a one-time full rescan on the next launch so embedded

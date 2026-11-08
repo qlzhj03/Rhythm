@@ -85,7 +85,7 @@ import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRi
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import com.qlzhj.rhythm.core.designsystem.components.RhythmWavyProgressLoader
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.AudioDeviceManager
+import com.qlzhj.rhythm.core.media.util.AudioDeviceManager
 import androidx.core.app.NotificationCompat
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
@@ -164,18 +164,18 @@ internal fun RhythmGuardWarningHost(
         val zeroVolumeReceiver = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
                 when (intent?.action) {
-                    chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_PAUSE -> {
+                    com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_PAUSE -> {
                         musicViewModel.triggerZeroVolumePauseDialog()
                     }
-                    chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_RESUME -> {
+                    com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_RESUME -> {
                         musicViewModel.dismissZeroVolumePauseDialog()
                     }
                 }
             }
         }
         val zeroVolumeFilter = IntentFilter().apply {
-            addAction(chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_PAUSE)
-            addAction(chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_RESUME)
+            addAction(com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_PAUSE)
+            addAction(com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_ZERO_VOLUME_RESUME)
         }
         androidx.core.content.ContextCompat.registerReceiver(
             context,

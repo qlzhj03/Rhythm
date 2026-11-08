@@ -36,7 +36,7 @@ import com.qlzhj.rhythm.core.network.network.extractArtistImageUrl
 import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
 import com.qlzhj.rhythm.core.network.network.extractArtistBrowseId
 import com.qlzhj.rhythm.core.network.network.extractAlbumBrowseId
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import com.qlzhj.rhythm.core.network.network.extractArtistThumbnail
 import com.qlzhj.rhythm.core.network.network.extractAlbumCover
 import okhttp3.Request
@@ -84,15 +84,15 @@ import com.qlzhj.rhythm.core.data.shared.data.model.LyricsApiPriority
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import com.qlzhj.rhythm.core.model.PlayableItem
 import com.qlzhj.rhythm.core.model.SourceType
-import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
+import com.qlzhj.rhythm.core.media.infrastructure.provider.RhythmAlbumArtProvider
 import java.lang.ref.WeakReference
-import chromahub.rhythm.app.util.AudioFormatDetector
-import chromahub.rhythm.app.util.LyricsParser
-import chromahub.rhythm.app.util.EnhancedLyricLine
-import chromahub.rhythm.app.util.EnhancedWord
-import chromahub.rhythm.app.util.RhythmLyricsParser
+import com.qlzhj.rhythm.core.media.util.AudioFormatDetector
+import com.qlzhj.rhythm.core.media.util.LyricsParser
+import com.qlzhj.rhythm.core.media.util.EnhancedLyricLine
+import com.qlzhj.rhythm.core.media.util.EnhancedWord
+import com.qlzhj.rhythm.core.media.util.RhythmLyricsParser
 import com.qlzhj.rhythm.core.common.LrcUtils
-import chromahub.rhythm.app.util.MetadataHeuristics
+import com.qlzhj.rhythm.core.media.util.MetadataHeuristics
 import com.qlzhj.rhythm.core.common.SemanticLyrics
 import android.content.SharedPreferences
 import androidx.room.withTransaction
@@ -6258,7 +6258,7 @@ class LocalMusicRepository @Inject constructor(
             }
             
             // Auto-trim file system cache if usage exceeds 90% of max
-            val cacheManager = chromahub.rhythm.app.util.CacheManager
+            val cacheManager = com.qlzhj.rhythm.core.media.util.CacheManager
             val cacheCleanedUp = cacheManager.autoTrimCache(context, maxCacheSize)
             
             if (cacheCleanedUp) {

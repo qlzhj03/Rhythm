@@ -84,7 +84,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import androidx.compose.ui.platform.LocalContext
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     
     companion object {
         const val DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST =
-            chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST
+            com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.DISPLAY_AUDIO_EFFECT_CONTROL_PANEL_REQUEST
         const val EXTRA_OPEN_PLAYER = "OPEN_PLAYER"
         const val EXTRA_OPEN_QUEUE = "OPEN_QUEUE"
     }
@@ -804,24 +804,24 @@ class MainActivity : AppCompatActivity() {
                 "chromahub.rhythm.app.action.SHORTCUT_PLAY_PAUSE" -> {
                     ShortcutManagerCompat.reportShortcutUsed(this, "shortcut_play_pause")
                     Log.d(TAG, "Received Play/Pause shortcut action")
-                    val playPauseIntent = Intent(this, chromahub.rhythm.app.infrastructure.service.MediaPlaybackService::class.java).apply {
-                        action = chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_PLAY_PAUSE
+                    val playPauseIntent = Intent(this, com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService::class.java).apply {
+                        action = com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_PLAY_PAUSE
                     }
                     ServiceStartUtils.startServiceSafely(this, playPauseIntent, TAG, "shortcut_play_pause")
                 }
                 "chromahub.rhythm.app.action.SHORTCUT_SKIP_NEXT" -> {
                     ShortcutManagerCompat.reportShortcutUsed(this, "shortcut_next")
                     Log.d(TAG, "Received Skip Next shortcut action")
-                    val nextIntent = Intent(this, chromahub.rhythm.app.infrastructure.service.MediaPlaybackService::class.java).apply {
-                        action = chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_SKIP_NEXT
+                    val nextIntent = Intent(this, com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService::class.java).apply {
+                        action = com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_SKIP_NEXT
                     }
                     ServiceStartUtils.startServiceSafely(this, nextIntent, TAG, "shortcut_skip_next")
                 }
                 "chromahub.rhythm.app.action.SHORTCUT_SKIP_PREVIOUS" -> {
                     ShortcutManagerCompat.reportShortcutUsed(this, "shortcut_previous")
                     Log.d(TAG, "Received Skip Previous shortcut action")
-                    val prevIntent = Intent(this, chromahub.rhythm.app.infrastructure.service.MediaPlaybackService::class.java).apply {
-                        action = chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_SKIP_PREVIOUS
+                    val prevIntent = Intent(this, com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService::class.java).apply {
+                        action = com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_SKIP_PREVIOUS
                     }
                     ServiceStartUtils.startServiceSafely(this, prevIntent, TAG, "shortcut_skip_previous")
                 }
@@ -1043,8 +1043,8 @@ class MainActivity : AppCompatActivity() {
     
     private suspend fun startMediaServiceAndWait(): Boolean {
         return try {
-            val serviceIntent = Intent(this, chromahub.rhythm.app.infrastructure.service.MediaPlaybackService::class.java)
-            serviceIntent.action = chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_INIT_SERVICE
+            val serviceIntent = Intent(this, com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService::class.java)
+            serviceIntent.action = com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_INIT_SERVICE
 
             val started = ServiceStartUtils.startServiceSafely(
                 context = this,
@@ -1102,8 +1102,8 @@ class MainActivity : AppCompatActivity() {
     private suspend fun fallbackPlayExternalFile(uri: Uri) {
         try {
             Log.d(TAG, "Using direct service intent as fallback")
-            val playIntent = Intent(applicationContext, chromahub.rhythm.app.infrastructure.service.MediaPlaybackService::class.java)
-            playIntent.action = chromahub.rhythm.app.infrastructure.service.MediaPlaybackService.ACTION_PLAY_EXTERNAL_FILE
+            val playIntent = Intent(applicationContext, com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService::class.java)
+            playIntent.action = com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService.ACTION_PLAY_EXTERNAL_FILE
             playIntent.data = uri
 
             val started = ServiceStartUtils.startServiceSafely(
@@ -1203,7 +1203,7 @@ class MainActivity : AppCompatActivity() {
         kotlinx.coroutines.CoroutineScope(Dispatchers.IO).launch {
             try {
                 val maxSize = appSettings.maxCacheSize.value
-                chromahub.rhythm.app.util.CacheManager.autoTrimCache(applicationContext, maxSize)
+                com.qlzhj.rhythm.core.media.util.CacheManager.autoTrimCache(applicationContext, maxSize)
             } catch (e: Exception) {
                 Log.e(TAG, "Error during cache auto-trim on app destroy", e)
             }

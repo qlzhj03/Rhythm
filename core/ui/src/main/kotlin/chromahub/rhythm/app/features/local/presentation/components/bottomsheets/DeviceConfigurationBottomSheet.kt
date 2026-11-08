@@ -107,7 +107,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.qlzhj.rhythm.core.model.AutoEQProfile
 import com.qlzhj.rhythm.core.model.UserAudioDevice
-import chromahub.rhythm.app.util.AutoEQImportExport
+import com.qlzhj.rhythm.core.media.util.AutoEQImportExport
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import kotlinx.coroutines.delay
@@ -120,8 +120,8 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.Standard
 
 @Composable
 fun DeviceConfigurationBottomSheet(
-    audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
-    audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController,
+    audioEffects: com.qlzhj.rhythm.core.media.infrastructure.service.AudioEffectsController,
+    audioDevices: com.qlzhj.rhythm.core.media.infrastructure.service.AudioDeviceController,
     appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings,
     onDismiss: () -> Unit
 ) {

@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.infrastructure.service.SleepAction
+import com.qlzhj.rhythm.core.media.infrastructure.service.SleepAction
 import androidx.compose.material3.LinearWavyProgressIndicator
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
@@ -67,7 +67,7 @@ fun SleepTimerBottomSheetNew(
     onDismiss: () -> Unit,
     currentSong: Song?,
     isPlaying: Boolean,
-    sleepTimer: chromahub.rhythm.app.infrastructure.service.SleepTimerController,
+    sleepTimer: com.qlzhj.rhythm.core.media.infrastructure.service.SleepTimerController,
     appSettings: com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 ) {
     val context = LocalContext.current

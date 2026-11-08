@@ -64,7 +64,7 @@ class LibraryNotificationManager(private val context: Application) {
     }
 
     private fun createMainActivityPendingIntent(requestCode: Int): PendingIntent {
-        val intent = Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+        val intent = Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         return PendingIntent.getActivity(

@@ -79,7 +79,7 @@ class StreamingNotificationManager(private val context: Context) {
      */
     fun notifyAuthenticationSuccess(serviceName: String) {
         if (!isNotificationsEnabled()) return
-        val intent = Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+        val intent = Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("navigate_to", "streaming")
         }
@@ -114,7 +114,7 @@ class StreamingNotificationManager(private val context: Context) {
      * Show notification when authentication fails
      */
     fun notifyAuthenticationFailed(serviceName: String) {
-        val intent = Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+        val intent = Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("navigate_to", "streaming_setup")
         }
@@ -228,7 +228,7 @@ class StreamingNotificationManager(private val context: Context) {
             cancelSyncNotification()
             return
         }
-        val intent = Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+        val intent = Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("navigate_to", "streaming_library")
         }

@@ -27,8 +27,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.util.RhythmLyricsParser
-import chromahub.rhythm.app.util.WordByWordLyricLine
+import com.qlzhj.rhythm.core.media.util.RhythmLyricsParser
+import com.qlzhj.rhythm.core.media.util.WordByWordLyricLine
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import kotlinx.coroutines.delay

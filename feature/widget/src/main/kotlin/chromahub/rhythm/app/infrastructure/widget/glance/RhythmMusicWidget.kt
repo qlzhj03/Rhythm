@@ -209,7 +209,7 @@ class RhythmMusicWidget : GlanceAppWidget() {
         
         val baseModifier = GlanceModifier
             .fillMaxSize()
-            .clickable(actionStartActivity(chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()))
+            .clickable(actionStartActivity(com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()))
         
         Box(GlanceModifier.fillMaxSize().cornerRadius(data.cornerRadius.dp).background(getBgColor(data.widgetTheme))) {
 

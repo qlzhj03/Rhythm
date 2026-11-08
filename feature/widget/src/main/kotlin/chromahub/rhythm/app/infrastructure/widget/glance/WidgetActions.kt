@@ -8,7 +8,7 @@ import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
-import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
+import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmLyricsWidget
 import kotlinx.coroutines.delay
@@ -27,7 +27,7 @@ private fun hasActiveSongSnapshot(context: Context): Boolean {
 }
 
 private fun openRhythm(context: Context) {
-    val intent = Intent(context, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+    val intent = Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     context.startActivity(intent)

@@ -46,7 +46,7 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
+import com.qlzhj.rhythm.core.media.infrastructure.service.PlaybackWidgetBridgeInstaller
 import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 

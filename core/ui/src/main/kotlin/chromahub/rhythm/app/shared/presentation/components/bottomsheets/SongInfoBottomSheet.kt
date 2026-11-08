@@ -86,7 +86,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmGroupedB
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonWeighted
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSize
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
 import kotlinx.coroutines.Dispatchers

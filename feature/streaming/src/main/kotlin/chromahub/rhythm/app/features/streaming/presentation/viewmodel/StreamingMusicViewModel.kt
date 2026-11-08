@@ -28,7 +28,7 @@ import com.qlzhj.rhythm.core.model.StreamingSong
 import com.qlzhj.rhythm.core.model.StreamingSearchResults
 import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingLibraryController
 import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
-import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
+import com.qlzhj.rhythm.core.media.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
@@ -2336,7 +2336,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Play the streaming song next in the active local playback queue.
      */
-    override fun playNext(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
+    override fun playNext(song: StreamingSong, localQueueController: com.qlzhj.rhythm.core.media.infrastructure.service.LocalQueueController) {
         viewModelScope.launch {
             try {
                 val isDownloadedSong = isSongDownloaded(song.id) || repository.isDownloaded(song.id)
@@ -2385,7 +2385,7 @@ class StreamingMusicViewModel @Inject constructor(
     /**
      * Add the streaming song to the end of the active local playback queue.
      */
-    override fun addSongToQueue(song: StreamingSong, localQueueController: chromahub.rhythm.app.infrastructure.service.LocalQueueController) {
+    override fun addSongToQueue(song: StreamingSong, localQueueController: com.qlzhj.rhythm.core.media.infrastructure.service.LocalQueueController) {
         viewModelScope.launch {
             try {
                 val isDownloadedSong = isSongDownloaded(song.id) || repository.isDownloaded(song.id)

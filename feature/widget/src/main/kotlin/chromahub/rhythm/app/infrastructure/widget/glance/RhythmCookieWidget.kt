@@ -173,7 +173,7 @@ class RhythmCookieWidget : GlanceAppWidget() {
         Box(
             modifier = GlanceModifier.fillMaxSize()
                 .cornerRadius(100.dp)
-                .clickable(actionStartActivity(chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity())),
+                .clickable(actionStartActivity(com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity())),
             contentAlignment = Alignment.Center
         ) {
             Box(

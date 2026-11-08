@@ -83,7 +83,7 @@ import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.material3.Button
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch

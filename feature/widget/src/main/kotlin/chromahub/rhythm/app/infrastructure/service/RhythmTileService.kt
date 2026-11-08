@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
+import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
 
 class RhythmTileService : TileService() {
 
@@ -76,7 +77,7 @@ class RhythmTileService : TileService() {
 
     @android.annotation.SuppressLint("StartActivityAndCollapseDeprecated")
     private fun openApp() {
-        val intent = Intent(this, chromahub.rhythm.app.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
+        val intent = Intent(this, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         try {

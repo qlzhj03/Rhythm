@@ -20,6 +20,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderT
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.random.Random
+import com.qlzhj.rhythm.core.media.util.PlaceholderImageFactory
 
 /**
  * Utility class for handling image-related operations

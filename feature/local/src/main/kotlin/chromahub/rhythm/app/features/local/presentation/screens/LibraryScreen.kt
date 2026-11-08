@@ -167,8 +167,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.derivedStateOf
-import chromahub.rhythm.app.util.rememberOffMain
-import chromahub.rhythm.app.util.sortedByLowercase
+import com.qlzhj.rhythm.core.media.util.rememberOffMain
+import com.qlzhj.rhythm.core.media.util.sortedByLowercase
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -257,7 +257,7 @@ import com.qlzhj.rhythm.core.designsystem.components.DataProcessingLoader
 import com.qlzhj.rhythm.core.designsystem.components.AlphabetBar
 import com.qlzhj.rhythm.core.designsystem.components.ScrollToTopButton
 import com.qlzhj.rhythm.core.designsystem.components.TabAnimation
-import chromahub.rhythm.app.util.AudioFormatDetector
+import com.qlzhj.rhythm.core.media.util.AudioFormatDetector
 import com.qlzhj.rhythm.core.common.AudioQualityDetector
 import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
 import com.qlzhj.rhythm.core.designsystem.components.ExpressiveButtonGroup

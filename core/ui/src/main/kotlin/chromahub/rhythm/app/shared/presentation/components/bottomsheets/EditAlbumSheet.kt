@@ -45,7 +45,7 @@ import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.util.ImageUtils
-import chromahub.rhythm.app.util.MediaUtils
+import com.qlzhj.rhythm.core.media.util.MediaUtils
 import com.qlzhj.rhythm.core.network.network.NetworkClient
 import com.qlzhj.rhythm.core.network.network.YTMusicSearchRequest
 import com.qlzhj.rhythm.core.network.network.YTMusicContext

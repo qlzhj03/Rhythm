@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
-import chromahub.rhythm.app.util.rememberOffMain
+import com.qlzhj.rhythm.core.media.util.rememberOffMain
 import androidx.navigation.NavHostController
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
