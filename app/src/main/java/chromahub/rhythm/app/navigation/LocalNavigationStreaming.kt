@@ -37,6 +37,7 @@ import chromahub.rhythm.app.core.model.Album
 import chromahub.rhythm.app.core.model.Artist
 import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
+import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
 import chromahub.rhythm.app.core.common.ArtistSeparator
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -45,22 +46,6 @@ import chromahub.rhythm.app.core.model.toLibraryAlbum
 
 // Streaming detail route bodies + route constants and streaming->local mappers,
 // extracted verbatim from LocalNavigationContent (P4-phase P4-3).
-internal object StreamingRoutes {
-    const val ArtistDetail = "streaming_artist/{artistId}?artistName={artistName}"
-    const val AlbumDetail = "streaming_album/{albumId}?albumName={albumName}"
-    const val PlaylistDetail = "streaming_playlist/{playlistId}"
-    const val ServiceSetup = "streaming_service_setup/{serviceId}"
-    const val GoSettings = "streaming_go_settings"
-
-    fun artist(artistId: String, artistName: String): String =
-        "streaming_artist/${Uri.encode(artistId)}?artistName=${Uri.encode(artistName)}"
-    fun album(albumId: String, albumName: String): String =
-        "streaming_album/${Uri.encode(albumId)}?albumName=${Uri.encode(albumName)}"
-    fun playlist(playlistId: String): String =
-        "streaming_playlist/${Uri.encode(playlistId)}"
-    fun serviceSetup(serviceId: String): String =
-        "streaming_service_setup/${Uri.encode(serviceId)}"
-}
 
 internal fun StreamingSong.toLocalSong(): Song? {
     // 服务端签发的播放地址会过期，不能固化进 Song.uri：可重新解析的歌曲统一走 streaming://，
