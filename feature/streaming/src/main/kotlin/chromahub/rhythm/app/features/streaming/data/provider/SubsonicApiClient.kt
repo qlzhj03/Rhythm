@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.Context
-import chromahub.rhythm.app.network.NetworkLog
+import com.qlzhj.rhythm.core.network.network.NetworkLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

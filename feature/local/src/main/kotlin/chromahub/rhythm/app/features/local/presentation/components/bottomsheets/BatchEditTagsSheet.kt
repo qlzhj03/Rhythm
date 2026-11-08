@@ -75,11 +75,11 @@ import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonSi
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
 import com.qlzhj.rhythm.core.designsystem.components.ActionProgressLoader
-import chromahub.rhythm.app.network.NetworkClient
-import chromahub.rhythm.app.network.YTMusicSearchRequest
-import chromahub.rhythm.app.network.YTMusicContext
-import chromahub.rhythm.app.network.YTMusicClient
-import chromahub.rhythm.app.network.extractAlbumImageUrl
+import com.qlzhj.rhythm.core.network.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.YTMusicSearchRequest
+import com.qlzhj.rhythm.core.network.network.YTMusicContext
+import com.qlzhj.rhythm.core.network.network.YTMusicClient
+import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.material3.Button
 import chromahub.rhythm.app.util.ImageUtils

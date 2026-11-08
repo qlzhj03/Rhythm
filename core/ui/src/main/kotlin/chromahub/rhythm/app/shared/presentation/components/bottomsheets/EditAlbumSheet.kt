@@ -46,11 +46,11 @@ import com.qlzhj.rhythm.core.designsystem.icons.Icon
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.network.NetworkClient
-import chromahub.rhythm.app.network.YTMusicSearchRequest
-import chromahub.rhythm.app.network.YTMusicContext
-import chromahub.rhythm.app.network.YTMusicClient
-import chromahub.rhythm.app.network.extractAlbumImageUrl
+import com.qlzhj.rhythm.core.network.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.YTMusicSearchRequest
+import com.qlzhj.rhythm.core.network.network.YTMusicContext
+import com.qlzhj.rhythm.core.network.network.YTMusicClient
+import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch

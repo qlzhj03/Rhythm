@@ -41,7 +41,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 import com.qlzhj.rhythm.core.model.Song
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.network.CanvasArtwork
+import com.qlzhj.rhythm.core.network.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import androidx.compose.material3.ContainedLoadingIndicator

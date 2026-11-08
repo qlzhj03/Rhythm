@@ -89,8 +89,8 @@ import chromahub.rhythm.app.R
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
-import chromahub.rhythm.app.network.AppleMusicCanvasProvider
-import chromahub.rhythm.app.network.CanvasArtwork
+import com.qlzhj.rhythm.core.network.network.AppleMusicCanvasProvider
+import com.qlzhj.rhythm.core.network.network.CanvasArtwork
 import com.qlzhj.rhythm.core.model.CanvasNetworkMode
 import com.qlzhj.rhythm.core.common.NetworkUtils
 

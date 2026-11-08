@@ -18,27 +18,27 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.util.LruCache
-import chromahub.rhythm.app.network.NetworkClient
-import chromahub.rhythm.app.network.ITunesSearchApiService
-import chromahub.rhythm.app.network.RhythmLyricsApiService
-import chromahub.rhythm.app.network.RhythmLyricsResponse
-import chromahub.rhythm.app.network.RhythmLyricsLine
-import chromahub.rhythm.app.network.RhythmLyricsWord
-import chromahub.rhythm.app.network.DeezerApiService
-import chromahub.rhythm.app.network.DeezerArtist
-import chromahub.rhythm.app.network.DeezerAlbum
-import chromahub.rhythm.app.network.YTMusicApiService
-import chromahub.rhythm.app.network.YTMusicSearchRequest
-import chromahub.rhythm.app.network.YTMusicContext
-import chromahub.rhythm.app.network.YTMusicClient
-import chromahub.rhythm.app.network.YTMusicBrowseRequest
-import chromahub.rhythm.app.network.extractArtistImageUrl
-import chromahub.rhythm.app.network.extractAlbumImageUrl
-import chromahub.rhythm.app.network.extractArtistBrowseId
-import chromahub.rhythm.app.network.extractAlbumBrowseId
+import com.qlzhj.rhythm.core.network.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.ITunesSearchApiService
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsApiService
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsResponse
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsLine
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsWord
+import com.qlzhj.rhythm.core.network.network.DeezerApiService
+import com.qlzhj.rhythm.core.network.network.DeezerArtist
+import com.qlzhj.rhythm.core.network.network.DeezerAlbum
+import com.qlzhj.rhythm.core.network.network.YTMusicApiService
+import com.qlzhj.rhythm.core.network.network.YTMusicSearchRequest
+import com.qlzhj.rhythm.core.network.network.YTMusicContext
+import com.qlzhj.rhythm.core.network.network.YTMusicClient
+import com.qlzhj.rhythm.core.network.network.YTMusicBrowseRequest
+import com.qlzhj.rhythm.core.network.network.extractArtistImageUrl
+import com.qlzhj.rhythm.core.network.network.extractAlbumImageUrl
+import com.qlzhj.rhythm.core.network.network.extractArtistBrowseId
+import com.qlzhj.rhythm.core.network.network.extractAlbumBrowseId
 import chromahub.rhythm.app.util.MediaUtils
-import chromahub.rhythm.app.network.extractArtistThumbnail
-import chromahub.rhythm.app.network.extractAlbumCover
+import com.qlzhj.rhythm.core.network.network.extractArtistThumbnail
+import com.qlzhj.rhythm.core.network.network.extractAlbumCover
 import okhttp3.Request
 import com.google.gson.JsonParser
 import com.google.gson.Gson
@@ -4748,7 +4748,7 @@ class LocalMusicRepository @Inject constructor(
                     "$artist $title"
                 ).distinct()
 
-                val allResults = mutableListOf<chromahub.rhythm.app.network.ITunesTrackResult>()
+                val allResults = mutableListOf<com.qlzhj.rhythm.core.network.network.ITunesTrackResult>()
                 for (t in terms) {
                     try {
                         val resp = searchService.searchSongs(term = t, limit = 10)

@@ -69,9 +69,9 @@ import chromahub.rhythm.app.shared.presentation.components.common.ExpressiveShap
 import com.qlzhj.rhythm.core.designsystem.shared.presentation.components.player.formatDuration
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.network.AppleMusicCanvasProvider
-import chromahub.rhythm.app.network.WikipediaProvider
-import chromahub.rhythm.app.network.CanvasArtwork
+import com.qlzhj.rhythm.core.network.network.AppleMusicCanvasProvider
+import com.qlzhj.rhythm.core.network.network.WikipediaProvider
+import com.qlzhj.rhythm.core.network.network.CanvasArtwork
 import com.qlzhj.rhythm.core.model.CanvasNetworkMode
 import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistChooserBottomSheet

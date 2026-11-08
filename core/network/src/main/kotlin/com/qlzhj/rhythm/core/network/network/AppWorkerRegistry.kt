@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.network
+package com.qlzhj.rhythm.core.network.network
 
 import androidx.work.ListenableWorker
 

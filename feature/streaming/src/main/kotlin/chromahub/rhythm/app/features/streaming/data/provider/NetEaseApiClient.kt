@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.features.streaming.data.provider
 
 import android.content.Context
-import chromahub.rhythm.app.network.NetworkLog
+import com.qlzhj.rhythm.core.network.network.NetworkLog
 import androidx.core.content.edit
 import com.qlzhj.rhythm.core.model.LyricsData
 import kotlinx.coroutines.Dispatchers

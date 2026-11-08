@@ -14,7 +14,7 @@ import chromahub.rhythm.app.BuildConfig
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.R
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.network.NetworkManager
+import com.qlzhj.rhythm.core.network.network.NetworkManager
 import com.qlzhj.rhythm.core.common.VersionComparator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -301,14 +301,14 @@ class UpdateNotificationWorker(
                     if (response.isSuccessful && response.body() != null) {
                         val bestRelease = if (channel == "beta") {
                             @Suppress("UNCHECKED_CAST")
-                            val releaseList = (response.body() as? List<chromahub.rhythm.app.network.GitHubRelease>)
+                            val releaseList = (response.body() as? List<com.qlzhj.rhythm.core.network.network.GitHubRelease>)
                             releaseList?.filter { !it.draft }?.maxWithOrNull { r1, r2 ->
                                 val v1 = r1.name.ifEmpty { r1.tag_name }
                                 val v2 = r2.name.ifEmpty { r2.tag_name }
                                 VersionComparator.compare(v1, v2, isPreRelease1 = r1.prerelease, isPreRelease2 = r2.prerelease)
                             }
                         } else {
-                            response.body() as? chromahub.rhythm.app.network.GitHubRelease
+                            response.body() as? com.qlzhj.rhythm.core.network.network.GitHubRelease
                         }
                         
                         if (bestRelease != null) {

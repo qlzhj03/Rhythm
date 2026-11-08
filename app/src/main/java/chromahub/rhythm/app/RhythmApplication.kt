@@ -187,7 +187,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         
         // Install worker class references for AppSettings scheduling (:core:data
         // cannot see :app workers directly — multi-module split PR-3).
-        chromahub.rhythm.app.network.AppWorkerRegistry.apply {
+        com.qlzhj.rhythm.core.network.network.AppWorkerRegistry.apply {
             backupWorkerClass = chromahub.rhythm.app.worker.BackupWorker::class.java
             updateNotificationWorkerClass = chromahub.rhythm.app.worker.UpdateNotificationWorker::class.java
             rhythmPulseWorkerClass = chromahub.rhythm.app.worker.RhythmPulseNotificationWorker::class.java

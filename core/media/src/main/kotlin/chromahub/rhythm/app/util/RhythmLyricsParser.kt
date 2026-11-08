@@ -1,8 +1,8 @@
 package chromahub.rhythm.app.util
 
 import android.util.Log
-import chromahub.rhythm.app.network.RhythmLyricsLine
-import chromahub.rhythm.app.network.RhythmLyricsWord
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsLine
+import com.qlzhj.rhythm.core.network.network.RhythmLyricsWord
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.xmlpull.v1.XmlPullParser

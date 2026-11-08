@@ -23,10 +23,10 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.network.GitHubAsset
-import chromahub.rhythm.app.network.GitHubRelease
-import chromahub.rhythm.app.network.GitHubWorkflowRun
-import chromahub.rhythm.app.network.NetworkManager
+import com.qlzhj.rhythm.core.network.network.GitHubAsset
+import com.qlzhj.rhythm.core.network.network.GitHubRelease
+import com.qlzhj.rhythm.core.network.network.GitHubWorkflowRun
+import com.qlzhj.rhythm.core.network.network.NetworkManager
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.common.ChangelogFilter
 import com.qlzhj.rhythm.core.common.VersionComparator

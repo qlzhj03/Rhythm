@@ -2,9 +2,9 @@ package chromahub.rhythm.app.di
 
 import android.content.Context
 import com.qlzhj.rhythm.core.common.AppBuildInfo
-import chromahub.rhythm.app.network.NetworkClient
-import chromahub.rhythm.app.network.NetworkFeatureFlags
-import chromahub.rhythm.app.network.NetworkSettingsProvider
+import com.qlzhj.rhythm.core.network.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.NetworkFeatureFlags
+import com.qlzhj.rhythm.core.network.network.NetworkSettingsProvider
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.network
+package com.qlzhj.rhythm.core.network.network
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,10 +13,10 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.math.pow
-import chromahub.rhythm.app.network.LRCLibApiService
-import chromahub.rhythm.app.network.DeezerApiService
-import chromahub.rhythm.app.network.SpotifySearchApiService
-import chromahub.rhythm.app.network.YTMusicApiService
+import com.qlzhj.rhythm.core.network.network.LRCLibApiService
+import com.qlzhj.rhythm.core.network.network.DeezerApiService
+import com.qlzhj.rhythm.core.network.network.SpotifySearchApiService
+import com.qlzhj.rhythm.core.network.network.YTMusicApiService
 
 object NetworkClient {
 

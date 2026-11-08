@@ -148,7 +148,7 @@ import com.qlzhj.rhythm.core.designsystem.utils.DevicePosture
 import com.qlzhj.rhythm.core.designsystem.utils.rememberDevicePosture
 import com.google.android.material.color.utilities.Hct
 import com.qlzhj.rhythm.core.common.LrcUtils
-import chromahub.rhythm.app.network.CanvasArtwork
+import com.qlzhj.rhythm.core.network.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
 import com.qlzhj.rhythm.core.common.SemanticLyrics
 import android.annotation.SuppressLint

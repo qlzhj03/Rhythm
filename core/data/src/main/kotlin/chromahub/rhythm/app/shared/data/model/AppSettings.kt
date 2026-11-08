@@ -113,7 +113,7 @@ enum class LyricsApiPriority(val displayName: String) {
 /**
  * Singleton class to manage all app settings using SharedPreferences
  */
-class AppSettings private constructor(context: Context) : chromahub.rhythm.app.network.NetworkSettingsProvider {
+class AppSettings private constructor(context: Context) : com.qlzhj.rhythm.core.network.network.NetworkSettingsProvider {
     companion object {
         private const val PREFS_NAME = "rhythm_preferences"
 

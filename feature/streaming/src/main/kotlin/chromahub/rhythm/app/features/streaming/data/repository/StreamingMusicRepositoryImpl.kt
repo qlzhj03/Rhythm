@@ -31,8 +31,8 @@ import com.qlzhj.rhythm.core.model.StreamingSong
 import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.model.LyricsData
-import chromahub.rhythm.app.network.NetworkClient
-import chromahub.rhythm.app.network.DeezerApiService
+import com.qlzhj.rhythm.core.network.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.DeezerApiService
 import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 import com.qlzhj.rhythm.core.common.ArtistSeparator

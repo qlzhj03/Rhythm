@@ -6,7 +6,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import chromahub.rhythm.app.network.AppWorkerRegistry
+import com.qlzhj.rhythm.core.network.network.AppWorkerRegistry
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.TimeUnit
 

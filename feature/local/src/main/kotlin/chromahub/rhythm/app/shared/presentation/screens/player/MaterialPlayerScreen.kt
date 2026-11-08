@@ -156,7 +156,7 @@ import chromahub.rhythm.app.R
 import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.network.CanvasArtwork
+import com.qlzhj.rhythm.core.network.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
 import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
 import chromahub.rhythm.app.shared.presentation.components.common.StyledProgressBar

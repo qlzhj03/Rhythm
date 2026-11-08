@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import androidx.core.content.edit
-import chromahub.rhythm.app.network.NetworkClient
+import com.qlzhj.rhythm.core.network.network.NetworkClient
 import okhttp3.Request
 
 class LibraryMetadataManager(

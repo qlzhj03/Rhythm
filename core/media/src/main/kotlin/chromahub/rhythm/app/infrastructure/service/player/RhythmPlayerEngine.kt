@@ -545,7 +545,7 @@ class RhythmPlayerEngine(
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
         val httpDataSourceFactory = OkHttpDataSource.Factory(okHttpClient)
-            .setUserAgent("Rhythm/${chromahub.rhythm.app.network.NetworkBuildInfo.appVersion} (Android)")
+            .setUserAgent("Rhythm/${com.qlzhj.rhythm.core.network.network.NetworkBuildInfo.appVersion} (Android)")
         val cacheDataSourceFactory = CacheDataSource.Factory()
             .setCache(AudioCacheManager.getCache(context))
             .setUpstreamDataSourceFactory(httpDataSourceFactory)

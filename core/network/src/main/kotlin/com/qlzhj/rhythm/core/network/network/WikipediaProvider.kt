@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.network
+package com.qlzhj.rhythm.core.network.network
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull

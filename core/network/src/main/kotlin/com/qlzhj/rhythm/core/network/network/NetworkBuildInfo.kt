@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.network
+package com.qlzhj.rhythm.core.network.network
 
 /**
  * Build info injected by :app at initialize() — :core:network has no BuildConfig
