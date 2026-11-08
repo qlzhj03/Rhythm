@@ -35,6 +35,10 @@ object SettingsRoutes {
     // the local feature's Screen sealed class lives in :feature:local, which
     // :feature:settings no longer depends on, so the literals live here.
     const val LOCAL_EQUALIZER = "equalizer"
+    // Hosted Go-settings destination (D-phase D2): mirrors Screen.TunerGoSettings
+    // in :feature:local's sealed class; :feature:settings exits to it instead of
+    // embedding :feature:streaming's GoSettingsScreen.
+    const val STREAMING_GO_SETTINGS = "tuner_go_settings"
     const val EXPRESSIVE_SHAPES = "expressive_shapes_settings"
     const val LIBRARY_SETTINGS = "library_settings"
     const val RHYTHM_GUARD = "rhythm_guard_settings"
