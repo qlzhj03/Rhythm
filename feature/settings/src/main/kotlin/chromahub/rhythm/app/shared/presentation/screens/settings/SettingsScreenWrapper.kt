@@ -177,7 +177,6 @@ fun SettingsScreenWrapper(
     var showSleepTimerBottomSheet by rememberSaveable { mutableStateOf(false) }
     val currentSong by playbackState.currentSong.collectAsState()
     val isPlaying by playbackState.isPlaying.collectAsState()
-    val appMode by appSettings.appMode.collectAsState()
 
     // Hoist the main settings scroll state to persist across navigation
     val mainSettingsScrollState = rememberSaveable(
@@ -213,24 +212,10 @@ fun SettingsScreenWrapper(
 
     val onNavigateToSubsetting: (String) -> Unit = { route: String ->
         if (route == SettingsRoutes.RHYTHM_STATS) {
-            val localStatsRoute = SettingsRoutes.RHYTHM_STATS
-            val streamingStatsRoute = "streaming_rhythm_stats"
-            when {
-                navController.graph.findNode(streamingStatsRoute) != null -> navController.navigate(streamingStatsRoute)
-                navController.graph.findNode(localStatsRoute) != null -> navController.navigate(localStatsRoute)
-                appMode == "STREAMING" -> {
-                    appSettings.setInitialStreamingRoute(streamingStatsRoute)
-                    if (!navController.popBackStack()) {
-                        safeNavigateToMain(navController)
-                    }
-                }
-                else -> {
-                    appSettings.setInitialStreamingRoute(localStatsRoute)
-                    if (!navController.popBackStack()) {
-                        safeNavigateToMain(navController)
-                    }
-                }
-            }
+            // Both modes render the same local graph (RhythmNavigation hosts
+            // LocalNavigation for STREAMING too), so the stats destination is
+            // always present; the old streaming-route probe was never registered.
+            navController.navigate(SettingsRoutes.RHYTHM_STATS)
         } else if (route == SettingsRoutes.EQUALIZER) {
             navController.navigate(SettingsRoutes.LOCAL_EQUALIZER)
         } else if (route == SettingsRoutes.GO_SETTINGS) {
@@ -582,19 +567,5 @@ fun SettingsScreenWrapper(
             sleepTimer = sleepTimer,
             appSettings = appSettings
         )
-    }
-}
-
-private fun safeNavigateToMain(navController: androidx.navigation.NavController) {
-    if (navController.graph.findNode("main") != null) {
-        navController.navigate("main") { launchSingleTop = true }
-    } else {
-        val startDest = navController.graph.startDestinationRoute
-        if (startDest != null) {
-            navController.navigate(startDest) {
-                popUpTo(startDest) { inclusive = true }
-                launchSingleTop = true
-            }
-        }
     }
 }
