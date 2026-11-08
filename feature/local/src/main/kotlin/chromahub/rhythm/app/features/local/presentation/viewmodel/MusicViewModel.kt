@@ -136,9 +136,7 @@ class MusicViewModel @Inject constructor(
     chromahub.rhythm.app.core.domain.repository.PlaylistAdminController,
     chromahub.rhythm.app.core.domain.repository.LibraryAdminController,
     chromahub.rhythm.app.core.domain.repository.LibraryCacheManager,
-    chromahub.rhythm.app.core.domain.repository.BackupRestoreController,
-    chromahub.rhythm.app.infrastructure.service.AudioEffectsController,
-    chromahub.rhythm.app.infrastructure.service.AudioDeviceController {
+    chromahub.rhythm.app.core.domain.repository.BackupRestoreController {
 
     data class QueuedRestore(
         val backupJson: String,
@@ -254,11 +252,13 @@ class MusicViewModel @Inject constructor(
     )
 
     // Audio device manager (exposed for UI components that need device detection)
-    override val audioDeviceManager = eqDsp.audioDeviceManager
+    val audioDeviceManager = eqDsp.audioDeviceManager
     private val statusBroadcaster = StatusBroadcaster(application)
     
-    // AutoEQ state now owned by EqDspController
-    override val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
+    // AutoEQ state now owned by EqDspController; exposed via the B1 PR-9 seams
+    val audioEffects: chromahub.rhythm.app.infrastructure.service.AudioEffectsController get() = eqDsp
+    val audioDevices: chromahub.rhythm.app.infrastructure.service.AudioDeviceController get() = eqDsp
+    val autoEQProfiles: StateFlow<List<chromahub.rhythm.app.core.model.AutoEQProfile>> get() = eqDsp.autoEQProfiles
     val autoEQLoading: StateFlow<Boolean> get() = eqDsp.autoEQLoading
     
     
@@ -298,25 +298,25 @@ class MusicViewModel @Inject constructor(
     val playbackPitch = appSettings.playbackPitch
     
     // Equalizer settings
-    override val equalizerEnabled = appSettings.equalizerEnabled
-    override val equalizerPreset = appSettings.equalizerPreset
-    override val equalizerBandLevels = appSettings.equalizerBandLevels
-    override val bassBoostEnabled = appSettings.bassBoostEnabled
-    override val bassBoostStrength = appSettings.bassBoostStrength
-    override val virtualizerEnabled = appSettings.virtualizerEnabled
-    override val virtualizerStrength = appSettings.virtualizerStrength
+    val equalizerEnabled = appSettings.equalizerEnabled
+    val equalizerPreset = appSettings.equalizerPreset
+    val equalizerBandLevels = appSettings.equalizerBandLevels
+    val bassBoostEnabled = appSettings.bassBoostEnabled
+    val bassBoostStrength = appSettings.bassBoostStrength
+    val virtualizerEnabled = appSettings.virtualizerEnabled
+    val virtualizerStrength = appSettings.virtualizerStrength
     val monoAudioEnabled = appSettings.monoAudioEnabled
-    override val customEqualizerPresets = appSettings.customEqualizerPresets
-    override val equalizerPresetOrder = appSettings.equalizerPresetOrder
-    override val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
-    override val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
-    override val customAutoEQProfiles = appSettings.customAutoEQProfiles
+    val customEqualizerPresets = appSettings.customEqualizerPresets
+    val equalizerPresetOrder = appSettings.equalizerPresetOrder
+    val hiddenEqualizerPresets = appSettings.hiddenEqualizerPresets
+    val pinnedAutoEQProfiles = appSettings.pinnedAutoEQProfiles
+    val customAutoEQProfiles = appSettings.customAutoEQProfiles
     val speakerAutoEQBypass = appSettings.speakerAutoEQBypass
     
     // Spatialization / availability state now owned by EqDspController
-    override val spatializationStatus: StateFlow<String> get() = eqDsp.spatializationStatus
-    override val isSpatializationAvailable: StateFlow<Boolean> get() = eqDsp.isSpatializationAvailable
-    override val isBassBoostAvailable: StateFlow<Boolean> get() = eqDsp.isBassBoostAvailable
+    val spatializationStatus: StateFlow<String> get() = eqDsp.spatializationStatus
+    val isSpatializationAvailable: StateFlow<Boolean> get() = eqDsp.isSpatializationAvailable
+    val isBassBoostAvailable: StateFlow<Boolean> get() = eqDsp.isBassBoostAvailable
     
     // Media scanning progress
     val scanProgress = repository.scanProgress
@@ -8703,7 +8703,7 @@ class MusicViewModel @Inject constructor(
     /**
      * Opens the system equalizer for the current audio session
      */
-    override fun openSystemEqualizer(activity: Activity?, requestCode: Int) {
+    fun openSystemEqualizer(activity: Activity?, requestCode: Int) {
         eqDsp.openSystemEqualizer(activity, requestCode)
     }
 
@@ -10154,7 +10154,7 @@ class MusicViewModel @Inject constructor(
         return true
     }
     
-    override fun setEqualizerEnabled(enabled: Boolean) {
+    fun setEqualizerEnabled(enabled: Boolean) {
         eqDsp.setEqualizerEnabled(enabled)
     }
     
@@ -10177,11 +10177,11 @@ class MusicViewModel @Inject constructor(
         }
     }
     
-    override fun setEqualizerBandLevel(band: Short, level: Short) {
+    fun setEqualizerBandLevel(band: Short, level: Short) {
         eqDsp.setEqualizerBandLevel(band, level)
     }
     
-    override fun setBassBoost(enabled: Boolean, strength: Short) {
+    fun setBassBoost(enabled: Boolean, strength: Short) {
         eqDsp.setBassBoost(enabled, strength)
     }
     
@@ -10189,7 +10189,7 @@ class MusicViewModel @Inject constructor(
         return eqDsp.isBassBoostSupported()
     }
     
-    override fun updateBassBoostAvailability() {
+    fun updateBassBoostAvailability() {
         eqDsp.updateBassBoostAvailability()
     }
     
@@ -10197,7 +10197,7 @@ class MusicViewModel @Inject constructor(
         eqDsp.setBassBoostAvailable(available)
     }
     
-    override fun setVirtualizer(enabled: Boolean, strength: Short) {
+    fun setVirtualizer(enabled: Boolean, strength: Short) {
         eqDsp.setVirtualizer(enabled, strength)
     }
 
@@ -10205,17 +10205,17 @@ class MusicViewModel @Inject constructor(
         eqDsp.setMonoAudioEnabledInternal(enabled)
     }
     
-    override fun updateSpatializationStatus() {
+    fun updateSpatializationStatus() {
         eqDsp.updateSpatializationStatus()
     }
     
-    override fun applyEqualizerPreset(preset: String, levels: List<Float>) {
+    fun applyEqualizerPreset(preset: String, levels: List<Float>) {
         eqDsp.applyEqualizerPreset(preset, levels)
     }
     
     // AutoEQ functions
     
-    override fun loadAutoEQProfiles() {
+    fun loadAutoEQProfiles() {
         eqDsp.loadAutoEQProfiles()
     }
     
@@ -10223,7 +10223,7 @@ class MusicViewModel @Inject constructor(
         return eqDsp.searchAutoEQProfiles(query)
     }
     
-    override fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
+    fun applyAutoEQProfile(profile: chromahub.rhythm.app.core.model.AutoEQProfile) {
         eqDsp.applyAutoEQProfile(profile)
     }
     
@@ -10232,15 +10232,15 @@ class MusicViewModel @Inject constructor(
     }
     
     // User Audio Device Management
-    override fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    fun saveUserAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         eqDsp.saveUserAudioDevice(device)
     }
     
-    override fun deleteUserAudioDevice(deviceId: String) {
+    fun deleteUserAudioDevice(deviceId: String) {
         eqDsp.deleteUserAudioDevice(deviceId)
     }
     
-    override fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
+    fun setActiveAudioDevice(device: chromahub.rhythm.app.core.model.UserAudioDevice) {
         eqDsp.setActiveAudioDevice(device)
     }
     
@@ -10252,7 +10252,7 @@ class MusicViewModel @Inject constructor(
      * Try to match a connected audio device (from PlaybackLocation) with saved UserAudioDevice
      * Uses fuzzy matching to account for slight name variations
      */
-    override fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
+    fun findMatchingUserDevice(deviceName: String): chromahub.rhythm.app.core.model.UserAudioDevice? {
         return eqDsp.findMatchingUserDevice(deviceName)
     }
     
@@ -10267,16 +10267,16 @@ class MusicViewModel @Inject constructor(
     /**
      * Mark a device as "don't ask again" for AutoEQ suggestions
      */
-    override fun dismissAutoEQSuggestion(deviceId: String) {
+    fun dismissAutoEQSuggestion(deviceId: String) {
         eqDsp.dismissAutoEQSuggestion(deviceId)
     }
 
     // Custom Equalizer Presets & Reordering
-    override fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
+    fun saveCustomEqualizerPreset(name: String, bands: List<Float>): chromahub.rhythm.app.core.model.CustomEqualizerPreset {
         return eqDsp.saveCustomEqualizerPreset(name, bands)
     }
 
-    override fun deleteCustomEqualizerPreset(id: String) {
+    fun deleteCustomEqualizerPreset(id: String) {
         eqDsp.deleteCustomEqualizerPreset(id)
     }
 
@@ -10284,27 +10284,27 @@ class MusicViewModel @Inject constructor(
         eqDsp.saveCustomAutoEQProfile(profile)
     }
 
-    override fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
+    fun saveCustomAutoEQProfiles(profiles: List<chromahub.rhythm.app.core.model.AutoEQProfile>) {
         eqDsp.saveCustomAutoEQProfiles(profiles)
     }
 
-    override fun deleteAutoEQProfile(name: String) {
+    fun deleteAutoEQProfile(name: String) {
         eqDsp.deleteAutoEQProfile(name)
     }
 
-    override fun setEqualizerPresetOrder(order: List<String>) {
+    fun setEqualizerPresetOrder(order: List<String>) {
         eqDsp.setEqualizerPresetOrder(order)
     }
 
-    override fun resetEqualizerPresetOrder() {
+    fun resetEqualizerPresetOrder() {
         eqDsp.resetEqualizerPresetOrder()
     }
 
-    override fun setHiddenEqualizerPresets(hidden: Set<String>) {
+    fun setHiddenEqualizerPresets(hidden: Set<String>) {
         eqDsp.setHiddenEqualizerPresets(hidden)
     }
 
-    override fun pinAutoEQProfile(name: String) {
+    fun pinAutoEQProfile(name: String) {
         eqDsp.pinAutoEQProfile(name)
     }
 
