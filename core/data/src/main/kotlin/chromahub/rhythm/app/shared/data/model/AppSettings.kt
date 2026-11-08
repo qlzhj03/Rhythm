@@ -118,7 +118,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val PREFS_NAME = "rhythm_preferences"
         
         // Playback Settings
-        private const val KEY_GAPLESS_PLAYBACK = "gapless_playback"
+        internal const val KEY_GAPLESS_PLAYBACK = "gapless_playback"
         internal const val KEY_CROSSFADE = "crossfade"
         internal const val KEY_CROSSFADE_DURATION = "crossfade_duration"
         internal const val KEY_CROSSFADE_REPEAT_ONE = "crossfade_repeat_one"
@@ -129,7 +129,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_REPLAY_GAIN_DRC = "replay_gain_drc"
         internal const val KEY_REPLAY_GAIN_PREAMP = "replay_gain_preamp"
         internal const val KEY_REPLAY_GAIN_PREAMP_UNTAGGED = "replay_gain_preamp_untagged"
-        private const val KEY_SKIP_SILENCE = "skip_silence_enabled"
+        internal const val KEY_SKIP_SILENCE = "skip_silence_enabled"
         internal const val KEY_AUDIO_ROUTING_MODE = "audio_routing_mode" // "default", "app", "system"
         internal const val KEY_RESUME_ON_DEVICE_RECONNECT = "resume_on_device_reconnect"
         internal const val KEY_AUDIO_OFFLOAD_ENABLED = "audio_offload_enabled"
@@ -143,16 +143,16 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_DISABLED_DECODER_EXTENSIONS = "audio_disabled_decoder_extensions"
         
         // Battery Saver Settings
-        private const val KEY_BATTERY_SAVER_ENABLED = "battery_saver_enabled"
-        private const val KEY_BATTERY_SAVER_MODE = "battery_saver_mode" // "auto" or "manual"
-        private const val KEY_BATTERY_SAVER_DISABLE_HAPTICS = "battery_saver_disable_haptics"
-        private const val KEY_BATTERY_SAVER_ENABLE_OFFLOAD = "battery_saver_enable_offload"
-        private const val KEY_BATTERY_SAVER_DISABLE_MARQUEE = "battery_saver_disable_marquee"
-        private const val KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK = "battery_saver_disable_lossless_artwork"
-        private const val KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK = "battery_saver_disable_auto_fetch_artwork"
-        private const val KEY_GLOBAL_MARQUEE_ENABLED = "global_marquee_enabled"
+        internal const val KEY_BATTERY_SAVER_ENABLED = "battery_saver_enabled"
+        internal const val KEY_BATTERY_SAVER_MODE = "battery_saver_mode" // "auto" or "manual"
+        internal const val KEY_BATTERY_SAVER_DISABLE_HAPTICS = "battery_saver_disable_haptics"
+        internal const val KEY_BATTERY_SAVER_ENABLE_OFFLOAD = "battery_saver_enable_offload"
+        internal const val KEY_BATTERY_SAVER_DISABLE_MARQUEE = "battery_saver_disable_marquee"
+        internal const val KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK = "battery_saver_disable_lossless_artwork"
+        internal const val KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK = "battery_saver_disable_auto_fetch_artwork"
+        internal const val KEY_GLOBAL_MARQUEE_ENABLED = "global_marquee_enabled"
         
-        private const val KEY_PRELOAD_LIMIT = "preload_limit"
+        internal const val KEY_PRELOAD_LIMIT = "preload_limit"
         
         // Lyrics Settings
         internal const val KEY_SHOW_LYRICS = "show_lyrics"
@@ -167,7 +167,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_LYRICS_API_FALLBACK_RETRY = "lyrics_api_fallback_retry"
         internal const val KEY_AUTO_HIDE_LYRICS_CONTROLS = "auto_hide_lyrics_controls"
         internal const val KEY_LYRIC_BOLD = "lyric_bold"
-        private const val KEY_TRIM_LYRICS = "trim_lyrics"
+        internal const val KEY_TRIM_LYRICS = "trim_lyrics"
         internal const val KEY_LYRIC_NO_ANIMATION = "lyric_no_animation"
         internal const val KEY_TRANSLATION_AUTO_WORD = "translation_auto_word"
         
@@ -188,7 +188,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         // Player Theme Settings
         internal const val KEY_PLAYER_THEME_ID = "player_theme_id" // ID of the selected player theme (default, compact, large, minimal)
         internal const val KEY_MINI_PLAYER_THEME_ID = "miniplayer_theme_id"
-        private const val KEY_USE_EXPERIMENTAL_PLAYER_UI = "use_experimental_player_ui"
+        internal const val KEY_USE_EXPERIMENTAL_PLAYER_UI = "use_experimental_player_ui"
         internal const val KEY_ENABLE_ALBUM_EDITING = "enable_album_editing"
         
         // Library Settings
@@ -244,12 +244,12 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         internal const val KEY_SPEAKER_AUTOEQ_BYPASS = "speaker_autoeq_bypass"
         
         // Cache Settings
-        private const val KEY_MAX_CACHE_SIZE = "max_cache_size"
+        internal const val KEY_MAX_CACHE_SIZE = "max_cache_size"
 
         
         // Search History
-        private const val KEY_SEARCH_HISTORY = "search_history"
-        private const val KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN = "show_keyboard_on_search_open"
+        internal const val KEY_SEARCH_HISTORY = "search_history"
+        internal const val KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN = "show_keyboard_on_search_open"
         
         // Playlists
         private const val KEY_PLAYLISTS = "playlists"
@@ -341,7 +341,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         private const val KEY_SONG_PLAY_COUNTS = "song_play_counts"
 
         // Onboarding
-        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
+        internal const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         internal const val KEY_INITIAL_MEDIA_SCAN_COMPLETED = "initial_media_scan_completed"
         internal const val KEY_GENRE_DETECTION_COMPLETED = "genre_detection_completed"
         internal const val KEY_AUDIO_METADATA_EXTRACTION_COMPLETED = "audio_metadata_extraction_completed"
@@ -350,46 +350,46 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
 
         // App Updater Settings
         private const val KEY_AUTO_CHECK_FOR_UPDATES = "auto_check_for_updates"
-        private const val KEY_UPDATE_CHANNEL = "update_channel" // New key for update channel
-        private const val KEY_UPDATE_SOURCE = "update_source" // New key for OTA source flavor
-        private const val KEY_UPDATES_ENABLED = "updates_enabled" // Master switch for updates
-        private const val KEY_UPDATE_NOTIFICATIONS_ENABLED = "update_notifications_enabled" // Push-style notifications
-        private const val KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED = "update_status_notifications_enabled" // Notify for no-update/error states
+        internal const val KEY_UPDATE_CHANNEL = "update_channel" // New key for update channel
+        internal const val KEY_UPDATE_SOURCE = "update_source" // New key for OTA source flavor
+        internal const val KEY_UPDATES_ENABLED = "updates_enabled" // Master switch for updates
+        internal const val KEY_UPDATE_NOTIFICATIONS_ENABLED = "update_notifications_enabled" // Push-style notifications
+        internal const val KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED = "update_status_notifications_enabled" // Notify for no-update/error states
         internal const val KEY_MEDIA_SCAN_MODE = "media_scan_mode" // Mode for media scanning: "blacklist" or "whitelist"
         internal const val KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA = "include_hidden_whitelisted_media"
-        private const val KEY_UPDATE_CHECK_INTERVAL_HOURS = "update_check_interval_hours" // Configurable interval
+        internal const val KEY_UPDATE_CHECK_INTERVAL_HOURS = "update_check_interval_hours" // Configurable interval
 
         // Beta Program
-        private const val KEY_HAS_SHOWN_BETA_POPUP = "has_shown_beta_popup"
+        internal const val KEY_HAS_SHOWN_BETA_POPUP = "has_shown_beta_popup"
 
         // Crash Reporting
-        private const val KEY_LAST_CRASH_LOG = "last_crash_log"
-        private const val KEY_CRASH_LOG_HISTORY = "crash_log_history" // New key for crash log history
+        internal const val KEY_LAST_CRASH_LOG = "last_crash_log"
+        internal const val KEY_CRASH_LOG_HISTORY = "crash_log_history" // New key for crash log history
         
         // Haptic Feedback
         private const val KEY_HAPTIC_FEEDBACK_ENABLED = "haptic_feedback_enabled"
         
         // Notification Settings
-    private const val KEY_USE_CUSTOM_NOTIFICATION = "use_custom_notification"
+    internal const val KEY_USE_CUSTOM_NOTIFICATION = "use_custom_notification"
     internal const val KEY_LIBRARY_OPERATIONS_NOTIFICATIONS_ENABLED = "library_operations_notifications_enabled"
-    private const val KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED = "sleep_timer_notifications_enabled"
-    private const val KEY_STREAMING_NOTIFICATIONS_ENABLED = "streaming_notifications_enabled"
+    internal const val KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED = "sleep_timer_notifications_enabled"
+    internal const val KEY_STREAMING_NOTIFICATIONS_ENABLED = "streaming_notifications_enabled"
     internal const val KEY_RHYTHM_GUARD_ALERT_NOTIFICATIONS_ENABLED = "rhythm_guard_alert_notifications_enabled"
     internal const val KEY_RHYTHM_GUARD_TIMER_NOTIFICATIONS_ENABLED = "rhythm_guard_timer_notifications_enabled"
-    private const val KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED = "rhythm_pulse_notifications_enabled"
-    private const val KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS = "rhythm_pulse_notification_interval_hours"
+    internal const val KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED = "rhythm_pulse_notifications_enabled"
+    internal const val KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS = "rhythm_pulse_notification_interval_hours"
     
     // UI Settings
     private const val KEY_DEFAULT_SCREEN = "default_screen"
-    private const val KEY_FORCE_PLAYER_COMPACT_MODE = "force_player_compact_mode"
+    internal const val KEY_FORCE_PLAYER_COMPACT_MODE = "force_player_compact_mode"
     
         // Codec Monitoring & Enhanced Seeking
-        private const val KEY_CODEC_MONITORING_ENABLED = "codec_monitoring_enabled"
-        private const val KEY_SHOW_CODEC_NOTIFICATIONS = "show_codec_notifications"
-        private const val KEY_ENHANCED_SEEKING_ENABLED = "enhanced_seeking_enabled"
+        internal const val KEY_CODEC_MONITORING_ENABLED = "codec_monitoring_enabled"
+        internal const val KEY_SHOW_CODEC_NOTIFICATIONS = "show_codec_notifications"
+        internal const val KEY_ENHANCED_SEEKING_ENABLED = "enhanced_seeking_enabled"
         
         // Media3 1.9.0 Features
-        private const val KEY_TRACK_ERROR_CHECKER_ENABLED = "track_error_checker_enabled"
+        internal const val KEY_TRACK_ERROR_CHECKER_ENABLED = "track_error_checker_enabled"
         
         // Festive Theme Settings
         internal const val KEY_FESTIVE_THEME_ENABLED = "festive_theme_enabled"
@@ -423,9 +423,9 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         // Playlist Playback Behavior
         
         // Backup and Restore
-        private const val KEY_LAST_BACKUP_TIMESTAMP = "last_backup_timestamp"
-        private const val KEY_AUTO_BACKUP_ENABLED = "auto_backup_enabled"
-        private const val KEY_BACKUP_LOCATION = "backup_location"
+        internal const val KEY_LAST_BACKUP_TIMESTAMP = "last_backup_timestamp"
+        internal const val KEY_AUTO_BACKUP_ENABLED = "auto_backup_enabled"
+        internal const val KEY_BACKUP_LOCATION = "backup_location"
         
         // Sleep Timer
         internal const val KEY_SLEEP_TIMER_ACTIVE = "sleep_timer_active"
@@ -440,7 +440,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
         
         // Media Scan Filtering
         internal const val KEY_ALLOWED_FORMATS = "allowed_formats"
-        private const val KEY_MINIMUM_BITRATE = "minimum_bitrate"
+        internal const val KEY_MINIMUM_BITRATE = "minimum_bitrate"
         internal const val KEY_MINIMUM_DURATION = "minimum_duration"
         
         // Library Sort Order
@@ -645,6 +645,7 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     
     private val context: Context = context.applicationContext
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val platformSection = chromahub.rhythm.app.shared.data.model.settings.PlatformSettingsSection(prefs, { updateDerivedSettings() })
     private val lyricsSection = chromahub.rhythm.app.shared.data.model.settings.LyricsSettingsSection(prefs, { updateDerivedSettings() })
     private val streamingModeSection = chromahub.rhythm.app.shared.data.model.settings.StreamingModeSettingsSection(prefs)
     private val themeSection = chromahub.rhythm.app.shared.data.model.settings.ThemeSettingsSection(prefs)
@@ -703,11 +704,11 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val audioOffloadEnabled: StateFlow<Boolean> get() = audioEqSection.audioOffloadEnabled
     fun setAudioOffloadEnabled(enable: Boolean) = audioEqSection.setAudioOffloadEnabled(enable)
     
-    private val _preloadLimit = MutableStateFlow(prefs.getInt(KEY_PRELOAD_LIMIT, 3))
-    val preloadLimit: StateFlow<Int> = _preloadLimit.asStateFlow()
+    val preloadLimit: StateFlow<Int> get() = platformSection.preloadLimit
+    fun setPreloadLimit(limit: Int) = platformSection.setPreloadLimit(limit)
     
-    private val _gaplessPlayback = MutableStateFlow(prefs.getBoolean(KEY_GAPLESS_PLAYBACK, true))
-    val gaplessPlayback: StateFlow<Boolean> = _gaplessPlayback.asStateFlow()
+    val gaplessPlayback: StateFlow<Boolean> get() = platformSection.gaplessPlayback
+    fun setGaplessPlayback(enable: Boolean) = platformSection.setGaplessPlayback(enable)
     
     val resumeOnDeviceReconnect: StateFlow<Boolean> get() = audioEqSection.resumeOnDeviceReconnect
     fun setResumeOnDeviceReconnect(enable: Boolean) = audioEqSection.setResumeOnDeviceReconnect(enable)
@@ -742,8 +743,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val replayGainPreampUntagged: StateFlow<Float> get() = audioEqSection.replayGainPreampUntagged
     fun setReplayGainPreampUntagged(preamp: Float) = audioEqSection.setReplayGainPreampUntagged(preamp)
     
-    private val _skipSilenceEnabled = MutableStateFlow(prefs.getBoolean(KEY_SKIP_SILENCE, false))
-    val skipSilenceEnabled: StateFlow<Boolean> = _skipSilenceEnabled.asStateFlow()
+    val skipSilenceEnabled: StateFlow<Boolean> get() = platformSection.skipSilenceEnabled
+    fun setSkipSilenceEnabled(enable: Boolean) = platformSection.setSkipSilenceEnabled(enable)
     
     val audioRoutingMode: StateFlow<String> get() = audioEqSection.audioRoutingMode
     fun setAudioRoutingMode(mode: String) = audioEqSection.setAudioRoutingMode(mode)
@@ -807,8 +808,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val lyricBold: StateFlow<Boolean> get() = lyricsSection.lyricBold
     fun setLyricBold(enable: Boolean) = lyricsSection.setLyricBold(enable)
 
-    private val _trimLyrics = MutableStateFlow(prefs.getBoolean(KEY_TRIM_LYRICS, true))
-    val trimLyrics: StateFlow<Boolean> = _trimLyrics.asStateFlow()
+    val trimLyrics: StateFlow<Boolean> get() = platformSection.trimLyrics
+    fun setTrimLyrics(enable: Boolean) = platformSection.setTrimLyrics(enable)
 
     val lyricNoAnimation: StateFlow<Boolean> get() = lyricsSection.lyricNoAnimation
     fun setLyricNoAnimation(enable: Boolean) = lyricsSection.setLyricNoAnimation(enable)
@@ -1162,16 +1163,16 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     fun setSavedOriginalQueueSource(sourceName: String?) = playbackQueueSection.setSavedOriginalQueueSource(sourceName)
     
     // Cache Settings
-    private val _maxCacheSize = MutableStateFlow(safeLong(KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)) // 300MB default
-    val maxCacheSize: StateFlow<Long> = _maxCacheSize.asStateFlow()
+    val maxCacheSize: StateFlow<Long> get() = platformSection.maxCacheSize
+    fun setMaxCacheSize(size: Long) = platformSection.setMaxCacheSize(size)
     
     // Search History
-    private val _searchHistory = MutableStateFlow<String?>(prefs.getString(KEY_SEARCH_HISTORY, null))
-    val searchHistory: StateFlow<String?> = _searchHistory.asStateFlow()
+    val searchHistory: StateFlow<String?> get() = platformSection.searchHistory
+    fun setSearchHistory(history: String?) = platformSection.setSearchHistory(history)
 
     // Search UX
-    private val _showKeyboardOnSearchOpen = MutableStateFlow(prefs.getBoolean(KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN, true))
-    val showKeyboardOnSearchOpen: StateFlow<Boolean> = _showKeyboardOnSearchOpen.asStateFlow()
+    val showKeyboardOnSearchOpen: StateFlow<Boolean> get() = platformSection.showKeyboardOnSearchOpen
+    fun setShowKeyboardOnSearchOpen(enabled: Boolean) = platformSection.setShowKeyboardOnSearchOpen(enabled)
     
     // Playlists
     private val _playlists = MutableStateFlow<String?>(prefs.getString(KEY_PLAYLISTS, null))
@@ -1433,8 +1434,8 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
     val songPlayCounts: StateFlow<Map<String, Int>> = _songPlayCounts.asStateFlow()
 
     // Onboarding
-    private val _onboardingCompleted = MutableStateFlow(prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false))
-    val onboardingCompleted: StateFlow<Boolean> = _onboardingCompleted.asStateFlow()
+    val onboardingCompleted: StateFlow<Boolean> get() = platformSection.onboardingCompleted
+    fun setOnboardingCompleted(completed: Boolean) = platformSection.setOnboardingCompleted(completed)
 
     val initialMediaScanCompleted: StateFlow<Boolean> get() = librarySection.initialMediaScanCompleted
     fun setInitialMediaScanCompleted(completed: Boolean) = librarySection.setInitialMediaScanCompleted(completed)
@@ -1455,20 +1456,17 @@ class AppSettings private constructor(context: Context) : chromahub.rhythm.app.n
 private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_AUTO_CHECK_FOR_UPDATES, true))
     val autoCheckForUpdates: StateFlow<Boolean> = _autoCheckForUpdates.asStateFlow()
     
-    private val _updateChannel = MutableStateFlow(prefs.getString(KEY_UPDATE_CHANNEL, "stable") ?: "stable")
-    val updateChannel: StateFlow<String> = _updateChannel.asStateFlow()
+    val updateChannel: StateFlow<String> get() = platformSection.updateChannel
+    fun setUpdateChannel(channel: String) = platformSection.setUpdateChannel(channel)
 
-    private val _updateSource = MutableStateFlow(prefs.getString(KEY_UPDATE_SOURCE, "installed") ?: "installed")
-    val updateSource: StateFlow<String> = _updateSource.asStateFlow()
+    val updateSource: StateFlow<String> get() = platformSection.updateSource
+    fun setUpdateSource(source: String) = platformSection.setUpdateSource(source)
     
-    private val _updatesEnabled = MutableStateFlow(prefs.getBoolean(KEY_UPDATES_ENABLED, true))
-    val updatesEnabled: StateFlow<Boolean> = _updatesEnabled.asStateFlow()
+    val updatesEnabled: StateFlow<Boolean> get() = platformSection.updatesEnabled
     
-    private val _updateNotificationsEnabled = MutableStateFlow(prefs.getBoolean(KEY_UPDATE_NOTIFICATIONS_ENABLED, true))
-    val updateNotificationsEnabled: StateFlow<Boolean> = _updateNotificationsEnabled.asStateFlow()
+    val updateNotificationsEnabled: StateFlow<Boolean> get() = platformSection.updateNotificationsEnabled
 
-    private val _updateStatusNotificationsEnabled = MutableStateFlow(prefs.getBoolean(KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, false))
-    val updateStatusNotificationsEnabled: StateFlow<Boolean> = _updateStatusNotificationsEnabled.asStateFlow()
+    val updateStatusNotificationsEnabled: StateFlow<Boolean> get() = platformSection.updateStatusNotificationsEnabled
 
     // Media Scan Mode
     val mediaScanMode: StateFlow<MediaScanMode> get() = librarySection.mediaScanMode
@@ -1477,51 +1475,34 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val includeHiddenWhitelistedMedia: StateFlow<Boolean> get() = librarySection.includeHiddenWhitelistedMedia
     fun setIncludeHiddenWhitelistedMedia(include: Boolean) = librarySection.setIncludeHiddenWhitelistedMedia(include)
 
-    private val _updateCheckIntervalHours = MutableStateFlow(prefs.getInt(KEY_UPDATE_CHECK_INTERVAL_HOURS, 6))
-    val updateCheckIntervalHours: StateFlow<Int> = _updateCheckIntervalHours.asStateFlow()
+    val updateCheckIntervalHours: StateFlow<Int> get() = platformSection.updateCheckIntervalHours
 
     // Beta Program
-    private val _hasShownBetaPopup = MutableStateFlow(prefs.getBoolean(KEY_HAS_SHOWN_BETA_POPUP, false))
-    val hasShownBetaPopup: StateFlow<Boolean> = _hasShownBetaPopup.asStateFlow()
+    val hasShownBetaPopup: StateFlow<Boolean> get() = platformSection.hasShownBetaPopup
+    fun setHasShownBetaPopup(shown: Boolean) = platformSection.setHasShownBetaPopup(shown)
 
     // Crash Reporting
-    private val _lastCrashLog = MutableStateFlow<String?>(prefs.getString(KEY_LAST_CRASH_LOG, null))
-    val lastCrashLog: StateFlow<String?> = _lastCrashLog.asStateFlow()
+    val lastCrashLog: StateFlow<String?> get() = platformSection.lastCrashLog
+    fun setLastCrashLog(log: String?) = platformSection.setLastCrashLog(log)
 
-    private val _crashLogHistory = MutableStateFlow<List<CrashLogEntry>>(
-        try {
-            val json = prefs.getString(AppSettings.KEY_CRASH_LOG_HISTORY, null)
-            if (json != null) {
-                Gson().fromJson(json, object : TypeToken<List<CrashLogEntry>>() {}.type)
-            } else {
-                emptyList()
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    )
-    val crashLogHistory: StateFlow<List<CrashLogEntry>> = _crashLogHistory.asStateFlow()
+    val crashLogHistory: StateFlow<List<CrashLogEntry>> get() = platformSection.crashLogHistory
     
     // Haptic Feedback Settings
     private val _hapticFeedbackEnabled = MutableStateFlow(prefs.getBoolean(KEY_HAPTIC_FEEDBACK_ENABLED, true))
     val hapticFeedbackEnabled: StateFlow<Boolean> = _hapticFeedbackEnabled.asStateFlow()
     
     // Notification Settings
-    private val _useCustomNotification = MutableStateFlow(prefs.getBoolean(KEY_USE_CUSTOM_NOTIFICATION, false))
-    val useCustomNotification: StateFlow<Boolean> = _useCustomNotification.asStateFlow()
+    val useCustomNotification: StateFlow<Boolean> get() = platformSection.useCustomNotification
+    fun setUseCustomNotification(enabled: Boolean) = platformSection.setUseCustomNotification(enabled)
 
     val libraryOperationsNotificationsEnabled: StateFlow<Boolean> get() = librarySection.libraryOperationsNotificationsEnabled
     fun setLibraryOperationsNotificationsEnabled(enabled: Boolean) = librarySection.setLibraryOperationsNotificationsEnabled(enabled)
 
-    private val _sleepTimerNotificationsEnabled = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED, true)
-    )
-    val sleepTimerNotificationsEnabled: StateFlow<Boolean> = _sleepTimerNotificationsEnabled.asStateFlow()
+    val sleepTimerNotificationsEnabled: StateFlow<Boolean> get() = platformSection.sleepTimerNotificationsEnabled
+    fun setSleepTimerNotificationsEnabled(enabled: Boolean) = platformSection.setSleepTimerNotificationsEnabled(enabled)
 
-    private val _streamingNotificationsEnabled = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_STREAMING_NOTIFICATIONS_ENABLED, true)
-    )
-    val streamingNotificationsEnabled: StateFlow<Boolean> = _streamingNotificationsEnabled.asStateFlow()
+    val streamingNotificationsEnabled: StateFlow<Boolean> get() = platformSection.streamingNotificationsEnabled
+    fun setStreamingNotificationsEnabled(enabled: Boolean) = platformSection.setStreamingNotificationsEnabled(enabled)
 
     val rhythmGuardAlertNotificationsEnabled: StateFlow<Boolean> get() = guardStatsSection.rhythmGuardAlertNotificationsEnabled
     fun setRhythmGuardAlertNotificationsEnabled(enabled: Boolean) = guardStatsSection.setRhythmGuardAlertNotificationsEnabled(enabled)
@@ -1529,23 +1510,17 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val rhythmGuardTimerNotificationsEnabled: StateFlow<Boolean> get() = guardStatsSection.rhythmGuardTimerNotificationsEnabled
     fun setRhythmGuardTimerNotificationsEnabled(enabled: Boolean) = guardStatsSection.setRhythmGuardTimerNotificationsEnabled(enabled)
 
-    private val _rhythmPulseNotificationsEnabled = MutableStateFlow(
-        prefs.getBoolean(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED, false)
-    )
-    val rhythmPulseNotificationsEnabled: StateFlow<Boolean> = _rhythmPulseNotificationsEnabled.asStateFlow()
+    val rhythmPulseNotificationsEnabled: StateFlow<Boolean> get() = platformSection.rhythmPulseNotificationsEnabled
 
-    private val _rhythmPulseNotificationIntervalHours = MutableStateFlow(
-        prefs.getInt(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS, 24).coerceIn(6, 72)
-    )
-    val rhythmPulseNotificationIntervalHours: StateFlow<Int> = _rhythmPulseNotificationIntervalHours.asStateFlow()
+    val rhythmPulseNotificationIntervalHours: StateFlow<Int> get() = platformSection.rhythmPulseNotificationIntervalHours
     
     // UI Settings
     
-    private val _forcePlayerCompactMode = MutableStateFlow(prefs.getBoolean(KEY_FORCE_PLAYER_COMPACT_MODE, false))
-    val forcePlayerCompactMode: StateFlow<Boolean> = _forcePlayerCompactMode.asStateFlow()
+    val forcePlayerCompactMode: StateFlow<Boolean> get() = platformSection.forcePlayerCompactMode
+    fun setForcePlayerCompactMode(enabled: Boolean) = platformSection.setForcePlayerCompactMode(enabled)
 
-    private val _useExperimentalPlayerUi = MutableStateFlow(prefs.getBoolean(KEY_USE_EXPERIMENTAL_PLAYER_UI, false))
-    val useExperimentalPlayerUi: StateFlow<Boolean> = _useExperimentalPlayerUi.asStateFlow()
+    val useExperimentalPlayerUi: StateFlow<Boolean> get() = platformSection.useExperimentalPlayerUi
+    fun setUseExperimentalPlayerUi(enabled: Boolean) = platformSection.setUseExperimentalPlayerUi(enabled)
 
     val enableAlbumEditing: StateFlow<Boolean> get() = librarySection.enableAlbumEditing
     fun setEnableAlbumEditing(enabled: Boolean) = librarySection.setEnableAlbumEditing(enabled)
@@ -1570,49 +1545,49 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val festiveSnowflakeArea: StateFlow<String> = _festiveSnowflakeArea.asStateFlow()
     
     // Developer & Debugging Settings
-    private val _trackErrorCheckerEnabled = MutableStateFlow(prefs.getBoolean(KEY_TRACK_ERROR_CHECKER_ENABLED, true))
-    val trackErrorCheckerEnabled: StateFlow<Boolean> = _trackErrorCheckerEnabled.asStateFlow()
+    val trackErrorCheckerEnabled: StateFlow<Boolean> get() = platformSection.trackErrorCheckerEnabled
+    fun setTrackErrorCheckerEnabled(enabled: Boolean) = platformSection.setTrackErrorCheckerEnabled(enabled)
 
-    private val _codecMonitoringEnabled = MutableStateFlow(prefs.getBoolean("codec_monitoring_enabled", false))
-    val codecMonitoringEnabled: StateFlow<Boolean> = _codecMonitoringEnabled.asStateFlow()
+    val codecMonitoringEnabled: StateFlow<Boolean> get() = platformSection.codecMonitoringEnabled
+    fun setCodecMonitoringEnabled(enabled: Boolean) = platformSection.setCodecMonitoringEnabled(enabled)
     
     val audioDeviceLoggingEnabled: StateFlow<Boolean> get() = audioEqSection.audioDeviceLoggingEnabled
     fun setAudioDeviceLoggingEnabled(enabled: Boolean) = audioEqSection.setAudioDeviceLoggingEnabled(enabled)
     
-    private val _showCodecNotifications = MutableStateFlow(prefs.getBoolean(KEY_SHOW_CODEC_NOTIFICATIONS, false))
-    val showCodecNotifications: StateFlow<Boolean> = _showCodecNotifications.asStateFlow()
+    val showCodecNotifications: StateFlow<Boolean> get() = platformSection.showCodecNotifications
+    fun setShowCodecNotifications(enabled: Boolean) = platformSection.setShowCodecNotifications(enabled)
     
-    private val _enhancedSeekingEnabled = MutableStateFlow(prefs.getBoolean(KEY_ENHANCED_SEEKING_ENABLED, true))
-    val enhancedSeekingEnabled: StateFlow<Boolean> = _enhancedSeekingEnabled.asStateFlow()
+    val enhancedSeekingEnabled: StateFlow<Boolean> get() = platformSection.enhancedSeekingEnabled
+    fun setEnhancedSeekingEnabled(enabled: Boolean) = platformSection.setEnhancedSeekingEnabled(enabled)
     
     // Media3 1.9.0 Features
     
     
 
     // Battery Saver StateFlows
-    private val _batterySaverEnabled = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_ENABLED, false))
-    val batterySaverEnabled: StateFlow<Boolean> = _batterySaverEnabled.asStateFlow()
+    val batterySaverEnabled: StateFlow<Boolean> get() = platformSection.batterySaverEnabled
+    fun setBatterySaverEnabled(enabled: Boolean) = platformSection.setBatterySaverEnabled(enabled)
 
-    private val _batterySaverMode = MutableStateFlow(prefs.getString(KEY_BATTERY_SAVER_MODE, "auto") ?: "auto")
-    val batterySaverMode: StateFlow<String> = _batterySaverMode.asStateFlow()
+    val batterySaverMode: StateFlow<String> get() = platformSection.batterySaverMode
+    fun setBatterySaverMode(mode: String) = platformSection.setBatterySaverMode(mode)
 
-    private val _batterySaverDisableHaptics = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_DISABLE_HAPTICS, true))
-    val batterySaverDisableHaptics: StateFlow<Boolean> = _batterySaverDisableHaptics.asStateFlow()
+    val batterySaverDisableHaptics: StateFlow<Boolean> get() = platformSection.batterySaverDisableHaptics
+    fun setBatterySaverDisableHaptics(disable: Boolean) = platformSection.setBatterySaverDisableHaptics(disable)
 
-    private val _batterySaverEnableOffload = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_ENABLE_OFFLOAD, true))
-    val batterySaverEnableOffload: StateFlow<Boolean> = _batterySaverEnableOffload.asStateFlow()
+    val batterySaverEnableOffload: StateFlow<Boolean> get() = platformSection.batterySaverEnableOffload
+    fun setBatterySaverEnableOffload(enable: Boolean) = platformSection.setBatterySaverEnableOffload(enable)
 
-    private val _batterySaverDisableMarquee = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_DISABLE_MARQUEE, true))
-    val batterySaverDisableMarquee: StateFlow<Boolean> = _batterySaverDisableMarquee.asStateFlow()
+    val batterySaverDisableMarquee: StateFlow<Boolean> get() = platformSection.batterySaverDisableMarquee
+    fun setBatterySaverDisableMarquee(disable: Boolean) = platformSection.setBatterySaverDisableMarquee(disable)
 
-    private val _batterySaverDisableLosslessArtwork = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK, true))
-    val batterySaverDisableLosslessArtwork: StateFlow<Boolean> = _batterySaverDisableLosslessArtwork.asStateFlow()
+    val batterySaverDisableLosslessArtwork: StateFlow<Boolean> get() = platformSection.batterySaverDisableLosslessArtwork
+    fun setBatterySaverDisableLosslessArtwork(disable: Boolean) = platformSection.setBatterySaverDisableLosslessArtwork(disable)
 
-    private val _batterySaverDisableAutoFetchArtwork = MutableStateFlow(prefs.getBoolean(KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK, true))
-    val batterySaverDisableAutoFetchArtwork: StateFlow<Boolean> = _batterySaverDisableAutoFetchArtwork.asStateFlow()
+    val batterySaverDisableAutoFetchArtwork: StateFlow<Boolean> get() = platformSection.batterySaverDisableAutoFetchArtwork
+    fun setBatterySaverDisableAutoFetchArtwork(disable: Boolean) = platformSection.setBatterySaverDisableAutoFetchArtwork(disable)
 
-    private val _globalMarqueeEnabled = MutableStateFlow(prefs.getBoolean(KEY_GLOBAL_MARQUEE_ENABLED, true))
-    val globalMarqueeEnabled: StateFlow<Boolean> = _globalMarqueeEnabled.asStateFlow()
+    val globalMarqueeEnabled: StateFlow<Boolean> get() = platformSection.globalMarqueeEnabled
+    fun setGlobalMarqueeEnabled(enabled: Boolean) = platformSection.setGlobalMarqueeEnabled(enabled)
 
     // Derived settings
     private val _isHapticEnabled = MutableStateFlow(calculateIsHapticEnabled())
@@ -1631,45 +1606,45 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val isAutoFetchArtworkActive: StateFlow<Boolean> = _isAutoFetchArtworkActive.asStateFlow()
 
     private fun calculateIsHapticEnabled(): Boolean {
-        val masterEnabled = _batterySaverEnabled.value
-        val mode = _batterySaverMode.value
-        val disableHapticsInManual = _batterySaverDisableHaptics.value
+        val masterEnabled = platformSection._batterySaverEnabled.value
+        val mode = platformSection._batterySaverMode.value
+        val disableHapticsInManual = platformSection._batterySaverDisableHaptics.value
         val baseHaptics = _hapticFeedbackEnabled.value
         
         return baseHaptics && !(masterEnabled && (mode == "auto" || disableHapticsInManual))
     }
 
     private fun calculateIsAudioOffloadActive(): Boolean {
-        val masterEnabled = _batterySaverEnabled.value
-        val mode = _batterySaverMode.value
-        val enableOffloadInManual = _batterySaverEnableOffload.value
+        val masterEnabled = platformSection._batterySaverEnabled.value
+        val mode = platformSection._batterySaverMode.value
+        val enableOffloadInManual = platformSection._batterySaverEnableOffload.value
         val baseOffload = audioEqSection._audioOffloadEnabled.value
         
         return baseOffload || (masterEnabled && (mode == "auto" || enableOffloadInManual))
     }
 
     private fun calculateIsMarqueeActive(): Boolean {
-        val masterEnabled = _batterySaverEnabled.value
-        val mode = _batterySaverMode.value
-        val disableMarqueeInManual = _batterySaverDisableMarquee.value
-        val baseMarquee = _globalMarqueeEnabled.value
+        val masterEnabled = platformSection._batterySaverEnabled.value
+        val mode = platformSection._batterySaverMode.value
+        val disableMarqueeInManual = platformSection._batterySaverDisableMarquee.value
+        val baseMarquee = platformSection._globalMarqueeEnabled.value
         
         return baseMarquee && !(masterEnabled && (mode == "auto" || disableMarqueeInManual))
     }
 
     private fun calculateIsLosslessArtworkActive(): Boolean {
-        val masterEnabled = _batterySaverEnabled.value
-        val mode = _batterySaverMode.value
-        val disableLosslessInManual = _batterySaverDisableLosslessArtwork.value
+        val masterEnabled = platformSection._batterySaverEnabled.value
+        val mode = platformSection._batterySaverMode.value
+        val disableLosslessInManual = platformSection._batterySaverDisableLosslessArtwork.value
         val baseLossless = librarySection._losslessArtwork.value
         
         return baseLossless && !(masterEnabled && (mode == "auto" || disableLosslessInManual))
     }
 
     private fun calculateIsAutoFetchArtworkActive(): Boolean {
-        val masterEnabled = _batterySaverEnabled.value
-        val mode = _batterySaverMode.value
-        val disableAutoFetchInManual = _batterySaverDisableAutoFetchArtwork.value
+        val masterEnabled = platformSection._batterySaverEnabled.value
+        val mode = platformSection._batterySaverMode.value
+        val disableAutoFetchInManual = platformSection._batterySaverDisableAutoFetchArtwork.value
         val baseAutoFetch = librarySection._autoFetchArtwork.value
         
         return baseAutoFetch && !(masterEnabled && (mode == "auto" || disableAutoFetchInManual))
@@ -1707,14 +1682,13 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     // Pinned Folders (Explorer)
 
     // Backup and Restore Settings
-    private val _lastBackupTimestamp = MutableStateFlow(safeLong(KEY_LAST_BACKUP_TIMESTAMP, 0L))
-    val lastBackupTimestamp: StateFlow<Long> = _lastBackupTimestamp.asStateFlow()
+    val lastBackupTimestamp: StateFlow<Long> get() = platformSection.lastBackupTimestamp
+    fun setLastBackupTimestamp(timestamp: Long) = platformSection.setLastBackupTimestamp(timestamp)
     
-    private val _autoBackupEnabled = MutableStateFlow(prefs.getBoolean(KEY_AUTO_BACKUP_ENABLED, false))
-    val autoBackupEnabled: StateFlow<Boolean> = _autoBackupEnabled.asStateFlow()
+    val autoBackupEnabled: StateFlow<Boolean> get() = platformSection.autoBackupEnabled
     
-    private val _backupLocation = MutableStateFlow(prefs.getString(KEY_BACKUP_LOCATION, null))
-    val backupLocation: StateFlow<String?> = _backupLocation.asStateFlow()
+    val backupLocation: StateFlow<String?> get() = platformSection.backupLocation
+    fun setBackupLocation(location: String?) = platformSection.setBackupLocation(location)
     
     // Media Scan Tracking
     val lastScanTimestamp: StateFlow<Long> get() = librarySection.lastScanTimestamp
@@ -1727,8 +1701,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     val allowedFormats: StateFlow<Set<String>> get() = librarySection.allowedFormats
     fun setAllowedFormats(formats: Set<String>) = librarySection.setAllowedFormats(formats)
     
-    private val _minimumBitrate = MutableStateFlow(prefs.getInt(KEY_MINIMUM_BITRATE, 0)) // 0 = no filter
-    val minimumBitrate: StateFlow<Int> = _minimumBitrate.asStateFlow()
+    val minimumBitrate: StateFlow<Int> get() = platformSection.minimumBitrate
     
     val minimumDuration: StateFlow<Long> get() = librarySection.minimumDuration
     fun setMinimumDuration(duration: Long) = librarySection.setMinimumDuration(duration)
@@ -1790,75 +1763,22 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
 
     // Battery Saver Methods
-    fun setBatterySaverEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLED, enabled) }
-        _batterySaverEnabled.value = enabled
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverMode(mode: String) {
-        prefs.edit { putString(AppSettings.KEY_BATTERY_SAVER_MODE, mode) }
-        _batterySaverMode.value = mode
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverDisableHaptics(disable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_HAPTICS, disable) }
-        _batterySaverDisableHaptics.value = disable
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverEnableOffload(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLE_OFFLOAD, enable) }
-        _batterySaverEnableOffload.value = enable
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverDisableMarquee(disable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_MARQUEE, disable) }
-        _batterySaverDisableMarquee.value = disable
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverDisableLosslessArtwork(disable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK, disable) }
-        _batterySaverDisableLosslessArtwork.value = disable
-        updateDerivedSettings()
-    }
 
-    fun setBatterySaverDisableAutoFetchArtwork(disable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK, disable) }
-        _batterySaverDisableAutoFetchArtwork.value = disable
-        updateDerivedSettings()
-    }
 
-    fun setGlobalMarqueeEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_GLOBAL_MARQUEE_ENABLED, enabled) }
-        _globalMarqueeEnabled.value = enabled
-        updateDerivedSettings()
-    }
     
-    fun setPreloadLimit(limit: Int) {
-        prefs.edit { putInt(AppSettings.KEY_PRELOAD_LIMIT, limit) }
-        _preloadLimit.value = limit
-    }
 
 
-    fun setGaplessPlayback(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_GAPLESS_PLAYBACK, enable) }
-        _gaplessPlayback.value = enable
-    }
     
     
     
 
     
     
-    fun setSkipSilenceEnabled(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SKIP_SILENCE, enable) }
-        _skipSilenceEnabled.value = enable
-        Log.d("AppSettings", "Skip silence ${if (enable) "enabled" else "disabled"}")
-    }
     
 
 
@@ -1898,10 +1818,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
 
 
-    fun setTrimLyrics(enable: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_TRIM_LYRICS, enable) }
-        _trimLyrics.value = enable
-    }
 
 
     
@@ -2119,29 +2035,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     
     // Cache Settings Methods
-    fun setMaxCacheSize(size: Long) {
-        if (isValidCacheSize(size)) {
-            prefs.edit { putLong(AppSettings.KEY_MAX_CACHE_SIZE, size) }
-            _maxCacheSize.value = size
-        } else {
-            Log.w("AppSettings", "Invalid cache size: $size, keeping current value")
-        }
-    }
     
     // Search History Methods
-    fun setSearchHistory(history: String?) {
-        if (history == null) {
-            prefs.edit { remove(AppSettings.KEY_SEARCH_HISTORY) }
-        } else {
-            prefs.edit { putString(AppSettings.KEY_SEARCH_HISTORY, history) }
-        }
-        _searchHistory.value = history
-    }
 
-    fun setShowKeyboardOnSearchOpen(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN, enabled) }
-        _showKeyboardOnSearchOpen.value = enabled
-    }
 
     // Playlists
     fun setPlaylists(playlistsJson: String?) {
@@ -2439,10 +2335,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
 
     // Onboarding Methods
-    fun setOnboardingCompleted(completed: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_ONBOARDING_COMPLETED, completed) }
-        _onboardingCompleted.value = completed
-    }
 
 
 
@@ -2461,19 +2353,11 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         }
     }
 
-    fun setUpdateChannel(channel: String) {
-        prefs.edit { putString(AppSettings.KEY_UPDATE_CHANNEL, channel) }
-        _updateChannel.value = channel
-    }
 
-    fun setUpdateSource(source: String) {
-        prefs.edit { putString(AppSettings.KEY_UPDATE_SOURCE, source) }
-        _updateSource.value = source
-    }
 
     fun setUpdatesEnabled(enable: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_UPDATES_ENABLED, enable) }
-        _updatesEnabled.value = enable
+        platformSection._updatesEnabled.value = enable
         
         // Update WorkManager scheduling based on new state
         if (jobScheduler.shouldRunUpdateNotificationWorker()) {
@@ -2485,7 +2369,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     fun setUpdateNotificationsEnabled(enable: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_UPDATE_NOTIFICATIONS_ENABLED, enable) }
-        _updateNotificationsEnabled.value = enable
+        platformSection._updateNotificationsEnabled.value = enable
         
         // Update WorkManager scheduling
         if (jobScheduler.shouldRunUpdateNotificationWorker()) {
@@ -2497,7 +2381,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     fun setUpdateStatusNotificationsEnabled(enable: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, enable) }
-        _updateStatusNotificationsEnabled.value = enable
+        platformSection._updateStatusNotificationsEnabled.value = enable
 
         if (jobScheduler.shouldRunUpdateNotificationWorker()) {
             jobScheduler.scheduleUpdateNotificationWorker()
@@ -2510,7 +2394,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     fun setUpdateCheckIntervalHours(hours: Int) {
         prefs.edit { putInt(AppSettings.KEY_UPDATE_CHECK_INTERVAL_HOURS, hours) }
-        _updateCheckIntervalHours.value = hours
+        platformSection._updateCheckIntervalHours.value = hours
 
         if (jobScheduler.shouldRunUpdateNotificationWorker()) {
             jobScheduler.scheduleUpdateNotificationWorker()
@@ -2518,31 +2402,18 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
 
     // Beta Program Methods
-    fun setHasShownBetaPopup(shown: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_HAS_SHOWN_BETA_POPUP, shown) }
-        _hasShownBetaPopup.value = shown
-    }
 
     // Crash Reporting Methods
-    fun setLastCrashLog(log: String?) {
-        // Use commit() instead of apply() to ensure immediate persistence for crash logs
-        if (log == null) {
-            prefs.edit { remove(AppSettings.KEY_LAST_CRASH_LOG) }
-        } else {
-            prefs.edit { putString(AppSettings.KEY_LAST_CRASH_LOG, log) }
-        }
-        _lastCrashLog.value = log
-    }
 
     fun addCrashLogEntry(log: String) {
-        val currentHistory = _crashLogHistory.value.toMutableList()
+        val currentHistory = platformSection._crashLogHistory.value.toMutableList()
         val newEntry = CrashLogEntry(System.currentTimeMillis(), log)
         currentHistory.add(0, newEntry) // Add to the beginning
         // Keep only the last 6 crash logs to prevent excessive storage
         val limitedHistory = currentHistory.take(6)
         val json = Gson().toJson(limitedHistory)
         // Update in-memory state first for immediate UI feedback
-        _crashLogHistory.value = limitedHistory
+        platformSection._crashLogHistory.value = limitedHistory
         // Use commit() instead of apply() for crash logs to ensure persistence before process exits
         // This is critical - crash logs must be written synchronously or they'll be lost
         try {
@@ -2555,7 +2426,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
 
     fun clearCrashLogHistory() {
         prefs.edit { remove(AppSettings.KEY_CRASH_LOG_HISTORY) }
-        _crashLogHistory.value = emptyList()
+        platformSection._crashLogHistory.value = emptyList()
     }
     
     // Haptic Feedback Methods
@@ -2566,27 +2437,15 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     }
     
     // Notification Settings Methods
-    fun setUseCustomNotification(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_CUSTOM_NOTIFICATION, enabled) }
-        _useCustomNotification.value = enabled
-    }
 
 
-    fun setSleepTimerNotificationsEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SLEEP_TIMER_NOTIFICATIONS_ENABLED, enabled) }
-        _sleepTimerNotificationsEnabled.value = enabled
-    }
 
-    fun setStreamingNotificationsEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_STREAMING_NOTIFICATIONS_ENABLED, enabled) }
-        _streamingNotificationsEnabled.value = enabled
-    }
 
 
 
     fun setRhythmPulseNotificationsEnabled(enabled: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED, enabled) }
-        _rhythmPulseNotificationsEnabled.value = enabled
+        platformSection._rhythmPulseNotificationsEnabled.value = enabled
 
         if (enabled) {
             jobScheduler.scheduleRhythmPulseNotificationWorker()
@@ -2598,45 +2457,21 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun setRhythmPulseNotificationIntervalHours(hours: Int) {
         val safeHours = hours.coerceIn(6, 72)
         prefs.edit { putInt(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS, safeHours) }
-        _rhythmPulseNotificationIntervalHours.value = safeHours
+        platformSection._rhythmPulseNotificationIntervalHours.value = safeHours
 
-        if (_rhythmPulseNotificationsEnabled.value) {
+        if (platformSection._rhythmPulseNotificationsEnabled.value) {
             jobScheduler.scheduleRhythmPulseNotificationWorker()
         }
     }
     
-    fun setForcePlayerCompactMode(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_FORCE_PLAYER_COMPACT_MODE, enabled) }
-        _forcePlayerCompactMode.value = enabled
-    }
 
-    fun setUseExperimentalPlayerUi(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_USE_EXPERIMENTAL_PLAYER_UI, enabled) }
-        _useExperimentalPlayerUi.value = enabled
-    }
 
     
     // Codec Monitoring & Enhanced Seeking Methods
-    fun setCodecMonitoringEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_CODEC_MONITORING_ENABLED, enabled) }
-        _codecMonitoringEnabled.value = enabled
-    }
-    
-    fun setShowCodecNotifications(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_SHOW_CODEC_NOTIFICATIONS, enabled) }
-        _showCodecNotifications.value = enabled
-    }
-    
-    fun setEnhancedSeekingEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_ENHANCED_SEEKING_ENABLED, enabled) }
-        _enhancedSeekingEnabled.value = enabled
-    }
     
     
-    fun setTrackErrorCheckerEnabled(enabled: Boolean) {
-        prefs.edit { putBoolean(AppSettings.KEY_TRACK_ERROR_CHECKER_ENABLED, enabled) }
-        _trackErrorCheckerEnabled.value = enabled
-    }
+    
+    
     
     // Media3 1.9.0 Feature Methods
     
@@ -2739,14 +2574,10 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     fun isEffectivelyWhitelisted(songId: String, songPath: String?) = librarySection.isEffectivelyWhitelisted(songId, songPath)
     
     // Backup and Restore Methods
-    fun setLastBackupTimestamp(timestamp: Long) {
-        prefs.edit { putLong(AppSettings.KEY_LAST_BACKUP_TIMESTAMP, timestamp) }
-        _lastBackupTimestamp.value = timestamp
-    }
     
     fun setAutoBackupEnabled(enabled: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_AUTO_BACKUP_ENABLED, enabled) }
-        _autoBackupEnabled.value = enabled
+        platformSection._autoBackupEnabled.value = enabled
         
         // Schedule or cancel auto-backup worker
         if (enabled) {
@@ -2764,9 +2595,9 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     
     
     fun setMinimumBitrate(bitrate: Int) {
-        val changed = _minimumBitrate.value != bitrate
+        val changed = platformSection._minimumBitrate.value != bitrate
         prefs.edit { putInt(AppSettings.KEY_MINIMUM_BITRATE, bitrate) }
-        _minimumBitrate.value = bitrate
+        platformSection._minimumBitrate.value = bitrate
         Log.d("AppSettings", "Minimum bitrate set to: ${bitrate}kbps")
         if (changed) {
             librarySection.requestFullMediaRescanOnNextLaunch(reason = "minimum_bitrate_changed")
@@ -2777,14 +2608,6 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     /** Trigger an immediate one-time backup (useful for testing) */
     fun triggerImmediateBackup() = jobScheduler.triggerImmediateBackup()
     
-    fun setBackupLocation(location: String?) {
-        if (location == null) {
-            prefs.edit { remove(AppSettings.KEY_BACKUP_LOCATION) }
-        } else {
-            prefs.edit { putString(AppSettings.KEY_BACKUP_LOCATION, location) }
-        }
-        _backupLocation.value = location
-    }
 
     data class BackupRestoreSections(
         val includeGeneralSettings: Boolean = true,
@@ -3486,11 +3309,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
     /**
      * Validates cache size value
      */
-    private fun isValidCacheSize(size: Long): Boolean {
-        val minSize = 50L * 1024 * 1024 // 50MB minimum
-        val maxSize = 10L * 1024 * 1024 * 1024 // 10GB maximum
-        return size in minSize..maxSize
-    }
+    private fun isValidCacheSize(size: Long) = platformSection.isValidCacheSize(size)
     
     
     /**
@@ -3505,7 +3324,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
      */
     private fun refreshAllStateFlows() {
         // Playback Settings
-        _gaplessPlayback.value = prefs.getBoolean(AppSettings.KEY_GAPLESS_PLAYBACK, true)
+        platformSection._gaplessPlayback.value = prefs.getBoolean(AppSettings.KEY_GAPLESS_PLAYBACK, true)
         audioEqSection._crossfade.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE, true)
         audioEqSection._crossfadeDuration.value = prefs.getFloat(AppSettings.KEY_CROSSFADE_DURATION, 4f)
         audioEqSection._crossfadeRepeatOne.value = prefs.getBoolean(AppSettings.KEY_CROSSFADE_REPEAT_ONE, true)
@@ -3516,15 +3335,15 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         audioEqSection._replayGainPreamp.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP, 0f)
         audioEqSection._replayGainPreampUntagged.value = prefs.getFloat(AppSettings.KEY_REPLAY_GAIN_PREAMP_UNTAGGED, 0f)
         audioEqSection._audioOffloadEnabled.value = prefs.getBoolean(AppSettings.KEY_AUDIO_OFFLOAD_ENABLED, false)
-        _skipSilenceEnabled.value = prefs.getBoolean(AppSettings.KEY_SKIP_SILENCE, false)
-        _batterySaverEnabled.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLED, false)
-        _batterySaverMode.value = prefs.getString(AppSettings.KEY_BATTERY_SAVER_MODE, "auto") ?: "auto"
-        _batterySaverDisableHaptics.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_HAPTICS, true)
-        _batterySaverEnableOffload.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLE_OFFLOAD, true)
-        _batterySaverDisableMarquee.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_MARQUEE, true)
-        _batterySaverDisableLosslessArtwork.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK, true)
-        _batterySaverDisableAutoFetchArtwork.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK, true)
-        _globalMarqueeEnabled.value = prefs.getBoolean(AppSettings.KEY_GLOBAL_MARQUEE_ENABLED, true)
+        platformSection._skipSilenceEnabled.value = prefs.getBoolean(AppSettings.KEY_SKIP_SILENCE, false)
+        platformSection._batterySaverEnabled.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLED, false)
+        platformSection._batterySaverMode.value = prefs.getString(AppSettings.KEY_BATTERY_SAVER_MODE, "auto") ?: "auto"
+        platformSection._batterySaverDisableHaptics.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_HAPTICS, true)
+        platformSection._batterySaverEnableOffload.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_ENABLE_OFFLOAD, true)
+        platformSection._batterySaverDisableMarquee.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_MARQUEE, true)
+        platformSection._batterySaverDisableLosslessArtwork.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_LOSSLESS_ARTWORK, true)
+        platformSection._batterySaverDisableAutoFetchArtwork.value = prefs.getBoolean(AppSettings.KEY_BATTERY_SAVER_DISABLE_AUTO_FETCH_ARTWORK, true)
+        platformSection._globalMarqueeEnabled.value = prefs.getBoolean(AppSettings.KEY_GLOBAL_MARQUEE_ENABLED, true)
         updateDerivedSettings()
         
         // Theme Settings
@@ -3558,7 +3377,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         audioEqSection._stopPlaybackOnZeroVolume.value = prefs.getBoolean(AppSettings.KEY_STOP_PLAYBACK_ON_ZERO_VOLUME, false)
         
         // Cache Settings
-        _maxCacheSize.value = safeLong(AppSettings.KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)
+        platformSection._maxCacheSize.value = safeLong(AppSettings.KEY_MAX_CACHE_SIZE, 300L * 1024L * 1024L)
         
         // Other settings
         lyricsSection._showLyrics.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS, true)
@@ -3569,12 +3388,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         lyricsSection._lyricsApiFallbackRetry.value = prefs.getBoolean(AppSettings.KEY_LYRICS_API_FALLBACK_RETRY, true)
         lyricsSection._onlineOnlyLyrics.value = prefs.getBoolean(AppSettings.KEY_ONLINE_ONLY_LYRICS, true)
         lyricsSection._lyricBold.value = prefs.getBoolean(AppSettings.KEY_LYRIC_BOLD, false)
-        _trimLyrics.value = prefs.getBoolean(AppSettings.KEY_TRIM_LYRICS, true)
+        platformSection._trimLyrics.value = prefs.getBoolean(AppSettings.KEY_TRIM_LYRICS, true)
         lyricsSection._lyricNoAnimation.value = prefs.getBoolean(AppSettings.KEY_LYRIC_NO_ANIMATION, false)
         lyricsSection._translationAutoWord.value = prefs.getBoolean(AppSettings.KEY_TRANSLATION_AUTO_WORD, false)
         lyricsSection._showLyricsBackgroundArtwork.value = prefs.getBoolean(AppSettings.KEY_SHOW_LYRICS_BACKGROUND_ARTWORK, true)
-        _searchHistory.value = prefs.getString(AppSettings.KEY_SEARCH_HISTORY, null)
-        _showKeyboardOnSearchOpen.value = prefs.getBoolean(AppSettings.KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN, true)
+        platformSection._searchHistory.value = prefs.getString(AppSettings.KEY_SEARCH_HISTORY, null)
+        platformSection._showKeyboardOnSearchOpen.value = prefs.getBoolean(AppSettings.KEY_SHOW_KEYBOARD_ON_SEARCH_OPEN, true)
         _playlists.value = prefs.getString(AppSettings.KEY_PLAYLISTS, null)
         _favoriteSongs.value = prefs.getString(AppSettings.KEY_FAVORITE_SONGS, null)
         
@@ -3672,14 +3491,14 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         
         // App Updates
         _autoCheckForUpdates.value = prefs.getBoolean(AppSettings.KEY_AUTO_CHECK_FOR_UPDATES, true)
-        _updateChannel.value = prefs.getString(AppSettings.KEY_UPDATE_CHANNEL, "stable") ?: "stable"
-        _updateSource.value = prefs.getString(AppSettings.KEY_UPDATE_SOURCE, "installed") ?: "installed"
-        _updatesEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATES_ENABLED, true)
-        _updateNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_NOTIFICATIONS_ENABLED, true)
-        _updateStatusNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, false)
+        platformSection._updateChannel.value = prefs.getString(AppSettings.KEY_UPDATE_CHANNEL, "stable") ?: "stable"
+        platformSection._updateSource.value = prefs.getString(AppSettings.KEY_UPDATE_SOURCE, "installed") ?: "installed"
+        platformSection._updatesEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATES_ENABLED, true)
+        platformSection._updateNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_NOTIFICATIONS_ENABLED, true)
+        platformSection._updateStatusNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_UPDATE_STATUS_NOTIFICATIONS_ENABLED, false)
         librarySection._mediaScanMode.value = MediaScanMode.fromValue(prefs.getString(AppSettings.KEY_MEDIA_SCAN_MODE, "blacklist") ?: "blacklist")
         librarySection._includeHiddenWhitelistedMedia.value = prefs.getBoolean(AppSettings.KEY_INCLUDE_HIDDEN_WHITELISTED_MEDIA, true)
-        _updateCheckIntervalHours.value = prefs.getInt(AppSettings.KEY_UPDATE_CHECK_INTERVAL_HOURS, 6)
+        platformSection._updateCheckIntervalHours.value = prefs.getInt(AppSettings.KEY_UPDATE_CHECK_INTERVAL_HOURS, 6)
         
         // Re-schedule update notification worker if settings changed
         if (jobScheduler.shouldRunUpdateNotificationWorker()) {
@@ -3689,30 +3508,30 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         }
         
         // Beta Program
-        _hasShownBetaPopup.value = prefs.getBoolean(AppSettings.KEY_HAS_SHOWN_BETA_POPUP, false)
+        platformSection._hasShownBetaPopup.value = prefs.getBoolean(AppSettings.KEY_HAS_SHOWN_BETA_POPUP, false)
         
         // Crash Reporting
-        _lastCrashLog.value = prefs.getString(AppSettings.KEY_LAST_CRASH_LOG, null)
-        _crashLogHistory.value = try {
+        platformSection._lastCrashLog.value = prefs.getString(AppSettings.KEY_LAST_CRASH_LOG, null)
+        platformSection._crashLogHistory.value = try {
             val json = prefs.getString(AppSettings.KEY_CRASH_LOG_HISTORY, null)
             if (json != null) Gson().fromJson(json, object : TypeToken<List<CrashLogEntry>>() {}.type) else emptyList()
         } catch (e: Exception) { emptyList() }
         
         // Other settings
         _hapticFeedbackEnabled.value = prefs.getBoolean(AppSettings.KEY_HAPTIC_FEEDBACK_ENABLED, true)
-        _useCustomNotification.value = prefs.getBoolean(AppSettings.KEY_USE_CUSTOM_NOTIFICATION, false)
+        platformSection._useCustomNotification.value = prefs.getBoolean(AppSettings.KEY_USE_CUSTOM_NOTIFICATION, false)
         guardStatsSection._rhythmGuardAlertNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_RHYTHM_GUARD_ALERT_NOTIFICATIONS_ENABLED, true)
         guardStatsSection._rhythmGuardTimerNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_RHYTHM_GUARD_TIMER_NOTIFICATIONS_ENABLED, true)
-        _rhythmPulseNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED, false)
-        _rhythmPulseNotificationIntervalHours.value = prefs.getInt(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS, 24).coerceIn(6, 72)
-        _forcePlayerCompactMode.value = prefs.getBoolean(AppSettings.KEY_FORCE_PLAYER_COMPACT_MODE, false)
-        _useExperimentalPlayerUi.value = prefs.getBoolean(AppSettings.KEY_USE_EXPERIMENTAL_PLAYER_UI, false)
+        platformSection._rhythmPulseNotificationsEnabled.value = prefs.getBoolean(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATIONS_ENABLED, false)
+        platformSection._rhythmPulseNotificationIntervalHours.value = prefs.getInt(AppSettings.KEY_RHYTHM_PULSE_NOTIFICATION_INTERVAL_HOURS, 24).coerceIn(6, 72)
+        platformSection._forcePlayerCompactMode.value = prefs.getBoolean(AppSettings.KEY_FORCE_PLAYER_COMPACT_MODE, false)
+        platformSection._useExperimentalPlayerUi.value = prefs.getBoolean(AppSettings.KEY_USE_EXPERIMENTAL_PLAYER_UI, false)
         librarySection._enableAlbumEditing.value = prefs.getBoolean(AppSettings.KEY_ENABLE_ALBUM_EDITING, false)
-        _onboardingCompleted.value = prefs.getBoolean(AppSettings.KEY_ONBOARDING_COMPLETED, false)
+        platformSection._onboardingCompleted.value = prefs.getBoolean(AppSettings.KEY_ONBOARDING_COMPLETED, false)
         librarySection._initialMediaScanCompleted.value = prefs.getBoolean(AppSettings.KEY_INITIAL_MEDIA_SCAN_COMPLETED, false)
         librarySection._genreDetectionCompleted.value = prefs.getBoolean(AppSettings.KEY_GENRE_DETECTION_COMPLETED, false)
 
-        if (_rhythmPulseNotificationsEnabled.value) {
+        if (platformSection._rhythmPulseNotificationsEnabled.value) {
             jobScheduler.scheduleRhythmPulseNotificationWorker()
         } else {
             jobScheduler.cancelRhythmPulseNotificationWorker()
@@ -3730,12 +3549,12 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         } catch (e: Exception) { emptyList() }
         
         // Backup settings
-        _lastBackupTimestamp.value = safeLong(AppSettings.KEY_LAST_BACKUP_TIMESTAMP, 0L)
-        _autoBackupEnabled.value = prefs.getBoolean(AppSettings.KEY_AUTO_BACKUP_ENABLED, false)
-        _backupLocation.value = prefs.getString(AppSettings.KEY_BACKUP_LOCATION, null)
+        platformSection._lastBackupTimestamp.value = safeLong(AppSettings.KEY_LAST_BACKUP_TIMESTAMP, 0L)
+        platformSection._autoBackupEnabled.value = prefs.getBoolean(AppSettings.KEY_AUTO_BACKUP_ENABLED, false)
+        platformSection._backupLocation.value = prefs.getString(AppSettings.KEY_BACKUP_LOCATION, null)
         
         // Ensure auto-backup is scheduled if enabled
-        if (_autoBackupEnabled.value) {
+        if (platformSection._autoBackupEnabled.value) {
             jobScheduler.scheduleAutoBackup()
         }
         
@@ -3750,7 +3569,7 @@ private val _autoCheckForUpdates = MutableStateFlow(prefs.getBoolean(AppSettings
         
         // Media Scan Filtering
         librarySection._allowedFormats.value = prefs.getStringSet(AppSettings.KEY_ALLOWED_FORMATS, AppSettings.defaultAllowedFormats())?.toSet() ?: AppSettings.defaultAllowedFormats()
-        _minimumBitrate.value = prefs.getInt(AppSettings.KEY_MINIMUM_BITRATE, 0)
+        platformSection._minimumBitrate.value = prefs.getInt(AppSettings.KEY_MINIMUM_BITRATE, 0)
         librarySection._minimumDuration.value = safeLong(AppSettings.KEY_MINIMUM_DURATION, 0L)
 
         // Pinned Folders
