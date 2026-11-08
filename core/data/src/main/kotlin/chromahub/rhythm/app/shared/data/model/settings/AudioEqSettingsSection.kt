@@ -107,8 +107,12 @@ internal class AudioEqSettingsSection(
         prefs.edit { putString(AppSettings.KEY_AUTOEQ_PROFILE, profileName) }
         _autoEQProfile.value = profileName
     }
+    internal val _isBassBoostAvailable = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_BASS_BOOST_AVAILABLE, true))
+
+    val isBassBoostAvailable: StateFlow<Boolean> get() = _isBassBoostAvailable.asStateFlow()
     fun setBassBoostAvailable(available: Boolean) {
         prefs.edit { putBoolean(AppSettings.KEY_BASS_BOOST_AVAILABLE, available) }
+        _isBassBoostAvailable.value = available
     }
     internal val _bassBoostEnabled = MutableStateFlow(prefs.getBoolean(AppSettings.KEY_BASS_BOOST_ENABLED, false))
 
@@ -487,7 +491,7 @@ internal class AudioEqSettingsSection(
         setDisabledDecoderExtensions(emptySet())
     }
     fun isBassBoostAvailable(): Boolean {
-        return prefs.getBoolean(AppSettings.KEY_BASS_BOOST_AVAILABLE, true)
+        return _isBassBoostAvailable.value
     }
     internal val _customAutoEQProfiles = MutableStateFlow(
         AutoEQProfile.listFromJson(prefs.getString(AppSettings.KEY_CUSTOM_AUTOEQ_PROFILES, null))
