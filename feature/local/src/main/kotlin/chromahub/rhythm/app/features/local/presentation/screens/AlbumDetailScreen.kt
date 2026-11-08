@@ -73,7 +73,7 @@ import chromahub.rhythm.app.network.AppleMusicCanvasProvider
 import chromahub.rhythm.app.network.WikipediaProvider
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.core.model.CanvasNetworkMode
-import chromahub.rhythm.app.core.common.NetworkUtils
+import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistChooserBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SongOverflowBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmSortMenuContent
@@ -84,7 +84,7 @@ import chromahub.rhythm.app.shared.presentation.components.common.HeaderAction
 import chromahub.rhythm.app.shared.presentation.components.common.HeaderActionGroup
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmDetailActionButton
 import chromahub.rhythm.app.shared.presentation.components.common.RhythmButtonType
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

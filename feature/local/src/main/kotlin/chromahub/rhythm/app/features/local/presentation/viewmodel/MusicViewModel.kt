@@ -59,14 +59,14 @@ import chromahub.rhythm.app.core.model.PlaybackQualityInfo
 import chromahub.rhythm.app.infrastructure.service.EqDspController
 import chromahub.rhythm.app.infrastructure.service.MediaPlaybackService
 import chromahub.rhythm.app.infrastructure.service.PlaybackWidgetBridgeInstaller
-import chromahub.rhythm.app.core.common.StoragePathUtils
+import com.qlzhj.rhythm.core.common.StoragePathUtils
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.EqualizerUtils
-import chromahub.rhythm.app.core.common.GsonUtils
+import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.util.MediaUtils
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
 import chromahub.rhythm.app.util.RhythmBackupDetectedException
-import chromahub.rhythm.app.core.common.PlaybackCommandSerializer
+import com.qlzhj.rhythm.core.common.PlaybackCommandSerializer
 import chromahub.rhythm.app.util.RhythmLyricsParser
 import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
@@ -115,11 +115,11 @@ import chromahub.rhythm.app.util.PendingBatchWriteRequest
 import chromahub.rhythm.app.util.PendingLyricsWriteRequest
 import chromahub.rhythm.app.util.PendingDeleteRequest
 import chromahub.rhythm.app.util.QueueUtils
-import chromahub.rhythm.app.core.common.GenreUtils
-import chromahub.rhythm.app.core.common.NaturalSortComparator
+import com.qlzhj.rhythm.core.common.GenreUtils
+import com.qlzhj.rhythm.core.common.NaturalSortComparator
 import chromahub.rhythm.app.util.LyricLine
 import chromahub.rhythm.app.util.LyricsParser
-import chromahub.rhythm.app.core.common.ServiceStartUtils
+import com.qlzhj.rhythm.core.common.ServiceStartUtils
 import chromahub.rhythm.app.util.StatusBroadcaster
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 
@@ -852,7 +852,7 @@ class MusicViewModel @Inject constructor(
         appSettings.artistSeparatorDelimiters
     ) { artists, filteredSongs, groupByAlbumArtist, artistSeparatorEnabled, artistSeparatorDelimiters ->
         val charDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(artistSeparatorDelimiters)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(artistSeparatorDelimiters)
         } else {
             emptyList()
         }

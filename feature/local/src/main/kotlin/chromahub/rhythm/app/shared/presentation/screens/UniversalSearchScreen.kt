@@ -91,7 +91,7 @@ import chromahub.rhythm.app.shared.presentation.components.SettingScope
 import chromahub.rhythm.app.shared.presentation.components.common.M3PlaceholderType
 import chromahub.rhythm.app.shared.presentation.components.dialogs.SwitchModeDialog
 import chromahub.rhythm.app.core.designsystem.LocalMiniPlayerPadding
-import chromahub.rhythm.app.core.common.GenreUtils
+import com.qlzhj.rhythm.core.common.GenreUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.ImageUtils
@@ -1569,7 +1569,7 @@ fun UniversalSearchScreen(
                     if (localSong != null) {
                         val separatorEnabled = appSettings.artistSeparatorEnabled.value
                         val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
-                        val songArtistNames = chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+                        val songArtistNames = com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                             artistName = localSong.artist,
                             delimiters = delimiters,
                             enabled = separatorEnabled

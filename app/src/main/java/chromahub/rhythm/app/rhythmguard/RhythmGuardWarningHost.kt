@@ -81,8 +81,8 @@ import chromahub.rhythm.app.R
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.shared.presentation.navigation.RhythmGuardRiskLevel
-import chromahub.rhythm.app.shared.presentation.navigation.rhythmGuardResolveRiskLevel
+import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel
+import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoader
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import chromahub.rhythm.app.util.AudioDeviceManager
@@ -91,7 +91,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
-import chromahub.rhythm.app.core.common.rhythmGuardFormatDurationFromMinutes
+import com.qlzhj.rhythm.core.common.rhythmGuardFormatDurationFromMinutes
 
 
 private const val RHYTHM_GUARD_ALERT_CHANNEL_ID = "rhythm_guard_alerts"

@@ -11,7 +11,7 @@ import chromahub.rhythm.app.core.model.ArtistItem
 import chromahub.rhythm.app.core.model.PlayableItem
 import chromahub.rhythm.app.core.model.PlaylistItem
 import chromahub.rhythm.app.core.model.SourceType
-import chromahub.rhythm.app.core.common.NetworkUtils
+import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.features.streaming.data.provider.JellyfinApiClient
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseApiClient
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseQrLoginState
@@ -35,7 +35,7 @@ import chromahub.rhythm.app.network.NetworkClient
 import chromahub.rhythm.app.network.DeezerApiService
 import android.net.Uri
 import kotlinx.coroutines.flow.Flow
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -1256,10 +1256,10 @@ class StreamingMusicRepositoryImpl @Inject constructor(
         fun buildRequest(url: String): okhttp3.Request {
             val reqBuilder = okhttp3.Request.Builder()
                 .url(url)
-                .header("User-Agent", "Rhythm/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)")
+                .header("User-Agent", "Rhythm/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)")
             if (serviceId == StreamingServiceId.JELLYFIN) {
                 jellyfinClient.getAccessToken()?.let { token ->
-                    reqBuilder.header("Authorization", "MediaBrowser Client=\"Rhythm\", Device=\"Rhythm Android\", DeviceId=\"rhythm-android-client\", Version=\"${chromahub.rhythm.app.core.common.AppBuildInfo.versionName}\", Token=\"$token\"")
+                    reqBuilder.header("Authorization", "MediaBrowser Client=\"Rhythm\", Device=\"Rhythm Android\", DeviceId=\"rhythm-android-client\", Version=\"${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName}\", Token=\"$token\"")
                     reqBuilder.header("X-Emby-Token", token)
                 }
             }
@@ -1324,7 +1324,7 @@ class StreamingMusicRepositoryImpl @Inject constructor(
             } else if (!artworkUri.isNullOrBlank() && (artworkUri.startsWith("http://") || artworkUri.startsWith("https://"))) {
                 val artRequest = okhttp3.Request.Builder()
                     .url(artworkUri)
-                    .header("User-Agent", "Rhythm/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)")
+                    .header("User-Agent", "Rhythm/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)")
                     .build()
                 try {
                     client.newCall(artRequest).execute().use { responseArt ->

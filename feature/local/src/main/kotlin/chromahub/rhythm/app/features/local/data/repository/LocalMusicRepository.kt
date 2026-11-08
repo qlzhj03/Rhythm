@@ -91,9 +91,9 @@ import chromahub.rhythm.app.util.LyricsParser
 import chromahub.rhythm.app.util.EnhancedLyricLine
 import chromahub.rhythm.app.util.EnhancedWord
 import chromahub.rhythm.app.util.RhythmLyricsParser
-import chromahub.rhythm.app.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.LrcUtils
 import chromahub.rhythm.app.util.MetadataHeuristics
-import chromahub.rhythm.app.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.SemanticLyrics
 import android.content.SharedPreferences
 import androidx.room.withTransaction
 import chromahub.rhythm.app.features.local.data.database.RhythmDatabase
@@ -424,7 +424,7 @@ class LocalMusicRepository @Inject constructor(
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2152,7 +2152,7 @@ class LocalMusicRepository @Inject constructor(
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val charDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2255,7 +2255,7 @@ class LocalMusicRepository @Inject constructor(
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters: List<String> = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -2310,7 +2310,7 @@ class LocalMusicRepository @Inject constructor(
         val appSettings = AppSettings.getInstance(context)
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val delimiters = if (artistSeparatorEnabled) appSettings.artistSeparatorDelimiters.value else ""
-        return chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(artistName, delimiters, artistSeparatorEnabled)
+        return com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(artistName, delimiters, artistSeparatorEnabled)
     }
 
     /**
@@ -2318,7 +2318,7 @@ class LocalMusicRepository @Inject constructor(
      * Use this overload in hot loops to avoid reading AppSettings per call.
      */
     fun splitArtistNames(artistName: String, preloadedCharDelimiters: List<String>): List<String> {
-        return chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(artistName, preloadedCharDelimiters, preloadedCharDelimiters.isNotEmpty())
+        return com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(artistName, preloadedCharDelimiters, preloadedCharDelimiters.isNotEmpty())
     }
     
     /**
@@ -2561,7 +2561,7 @@ class LocalMusicRepository @Inject constructor(
             val appSettings = AppSettings.getInstance(context)
             val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
             val preloadedCharDelimiters: List<String> = if (appSettings.artistSeparatorEnabled.value) {
-                chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+                com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
             } else {
                 emptyList()
             }
@@ -5104,17 +5104,17 @@ class LocalMusicRepository @Inject constructor(
             }
             
             val semanticLyrics = when (ext.lowercase()) {
-                "ttml", "xml" -> chromahub.rhythm.app.core.common.parseTtml(null, content)
-                "srt" -> chromahub.rhythm.app.core.common.parseSrt(content, true)
+                "ttml", "xml" -> com.qlzhj.rhythm.core.common.parseTtml(null, content)
+                "srt" -> com.qlzhj.rhythm.core.common.parseSrt(content, true)
                 else -> null
             } ?: return null
             
             return when (semanticLyrics) {
-                is chromahub.rhythm.app.core.common.SemanticLyrics.UnsyncedLyrics -> {
+                is com.qlzhj.rhythm.core.common.SemanticLyrics.UnsyncedLyrics -> {
                     val plainLyrics = semanticLyrics.unsyncedText.joinToString("\n") { it.first }
                     LyricsData(plainLyrics = plainLyrics, syncedLyrics = null, wordByWordLyrics = null, source = "Local File")
                 }
-                is chromahub.rhythm.app.core.common.SemanticLyrics.SyncedLyrics -> {
+                is com.qlzhj.rhythm.core.common.SemanticLyrics.SyncedLyrics -> {
                     val plainLyrics = semanticLyrics.text.joinToString("\n") { it.text }
                     val syncedLyrics = semanticLyrics.text.joinToString("\n") { line ->
                         val min = (line.start / 60000uL)
@@ -5592,7 +5592,7 @@ class LocalMusicRepository @Inject constructor(
         val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }
@@ -5638,7 +5638,7 @@ class LocalMusicRepository @Inject constructor(
         val groupByAlbumArtist = appSettings.groupByAlbumArtist.value
         val artistSeparatorEnabled = appSettings.artistSeparatorEnabled.value
         val preloadedCharDelimiters = if (artistSeparatorEnabled) {
-            chromahub.rhythm.app.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
+            com.qlzhj.rhythm.core.common.ArtistSeparator.parseDelimiters(appSettings.artistSeparatorDelimiters.value)
         } else {
             emptyList()
         }

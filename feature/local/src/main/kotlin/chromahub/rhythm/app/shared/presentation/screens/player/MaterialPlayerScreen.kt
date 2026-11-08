@@ -178,8 +178,8 @@ import chromahub.rhythm.app.util.ImageUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.LyricsFileUtils
-import chromahub.rhythm.app.core.common.LrcUtils
-import chromahub.rhythm.app.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.SemanticLyrics
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
@@ -370,7 +370,7 @@ fun MaterialPlayerScreen(
     // Helper function to split artist names
     val splitArtistNames: (String) -> List<String> = remember(artistSeparatorDelimiters, artistSeparatorEnabled) {
         { artistName ->
-            chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+            com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                 artistName = artistName,
                 delimiters = artistSeparatorDelimiters,
                 enabled = artistSeparatorEnabled

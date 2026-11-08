@@ -93,7 +93,7 @@ import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.core.common.GsonUtils
+import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import coil.compose.AsyncImage
@@ -250,13 +250,13 @@ fun AboutScreen(
             item {
                 val appInfo = context.applicationInfo
                 val buildType = when {
-                    chromahub.rhythm.app.core.common.AppBuildInfo.isDebugBuild -> "Debug"
-                    chromahub.rhythm.app.core.common.AppBuildInfo.isNightly -> "Nightly"
-                    chromahub.rhythm.app.core.common.AppBuildInfo.versionName.contains("Beta", ignoreCase = true) -> "Beta"
+                    com.qlzhj.rhythm.core.common.AppBuildInfo.isDebugBuild -> "Debug"
+                    com.qlzhj.rhythm.core.common.AppBuildInfo.isNightly -> "Nightly"
+                    com.qlzhj.rhythm.core.common.AppBuildInfo.versionName.contains("Beta", ignoreCase = true) -> "Beta"
                     else -> "Stable"
                 }
-                val buildVariant = if (chromahub.rhythm.app.core.common.AppBuildInfo.flavor.isNotBlank()) {
-                    "$buildType (${chromahub.rhythm.app.core.common.AppBuildInfo.flavor})"
+                val buildVariant = if (com.qlzhj.rhythm.core.common.AppBuildInfo.flavor.isNotBlank()) {
+                    "$buildType (${com.qlzhj.rhythm.core.common.AppBuildInfo.flavor})"
                 } else {
                     buildType
                 }
@@ -270,12 +270,12 @@ fun AboutScreen(
                     ProjectDetailCardData(
                         icon = RhythmIcons.Info,
                         label = context.getString(R.string.settings_about_version_label),
-                        value = chromahub.rhythm.app.core.common.AppBuildInfo.versionName
+                        value = com.qlzhj.rhythm.core.common.AppBuildInfo.versionName
                     ),
                     ProjectDetailCardData(
                         icon = MaterialSymbolIcon("build"),
                         label = context.getString(R.string.settings_about_build),
-                        value = "${chromahub.rhythm.app.core.common.AppBuildInfo.versionCode} • $buildVariant"
+                        value = "${com.qlzhj.rhythm.core.common.AppBuildInfo.versionCode} • $buildVariant"
                     ),
                     ProjectDetailCardData(
                         icon = MaterialSymbolIcon("developer_mode"),
@@ -336,8 +336,8 @@ fun AboutScreen(
                             val allInfo = buildString {
                                 appendLine("=== Rhythm System Information ===")
                                 appendLine("App: Rhythm")
-                                appendLine("Version: ${chromahub.rhythm.app.core.common.AppBuildInfo.versionName}")
-                                appendLine("Build: ${chromahub.rhythm.app.core.common.AppBuildInfo.versionCode} ($buildVariant)")
+                                appendLine("Version: ${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName}")
+                                appendLine("Build: ${com.qlzhj.rhythm.core.common.AppBuildInfo.versionCode} ($buildVariant)")
                                 appendLine("Target SDK: ${appInfo.targetSdkVersion}")
                                 appendLine("Device OS: Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})")
                                 appendLine("Brand/Manufacturer: ${Build.BRAND} / ${Build.MANUFACTURER}")

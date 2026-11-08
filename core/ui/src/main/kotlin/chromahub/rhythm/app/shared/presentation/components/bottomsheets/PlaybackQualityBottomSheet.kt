@@ -32,7 +32,7 @@ import chromahub.rhythm.app.core.designsystem.icons.Icon
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.theme.MusicDimensions
-import chromahub.rhythm.app.core.common.AudioQualityDetector
+import com.qlzhj.rhythm.core.common.AudioQualityDetector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

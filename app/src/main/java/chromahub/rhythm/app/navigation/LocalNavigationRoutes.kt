@@ -46,7 +46,7 @@ import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
 import chromahub.rhythm.app.core.model.findAlbumForSong
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
 import kotlinx.coroutines.launch
@@ -1307,7 +1307,7 @@ internal fun LocalAlbumDetailRoute(
         onGoToArtist = { song ->
             val separatorEnabled = appSettings.artistSeparatorEnabled.value
             val delimiters = appSettings.artistSeparatorDelimiters.value.ifBlank { chromahub.rhythm.app.shared.data.model.AppSettings.DEFAULT_ARTIST_SEPARATOR_DELIMITERS }
-            val candidates = chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+            val candidates = com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                 song.artist,
                 delimiters = delimiters,
                 enabled = separatorEnabled

@@ -92,7 +92,7 @@ import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.core.common.GsonUtils
+import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import coil.compose.AsyncImage
@@ -244,7 +244,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                     modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                 )
                 val apiServiceItems = buildList {
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableDeezer) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableDeezer) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,
@@ -261,7 +261,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                         )
                     }
 
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableLrclib) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableLrclib) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,
@@ -278,7 +278,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                         )
                     }
 
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableBetterLyrics) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableBetterLyrics) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,
@@ -295,7 +295,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                         )
                     }
 
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableLyricallyApi) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableLyricallyApi) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,
@@ -339,7 +339,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                         )
                     )
 
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableYouTubeMusic) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableYouTubeMusic) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,
@@ -356,7 +356,7 @@ fun ApiManagementSettingsScreen(onBackClick: () -> Unit) {
                         )
                     }
 
-                    if (chromahub.rhythm.app.core.common.AppBuildInfo.enableWikipedia) {
+                    if (com.qlzhj.rhythm.core.common.AppBuildInfo.enableWikipedia) {
                         add(
                             toMaterial3SettingsItem(
                                 context = context,

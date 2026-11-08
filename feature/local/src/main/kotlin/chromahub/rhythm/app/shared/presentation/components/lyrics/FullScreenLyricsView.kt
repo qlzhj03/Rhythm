@@ -58,8 +58,8 @@ import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.util.M3ImageUtils
-import chromahub.rhythm.app.core.common.LrcUtils
-import chromahub.rhythm.app.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.SemanticLyrics
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.luminance
 import kotlinx.coroutines.delay

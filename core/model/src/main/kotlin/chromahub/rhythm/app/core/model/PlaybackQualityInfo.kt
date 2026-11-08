@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.core.model
 
 import android.os.Parcelable
-import chromahub.rhythm.app.core.common.AudioQualityDetector
+import com.qlzhj.rhythm.core.common.AudioQualityDetector
 import kotlinx.parcelize.Parcelize
 import java.util.Locale
 

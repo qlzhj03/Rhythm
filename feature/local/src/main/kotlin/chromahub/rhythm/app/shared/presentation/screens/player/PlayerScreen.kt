@@ -92,7 +92,7 @@ import kotlinx.coroutines.Dispatchers
 import chromahub.rhythm.app.network.AppleMusicCanvasProvider
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.core.model.CanvasNetworkMode
-import chromahub.rhythm.app.core.common.NetworkUtils
+import com.qlzhj.rhythm.core.common.NetworkUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -291,7 +291,7 @@ fun PlayerScreen(
 
         val splitArtistNames: (String) -> List<String> = remember(artistSeparatorDelimiters, artistSeparatorEnabled) {
             { artistName ->
-                chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+                com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                     artistName = artistName,
                     delimiters = artistSeparatorDelimiters,
                     enabled = artistSeparatorEnabled

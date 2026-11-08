@@ -16,7 +16,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import chromahub.rhythm.app.core.common.GsonUtils
+import com.qlzhj.rhythm.core.common.GsonUtils
 
 // Marker exception used to signal a Rhythm backup file was selected in the single-playlist import flow
 class RhythmBackupDetectedException(val backupJson: String) : Exception("Rhythm backup file detected")

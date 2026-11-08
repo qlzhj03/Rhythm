@@ -55,7 +55,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOptions
-import chromahub.rhythm.app.core.common.NetworkUtils
+import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.StandardBottomSheetHeader
 import androidx.compose.ui.text.style.TextOverflow
 import chromahub.rhythm.app.shared.presentation.components.common.StreamingServiceOption

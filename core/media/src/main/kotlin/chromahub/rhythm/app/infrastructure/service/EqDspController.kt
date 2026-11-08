@@ -11,7 +11,7 @@ import chromahub.rhythm.app.core.model.UserAudioDevice
 import chromahub.rhythm.app.util.AudioDeviceManager
 import chromahub.rhythm.app.util.AutoEQManager
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.common.ServiceStartUtils
+import com.qlzhj.rhythm.core.common.ServiceStartUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

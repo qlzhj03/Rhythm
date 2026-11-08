@@ -436,11 +436,11 @@ fun LyricsEditorBottomSheet(
                 editedSource = loadedLyrics
                 selectedFormat = if (hasWordTiming) LyricFormat.WORD_BY_WORD else LyricFormat.LINE_BY_LINE
             } else {
-                val semanticLyrics = chromahub.rhythm.app.core.common.parseTtml(null, loadedLyrics)
+                val semanticLyrics = com.qlzhj.rhythm.core.common.parseTtml(null, loadedLyrics)
                 val plain = when (semanticLyrics) {
-                    is chromahub.rhythm.app.core.common.SemanticLyrics.UnsyncedLyrics ->
+                    is com.qlzhj.rhythm.core.common.SemanticLyrics.UnsyncedLyrics ->
                         semanticLyrics.unsyncedText.joinToString("\n") { it.first }
-                    is chromahub.rhythm.app.core.common.SemanticLyrics.SyncedLyrics ->
+                    is com.qlzhj.rhythm.core.common.SemanticLyrics.SyncedLyrics ->
                         semanticLyrics.text.joinToString("\n") { it.text }
                     else -> loadedLyrics
                 }

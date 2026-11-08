@@ -914,7 +914,7 @@ class JellyfinApiClient(context: Context) {
                 val request = Request.Builder()
                     .url("${serverUrl.trimEnd('/')}/Users/AuthenticateByName")
                     .header("Authorization", buildAuthorizationHeader(token = null))
-                    .header("User-Agent", "Rhythm/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)")
+                    .header("User-Agent", "Rhythm/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)")
                     .header("Content-Type", "application/json")
                     .post(body)
                     .build()
@@ -961,7 +961,7 @@ class JellyfinApiClient(context: Context) {
                     .url(urlBuilder.build())
                     .header("Authorization", buildAuthorizationHeader(token = cred.accessToken))
                     .header("X-Emby-Token", cred.accessToken)
-                    .header("User-Agent", "Rhythm/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)")
+                    .header("User-Agent", "Rhythm/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)")
                     .header("Accept", "application/json")
                 when (method.uppercase()) {
                     "POST" -> requestBuilder.post(body ?: "".toRequestBody("text/plain".toMediaType()))

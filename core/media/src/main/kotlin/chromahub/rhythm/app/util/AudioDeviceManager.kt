@@ -20,7 +20,7 @@ import android.content.pm.PackageManager
 import android.bluetooth.BluetoothClass
 import android.content.Intent
 import android.provider.Settings
-import chromahub.rhythm.app.core.common.OutputSwitcherHelper
+import com.qlzhj.rhythm.core.common.OutputSwitcherHelper
 
 /**
  * Utility class to manage audio output devices

@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.di
 
 import android.content.Context
-import chromahub.rhythm.app.core.common.AppBuildInfo
+import com.qlzhj.rhythm.core.common.AppBuildInfo
 import chromahub.rhythm.app.network.NetworkClient
 import chromahub.rhythm.app.network.NetworkFeatureFlags
 import chromahub.rhythm.app.network.NetworkSettingsProvider

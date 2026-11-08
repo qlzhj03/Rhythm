@@ -96,7 +96,7 @@ import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
 import chromahub.rhythm.app.shared.data.repository.StatsTimeRange
-import chromahub.rhythm.app.core.common.GsonUtils
+import com.qlzhj.rhythm.core.common.GsonUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import coil.compose.AsyncImage
@@ -152,7 +152,7 @@ import chromahub.rhythm.app.shared.presentation.screens.settings.TunerAnimatedSw
 import chromahub.rhythm.app.shared.presentation.screens.settings.TunerSettingCard
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingItem
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingGroup
-import chromahub.rhythm.app.core.common.rhythmGuardFormatDurationFromMinutes
+import com.qlzhj.rhythm.core.common.rhythmGuardFormatDurationFromMinutes
 
 
 @Composable

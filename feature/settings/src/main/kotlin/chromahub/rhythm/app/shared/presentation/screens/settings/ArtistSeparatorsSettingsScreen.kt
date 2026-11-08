@@ -44,7 +44,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType
 import chromahub.rhythm.app.shared.presentation.components.common.CollapsibleHeaderScreen

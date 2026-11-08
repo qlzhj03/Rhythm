@@ -110,7 +110,7 @@ import chromahub.rhythm.app.core.designsystem.components.RhythmWavyProgressLoade
 import chromahub.rhythm.app.core.designsystem.icons.Icon as RhythmIcon
 import kotlin.math.abs
 import android.provider.Settings
-import chromahub.rhythm.app.core.common.ServiceStartUtils
+import com.qlzhj.rhythm.core.common.ServiceStartUtils
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.foundation.shape.RoundedCornerShape

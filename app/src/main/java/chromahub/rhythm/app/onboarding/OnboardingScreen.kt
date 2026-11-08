@@ -139,7 +139,7 @@ import android.widget.Toast
 import android.provider.DocumentsContract
 import android.util.Log
 import java.io.File
-import chromahub.rhythm.app.core.common.StoragePathUtils
+import com.qlzhj.rhythm.core.common.StoragePathUtils
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import chromahub.rhythm.app.R
@@ -205,7 +205,7 @@ import chromahub.rhythm.app.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ShapePresetsBottomSheet
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.getLocalizedShapePresetName
 import chromahub.rhythm.app.shared.presentation.components.bottomsheets.ArtistDelimitersBottomSheet
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.shared.presentation.screens.settings.CanvasNetworkModeDialog
 import chromahub.rhythm.app.core.designsystem.utils.HapticUtils
 import chromahub.rhythm.app.core.designsystem.utils.HapticType

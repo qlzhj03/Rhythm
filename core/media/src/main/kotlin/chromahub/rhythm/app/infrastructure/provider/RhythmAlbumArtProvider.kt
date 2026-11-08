@@ -23,7 +23,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.net.toUri
-import chromahub.rhythm.app.core.common.AppBuildInfo
+import com.qlzhj.rhythm.core.common.AppBuildInfo
 import chromahub.rhythm.app.util.MediaUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

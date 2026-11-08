@@ -3,8 +3,8 @@ package chromahub.rhythm.app.shared.data.model.settings
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import android.util.Log
-import chromahub.rhythm.app.core.common.ArtistSeparator
-import chromahub.rhythm.app.core.common.StoragePathUtils
+import com.qlzhj.rhythm.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.StoragePathUtils
 import com.google.gson.Gson
 import chromahub.rhythm.app.shared.data.model.AlbumViewType
 import com.google.gson.reflect.TypeToken

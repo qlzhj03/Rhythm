@@ -130,7 +130,7 @@ fun StreamingArtist.toLibraryArtist(
     val matchingSongs = if (librarySongs.isNotEmpty()) {
         librarySongs.filter { song ->
             song.artist.equals(name, ignoreCase = true) ||
-                chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+                com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                     song.artist,
                     delimiters = separatorDelimiters,
                     enabled = separatorEnabled

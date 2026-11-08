@@ -147,10 +147,10 @@ import chromahub.rhythm.app.core.designsystem.utils.ColorExtractor
 import chromahub.rhythm.app.core.designsystem.utils.DevicePosture
 import chromahub.rhythm.app.core.designsystem.utils.rememberDevicePosture
 import com.google.android.material.color.utilities.Hct
-import chromahub.rhythm.app.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.LrcUtils
 import chromahub.rhythm.app.network.CanvasArtwork
 import chromahub.rhythm.app.shared.presentation.components.player.CanvasArtworkPlayer
-import chromahub.rhythm.app.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.SemanticLyrics
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.widget.Toast

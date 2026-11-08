@@ -76,8 +76,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.LaunchedEffect
 import chromahub.rhythm.app.shared.data.repository.PlaybackStatsRepository
-import chromahub.rhythm.app.shared.presentation.navigation.RhythmGuardRiskLevel
-import chromahub.rhythm.app.shared.presentation.navigation.rhythmGuardResolveRiskLevel
+import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel
+import com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel
 import androidx.compose.ui.draw.clip
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
@@ -960,7 +960,7 @@ fun SettingsTipsRow(
             val safeLimit = if (limitMinutes > 0) limitMinutes else 90
             val safeThreshold = (manualVolumeFloat * 100).toInt().coerceAtLeast(1)
             
-            currentRiskLevel = chromahub.rhythm.app.shared.presentation.navigation.rhythmGuardResolveRiskLevel(
+            currentRiskLevel = com.qlzhj.rhythm.core.common.shared.presentation.navigation.rhythmGuardResolveRiskLevel(
                 currentVolumePercent = currentVolumePercent, 
                 safeThresholdPercent = safeThreshold,
                 exposureMinutes = todayExposureMinutes,

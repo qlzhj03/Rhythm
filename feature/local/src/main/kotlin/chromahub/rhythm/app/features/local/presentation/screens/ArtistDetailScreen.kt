@@ -221,7 +221,7 @@ fun ArtistDetailScreen(
 
         value = withContext(Dispatchers.Default) {
             fun splitArtistNames(artistNameStr: String): List<String> {
-                return chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+                return com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                     artistName = artistNameStr,
                     delimiters = artistSeparatorDelimiters,
                     enabled = artistSeparatorEnabled

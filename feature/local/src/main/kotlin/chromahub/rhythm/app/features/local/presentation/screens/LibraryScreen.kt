@@ -9,8 +9,8 @@ import chromahub.rhythm.app.shared.presentation.components.bottomsheets.SheetAda
 import chromahub.rhythm.app.core.designsystem.icons.RhythmIcons
 import chromahub.rhythm.app.core.designsystem.icons.MaterialSymbolIcon
 import chromahub.rhythm.app.core.designsystem.icons.Icon
-import chromahub.rhythm.app.core.common.ArtistSeparator
-import chromahub.rhythm.app.core.common.NaturalSortComparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.NaturalSortComparator
 
 import kotlin.math.abs
 
@@ -125,7 +125,7 @@ import chromahub.rhythm.app.core.designsystem.components.horizontalEdgeBlend
 import android.net.Uri
 import android.util.Log
 import chromahub.rhythm.app.util.PlaylistImportExportUtils
-import chromahub.rhythm.app.core.common.AppRestarter
+import com.qlzhj.rhythm.core.common.AppRestarter
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledIconButton
@@ -258,7 +258,7 @@ import chromahub.rhythm.app.core.designsystem.components.AlphabetBar
 import chromahub.rhythm.app.core.designsystem.components.ScrollToTopButton
 import chromahub.rhythm.app.core.designsystem.components.TabAnimation
 import chromahub.rhythm.app.util.AudioFormatDetector
-import chromahub.rhythm.app.core.common.AudioQualityDetector
+import com.qlzhj.rhythm.core.common.AudioQualityDetector
 import chromahub.rhythm.app.core.designsystem.components.ActionProgressLoader
 import chromahub.rhythm.app.core.designsystem.components.ExpressiveButtonGroup
 import chromahub.rhythm.app.core.designsystem.components.ButtonGroupStyle
@@ -2386,7 +2386,7 @@ fun SingleCardSongsContent(
     val splitArtistNames: (String) -> List<String> = remember {
         { artistName ->
             val libAppSettings = AppSettings.getInstance(context)
-            chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+            com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                 artistName = artistName,
                 delimiters = libAppSettings.artistSeparatorDelimiters.value,
                 enabled = libAppSettings.artistSeparatorEnabled.value

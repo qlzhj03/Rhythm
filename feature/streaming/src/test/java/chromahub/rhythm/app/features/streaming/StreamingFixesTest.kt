@@ -357,7 +357,7 @@ class StreamingFixesTest {
     @Test
     fun testUserAgentFormatConsistency() {
         val expectedPattern = Regex("""^Rhythm/.+ \(Android\)$""")
-        val userAgent = "Rhythm/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)"
+        val userAgent = "Rhythm/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)"
         assertTrue("User Agent '$userAgent' should match pattern 'Rhythm/<version> (Android)'", expectedPattern.matches(userAgent))
     }
 

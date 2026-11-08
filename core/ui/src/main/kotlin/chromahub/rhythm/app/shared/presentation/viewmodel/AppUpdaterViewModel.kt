@@ -28,8 +28,8 @@ import chromahub.rhythm.app.network.GitHubRelease
 import chromahub.rhythm.app.network.GitHubWorkflowRun
 import chromahub.rhythm.app.network.NetworkManager
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.common.ChangelogFilter
-import chromahub.rhythm.app.core.common.VersionComparator
+import com.qlzhj.rhythm.core.common.ChangelogFilter
+import com.qlzhj.rhythm.core.common.VersionComparator
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -157,14 +157,14 @@ class AppUpdaterViewModel @Inject constructor(
     private val _currentVersion =
         MutableStateFlow(
             AppVersion(
-                versionName = chromahub.rhythm.app.core.common.AppBuildInfo.versionName,
-                versionCode = chromahub.rhythm.app.core.common.AppBuildInfo.versionCode,
-                releaseDate = chromahub.rhythm.app.core.common.AppBuildInfo.releaseDate,
+                versionName = com.qlzhj.rhythm.core.common.AppBuildInfo.versionName,
+                versionCode = com.qlzhj.rhythm.core.common.AppBuildInfo.versionCode,
+                releaseDate = com.qlzhj.rhythm.core.common.AppBuildInfo.releaseDate,
                 whatsNew = emptyList(),
                 knownIssues = emptyList(),
                 downloadUrl = "",
-                isPreRelease = chromahub.rhythm.app.core.common.AppBuildInfo.versionName.contains("Beta", ignoreCase = true),
-                buildNumber = extractBuildNumber(chromahub.rhythm.app.core.common.AppBuildInfo.versionName),
+                isPreRelease = com.qlzhj.rhythm.core.common.AppBuildInfo.versionName.contains("Beta", ignoreCase = true),
+                buildNumber = extractBuildNumber(com.qlzhj.rhythm.core.common.AppBuildInfo.versionName),
             ),
         )
     val currentVersion: StateFlow<AppVersion> = _currentVersion.asStateFlow()
@@ -480,12 +480,12 @@ class AppUpdaterViewModel @Inject constructor(
             isCandidatePreRelease = candidate.isPreRelease,
             isCurrentPreRelease = _currentVersion.value.isPreRelease,
         )
-        val hasVersionCodeDowngrade = candidate.versionCode > 0 && candidate.versionCode < chromahub.rhythm.app.core.common.AppBuildInfo.versionCode
+        val hasVersionCodeDowngrade = candidate.versionCode > 0 && candidate.versionCode < com.qlzhj.rhythm.core.common.AppBuildInfo.versionCode
         _isVersionCodeDowngrade.value = hasVersionCodeDowngrade
 
         Log.d(
             tag,
-            "Version comparison: current=${_currentVersion.value.versionName} (code=${chromahub.rhythm.app.core.common.AppBuildInfo.versionCode}) vs latest=${candidate.versionName} (code=${candidate.versionCode}) -> isNewer=$isNewer, isDowngrade=$hasVersionCodeDowngrade"
+            "Version comparison: current=${_currentVersion.value.versionName} (code=${com.qlzhj.rhythm.core.common.AppBuildInfo.versionCode}) vs latest=${candidate.versionName} (code=${candidate.versionCode}) -> isNewer=$isNewer, isDowngrade=$hasVersionCodeDowngrade"
         )
         _updateAvailable.value = isNewer
     }
@@ -647,7 +647,7 @@ class AppUpdaterViewModel @Inject constructor(
 
         val shortSha = run.head_sha.take(7)
         val cleanedBaseName =
-            chromahub.rhythm.app.core.common.AppBuildInfo.versionName
+            com.qlzhj.rhythm.core.common.AppBuildInfo.versionName
                 .replace(" Beta", "")
                 .replace(Regex("-nightly-r\\d+-[0-9a-f]+", RegexOption.IGNORE_CASE), "")
         val versionName = "$cleanedBaseName-nightly-r${run.run_number}-$shortSha"
@@ -1016,7 +1016,7 @@ class AppUpdaterViewModel @Inject constructor(
                     Request
                         .Builder()
                         .url(downloadUrl)
-                        .header("User-Agent", "Rhythm-App/${chromahub.rhythm.app.core.common.AppBuildInfo.versionName} (Android)")
+                        .header("User-Agent", "Rhythm-App/${com.qlzhj.rhythm.core.common.AppBuildInfo.versionName} (Android)")
 
                 // Add range header if resuming
                 if (existingLength > 0 && activeDownload != null) {
@@ -1656,9 +1656,9 @@ class AppUpdaterViewModel @Inject constructor(
 
     private fun resolveUpdateSourceFlavor(): String =
         when (_appSettings.updateSource.value.lowercase(Locale.ROOT)) {
-            "installed" -> chromahub.rhythm.app.core.common.AppBuildInfo.flavor
+            "installed" -> com.qlzhj.rhythm.core.common.AppBuildInfo.flavor
             "github" -> "github"
-            else -> chromahub.rhythm.app.core.common.AppBuildInfo.flavor
+            else -> com.qlzhj.rhythm.core.common.AppBuildInfo.flavor
         }
 
     private fun isUniversalApkName(name: String): Boolean = name.contains("universal", ignoreCase = true) || !hasAbiSuffix(name)

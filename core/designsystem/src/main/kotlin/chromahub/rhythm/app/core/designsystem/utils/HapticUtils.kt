@@ -2,7 +2,7 @@ package chromahub.rhythm.app.core.designsystem.utils
 
 import android.content.Context
 import android.os.Build
-import chromahub.rhythm.app.core.common.HapticsGate
+import com.qlzhj.rhythm.core.common.HapticsGate
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager

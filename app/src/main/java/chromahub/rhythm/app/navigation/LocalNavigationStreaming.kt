@@ -38,7 +38,7 @@ import chromahub.rhythm.app.core.model.Artist
 import chromahub.rhythm.app.core.model.Playlist
 import chromahub.rhythm.app.core.model.Song
 import chromahub.rhythm.app.features.streaming.presentation.navigation.StreamingRoutes
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.ui.platform.LocalContext

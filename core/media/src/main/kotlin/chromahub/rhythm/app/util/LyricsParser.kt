@@ -3,8 +3,8 @@ package chromahub.rhythm.app.util
 import android.util.Log
 import java.util.regex.Pattern
 import java.util.Locale
-import chromahub.rhythm.app.core.common.LrcUtils
-import chromahub.rhythm.app.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.SemanticLyrics
 
 object LyricsParser {
 
@@ -399,8 +399,8 @@ object LyricsParser {
      */
     fun parseLyrics(lrcContent: String): List<LyricLine> {
         if (lrcContent.isBlank()) return emptyList()
-        val trim = runCatching { chromahub.rhythm.app.core.common.LyricsSettingsGate.trimLyrics() }.getOrDefault(true)
-        val autoWordSync = runCatching { chromahub.rhythm.app.core.common.LyricsSettingsGate.translationAutoWord() }.getOrDefault(false)
+        val trim = runCatching { com.qlzhj.rhythm.core.common.LyricsSettingsGate.trimLyrics() }.getOrDefault(true)
+        val autoWordSync = runCatching { com.qlzhj.rhythm.core.common.LyricsSettingsGate.translationAutoWord() }.getOrDefault(false)
         val options = LrcUtils.LrcParserOptions(trim = trim, multiLine = true, errorText = null, autoWordSync = autoWordSync)
         val parsed = LrcUtils.parseLyrics(lrcContent, audioMimeType = null, parserOptions = options, format = LrcUtils.LyricFormat.LRC)
         
@@ -499,8 +499,8 @@ object LyricsParser {
      */
     fun parseEnhancedLRC(lrcContent: String): List<EnhancedLyricLine> {
         if (lrcContent.isBlank()) return emptyList()
-        val trim = runCatching { chromahub.rhythm.app.core.common.LyricsSettingsGate.trimLyrics() }.getOrDefault(true)
-        val autoWordSync = runCatching { chromahub.rhythm.app.core.common.LyricsSettingsGate.translationAutoWord() }.getOrDefault(false)
+        val trim = runCatching { com.qlzhj.rhythm.core.common.LyricsSettingsGate.trimLyrics() }.getOrDefault(true)
+        val autoWordSync = runCatching { com.qlzhj.rhythm.core.common.LyricsSettingsGate.translationAutoWord() }.getOrDefault(false)
         val options = LrcUtils.LrcParserOptions(trim = trim, multiLine = true, errorText = null, autoWordSync = autoWordSync)
         val parsed = LrcUtils.parseLyrics(lrcContent, audioMimeType = null, parserOptions = options, format = LrcUtils.LyricFormat.LRC)
         

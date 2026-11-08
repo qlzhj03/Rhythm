@@ -1,7 +1,7 @@
 package chromahub.rhythm.app.util
 
-import chromahub.rhythm.app.core.common.SemanticLyrics
-import chromahub.rhythm.app.core.common.LrcUtils
+import com.qlzhj.rhythm.core.common.SemanticLyrics
+import com.qlzhj.rhythm.core.common.LrcUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull

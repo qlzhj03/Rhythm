@@ -20,8 +20,8 @@ import chromahub.rhythm.app.core.domain.repository.StreamingMusicRepository
 import chromahub.rhythm.app.shared.data.model.AppSettings
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import chromahub.rhythm.app.core.common.ANRWatchdog
-import chromahub.rhythm.app.core.common.HapticsGate
+import com.qlzhj.rhythm.core.common.ANRWatchdog
+import com.qlzhj.rhythm.core.common.HapticsGate
 import chromahub.rhythm.app.util.CacheManager
 import chromahub.rhythm.app.util.CrashReporter
 import chromahub.rhythm.app.util.MediaUtils
@@ -78,14 +78,14 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         Log.d(TAG, "✓ AppSettings initialized")
 
         // Localized label seam for :core:data (resource-free module — PR-3).
-        chromahub.rhythm.app.core.common.AppStrings.apply {
+        com.qlzhj.rhythm.core.common.AppStrings.apply {
             unresolvedTrack = { getString(chromahub.rhythm.app.R.string.unresolved_track) }
             unknownArtist = { getString(chromahub.rhythm.app.R.string.unknown_artist_name) }
             unknownAlbum = { getString(chromahub.rhythm.app.R.string.unknown_album_name) }
         }
 
         // Media service seams for :core:media (PR-4).
-        chromahub.rhythm.app.core.common.AppBuildInfo.apply {
+        com.qlzhj.rhythm.core.common.AppBuildInfo.apply {
             applicationId = packageName
             versionName = BuildConfig.VERSION_NAME
             versionCode = BuildConfig.VERSION_CODE
@@ -160,7 +160,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
         HapticsGate.isEnabled = { settings.isHapticEnabled.value }
 
         // Lyrics parsing seam for :core:media's LyricsParser (PR-5).
-        chromahub.rhythm.app.core.common.LyricsSettingsGate.apply {
+        com.qlzhj.rhythm.core.common.LyricsSettingsGate.apply {
             trimLyrics = { settings.trimLyrics.value }
             translationAutoWord = { settings.translationAutoWord.value }
         }

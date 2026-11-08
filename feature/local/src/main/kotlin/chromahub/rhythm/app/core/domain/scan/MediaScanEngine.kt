@@ -25,7 +25,7 @@ import java.io.File
 import androidx.core.net.toUri
 import androidx.core.content.edit
 import chromahub.rhythm.app.infrastructure.provider.RhythmAlbumArtProvider
-import chromahub.rhythm.app.core.common.StoragePathUtils
+import com.qlzhj.rhythm.core.common.StoragePathUtils
 import java.util.Locale
 
 /**

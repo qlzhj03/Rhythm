@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import chromahub.rhythm.app.core.model.Song
-import chromahub.rhythm.app.core.common.GenreUtils
+import com.qlzhj.rhythm.core.common.GenreUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -420,7 +420,7 @@ class PlaybackStatsRepository private constructor(private val context: Context) 
             val resolvedArtists = if (rawArtist.isNullOrBlank()) {
                 listOf("Unknown Artist")
             } else {
-                chromahub.rhythm.app.core.common.ArtistSeparator.splitArtistNames(
+                com.qlzhj.rhythm.core.common.ArtistSeparator.splitArtistNames(
                     artistName = rawArtist,
                     delimiters = delimiters,
                     enabled = artistSeparatorEnabled

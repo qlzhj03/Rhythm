@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import chromahub.rhythm.app.core.model.SourceType
 import chromahub.rhythm.app.core.model.StreamingConfig
 import chromahub.rhythm.app.core.model.StreamingQuality
-import chromahub.rhythm.app.core.common.NetworkUtils
+import com.qlzhj.rhythm.core.common.NetworkUtils
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseAccount
 import chromahub.rhythm.app.features.streaming.data.provider.NetEaseQrLoginState
 import chromahub.rhythm.app.features.streaming.data.repository.StreamingMusicRepositoryImpl
@@ -32,7 +32,7 @@ import chromahub.rhythm.app.infrastructure.service.StreamingSearchController
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.StreamingNotificationManager
 import chromahub.rhythm.app.features.streaming.infrastructure.notification.SyncProgressThrottle
 import chromahub.rhythm.app.shared.data.model.AppSettings
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

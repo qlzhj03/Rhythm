@@ -1,7 +1,6 @@
 // Pure Kotlin utilities shared by every module (moved from :app util/utils).
-// Namespace deliberately duplicates :app (android.uniquePackageNames=false) so
-// existing `import chromahub.rhythm.app.R` sites keep resolving while resources
-// migrate to :core:designsystem — see docs/multi-module-refactor-plan.md §二.2.
+// Unique package root com.qlzhj.rhythm.core.common — enforced by
+// android.uniquePackageNames=true (see docs/unique-package-names-design.md).
 
 plugins {
     id("rhythm.android.library")
@@ -9,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "chromahub.rhythm.app"
+    namespace = "com.qlzhj.rhythm.core.common"
 }
 
 dependencies {

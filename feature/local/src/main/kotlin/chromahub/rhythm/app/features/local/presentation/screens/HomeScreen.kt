@@ -23,7 +23,7 @@ import chromahub.rhythm.app.shared.presentation.components.Material3SettingsItem
 import chromahub.rhythm.app.core.model.toLibrarySong
 import chromahub.rhythm.app.core.model.toLibraryAlbum
 import chromahub.rhythm.app.core.model.toLibraryArtist
-import chromahub.rhythm.app.core.common.ArtistSeparator
+import com.qlzhj.rhythm.core.common.ArtistSeparator
 import chromahub.rhythm.app.util.rememberOffMain
 
 import android.widget.Toast
