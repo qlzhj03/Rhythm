@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -44,7 +44,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import chromahub.rhythm.app.R
+import com.qlzhj.rhythm.feature.widget.R
 import androidx.core.net.toUri
 
 /**

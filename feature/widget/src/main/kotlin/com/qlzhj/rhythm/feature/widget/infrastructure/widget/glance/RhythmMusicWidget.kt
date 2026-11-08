@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -61,7 +61,7 @@ import kotlinx.coroutines.withContext
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import chromahub.rhythm.app.R
+import com.qlzhj.rhythm.feature.widget.R
 import androidx.glance.appwidget.state.getAppWidgetState
 import androidx.core.net.toUri
 

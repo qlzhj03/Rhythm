@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -59,7 +59,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import chromahub.rhythm.app.R
+import com.qlzhj.rhythm.feature.widget.R
 import coil.request.ImageRequest
 import coil.size.Size
 import kotlinx.coroutines.Dispatchers

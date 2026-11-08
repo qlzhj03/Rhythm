@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import chromahub.rhythm.app.R
+import com.qlzhj.rhythm.feature.widget.R
 import com.qlzhj.rhythm.core.designsystem.theme.ExpressiveMaterialShape
 import com.qlzhj.rhythm.core.designsystem.theme.rememberExpressiveShape
 

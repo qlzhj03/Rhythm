@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.runtime.Composable

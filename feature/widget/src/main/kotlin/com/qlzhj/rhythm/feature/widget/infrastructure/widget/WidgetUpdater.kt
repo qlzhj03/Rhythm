@@ -7,11 +7,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-package chromahub.rhythm.app.infrastructure.widget
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget
 
 import android.content.Context
 import com.qlzhj.rhythm.core.model.Song
-import chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.GlanceWidgetUpdater
 
 /**
  * Thin shim that forwards widget update calls to the Glance-based updater.

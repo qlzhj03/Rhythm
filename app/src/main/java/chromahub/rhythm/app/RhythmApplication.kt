@@ -12,9 +12,9 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import okhttp3.Dispatcher
-import chromahub.rhythm.app.infrastructure.widget.glance.GlanceShapeBitmaps
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmCookieWidget
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.GlanceShapeBitmaps
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.RhythmCookieWidget
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.RhythmMusicWidget
 import chromahub.rhythm.app.di.NetworkClientInitializer
 import com.qlzhj.rhythm.core.data.core.domain.repository.StreamingMusicRepository
 import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
@@ -130,7 +130,7 @@ class RhythmApplication : Application(), ImageLoaderFactory {
                     isFavorite: Boolean,
                     isShuffleEnabled: Boolean,
                     repeatMode: Int,
-                ) = chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateWidget(
+                ) = com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.GlanceWidgetUpdater.updateWidget(
                     context = context,
                     song = song,
                     isPlaying = isPlaying,
@@ -141,10 +141,10 @@ class RhythmApplication : Application(), ImageLoaderFactory {
                     repeatMode = repeatMode)
 
                 override fun updateLyrics(context: android.content.Context, lyricTexts: List<String>, activeIndex: Int) =
-                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
+                    com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.GlanceWidgetUpdater.updateLyrics(context, lyricTexts, activeIndex)
 
                 override fun updateAllWidgets(context: android.content.Context) =
-                    chromahub.rhythm.app.infrastructure.widget.glance.GlanceWidgetUpdater.updateAllWidgets(context)
+                    com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.GlanceWidgetUpdater.updateAllWidgets(context)
             }
 
         // Streaming playback seam for :core:media (repository lives in :feature:streaming).

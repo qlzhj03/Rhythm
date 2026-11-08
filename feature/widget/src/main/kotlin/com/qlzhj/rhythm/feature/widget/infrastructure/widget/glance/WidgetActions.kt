@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
 import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmLyricsWidget
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.RhythmMusicWidget
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.RhythmLyricsWidget
 import kotlinx.coroutines.delay
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey

@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -35,7 +35,7 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import chromahub.rhythm.app.R
+import com.qlzhj.rhythm.feature.widget.R
 import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 

@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.widget.glance
+package com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -21,7 +21,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import coil.request.ImageRequest
 import coil.size.Size
 import kotlinx.coroutines.withContext
-import chromahub.rhythm.app.infrastructure.service.RhythmTileService
+import com.qlzhj.rhythm.feature.widget.infrastructure.service.RhythmTileService
 import androidx.core.content.edit
 import androidx.core.content.pm.ShortcutManagerCompat
 
@@ -285,7 +285,7 @@ try {
                 val playPauseShortcut = android.content.pm.ShortcutInfo.Builder(context, "shortcut_play_pause")
                     .setShortLabel(if (isPlaying) "Pause" else "Play")
                     .setLongLabel(if (isPlaying) "Pause Music" else "Play Music")
-                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, if (isPlaying) chromahub.rhythm.app.R.drawable.ic_pause_shortcut else chromahub.rhythm.app.R.drawable.ic_play_shortcut))
+                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, if (isPlaying) com.qlzhj.rhythm.feature.widget.R.drawable.ic_pause_shortcut else com.qlzhj.rhythm.feature.widget.R.drawable.ic_play_shortcut))
                     .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_PLAY_PAUSE"
                     })
@@ -294,7 +294,7 @@ try {
                 val nextShortcut = android.content.pm.ShortcutInfo.Builder(context, "shortcut_next")
                     .setShortLabel("Next")
                     .setLongLabel("Next Track")
-                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.ic_skip_next_shortcut))
+                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, com.qlzhj.rhythm.feature.widget.R.drawable.ic_skip_next_shortcut))
                     .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_SKIP_NEXT"
                     })
@@ -303,7 +303,7 @@ try {
                 val prevShortcut = android.content.pm.ShortcutInfo.Builder(context, "shortcut_previous")
                     .setShortLabel("Previous")
                     .setLongLabel("Previous Track")
-                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.ic_skip_previous_shortcut))
+                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, com.qlzhj.rhythm.feature.widget.R.drawable.ic_skip_previous_shortcut))
                     .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = "chromahub.rhythm.app.action.SHORTCUT_SKIP_PREVIOUS"
                     })
@@ -312,7 +312,7 @@ try {
                 val openPlayerShortcut = android.content.pm.ShortcutInfo.Builder(context, "shortcut_open_player")
                     .setShortLabel("Open Player")
                     .setLongLabel("Open Music Player")
-                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, chromahub.rhythm.app.R.drawable.rhythm_icon_small))
+                    .setIcon(android.graphics.drawable.Icon.createWithResource(context, com.qlzhj.rhythm.feature.widget.R.drawable.rhythm_icon_small))
                     .setIntent(Intent(context, com.qlzhj.rhythm.core.media.infrastructure.service.MediaServiceHooks.requireMainActivity()).apply {
                         action = Intent.ACTION_MAIN
                         putExtra("OPEN_PLAYER", true)

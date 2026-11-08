@@ -1,4 +1,4 @@
-package chromahub.rhythm.app.infrastructure.service
+package com.qlzhj.rhythm.feature.widget.infrastructure.service
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import chromahub.rhythm.app.R
-import chromahub.rhythm.app.infrastructure.widget.glance.RhythmMusicWidget
+import com.qlzhj.rhythm.feature.widget.R
+import com.qlzhj.rhythm.feature.widget.infrastructure.widget.glance.RhythmMusicWidget
 import com.qlzhj.rhythm.core.media.infrastructure.service.MediaPlaybackService
 
 class RhythmTileService : TileService() {
@@ -66,7 +66,7 @@ class RhythmTileService : TileService() {
                 } else {
                     tile.label = if (isPlaying) getString(R.string.ui_tile_paused, title) else getString(R.string.ui_tile_playing, title)
                 }
-                val nextIconRes = if (isPlaying) chromahub.rhythm.app.R.drawable.ic_play_shortcut else chromahub.rhythm.app.R.drawable.ic_pause_shortcut
+                val nextIconRes = if (isPlaying) com.qlzhj.rhythm.feature.widget.R.drawable.ic_play_shortcut else com.qlzhj.rhythm.feature.widget.R.drawable.ic_pause_shortcut
                 tile.icon = android.graphics.drawable.Icon.createWithResource(this, nextIconRes)
                 tile.updateTile()
             }
@@ -116,23 +116,23 @@ class RhythmTileService : TileService() {
             if (hasActiveSong) {
                 tile.subtitle = if (isPlaying) getString(R.string.tile_playing_format, title) else getString(R.string.tile_paused_format, title)
                 tile.state = if (isPlaying) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-                val iconRes = if (isPlaying) chromahub.rhythm.app.R.drawable.ic_pause_shortcut else chromahub.rhythm.app.R.drawable.ic_play_shortcut
+                val iconRes = if (isPlaying) com.qlzhj.rhythm.feature.widget.R.drawable.ic_pause_shortcut else com.qlzhj.rhythm.feature.widget.R.drawable.ic_play_shortcut
                 tile.icon = android.graphics.drawable.Icon.createWithResource(this, iconRes)
             } else {
                 tile.subtitle = getString(R.string.tile_play_music)
                 tile.state = Tile.STATE_INACTIVE
-                tile.icon = android.graphics.drawable.Icon.createWithResource(this, chromahub.rhythm.app.R.drawable.ic_notification)
+                tile.icon = android.graphics.drawable.Icon.createWithResource(this, com.qlzhj.rhythm.feature.widget.R.drawable.ic_notification)
             }
         } else {
             if (hasActiveSong) {
                 tile.label = if (isPlaying) getString(R.string.tile_playing_format, title) else getString(R.string.tile_paused_format, title)
                 tile.state = if (isPlaying) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-                val iconRes = if (isPlaying) chromahub.rhythm.app.R.drawable.ic_pause_shortcut else chromahub.rhythm.app.R.drawable.ic_play_shortcut
+                val iconRes = if (isPlaying) com.qlzhj.rhythm.feature.widget.R.drawable.ic_pause_shortcut else com.qlzhj.rhythm.feature.widget.R.drawable.ic_play_shortcut
                 tile.icon = android.graphics.drawable.Icon.createWithResource(this, iconRes)
             } else {
                 tile.label = getString(R.string.app_name)
                 tile.state = Tile.STATE_INACTIVE
-                tile.icon = android.graphics.drawable.Icon.createWithResource(this, chromahub.rhythm.app.R.drawable.ic_notification)
+                tile.icon = android.graphics.drawable.Icon.createWithResource(this, com.qlzhj.rhythm.feature.widget.R.drawable.ic_notification)
             }
         }
         tile.updateTile()
