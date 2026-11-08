@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.navigation
 
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
+import com.qlzhj.rhythm.feature.local.presentation.navigation.Screen
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.size
@@ -26,11 +26,11 @@ import androidx.navigation.NavHostController
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddToPlaylistBottomSheet
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
-import chromahub.rhythm.app.features.local.presentation.screens.HomeScreen
-import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.ArtistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.LibraryScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.HomeScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.PlaylistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.ArtistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.AlbumDetailScreen
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
@@ -48,15 +48,15 @@ import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.feature.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.model.findAlbumForSong
 import com.qlzhj.rhythm.core.common.ArtistSeparator
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel.SortOrder
 import kotlinx.coroutines.launch
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.ui.graphics.Color
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
+import com.qlzhj.rhythm.feature.local.presentation.screens.LibraryTab
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalContext
 import com.qlzhj.rhythm.core.model.toLibraryAlbum
@@ -293,7 +293,7 @@ internal fun LocalHomeRoute(
             },
             isStreamingMode = isStreamingMode,
             streamingLibrary = streamingMusicViewModel,
-            streamingHome = chromahub.rhythm.app.features.local.presentation.screens.StreamingHomeState(
+            streamingHome = com.qlzhj.rhythm.feature.local.presentation.screens.StreamingHomeState(
                 isOnline = streamingIsOnline,
                 syncProgress = streamingSyncProgress,
                 serviceSessions = streamingSessions,

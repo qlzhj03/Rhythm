@@ -166,7 +166,7 @@ import com.qlzhj.rhythm.core.data.shared.data.model.ArtistArtworkSource
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppVersion
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.model.StreamingServiceRules
 import com.qlzhj.rhythm.feature.streaming.presentation.components.NetEaseQrLoginCard
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.common.StreamingServiceOptions

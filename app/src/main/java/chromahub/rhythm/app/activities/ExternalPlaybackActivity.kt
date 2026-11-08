@@ -47,7 +47,7 @@ import com.qlzhj.rhythm.core.designsystem.components.WaveSlider
 import com.qlzhj.rhythm.core.designsystem.components.M3CircularLoader
 import com.qlzhj.rhythm.core.designsystem.theme.RhythmTheme
 import com.qlzhj.rhythm.core.media.util.MediaUtils
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import chromahub.rhythm.app.activities.MainActivity
 import coil.compose.AsyncImage

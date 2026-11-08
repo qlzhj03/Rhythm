@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.qlzhj.rhythm.core.designsystem.icons.RhythmIcons
 import com.qlzhj.rhythm.core.designsystem.icons.MaterialSymbolIcon
 import com.qlzhj.rhythm.core.designsystem.icons.Icon
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
+import com.qlzhj.rhythm.feature.local.presentation.navigation.Screen
 
 import android.content.Context
 import android.net.Uri
@@ -125,22 +125,22 @@ import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.AddT
 
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.UpdateBottomSheet
-import chromahub.rhythm.app.features.local.presentation.screens.AddToPlaylistScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.AddToPlaylistScreen
 import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.CreatePlaylistDialog
 import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.QueueActionDialog
 import com.qlzhj.rhythm.core.ui.features.local.presentation.components.dialogs.QueueListActionDialog
-import chromahub.rhythm.app.shared.presentation.components.player.MiniPlayer
-import chromahub.rhythm.app.shared.presentation.components.player.RhythmPlayerSheet
+import com.qlzhj.rhythm.feature.local.shared.presentation.components.player.MiniPlayer
+import com.qlzhj.rhythm.feature.local.shared.presentation.components.player.RhythmPlayerSheet
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.player.SleepTimerBottomSheetNew
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryScreen
-import chromahub.rhythm.app.features.local.presentation.screens.HomeScreen
-import chromahub.rhythm.app.shared.presentation.screens.RhythmStatsScreen
-import chromahub.rhythm.app.features.local.presentation.screens.EqualizerScreen
-import chromahub.rhythm.app.shared.presentation.screens.player.PlayerScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.LibraryScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.HomeScreen
+import com.qlzhj.rhythm.feature.local.shared.presentation.screens.RhythmStatsScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.EqualizerScreen
+import com.qlzhj.rhythm.feature.local.shared.presentation.screens.player.PlayerScreen
 
-import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.ArtistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.PlaylistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.ArtistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.AlbumDetailScreen
 import chromahub.rhythm.app.shared.presentation.screens.settings.SettingsScreenWrapper
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
@@ -165,12 +165,12 @@ import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.feature.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.model.PlaybackLocation
 import com.qlzhj.rhythm.core.model.findAlbumForSong
-import chromahub.rhythm.app.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
+import com.qlzhj.rhythm.feature.local.shared.presentation.components.MediaScanLoader // Add MediaScanLoader import
 import com.qlzhj.rhythm.core.common.ArtistSeparator
 import com.qlzhj.rhythm.core.designsystem.utils.HapticUtils
 import com.qlzhj.rhythm.core.designsystem.utils.HapticType
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel.SortOrder
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel.SortOrder
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.ThemeViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
@@ -214,7 +214,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
-import chromahub.rhythm.app.features.local.presentation.screens.LibraryTab
+import com.qlzhj.rhythm.feature.local.presentation.screens.LibraryTab
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -1823,7 +1823,7 @@ private fun LocalNavigationContent(
                     }
                 ) {
                     SlideUpCornerWrapper {
-                        chromahub.rhythm.app.shared.presentation.screens.UniversalSearchScreen(
+                        com.qlzhj.rhythm.feature.local.shared.presentation.screens.UniversalSearchScreen(
                             localViewModel = viewModel,
                             streamingSearch = streamingMusicViewModel,
                             onLocalSongClick = { song ->

@@ -98,7 +98,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.animation.Crossfade
 import androidx.compose.ui.text.font.FontWeight
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.gestures.detectDragGestures

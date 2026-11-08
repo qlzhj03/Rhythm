@@ -78,7 +78,7 @@ import androidx.compose.ui.unit.dp
 import chromahub.rhythm.app.activities.MainActivity
 import chromahub.rhythm.app.activities.RhythmGuardTimeoutActivity
 import chromahub.rhythm.app.R
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.data.shared.data.repository.PlaybackStatsRepository
 import com.qlzhj.rhythm.core.data.shared.data.repository.StatsTimeRange
 import com.qlzhj.rhythm.core.common.shared.presentation.navigation.RhythmGuardRiskLevel

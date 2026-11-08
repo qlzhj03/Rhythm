@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "chromahub.rhythm.app"
+    namespace = "com.qlzhj.rhythm.feature.local"
 }
 
 dependencies {

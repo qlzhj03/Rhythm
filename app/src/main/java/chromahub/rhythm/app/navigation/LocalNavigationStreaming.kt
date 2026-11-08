@@ -1,6 +1,6 @@
 package chromahub.rhythm.app.navigation
 
-import chromahub.rhythm.app.features.local.presentation.navigation.Screen
+import com.qlzhj.rhythm.feature.local.presentation.navigation.Screen
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -19,9 +19,9 @@ import com.qlzhj.rhythm.core.data.shared.data.model.AppSettings
 import com.qlzhj.rhythm.core.media.util.rememberOffMain
 import androidx.navigation.NavHostController
 import com.qlzhj.rhythm.core.ui.shared.presentation.components.bottomsheets.SongInfoBottomSheet
-import chromahub.rhythm.app.features.local.presentation.screens.PlaylistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.ArtistDetailScreen
-import chromahub.rhythm.app.features.local.presentation.screens.AlbumDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.PlaylistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.ArtistDetailScreen
+import com.qlzhj.rhythm.feature.local.presentation.screens.AlbumDetailScreen
 import com.qlzhj.rhythm.core.ui.shared.presentation.screens.settings.*
 import chromahub.rhythm.app.shared.presentation.screens.settings.*
 import com.qlzhj.rhythm.feature.streaming.presentation.screens.StreamingServiceSetupScreen
@@ -40,7 +40,7 @@ import com.qlzhj.rhythm.core.model.Playlist
 import com.qlzhj.rhythm.core.model.Song
 import com.qlzhj.rhythm.feature.streaming.presentation.navigation.StreamingRoutes
 import com.qlzhj.rhythm.core.common.ArtistSeparator
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.ui.platform.LocalContext
 import com.qlzhj.rhythm.core.model.toLibraryAlbum

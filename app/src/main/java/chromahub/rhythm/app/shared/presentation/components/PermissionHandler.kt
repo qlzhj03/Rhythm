@@ -62,7 +62,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.delay
 import androidx.lifecycle.viewmodel.compose.viewModel
-import chromahub.rhythm.app.features.local.presentation.viewmodel.MusicViewModel
+import com.qlzhj.rhythm.feature.local.presentation.viewmodel.MusicViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.AppUpdaterViewModel
 import com.qlzhj.rhythm.core.ui.shared.presentation.viewmodel.rememberAppUpdaterViewModel
 import com.qlzhj.rhythm.feature.streaming.presentation.viewmodel.StreamingMusicViewModel
