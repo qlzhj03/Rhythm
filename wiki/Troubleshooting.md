@@ -1,6 +1,5 @@
-> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
-> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
-> 保留仅供历史参考，内容可能不再准确。
+> ℹ️ **文档状态**：本页已按 2026-11 多模块拆分与唯一包名重构后的代码更新。
+> 约定与红线见根目录 [AGENTS.md](../AGENTS.md)，设计与重构历史见 [docs/](../docs/)；一切事实以源码为准。
 
 # 故障排除指南
 
@@ -33,9 +32,9 @@
    - 启用"文件和媒体"或"存储"
    - 重启 Rhythm
 
-2. **检查文件夹访问权限（Android 14+）：**
-   - 你可能只授予了部分访问权限
-   - 重新授予完整的音乐文件夹访问权限
+2. **确认音频媒体权限与扫描过滤器（Android 13+ 为 `READ_MEDIA_AUDIO`）：**
+   - 在系统设置中确认已授予「音乐和音频」
+   - 检查 Rhythm 设置中的黑名单 / 白名单与「允许的格式」
 
 3. **确认音乐位置：**
    - 确保音乐位于标准位置（`/Music`、`/Download`）
@@ -177,7 +176,7 @@
 1. **在 Rhythm 中编辑元数据：**
    - 长按歌曲 → 歌曲信息 → 编辑
    - 更新标题、艺术家、专辑等
-   - 需要存储写入权限
+   - 写入需系统文件授权（较新 Android 版本不再使用全局存储写入权限）
 
 2. **使用桌面端元数据编辑器：**
    - **Windows/Mac：**[Mp3tag](https://www.mp3tag.de/)
@@ -200,9 +199,9 @@
 - "权限被拒绝"错误
 
 **解决方法：**
-1. **授予写入权限：**
-   - Android 设置 → 应用 → Rhythm → 权限
-   - 确保已授予存储写入权限
+1. **确认文件写入授权**：
+   - 在较新 Android 版本上，写入媒体文件需通过系统文件授权流程
+   - Rhythm 不申请 `MANAGE_EXTERNAL_STORAGE`；`WRITE_EXTERNAL_STORAGE` 仅声明到 API 28
 
 2. **检查文件位置：**
    - SD 卡上的文件可能需要特殊权限
@@ -287,6 +286,11 @@
    - 确保有 100MB 以上的可用空间
    - 清理不必要的文件
 
+5. **确认包名与签名来源（2026-11 包名变更）**：
+   - 当前 `applicationId` 为 `com.qlzhj.rhythm`，旧版为 `chromahub.rhythm.app`
+   - 旧包无法原地更新，会作为另一个应用并存；先备份再卸载旧版
+   - debug 包使用 `com.qlzhj.rhythm.debug`，与 release 包签名 / 身份也不同
+
 ### 自动更新不工作
 
 **症状：**
@@ -330,9 +334,10 @@
    - 小部件需要通知访问权限
    - 在应用权限中授予
 
-4. **更新 WorkManager：**
-   - 更新到最新的 Rhythm 版本
-   - 近期版本改进了小部件更新
+4. **确认播放服务仍在运行**：
+   - 打开应用播放一首歌后回到桌面
+   - 小部件靠播放状态推送刷新（不做周期轮询），应用被强制停止后不会更新
+   - 必要时更新到最新版本
 
 ### 小部件尺寸显示错误
 
@@ -477,14 +482,17 @@
 适用于开发者或顽固问题：
 
 ```bash
-# Capture Rhythm logs
-adb logcat | grep "chromahub.rhythm"
+# 当前 applicationId 为 com.qlzhj.rhythm（debug 为 com.qlzhj.rhythm.debug）
+adb logcat | grep -i rhythm
+
+# 按进程过滤
+adb shell pidof com.qlzhj.rhythm
 
 # Save to file
 adb logcat -d > rhythm_log.txt
 
 # Filter for errors only
-adb logcat *:E | grep "chromahub.rhythm"
+adb logcat *:E | grep -i rhythm
 ```
 
 提交问题时附上日志以便调试。

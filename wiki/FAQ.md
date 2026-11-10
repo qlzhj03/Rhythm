@@ -1,6 +1,5 @@
-> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
-> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
-> 保留仅供历史参考，内容可能不再准确。
+> ℹ️ **文档状态**：本页已按 2026-11 多模块拆分与唯一包名重构后的代码更新。
+> 约定与红线见根目录 [AGENTS.md](../AGENTS.md)，设计与重构历史见 [docs/](../docs/)；一切事实以源码为准。
 
 # 常见问题 (FAQ)
 
@@ -14,8 +13,10 @@
 
 ### 如何更新 Rhythm？
 
-- **应用内更新**：在 设置 → 更新 中开启自动更新
+- **应用内更新**：在 设置 → 更新与信息 → 更新 中开启自动更新
 - **手动更新**：安装新版本 APK，覆盖现有应用
+
+> 2026-11 起 `applicationId` 为 `com.qlzhj.rhythm`（debug 为 `.debug`），旧 `chromahub.rhythm.app` 包无法原地更新；迁移前请先备份。详见[安装指南](Installation-Guide.md)。
 
 ### 为什么无法安装更新？
 
@@ -69,15 +70,16 @@
 
 可以！Rhythm 包含：
 - 10 段专业均衡器
-- 6032+ 个针对设备优化的 AutoEQ 预设
+- 6032 条针对设备优化的 AutoEQ 预设
 - 导入/导出自定义配置文件
 - 低音增强与虚拟化音效
 
-### Rhythm 支持 USB DAC / 比特完美播放吗？
+### Rhythm 支持 USB DAC / 高解析度输出吗？
 
-支持！Rhythm 原生支持 USB DAC：
-- **Android 14+（比特完美模式）：** 启用 `App` 路由时，Rhythm 会在受支持的设备上通过原生 Android `setPreferredMixerAttributes` API 请求独占的比特完美 USB 路由。
-- **为什么没有 USB 弹窗？** Rhythm 通过 Android 系统的原生高解析度音频通道播放音频，而不是使用自定义用户空间驱动绕过操作系统。由于走的是官方 API，DAC 会自动且静默地连接，不会显示 USB 权限对话框。
+支持。Rhythm 通过标准 Android 音频路由输出，在受支持设备上（Android 14+）使用系统 `setPreferredMixerAttributes` API 请求更合适的混音器属性；播放引擎还提供可选的 **float PCM 输出**与设备能力检测。应用按采样率 / 位深 / 编解码器显示音质徽章，但**没有**独立的「Hi-Res 模式」开关，实际输出规格取决于设备与 DAC。
+
+- **为什么没有 USB 权限弹窗？** Rhythm 不使用自定义用户空间 USB 驱动，走的是系统官方音频通道，DAC 会静默连接。
+- **如何确认能力**：可在设置中的设备能力页查看系统支持的格式、offload 与 ProAudio / 低延迟能力。
 
 ---
 
@@ -85,11 +87,12 @@
 
 ### 如何获取同步歌词？
 
-Rhythm 从以下来源获取歌词：
-1. **LRCLib**（在线、社区驱动）
-2. **内嵌歌词**（来自音频文件元数据）
+Rhythm 支持多来源与优先级：
+1. **在线歌词**：默认 BetterLyrics → Lyrically → LRCLib，可在设置中切换为 LRCLib 优先；解析器支持逐词歌词、Enhanced LRC（ELRC）与 TTML
+2. **本地歌词**：音频文件内嵌歌词与同目录 `.lrc` 文件，离线时作为回退
+3. **手动调整**：可为单曲保存同步偏移
 
-启用位置：设置 → 音频与音效 → 歌词
+> 在线歌词属于外部 API 集成，默认关闭且受「编译期 → 全局 → 单项」三层开关控制。启用位置：设置 → 音频与音效 → 歌词（或 API 管理）。
 
 ### 歌词不同步，如何修复？
 
@@ -123,7 +126,7 @@ Rhythm 从以下来源获取歌词：
 
 长按歌曲 → 歌曲信息 → 编辑
 
-需要存储写入权限。
+需要系统授予对应文件的写入权限；在较新 Android 版本上由系统文件授权流程处理（Rhythm 不申请 `MANAGE_EXTERNAL_STORAGE`）。
 
 ### 为什么我无法编辑某些文件？
 
@@ -137,7 +140,7 @@ Rhythm 从以下来源获取歌词：
 
 ### 为什么 Rhythm 需要存储权限？
 
-用于访问并播放你的音乐文件。Rhythm 在 Android 11+ 上使用分区存储 (scoped storage) 以增强隐私保护。
+用于访问并播放你的音乐文件。Android 13+ 使用 `READ_MEDIA_AUDIO`（音乐和音频），API ≤32 使用 `READ_EXTERNAL_STORAGE`；Android 11+ 使用分区存储 (scoped storage)。**Go 模式不扫描本地曲库，无需该权限**。详见[权限指南](Permissions.md)。
 
 ### Rhythm 会收集我的数据吗？
 
@@ -156,11 +159,11 @@ Rhythm 从以下来源获取歌词：
 - 小部件
 - **Rhythm Go** 下载的流媒体曲目
 
-仅以下功能需要网络：
-- 在线歌词（LRCLib）
-- 专辑封面获取（Deezer）
+仅以下功能需要网络（外部 API 默认关闭）：
+- 在线歌词（LRCLib / BetterLyrics / Lyrically）
+- 封面与元数据获取（Deezer、YouTube Music 等）
 - 应用更新
-- 流媒体模式服务器连接
+- Go 模式服务器连接与在线流媒体播放
 
 ---
 
@@ -208,7 +211,7 @@ Rhythm 从以下来源获取歌词：
 
 ### 什么是 Rhythm Go？
 
-Go 模式允许你将 Rhythm 连接到流媒体服务器（Subsonic、Navidrome、Jellyfin）。Rhythm Go 让你可以从流媒体服务器下载曲目以便离线播放。在 设置 → 高级 → 实验性功能 → Go 模式 中配置。
+Go 模式把 Rhythm 连接到流媒体服务：**Subsonic 兼容服务**（含 Navidrome / Gonic / Airsonic，需服务器 URL + 用户名 + 密码）、**Jellyfin**（账号认证）与**网易云音乐**（二维码登录，无需服务器 URL）。支持附近服务器发现、流媒体质量设置与「仅离线」模式；Rhythm Go 下载可把服务器曲目保存到设备离线播放。入口：设置 → 高级 → 实验性功能 → Go 模式。
 
 ---
 
@@ -258,12 +261,12 @@ LRCLib 是一个社区驱动的同步歌词数据库。Rhythm 会在可用时从
 ### 为什么 Rhythm 需要网络访问？
 
 仅用于可选功能：
-- **LRCLib** - 同步歌词
-- **Deezer API** - 专辑封面
-- **YouTube Music API** - 专辑封面查询
-- **应用更新** - 检查新版本
+- **歌词**：LRCLib、BetterLyrics、Lyrically
+- **封面 / 元数据**：Deezer、YouTube Music、iTunes、Spotify 搜索、Wikipedia 艺人简介
+- **应用更新**：GitHub 版本检查与 APK 下载
+- **Go 模式**：Subsonic 兼容服务 / Jellyfin / 网易云音乐
 
-你可以通过防火墙屏蔽网络，以实现完全离线使用。
+这些外部 API 默认关闭，需在「API 管理」中开启（三层门控）。核心播放不需要联网；可通过防火墙屏蔽网络实现完全离线使用。自托管服务器允许明文 HTTP 与用户 CA。
 
 ---
 

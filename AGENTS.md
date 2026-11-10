@@ -2,7 +2,7 @@
 
 Android 音乐播放器:本地曲库 + 自托管流媒体(Subsonic / Navidrome / Jellyfin、网易云)+ 歌词 + 小组件 + 均衡器,Material 3 Expressive,单 Activity Compose 架构。
 
-本文件只写「读代码无法可靠推断」的**约定与红线**,保持克制:具体文件、类、方法用搜索获得,不在此罗列。开发进度与重构历史见 `docs/` 与 git log;`wiki/` 已过时,勿参照。仓库无 CI,验证靠本地命令。事实来源:源码 > Version Catalog > 本文件。
+本文件只写「读代码无法可靠推断」的**约定与红线**,保持克制:具体文件、类、方法用搜索获得,不在此罗列。开发进度与重构历史见 `docs/` 与 git log;`wiki/` 为用户与贡献者文档,事实以源码为准。仓库无 CI,验证靠本地命令。事实来源:源码 > Version Catalog > 本文件。
 
 ## 1. 命令
 
