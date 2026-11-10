@@ -1,16 +1,22 @@
-> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
-> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
-> 保留仅供历史参考，内容可能不再准确。
+> ℹ️ **文档状态**：本页已按 2026-11 多模块拆分与唯一包名重构后的代码更新。
+> 约定与红线见根目录 [AGENTS.md](../AGENTS.md)，设计与重构历史见 [docs/](../docs/)；一切事实以源码为准。
 
 # 音频格式支持
 
-Rhythm 使用 **Media3 ExoPlayer 1.11.1 + FFmpeg 解码器**（Jellyfin media3-ffmpeg-decoder）实现专业级音频播放。本页详细介绍支持的格式、技术限制和推荐建议。
+Rhythm 使用 **Media3 ExoPlayer 1.11.1 + Jellyfin media3-ffmpeg-decoder 1.9.0+1** 播放本地与流媒体音频。本页介绍支持的格式、扫描白名单、音质识别与技术限制。
+
+> **解码器扩展可开关**：设置中的「解码器扩展」页（`AppSettings.decoderExtensionsEnabled` / `disabledDecoderExtensions`）可整体关闭扩展渲染器，或单独禁用某个扩展；关闭后只依赖设备平台解码器，并非「所有构建变体都无条件可用」。
+
+**媒体库识别的文件后缀**（以 `MediaScanEngine` / `LocalMusicRepository` 白名单为准）：
+
+- 文件夹扫描：`mp3, m4a, flac, ogg, opus, opa, wav, aac, alac, aiff, aif, wma, mka, ac3, ac4, oga, mid, midi, adts, m4b`
+- 播放与外部打开额外支持：`eac, eac3, mhm, mhm1, dts, dtshd, dtsx, truehd, ape, wv, tta, tak, dsf, dff, dsd` 及 MP4 / Matroska 容器中的音频流
 
 ---
 
 ## ✅ 内置格式（平台解码器）
 
-这些格式使用 Android 的平台编解码器，在所有受支持的设备上均可工作：
+这些格式主要由 Android 平台编解码器提供；具体位深、采样率与编解码支持随设备而异，表中数值是常见上限而非承诺：
 
 | 格式 | 容器 | 音质 | 位深 | 采样率 | 备注 |
 |:---:|:---:|:---:|:---:|:---:|:---|
@@ -32,7 +38,7 @@ Rhythm 使用 **Media3 ExoPlayer 1.11.1 + FFmpeg 解码器**（Jellyfin media3-f
 
 ## 🎬 FFmpeg 解码格式
 
-这些格式由内置的 FFmpeg 扩展解码（所有构建变体均可用）：
+这些格式由 FFmpeg 扩展（`EXTENSION_RENDERER_MODE_PREFER`）解码，需在「解码器扩展」设置中保持启用。扩展表涵盖 **AC-4、E-AC-3 / EAC3-JOC (Dolby Atmos)、AC-3、WMA / WMA-Pro / Lossless、ALAC、DTS / DTS-HD MA、Dolby TrueHD**；Standard MIDI 走 `midi` 扩展：
 
 | 格式 | 容器 | 音质 | 位深 | 采样率 | 备注 |
 |:---:|:---:|:---:|:---:|:---:|:---|
@@ -133,7 +139,7 @@ Rhythm 识别的是内部的**实际编解码器**，而不仅仅是容器。
 ### MP4 / Matroska 音频（.mp4/.mkv/.mka）
 Rhythm 会扫描并播放嵌入在 MP4 和 Matroska 容器中的音频流（包括 `.mka` 纯音频文件）。在媒体扫描时，`video/mp4`、`video/x-matroska` 和 `application/x-matroska` MIME 类型会与常规音频文件一同建立索引。从这些容器中提取的文件通过其**实际编解码器**（AAC、ALAC、AC-3、E-AC-3、DTS 等）识别，而不仅仅依据容器扩展名。
 
-> ⚠️ **注意：** 如果**允许的格式**设置（`Settings → Library & Media → Media Scan → Allowed Formats`）配置为过滤掉 MP4/MKV，它们可能会被排除在默认音乐库之外 —— 可在该处切换 `mp4`/`mkv` 格式以包含或排除它们。
+> ⚠️ **注意：** 如果**允许的格式**设置（设置 → 音乐库与媒体 → 媒体扫描 → 允许的格式）过滤掉了 MP4/MKV，它们会被排除在默认音乐库之外 —— 可在该处切换 `mp4`/`mkv` 以包含或排除。
 
 ### 硬件依赖
 - **Dolby/DTS**：需要特定设备的硬件解码器
@@ -142,7 +148,7 @@ Rhythm 会扫描并播放嵌入在 MP4 和 Matroska 容器中的音频流（包�
 - **声道配置**：立体声普遍支持，多声道因设备而异
 
 ### ExoPlayer 能力
-- **ExoPlayer 1.11.1 + FFmpeg**：在 ExoPlayer 默认支持之外增加了 EAC3-JOC、AC-3、AC-4、WMA 解码
+- **ExoPlayer 1.11.1 + FFmpeg 扩展**：在默认支持之外增加 EAC3-JOC、E-AC-3、AC-3、AC-4、WMA、ALAC、DTS / DTS-HD MA、Dolby TrueHD 解码；扩展可在「解码器扩展」设置中整体或逐项关闭
 - **无缝播放**：支持 MP3、AAC、FLAC、Opus
 - **进度跳转**：大多数格式精确，部分流媒体编解码器为近似值
 - **元数据**：取决于容器格式（MP3 使用 ID3，FLAC 使用 Vorbis 注释）
@@ -239,10 +245,11 @@ done
 ## 🎯 播放问题排查
 
 ### 文件无法播放
-1. **检查格式**：确认它是受支持的格式
-2. **检查编解码器**：使用 MediaInfo 或 FFprobe 识别实际编解码器
-3. **在设备上测试**：尝试在其他应用中播放（VLC、YouTube Music）
-4. **转换格式**：使用 FFmpeg 转换为 FLAC 或 MP3
+1. **检查格式**：确认后缀在媒体库白名单中
+2. **检查解码器扩展**：在「解码器扩展」设置中确认总开关已启用、对应扩展没有被单独禁用
+3. **检查编解码器**：使用 MediaInfo 或 FFprobe 识别实际编解码器
+4. **在设备上测试**：尝试在其他应用中播放（VLC、YouTube Music）
+5. **转换格式**：使用 FFmpeg 转换为 FLAC 或 MP3
 
 ### Dolby/DTS 文件无法播放
 - **设备不支持**：转换为 FLAC 或 AAC

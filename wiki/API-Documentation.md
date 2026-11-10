@@ -1,39 +1,59 @@
-> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
-> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
-> 保留仅供历史参考，内容可能不再准确。
+> ℹ️ **文档状态**：本 wiki 已按 2026-11 多模块拆分与唯一包名重构后的代码更新。
+> 约定与红线见根目录 [AGENTS.md](../AGENTS.md)，设计与重构历史见 [docs/](../docs/)；一切事实以源码为准。
 
 # API 文档
 
-面向 Rhythm 代码库开发者的内部 API 参考。涵盖项目中实际使用的接口、类和模式。
+面向 Rhythm 代码库开发者的内部 API 参考：模块入口、关键接口与服务。具体实现细节始终以源代码为准。
 
-> **注意：** 具体实现细节请始终以源代码为准。本文档提供关键架构组件的高层概述。
+> 本文中的「API」包含内部接口与外部网络服务；Rhythm 不对外提供 SDK。
 
 ---
 
-## 📚 概述
+## 📚 模块与包
 
-### 关键包
+2026-11 完成唯一包名重构，`android.uniquePackageNames=true` 由 `gradle.properties` 强制。
 
-| 包 | 用途 |
-|:---|:---|
-| `chromahub.rhythm.app.core.domain` | 领域接口与模型 |
-| `chromahub.rhythm.app.features.local` | 本地播放功能 |
-| `chromahub.rhythm.app.features.streaming` | 流媒体播放功能 |
-| `chromahub.rhythm.app.shared` | 共享工具、主题、导航 |
-| `chromahub.rhythm.app.infrastructure` | 播放引擎、音频处理器、服务、小部件、后台任务 |
-| `chromahub.rhythm.app.network` | 网络 API 服务、`NetworkClient` / `NetworkManager` |
+| 包根 | 模块 | 主要内容 |
+|:---|:---|:---|
+| `com.qlzhj.rhythm.app` | `:app` | Application、单 Activity、导航装配、引导页、`AppModule` |
+| `com.qlzhj.rhythm.core.model` | `:core:model` | 领域模型 |
+| `com.qlzhj.rhythm.core.common` | `:core:common` | 工具与缝隙接口（`AppBuildInfo`、`NetworkLogRedactor` 等） |
+| `com.qlzhj.rhythm.core.designsystem` | `:core:designsystem` | strings / theme / icons / 基础组件 |
+| `com.qlzhj.rhythm.core.network` | `:core:network` | `NetworkClient`、各外部 API service |
+| `com.qlzhj.rhythm.core.data` | `:core:data` | `AppSettings`、Room、仓储、统计 |
+| `com.qlzhj.rhythm.core.media` | `:core:media` | 播放服务、引擎、DSP、歌词解析 |
+| `com.qlzhj.rhythm.core.ui` | `:core:ui` | 跨 feature 共享组件与 `SettingsRoutes` |
+| `com.qlzhj.rhythm.feature.local` | `:feature:local` | 本地曲库、播放器、`Screen` 路由 |
+| `com.qlzhj.rhythm.feature.streaming` | `:feature:streaming` | provider、Go 模式 UI、`StreamingRoutes` |
+| `com.qlzhj.rhythm.feature.settings` | `:feature:settings` | 设置页 |
+| `com.qlzhj.rhythm.feature.widget` | `:feature:widget` | Glance 小组件与磁贴 |
 
-> 注意：`chromahub.rhythm.app.network` 的源码位于 `infrastructure/network/` 目录，**package 与目录路径不一致**。这是仓库既有约定：新增网络接口必须继续声明 `package chromahub.rhythm.app.network`，import 时以目标文件的 `package` 声明为准，不要按目录路径推断。
+> `applicationId = com.qlzhj.rhythm`（debug `.debug`）与代码包根分离。自定义 action / broadcast / extra 协议串仍保持 `chromahub.rhythm.app.*` 字面前缀不变；`macrobenchmark` 仍使用 `chromahub.rhythm.app.benchmark` 包。
+
+---
+
+## 🚪 入口与装配
+
+| 组件 | 位置 | 说明 |
+|:---|:---|:---|
+| `RhythmApplication` | `:app` `@HiltAndroidApp`，实现 `ImageLoaderFactory` | 注入 `AppBuildInfo`、初始化网络开关与设置预热 |
+| `MainActivity` | `:app` `@AndroidEntryPoint` | 单 Activity Compose 宿主 |
+| 根导航 | `app/.../navigation/RhythmNavigation.kt` | `NavHost(startDestination = "main")`、`composable("settings")` |
+| 内层导航 | `LocalNavigation.kt` / `LocalNavigationRoutes.kt` / `LocalNavigationStreaming.kt` | 本地与流媒体页面 route body |
+| 路由常量 | `Screen.kt`、`SettingsRoutes.kt`、`StreamingRoutes.kt` | 字符串路由，禁止序列化对象路由 |
+| Hilt 装配 | `app/.../di/NetworkClientInitializer.kt`、`feature/streaming/.../di/StreamingMusicModule.kt` | `@Module @InstallIn(SingletonComponent::class)` |
+
+示例路由：`"main"`、`"settings"`、`"home"`、`"search"`、`"library?tab={tab}"`、`"player"`、`"equalizer"`、`"rhythm_stats"`、`"playlist/{playlistId}"`、`"tuner_go_settings"`。
+
+新增页面 = 新增 Composable route 并在 `:app` 的导航装配处接线。
 
 ---
 
 ## 🎵 播放服务
 
-### MediaPlaybackService
+**`MediaPlaybackService`**（`:core:media`，`MediaLibraryService` + `Player.Listener`，`exported=true`）：管理 `MediaLibrarySession`、`Player` 实例、媒体通知、音频焦点、Rhythm Guard 音量钳制与主循环计时。Manifest 同时声明 `MediaSessionService` 与 `MediaBrowserService` action。
 
-**文件：** `infrastructure/service/player/RhythmPlayerEngine.kt`
-
-核心播放引擎，基于 Media3 ExoPlayer 并使用自定义的 `DefaultRenderersFactory`，启用 FFmpeg 解码器扩展并串联应用的音频处理器（响度均衡(Replay Gain)、低音增强(Bass Boost)、虚拟化(Virtualizer)、单声道下混(Mono downmix)）：
+**`RhythmPlayerEngine`**（`:core:media/.../infrastructure/service/player/`）：覆写 `DefaultRenderersFactory.buildAudioSink()` 组装 `AudioProcessorChain`，设置 float PCM 输出与 FFmpeg 扩展渲染模式，并用 `OkHttpDataSource` + `CacheDataSource` + `ResolvingDataSource` 解析 `streaming://` URI。
 
 ```kotlin
 val renderersFactory = object : DefaultRenderersFactory(context) {
@@ -42,118 +62,110 @@ val renderersFactory = object : DefaultRenderersFactory(context) {
         enableFloatOutput: Boolean,
         enableAudioTrackPlaybackParams: Boolean,
         enableOffload: Boolean
-    ): AudioSink {
-        return DefaultAudioSink.Builder(context)
-            .setAudioProcessorChain(audioProcessorChain)
-            .build()
-    }
+    ): AudioSink = DefaultAudioSink.Builder(context)
+        .setAudioProcessorChain(audioProcessorChain)
+        .setEnableFloatOutput(floatOutputEnabled)
+        .build()
 }.apply {
     setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
 }
 ```
 
-**服务：** `infrastructure/service/MediaPlaybackService.kt` 继承自 `MediaLibraryService`，负责管理：
-- 用于外部控制的 `MediaLibrarySession`
-- 通过 `RhythmPlayerEngine` 提供的 `Player` 实例
-- 带播放控制的媒体通知
-- 音频焦点处理
-- 单声道音频下混状态（`RhythmMonoAudioProcessor`），通过设备配置面板切换
+**`EqDspController`**（`:core:media/.../infrastructure/service/`）：EQ / DSP 状态与逻辑的唯一持有者，通过 `AudioEffectsController` 接口暴露给屏幕；配套 `RhythmBassBoostProcessor`、`RhythmSpatializationProcessor`、`RhythmMonoAudioProcessor`、`ReplayGainAudioProcessor`、`TransitionController`（交叉淡入淡出）。
 
 ---
 
 ## 🗂️ 数据层
 
-### MusicRepository
+- **`AppSettings`**（`:core:data`，实现 `NetworkSettingsProvider`）：设置唯一来源；状态与写入委托给 10 个 `*SettingsSection` 分区文件。新增设置项不要另起 SharedPreferences 通道。
+- **`LocalMusicRepository`**（`:feature:local`）：`MediaStore` / 文件夹扫描、曲库索引、播放列表、歌词获取与缓存。
+- **`StreamingMusicRepositoryImpl`**（`:feature:streaming`）：远程目录、下载索引（`downloaded_songs.json`）、离线模式；经 `StreamingMusicModule` 的 `@Binds` 注入。
+- **`PlaybackStatsRepository`**（`:core:data`）：Rhythm Stats 统计与 `StatsTimeRange`。
+- **Room / DataStore**：位于 `:core:data`，KSP 生成 Room 代码。
 
-**文件：** `core/domain/repository/MusicRepository.kt`
-
-```kotlin
-interface MusicRepository {
-    fun getSongs(): Flow<List<PlayableItem>>
-    fun getAlbums(): Flow<List<AlbumItem>>
-    fun getArtists(): Flow<List<ArtistItem>>
-    fun getPlaylists(): Flow<List<PlaylistItem>>
-    suspend fun getSongById(id: String): PlayableItem?
-    suspend fun getAlbumById(id: String): AlbumItem?
-    suspend fun getArtistById(id: String): ArtistItem?
-    suspend fun getPlaylistById(id: String): PlaylistItem?
-    suspend fun getSongsForAlbum(albumId: String): List<PlayableItem>
-    suspend fun searchSongs(query: String): List<PlayableItem>
-    suspend fun searchAlbums(query: String): List<AlbumItem>
-    suspend fun searchArtists(query: String): List<ArtistItem>
-    suspend fun searchPlaylists(query: String): List<PlaylistItem>
-}
-```
-
-### 领域模型
-
-所有标识符均为 `String` 类型。核心模型位于 `core/domain/model/`：
+领域模型位于 `:core:model`，标识符均为 `String`：
 
 | 模型 | 关键字段 |
 |:---|:---|
-| `PlayableItem` | `id: String`, `title: String`, `artist: String?`, `album: String?`, `albumId: String?`, `duration: Long`, `uri: String?` |
-| `AlbumItem` | `id: String`, `title: String`, `artist: String?`, `year: Int?`, `artworkUri: Uri?` |
-| `ArtistItem` | `id: String`, `name: String`, `albumCount: Int`, `trackCount: Int` |
-| `PlaylistItem` | `id: String`, `name: String`, `dateCreated: Long`, `dateModified: Long` |
+| `PlayableItem` | `id`, `title`, `artist`, `album`, `albumId`, `duration`, `uri` |
+| `AlbumItem` / `ArtistItem` / `PlaylistItem` | 曲库浏览实体 |
+| `StreamingSong` / `StreamingAlbum` / `StreamingArtist` / `StreamingPlaylist` | 流媒体目录实体 |
+| `AppMode` / `StreamingServiceId` / `StreamingConfig` / `StreamingQuality` | 模式与服务配置 |
+| `AutoEQProfile` / `CustomEqualizerPreset` | 均衡器预设 |
+| `LyricsData` / `LyricsSourcePreference` | 歌词与来源偏好 |
+| `SemanticLyrics`（`:core:common`） | 逐词 / 多声部歌词解析结果 |
+
+> 仓库不使用强制的 UseCase 层；仅多处复用的逻辑才抽取。ViewModel 不直接触碰 SQL、MediaStore、HTTP。
 
 ---
 
-## 🌐 网络 API
+## 🌐 网络层
 
-### LRCLib（同步歌词）
+**`NetworkClient`**（`:core:network`）：集中持有各外部 API 的 Retrofit / OkHttp 客户端，日志走 `NetworkLog` 统一入口并脱敏。service 按开关**懒加载、可空**，调用前必须判空。
 
-```kotlin
-interface LRCLibApiService {
-    @GET("api/search")
-    suspend fun searchLyrics(
-        @Query("q") query: String
-    ): Response<List<LyricsData>>
-}
+### 三层门控
+
+```
+BuildConfig 开关 (app/build.gradle.kts)
+      ↓  AppBuildInfo → NetworkFeatureFlags → NetworkClientInitializer
+全局开关 AppSettings.integrationsEnabled（默认 false）
+      ↓
+单项开关 AppSettings.xxxApiEnabled（默认 false，置 true 会自动打开全局开关）
+      ↓
+NetworkClient.isXxxApiEnabled() → 可空 service 判空后调用
 ```
 
-### Deezer（专辑封面）
+引导页按编译期 flags 决定开关可见性；设置页「API 管理」负责全局与单项开关。
 
-```kotlin
-interface DeezerApiService {
-    @GET("search/track")
-    suspend fun searchTrack(
-        @Query("q") query: String
-    ): Response<DeezerSearchResponse>
-}
-```
+### 外部 API service（`:core:network`）
 
-### YouTube Music（专辑封面）
+| Service / Provider | 用途 |
+|:---|:---|
+| `LRCLibApiService` | `@GET("api/search")`、`@GET("api/get/{id}")`，同步歌词 |
+| `BetterLyricsApiService` / `RhythmLyricsApiService` | 多源歌词、逐词 / TTML 歌词 |
+| `DeezerApiService` | 专辑封面搜索 |
+| `YTMusicApiService` / `SpotifySearchApiService` / `ITunesSearchApiService` | 封面与元数据查询 |
+| `WikipediaProvider` / `AppleMusicCanvasProvider` | 艺人简介 / Canvas 封面 |
+| `GitHubApiService` | 应用内更新检查 |
+| `NetworkManager` / `NetworkLog` / `NetworkSettingsProvider` | 网络状态、脱敏日志、设置缝隙接口 |
 
-```kotlin
-interface YouTubeMusicApiService {
-    @GET("api/music/song")
-    suspend fun searchSong(
-        @Query("q") query: String
-    ): Response<YouTubeMusicResponse>
-}
-```
+`:core:network` 已迁移到 **kotlinx.serialization**；Gson 仍用于 assets（如 AutoEQ 预设）等场景。
+
+### 流媒体 provider（`:feature:streaming`）
+
+| Provider | 实现 | 鉴权 |
+|:---|:---|:---|
+| Subsonic 兼容（含 Navidrome / Gonic / Airsonic） | `SubsonicApiClient` | 服务器 URL + 用户名 + 密码；默认 `token = md5(password + salt)` + `salt`，服务端拒绝 token 时回退 `enc:` / 明文密码 |
+| Jellyfin | `JellyfinApiClient` | `POST /Users/AuthenticateByName` → `AccessToken` + `UserId`；后续 `Authorization: MediaBrowser ...` 与 `X-Emby-Token`；自签证书由 `UserTrustManager` 处理 |
+| 网易云音乐 | `NetEaseApiClient` + `NetEaseCrypto` | 二维码登录（unikey 轮询 + `MUSIC_U` cookie），weapi / eapi 加密，无服务器 URL |
+
+`StreamingServiceId` 只有 `SUBSONIC` / `JELLYFIN` / `NETEASE` 三个常量：Navidrome **不是**独立 provider。附近服务器发现由 `NearbyServerScanner`（`NsdManager` + Jellyfin UDP 探测）实现。
 
 ---
 
 ## 📱 小部件
 
-### Glance 小部件
-
-| 小部件 | 类 |
+| 组件 | 说明 |
 |:---|:---|
-| 音乐播放器小部件 | `RhythmMusicWidget : GlanceAppWidget()` |
-| 歌词小部件 | `RhythmLyricsWidget : GlanceAppWidget()` |
+| `RhythmMusicWidget` / `RhythmWidgetReceiver` | 音乐小部件，11 个尺寸断点 |
+| `RhythmLyricsWidget` / `RhythmLyricsWidgetReceiver` | 多行歌词 + 当前行高亮 |
+| `RhythmCookieWidget` / `RhythmCookieWidgetReceiver` | 12 边形封面布局 |
+| `RhythmStatsWidget` / `RhythmStatsWidgetReceiver` | 收听时长与连续天数 |
+| `RhythmTileService` | Quick Settings 磁贴 |
+| `GlanceWidgetUpdater` | 状态变更时写 Glance state 并 `updateAll()` |
+| `RhythmWidgetWorker` | `CoroutineWorker`，仅一次性延迟兜底刷新 |
 
-小部件更新由 `RhythmWidgetWorker`（一个 `CoroutineWorker`）和 `GlanceWidgetUpdater` 管理。
+所有 `appwidget-provider` 的 `updatePeriodMillis=0`，**不存在周期刷新任务**。
 
 ---
 
-## 🎨 状态管理
+## 🎨 状态与导航约定
 
-- **播放状态**：通过 ExoPlayer `Player` 接口上的 `Player.Listener` 观察
-- **UI 状态**：ViewModel 中的 `StateFlow`，通过 `collectAsState()` 以 Compose 状态形式收集
-- **设置**：由 `DataStore` / `SharedPreferences` 支撑的 `AppSettings` 类
-- **导航**：Compose Navigation，配合 sealed `Route` 类层次结构
+- 播放状态通过 ExoPlayer `Player.Listener` 观察，转换为 `StateFlow`
+- UI 状态：`StateFlow`（私有 `Mutable` + `asStateFlow()`，派生用 `stateIn`），Compose 侧 `collectAsState()`
+- 屏幕直接调用 ViewModel 方法，无 Intent / Effect 层
+- UI 取 ViewModel 一律 `hiltViewModel()`
+- 设置唯一来源 `AppSettings`；导航使用字符串路由
 
 ---
 
@@ -161,44 +173,37 @@ interface YouTubeMusicApiService {
 
 ### BuildConfig 标志
 
-所有标志均为 `true`：
-
 | 标志 | 用途 |
 |:---|:---|
 | `ENABLE_YOUTUBE_MUSIC` | YouTube Music 封面搜索 |
 | `ENABLE_SPOTIFY_SEARCH` | Spotify 元数据搜索 |
-| `ENABLE_LYRICALLY_API` | Lyricall API 歌词 |
+| `ENABLE_LYRICALLY_API` | Lyrically 歌词 |
 | `ENABLE_DEEZER` | Deezer 封面搜索 |
 | `ENABLE_LRCLIB` | LRCLib 同步歌词 |
-| `ENABLE_BETTERLYRICS` | BetterLyrics 多源歌词回退 |
-| `ENABLE_WIKIPEDIA` | Wikipedia 艺人简介查询 |
-| `FLAVOR` | 分发渠道标识（`github`）。这是 `BuildConfig` 常量，**不代表存在 product flavor**；仓库只有 `debug` / `release` / `benchmark` |
-| `IS_NIGHTLY` | 每夜构建与稳定渠道 |
-| `APPLE_MUSIC_FALLBACK_TOKEN` | Apple Music 封面令牌，由环境变量 / `local.properties` 注入 `BuildConfig`；文档只记录变量名，不记录任何值 |
+| `ENABLE_BETTERLYRICS` | BetterLyrics 多源歌词 |
+| `ENABLE_WIKIPEDIA` | Wikipedia 艺人简介 |
+| `FLAVOR` | 分发渠道标识（`github`）；**不代表存在 product flavor** |
+| `IS_NIGHTLY` | 每夜构建标记 |
+| `RELEASE_DATE` | 发布日期（可由 `-PreleaseDateOverride` 覆盖） |
+| `APPLE_MUSIC_FALLBACK_TOKEN` | 由环境变量 / `local.properties` 注入；本文只记录变量名，不记录任何值 |
 
-### 依赖版本
+> 看似无用的 BuildConfig 开关、nightly / 日期字段部分仍被 UI 读取，**勿删**。
 
-| 依赖 | 版本 |
-|:---|:---|
-| AGP | `9.4.1` |
-| Kotlin | `2.4.21` |
-| KSP | `2.3.6` |
-| Compose BOM | `2026.09.00` |
-| Material3 | `1.5.0-beta01` |
-| Media3 | `1.11.1` |
-| FFmpeg Decoder | `1.9.0+1`（Jellyfin fork） |
-| Gradle | `9.7.1` |
+### 依赖版本快照
 
-> 以上为文档快照；依赖版本以 `gradle/libs.versions.toml` 为准，Gradle 版本以 `gradle/wrapper/gradle-wrapper.properties` 为准。
+| 依赖 | 版本 | 依赖 | 版本 |
+|:---|:---|:---|:---|
+| AGP | `9.4.1` | Kotlin | `2.4.21` |
+| KSP | `2.3.6` | Gradle | `9.7.1` |
+| Compose BOM | `2026.09.00` | Material3 | `1.5.0-beta01` |
+| Media3 | `1.11.1` | FFmpeg Decoder | `1.9.0+1` |
+| Hilt | `2.60.1` | Room | `2.8.5` |
+
+> 以 `gradle/libs.versions.toml` 与 `gradle/wrapper/gradle-wrapper.properties` 为准。
 
 ---
 
 ## 📚 延伸阅读
 
-- [架构指南](Architecture.md)
-- [技术栈](Technology-Stack.md)
-- [贡献指南](Contributing.md)
-
----
-
-**有问题？** 查看 [FAQ](FAQ.md)
+- [架构指南](Architecture.md) · [技术栈](Technology-Stack.md) · [贡献指南](Contributing.md) · [构建说明](Build-Instructions.md)
+- [常见问题](FAQ.md)

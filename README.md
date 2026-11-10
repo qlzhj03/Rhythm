@@ -24,7 +24,7 @@ Rhythm 是一款采用 **Material 3 Expressive** 设计打造的现代开源音�
 
 | 🎨 **设计与界面** | 🎵 **音频引擎** |
 | :--- | :--- |
-| **Material You：** 基于壁纸颜色的动态主题（Android 12+）。 | **专业音质：** Media3 ExoPlayer，支持无缝播放与高解析度(Hi-Res)模式。 |
+| **Material You：** 基于壁纸颜色的动态主题（Android 12+）。 | **专业音质：** Media3 ExoPlayer，支持无缝播放、float PCM 输出与音质识别。 |
 | **表现力界面：** 精致的自适应形状与 Material 3 设计。 | **10 段 EQ：** 专业均衡器，内置 6032+ AutoEQ 设备预设。 |
 | **平板界面：** 为平板优化的多栏布局。 | **响度均衡(ReplayGain)：** 曲目/专辑响度归一化。 |
 | **Material Symbols：** 清晰、可缩放的可变字重图标。 | **交叉淡入淡出：** 平滑过渡，时长可调。 |
@@ -165,8 +165,8 @@ Rhythm 仅维护 **中文（简体）** 与 **英文** 两种语言：
 
 | 语言 | 资源文件 |
 | :--- | :--- |
-| 🇨🇳 中文（默认，简体） | `app/src/main/res/values/strings.xml` |
-| 🇬🇧 英文 | `app/src/main/res/values-en/strings.xml` |
+| 🇨🇳 中文（默认，简体） | `core/designsystem/src/main/res/values/strings.xml` |
+| 🇬🇧 英文 | `core/designsystem/src/main/res/values-en/strings.xml` |
 
 新增或修改面向用户的字符串时，请同步更新这两个文件。欢迎直接通过拉取请求修正文案。
 

@@ -1,324 +1,151 @@
-> ⚠️ **本 wiki 为多模块拆分（2026-11）之前的历史快照。** 模块结构、构建命令与路径
-> 已过时；权威信息见根目录 `AGENTS.md` 与 `docs/multi-module-refactor-plan.md`。
-> 保留仅供历史参考，内容可能不再准确。
+> ℹ️ **文档状态**：本页已按 2026-11 多模块拆分与唯一包名重构后的代码更新。
+> 约定与红线见根目录 [AGENTS.md](../AGENTS.md)，设计与重构历史见 [docs/](../docs/)；一切事实以源码为准。
 
 # 权限指南
 
-本指南说明 Rhythm 音乐播放器请求的所有权限、为什么需要它们以及它们的用途。
+本指南说明 Rhythm 申请的权限、用途与 Android 版本差异。声明清单以 `app/src/main/AndroidManifest.xml` 为准；运行时申请逻辑见 `app/.../shared/presentation/components/PermissionHandler.kt`。
 
 ## 🔒 隐私优先
 
-Rhythm **100% 符合 FOSS（自由开源软件）规范**，尊重你的隐私：
 - ✅ 无数据分析或跟踪
-- ✅ 不收集个人数据
-- ✅ 核心功能不需要联网
-- ✅ 所有权限仅用于应用功能
-- ✅ 无后台数据传输
+- ✅ 不收集个人数据，收听数据与设置保存在设备本地
+- ✅ 核心播放功能不需要联网；外部在线集成默认关闭
+- ✅ 仅申请功能所需权限
+
+> 自托管服务器场景需要明文 HTTP / 用户 CA：Manifest 设置 `usesCleartextTraffic="true"` 并配合 `network_security_config.xml`。这是既定取舍，属于对外契约。
 
 ---
 
-## 📱 必需权限
+## 📋 完整声明清单（17 项）
 
-### 📁 存储访问
+| 权限 | 约束 | 用途 |
+|:---|:---|:---|
+| `READ_MEDIA_AUDIO` | — | Android 13+ 读取音频媒体 |
+| `READ_EXTERNAL_STORAGE` | `maxSdkVersion=32` | Android 12L 及以下读取音频媒体 |
+| `WRITE_EXTERNAL_STORAGE` | `maxSdkVersion=28` | 旧版本写入媒体文件 |
+| `MODIFY_AUDIO_SETTINGS` | 普通权限 | 音频路由、音量与音频效果配置 |
+| `POST_NOTIFICATIONS` | Android 13+ 运行时申请 | 播放通知、更新与下载进度、Rhythm Guard 提醒 |
+| `FOREGROUND_SERVICE` | 普通权限 | 后台播放的前台服务 |
+| `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | Android 14+ | 媒体播放类型前台服务 |
+| `INTERNET` | 普通权限 | 可选在线功能与流媒体服务器连接 |
+| `ACCESS_NETWORK_STATE` | 普通权限 | 判断网络可用性 |
+| `REQUEST_INSTALL_PACKAGES` | `required="false"` | 应用内更新安装 APK（可选） |
+| `VIBRATE` | 普通权限 | 触感反馈 |
+| `CHANGE_WIFI_MULTICAST_STATE` | 普通权限 | 附近服务器发现所需的组播锁 |
+| `WAKE_LOCK` | 普通权限 | 后台播放期间保持唤醒 |
+| `BLUETOOTH` | — | 旧版本蓝牙音频设备检测 |
+| `BLUETOOTH_ADMIN` | `maxSdkVersion=30` | 旧版本蓝牙设备管理 |
+| `BLUETOOTH_CONNECT` | Android 12+ 运行时申请 | 连接蓝牙音频设备、读取设备名称 |
+| `BLUETOOTH_SCAN` | `neverForLocation`，Android 12+ 运行时申请 | 扫描蓝牙音频设备（不用于定位） |
 
-**权限：**
-- `READ_EXTERNAL_STORAGE`（Android ≤12）
-- `READ_MEDIA_AUDIO`（Android 13+，读取音频媒体）
-
-**为什么需要：**
-- 扫描并索引你的音乐文件
-- 显示专辑封面
-- 读取音频元数据（标题、艺术家、专辑）
-- 从存储访问播放列表
-
-**使用位置：**
-- 音乐库扫描
-- 音乐播放
-- 专辑封面显示
-- 播放列表管理
-- 元数据读取
-
-**Android 14+ 部分访问：**
-你可以只授予所选照片/媒体的访问权限，而不是完整的音乐库访问权限。
-
----
-
-## 🔔 可选权限
-
-### 📢 通知
-
-**权限：**`POST_NOTIFICATIONS`（Android 13+，发送通知）
-
-**为什么需要：**
-- 显示带控制按钮的播放通知
-- 显示更新可用性提醒
-- 持续的播放通知
-
-**使用位置：**
-- 媒体通知（播放/暂停、切歌）
-- 后台播放状态
-- 更新通知
-- 下载进度
-
-**可以禁用：**可以，但你会失去通知中的播放控制。
+小部件接收器与快捷磁贴由系统绑定（`APPWIDGET_UPDATE` / `QS_TILE` action），Rhythm **不声明** `BIND_APPWIDGET` 或 `UPDATE_APPWIDGET` 权限。
 
 ---
 
-### 📶 网络访问
+## 📱 运行时权限
 
-**权限：**
-- `INTERNET`
-- `ACCESS_NETWORK_STATE`
+运行时只申请三类，且按系统版本分流：
 
-**为什么需要：**
-- 从 LRCLib 获取同步歌词
-- 从 Deezer/YouTube Music 下载专辑封面
-- 检查应用更新
-- 访问在线功能
+| 类别 | Android 版本 | 权限 |
+|:---|:---|:---|
+| 音乐库（存储） | API ≥ 33 | `READ_MEDIA_AUDIO` |
+| 音乐库（存储） | API ≤ 32 | `READ_EXTERNAL_STORAGE` |
+| 通知 | API ≥ 33 | `POST_NOTIFICATIONS` |
+| 通知 | API ≤ 32 | 无需权限 |
+| 蓝牙 | API ≥ 31 | `BLUETOOTH_CONNECT` + `BLUETOOTH_SCAN` |
+| 蓝牙 | API ≤ 30 | `BLUETOOTH` + `BLUETOOTH_ADMIN` |
 
-**使用位置：**
-- LRCLib 歌词集成
-- 在线专辑封面获取
-- 应用更新检查
-- Deezer API 集成
+申请流程使用 Accompanist `rememberMultiplePermissionsState()`，包含 `PermissionsRequired` / `ShowRationale` / `RedirectToSettings` / `PermissionsGranted` 状态机与 `onResume` 复查。引导流程中有音乐库、蓝牙、通知三类专门说明。
 
-**数据用量：**极少（歌词约 1-5KB，封面约 50-200KB）
+- **流媒体（Go）模式跳过存储权限要求**：不扫描本地媒体库。
+- 自定义封面选择使用系统 **Photo Picker**，无需任何照片 / 存储权限。
+- `REQUEST_INSTALL_PACKAGES` 只用于可选的应用内更新，未在权限流程中主动申请。
 
-**可以禁用：**可以（通过防火墙），但你会失去在线功能。
+### 撤销权限的影响
 
----
-
-### 🎧 音频设置
-
-**权限：**`MODIFY_AUDIO_SETTINGS`
-
-**为什么需要：**
-- 调整音频路由
-- 管理音量级别
-- 配置音频焦点
-- 启用均衡器
-
-**使用位置：**
-- 音频焦点管理（来电时暂停）
-- 蓝牙设备切换
-- 音量控制集成
-- 均衡器和音频效果
-
-**可以禁用：**不可以，正常的音频播放所必需。
+| 撤销 | 影响 |
+|:---|:---|
+| 音乐 / 音频读取 | 本地曲库为空、无法播放本地文件 |
+| 通知 | 通知栏没有播放控制；播放器界面仍可使用 |
+| 蓝牙 | 不显示蓝牙设备名称、不自动恢复播放 |
+| 网络（通过系统防火墙） | 无在线歌词 / 封面、无更新检查、无流媒体 |
 
 ---
 
-### 📱 蓝牙
+## 🚫 不会请求的权限
 
-**权限：**
-- `BLUETOOTH`（所有版本）
-- `BLUETOOTH_ADMIN`（Android ≤11）
-- `BLUETOOTH_CONNECT`（Android 12+，蓝牙连接）
-- `BLUETOOTH_SCAN`（Android 12+，蓝牙扫描）
-
-**为什么需要：**
-- 检测蓝牙音频设备
-- 耳机连接时自动播放
-- 在界面中显示设备名称
-- 在音频输出之间切换
-
-**使用位置：**
-- 蓝牙音箱/耳机支持
-- 设备连接时自动恢复播放
-- 音频输出设备选择
-- 无线播放控制
-
-**可以禁用：**可以，如果你不使用蓝牙音频。
-
----
-
-### 📲 安装应用包
-
-**权限：**`REQUEST_INSTALL_PACKAGES`
-
-**为什么需要：**
-- 自动安装应用更新
-- 应用内更新部署
-
-**使用位置：**
-- 自动更新安装
-- 发行版 APK 下载
-
-**可以禁用：**可以，你可以手动更新。
-
----
-
-### 🏠 小部件
-
-**权限：**
-- `BIND_APPWIDGET`
-- `UPDATE_APPWIDGET`
-
-**为什么需要：**
-- 创建桌面小部件
-- 在后台更新小部件内容
-
-**使用位置：**
-- Glance 小部件（音乐、Cookie、统计、歌词）
-- 实时播放状态
-- 通过 WorkManager 进行后台小部件更新
-
-**可以禁用：**不可以，小部件正常工作所必需。
-
----
-
-### 🎵 前台服务
-
-**权限：**
-- `FOREGROUND_SERVICE`
-- `FOREGROUND_SERVICE_MEDIA_PLAYBACK`（Android 14+）
-
-**为什么需要：**
-- 持续的后台音乐播放
-- 阻止 Android 终止播放
-- 锁屏控制
-
-**使用位置：**
-- 后台音乐播放
-- 媒体通知服务
-- 锁屏控制
-
-**可以禁用：**不可以，后台播放所必需。
-
----
-
-## 🚫 已移除的权限
-
-Rhythm **不会**请求这些权限（出于隐私原因已移除）：
-
-❌ `MANAGE_EXTERNAL_STORAGE` - 宽泛的文件访问（音乐不需要）
-❌ `ACCESS_MEDIA_LOCATION` - 照片中的 GPS 坐标（不需要）
-❌ `RECORD_AUDIO` - 麦克风访问（从不需要）
-❌ `CAMERA` - 相机访问（从不需要）
-❌ `LOCATION` - GPS/位置（从不需要）
-❌ `CONTACTS` - 联系人列表（从不需要）
-❌ `PHONE` - 电话/短信（从不需要）
+❌ `MANAGE_EXTERNAL_STORAGE`（宽泛文件访问）
+❌ `ACCESS_MEDIA_LOCATION`（照片 GPS 信息）
+❌ `RECORD_AUDIO`（麦克风）
+❌ `CAMERA`（相机）
+❌ `ACCESS_FINE_LOCATION` / `ACCESS_COARSE_LOCATION`（定位；`BLUETOOTH_SCAN` 已声明 `neverForLocation`）
+❌ `READ_CONTACTS` / `READ_PHONE_STATE`（联系人 / 电话）
 
 ---
 
 ## ⚙️ 管理权限
 
-### 授予权限
+### 授予
 
-#### 首次启动时
-1. 打开 Rhythm
-2. 按照引导向导操作
-3. 出现提示时授予所请求的权限
+1. 首次启动时按引导流程提示授予
+2. 或：系统 **设置 → 应用 → Rhythm → 权限** 手动开启
+3. 被永久拒绝后，用 `RedirectToSettings` 提示进入系统设置页
 
-#### 手动授予（Android 设置）
-1. 打开**设置** → **应用**
-2. 找到并点按 **Rhythm Music**
-3. 点按**权限**
-4. 启用所需权限
+### 撤销 / 重置
 
-#### Android 14+ 部分媒体访问
-1. 请求存储权限时，选择**"选择照片和视频"**
-2. 选择你的音乐文件夹
-3. 对所选项点按**允许**
-
-### 撤销权限
-
-要撤销某个权限：
-1. **设置** → **应用** → **Rhythm Music** → **权限**
-2. 点按要撤销的权限
-3. 选择**不允许**
-
-**影响：**
-- **存储**：应用将无法播放音乐
-- **通知**：没有播放控制
-- **网络**：没有在线功能
-- **蓝牙**：没有无线音频
-
-### 重置权限
-
-如果权限乱了：
-1. **设置** → **应用** → **Rhythm Music**
-2. 点按**存储和缓存** → **清除数据**
-3. 重新打开应用并再次授予权限
-
-⚠️ **警告：**这会重置所有应用设置和播放列表。请先备份！
+系统 **设置 → 应用 → Rhythm → 权限** 中选择「不允许」。
+清除应用数据会重置所有设置、播放列表与统计数据，**请先备份**（设置 → 数据与存储 → 备份与恢复）。
 
 ---
 
 ## 🔍 权限审计
 
-### 如何验证 Rhythm 访问了什么
-
-#### 使用 Android 权限管理器
-1. **设置** → **隐私** → **权限管理器**
-2. 点按每种权限类型（文件、通知等）
-3. 在列表中找到 **Rhythm Music**
-4. 验证已授予的权限
-
-#### 使用 ADB（高级）
 ```bash
-# List all permissions for Rhythm
-adb shell dumpsys package chromahub.rhythm.app | grep permission
+# 列出已声明 / 已授予权限（注意新包名）
+adb shell dumpsys package com.qlzhj.rhythm | grep permission
 
-# Check runtime permissions
+# debug 包使用 applicationIdSuffix
+adb shell dumpsys package com.qlzhj.rhythm.debug | grep permission
+
+# 查看系统权限分组
 adb shell pm list permissions -g
 ```
 
-#### 使用应用
-- **[App Manager](https://github.com/MuntashirAkon/AppManager)**：开源权限审计工具
-- **[Exodus Privacy](https://reports.exodus-privacy.eu.org/)**：检查应用是否含跟踪器
+也可直接使用 `aapt dump permissions <apk>`，或用开源工具 [App Manager](https://github.com/MuntashirAkon/AppManager)、[Exodus Privacy](https://reports.exodus-privacy.eu.org/) 审计。
 
 ---
 
 ## 🛡️ 隐私最佳实践
 
-### 最小化权限
-1. 只授予必需的权限（存储、音频设置）
-2. 如果不需要相关功能，拒绝可选权限：
-   - 网络 → 没有在线歌词/封面
-   - 蓝牙 → 没有无线音频自动播放
-   - 通知 → 通知栏中没有播放控制
-
-### 使用防火墙（高级）
-如果你只想完全离线，请阻止网络访问：
-- **[NetGuard](https://netguard.me/)**：免 root 防火墙
-- **[AFWall+](https://github.com/ukanth/afwall)**：需要 root
-- **[RethinkDNS](https://rethinkdns.com/)**：DNS + 防火墙
-
-### Scoped Storage（Android 11+）
-Rhythm 在 Android 11+ 上使用 **Scoped Storage（分区存储）**：
-- 访问仅限于音乐文件
-- 不能访问文档、照片或其他文件类型
-- 增强隐私和安全性
+1. 只授予必需的权限；Go 模式用户无需本地媒体权限
+2. 不需要在线功能就保持外部 API 集成关闭（编译期 → 全局 → 单项三层门控，默认关闭）
+3. 只想完全离线可用可用防火墙阻断网络：[NetGuard](https://netguard.me/)、[RethinkDNS](https://rethinkdns.com/)（root 用户可用 AFWall+）
+4. Android 11+ 使用分区存储，本地访问仅限于音频媒体
 
 ---
 
 ## ❓ 常见问题
 
 ### 为什么 Rhythm 需要网络访问？
-用于可选的在线功能：歌词（LRCLib）、封面（Deezer）和更新检查。没有网络时应用可完全离线运行。
+仅用于可选功能：在线歌词、封面、应用更新与流媒体服务器连接。核心播放完全离线可用。
 
-### 我可以不授通知权限就使用 Rhythm 吗？
-可以，但你在通知栏中看不到播放控制。播放器界面仍可正常使用。
+### 可以不授通知权限吗？
+可以，但通知栏中看不到播放控制；播放器界面仍可正常使用。
 
 ### Rhythm 会访问我的照片吗？
-不会。Rhythm 不请求也不需要照片权限。自定义封面选择使用安全的系统 Android 照片选择器，仅授予你所选的那张图片的访问权限。
+不会。自定义封面使用系统 Photo Picker，只授予你所选图片的访问权，不申请照片权限。
 
 ### 为什么需要蓝牙权限？
-用于检测你何时连接蓝牙耳机/音箱并自动恢复播放。可选功能。
+检测蓝牙耳机 / 音箱连接并在设备重连时恢复播放；不需要时可拒绝，且 `BLUETOOTH_SCAN` 声明 `neverForLocation`，不用于定位。
 
-### 我的收听数据会被发送到任何地方吗？
-**不会。**Rhythm 将所有数据存储在你的设备本地。没有任何内容被上传或共享。
+### 附近服务器发现需要定位权限吗？
+不需要。使用 `NsdManager` 与 `CHANGE_WIFI_MULTICAST_STATE` 组播锁扫描本地网络服务。
 
-### 我可以审计代码吗？
-**可以！**Rhythm 完全开源，源码遵循 GPL-3.0 许可证。
+### 收听数据会被上传吗？
+不会。Rhythm Stats 等数据全部保存在设备本地，无跟踪代码。
 
 ---
 
 ## 🔗 相关文档
 
-- [安装指南](Installation-Guide.md)
-- [快速上手](Getting-Started.md)
-- [故障排除](Troubleshooting.md)
-
----
+- [安装指南](Installation-Guide.md) · [快速入门](Getting-Started.md) · [故障排查](Troubleshooting.md) · [API 文档](API-Documentation.md)
